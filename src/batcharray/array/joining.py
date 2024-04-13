@@ -5,9 +5,13 @@ from __future__ import annotations
 __all__ = ["concatenate_along_batch", "concatenate_along_seq"]
 
 
-import numpy as np
+from typing import TYPE_CHECKING
 
+from batcharray import computation as cmpt
 from batcharray.constants import BATCH_AXIS, SEQ_AXIS
+
+if TYPE_CHECKING:
+    import numpy as np
 
 
 def concatenate_along_batch(arrays: list[np.ndarray] | tuple[np.ndarray, ...]) -> np.ndarray:
@@ -45,7 +49,7 @@ def concatenate_along_batch(arrays: list[np.ndarray] | tuple[np.ndarray, ...]) -
 
     ```
     """
-    return np.concatenate(arrays, axis=BATCH_AXIS)
+    return cmpt.concatenate(arrays, axis=BATCH_AXIS)
 
 
 def concatenate_along_seq(arrays: list[np.ndarray] | tuple[np.ndarray, ...]) -> np.ndarray:
@@ -81,4 +85,4 @@ def concatenate_along_seq(arrays: list[np.ndarray] | tuple[np.ndarray, ...]) -> 
 
     ```
     """
-    return np.concatenate(arrays, axis=SEQ_AXIS)
+    return cmpt.concatenate(arrays, axis=SEQ_AXIS)
