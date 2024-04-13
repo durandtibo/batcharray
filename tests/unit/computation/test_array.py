@@ -86,10 +86,11 @@ def test_array_computation_model_concatenate_axis_none(arrays: Sequence[np.ndarr
 def test_array_computation_model_concatenate_dtype(dtype: np.dtype) -> None:
     out = ArrayComputationModel().concatenate(
         [
-            np.array([[0, 1, 2], [4, 5, 6]], dtype=dtype),
-            np.array([[10, 11, 12], [13, 14, 15]], dtype=dtype),
+            np.array([[0, 1, 2], [4, 5, 6]]),
+            np.array([[10, 11, 12], [13, 14, 15]]),
         ],
         axis=0,
+        dtype=dtype,
     )
     assert objects_are_equal(
         out, np.array([[0, 1, 2], [4, 5, 6], [10, 11, 12], [13, 14, 15]], dtype=dtype)
