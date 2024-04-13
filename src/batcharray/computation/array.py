@@ -20,6 +20,9 @@ if TYPE_CHECKING:
 class ArrayComputationModel(BaseComputationModel[np.ndarray]):
     r"""Implement a computation model for ``numpy.ndarray``s."""
 
+    def __repr__(self) -> str:
+        return f"{self.__class__.__qualname__}()"
+
     def concatenate(
         self, arrays: Sequence[np.ndarray], axis: int | None = None, *, dtype: DTypeLike = None
     ) -> np.ndarray:

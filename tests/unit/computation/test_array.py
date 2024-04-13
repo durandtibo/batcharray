@@ -11,6 +11,19 @@ from batcharray.computation import ArrayComputationModel
 if TYPE_CHECKING:
     from collections.abc import Sequence
 
+###############
+#     str     #
+###############
+
+
+def test_array_computation_model_repr() -> None:
+    assert repr(ArrayComputationModel()).startswith("ArrayComputationModel(")
+
+
+def test_array_computation_model_str() -> None:
+    assert str(ArrayComputationModel()).startswith("ArrayComputationModel(")
+
+
 #######################
 #     concatenate     #
 #######################
