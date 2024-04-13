@@ -4,6 +4,7 @@ from unittest.mock import Mock, patch
 
 import numpy as np
 import pytest
+from coola import objects_are_equal
 
 from batcharray.computation import (
     ArrayComputationModel,
@@ -78,3 +79,14 @@ def test_auto_computation_model_registered_computation_models() -> None:
     assert len(AutoComputationModel.registry) >= 2
     assert AutoComputationModel.registry[np.ndarray] == ArrayComputationModel()
     assert AutoComputationModel.registry[np.ma.MaskedArray] == MaskedArrayComputationModel()
+
+
+def test_auto_computation_model_concatenate() -> None:
+    out = AutoComputationModel().concatenate(
+        [
+            np.array([[0, 1, 2], [4, 5, 6]]),
+            np.array([[10, 11, 12], [13, 14, 15]]),
+        ],
+        axis=0,
+    )
+    assert objects_are_equal(out, np.array([[0, 1, 2], [4, 5, 6], [10, 11, 12], [13, 14, 15]]))

@@ -146,7 +146,9 @@ class AutoComputationModel(BaseComputationModel[T]):
     def concatenate(
         self, arrays: Sequence[T], axis: int | None = None, *, dtype: DTypeLike = None
     ) -> T:
-        pass
+        return self.find_computation_model(type(arrays[0])).concatenate(
+            arrays=arrays, axis=axis, dtype=dtype
+        )
 
 
 def register_computation_models() -> None:
