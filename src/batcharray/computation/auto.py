@@ -1,8 +1,11 @@
+r"""Contain a computation model that automatically finds the right
+computation model based on the array type."""
+
 from __future__ import annotations
 
 __all__ = ["AutoComputationModel", "register_computation_models"]
 
-from typing import ClassVar, TypeVar, TYPE_CHECKING
+from typing import TYPE_CHECKING, ClassVar, TypeVar
 
 import numpy as np
 from coola.utils import repr_indent, repr_mapping, str_indent, str_mapping
@@ -10,8 +13,9 @@ from coola.utils import repr_indent, repr_mapping, str_indent, str_mapping
 from batcharray.computation.base import BaseComputationModel
 
 if TYPE_CHECKING:
-    from numpy.typing import DTypeLike
     from collections.abc import Sequence
+
+    from numpy.typing import DTypeLike
 
 T = TypeVar("T", bound=np.ndarray)
 
@@ -126,9 +130,9 @@ class AutoComputationModel(BaseComputationModel[T]):
         >>> import numpy as np
         >>> from batcharray.computation import AutoComputationModel
         >>> AutoComputationModel.find_computation_model(np.ndarray)
-        LinearSizeFinder()
+        ArrayComputationModel()
         >>> AutoComputationModel.find_computation_model(np.ma.MaskedArray)
-        BilinearSizeFinder()
+        MaskedArrayComputationModel()
 
         ```
         """
