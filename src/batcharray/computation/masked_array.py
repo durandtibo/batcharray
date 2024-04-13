@@ -20,6 +20,9 @@ if TYPE_CHECKING:
 class MaskedArrayComputationModel(BaseComputationModel[np.ndarray]):
     r"""Implement a computation model for ``numpy.ma.MaskedArray``s."""
 
+    def __eq__(self, other: object) -> bool:
+        return isinstance(other, self.__class__)
+
     def __repr__(self) -> str:
         return f"{self.__class__.__qualname__}()"
 
