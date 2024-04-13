@@ -21,7 +21,7 @@ def concatenate_along_batch(arrays: list[np.ndarray] | tuple[np.ndarray, ...]) -
             axis.
 
     Args:
-        arrays: The batches to concatenate.
+        arrays: The arrays to concatenate.
 
     Returns:
         The concatenated arrays along the batch axis.
@@ -59,7 +59,7 @@ def concatenate_along_seq(arrays: list[np.ndarray] | tuple[np.ndarray, ...]) -> 
             axis.
 
     Args:
-        arrays: The batches to concatenate.
+        arrays: The arrays to concatenate.
 
     Returns:
         The concatenated arrays along the sequence axis.
