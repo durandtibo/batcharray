@@ -4,7 +4,11 @@ import numpy as np
 import pytest
 from coola import objects_are_equal
 
-from batcharray.array import concatenate_along_batch, concatenate_along_seq
+from batcharray.array import (
+    concatenate_along_batch,
+    concatenate_along_seq,
+    tile_along_seq,
+)
 
 #############################################
 #     Tests for concatenate_along_batch     #
@@ -132,6 +136,89 @@ def test_concatenate_along_seq_masked_array() -> None:
                 [
                     [False, False, False, False, False, True],
                     [False, True, False, False, False, False],
+                ]
+            ),
+        ),
+    )
+
+
+####################################
+#     Tests for tile_along_seq     #
+####################################
+
+
+def test_tile_along_seq_reps_0() -> None:
+    assert objects_are_equal(
+        tile_along_seq(np.arange(10, dtype=float).reshape(2, 5), reps=0),
+        np.zeros((2, 0)),
+    )
+
+
+def test_tile_along_seq_reps_1() -> None:
+    assert objects_are_equal(
+        tile_along_seq(np.arange(10).reshape(2, 5), reps=1),
+        np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]]),
+    )
+
+
+def test_tile_along_seq_reps_2() -> None:
+    assert objects_are_equal(
+        tile_along_seq(np.arange(10).reshape(2, 5), reps=2),
+        np.array([[0, 1, 2, 3, 4, 0, 1, 2, 3, 4], [5, 6, 7, 8, 9, 5, 6, 7, 8, 9]]),
+    )
+
+
+def test_tile_along_seq_reps_3d() -> None:
+    assert objects_are_equal(
+        tile_along_seq(np.arange(20).reshape(2, 5, 2), reps=2),
+        np.array(
+            [
+                [
+                    [0, 1],
+                    [2, 3],
+                    [4, 5],
+                    [6, 7],
+                    [8, 9],
+                    [0, 1],
+                    [2, 3],
+                    [4, 5],
+                    [6, 7],
+                    [8, 9],
+                ],
+                [
+                    [10, 11],
+                    [12, 13],
+                    [14, 15],
+                    [16, 17],
+                    [18, 19],
+                    [10, 11],
+                    [12, 13],
+                    [14, 15],
+                    [16, 17],
+                    [18, 19],
+                ],
+            ]
+        ),
+    )
+
+
+def test_tile_along_seq_masked_array() -> None:
+    assert objects_are_equal(
+        tile_along_seq(
+            np.ma.masked_array(
+                data=np.arange(10).reshape(2, 5),
+                mask=np.array(
+                    [[False, False, False, False, True], [False, False, True, False, False]]
+                ),
+            ),
+            reps=2,
+        ),
+        np.ma.masked_array(
+            data=np.array([[0, 1, 2, 3, 4, 0, 1, 2, 3, 4], [5, 6, 7, 8, 9, 5, 6, 7, 8, 9]]),
+            mask=np.array(
+                [
+                    [False, False, False, False, True, False, False, False, False, True],
+                    [False, False, True, False, False, False, False, True, False, False],
                 ]
             ),
         ),
