@@ -31,8 +31,16 @@ class AutoComputationModel(BaseComputationModel[T]):
     >>> import numpy as np
     >>> from batcharray.computation import AutoComputationModel
     >>> comp_model = AutoComputationModel()
-    >>> arr = np.ones((2, 3))
-    >>> # TODO
+    >>> arrays = [
+    ...     np.array([[0, 1, 2], [4, 5, 6]]),
+    ...     np.array([[10, 11, 12], [13, 14, 15]]),
+    ... ]
+    >>> out = comp_model.concatenate(arrays, axis=0)
+    >>> out
+    array([[ 0,  1,  2],
+           [ 4,  5,  6],
+           [10, 11, 12],
+           [13, 14, 15]])
 
     ```
     """
