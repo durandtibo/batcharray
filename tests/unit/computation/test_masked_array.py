@@ -12,9 +12,12 @@ if TYPE_CHECKING:
     from collections.abc import Sequence
 
 
-###############
-#     str     #
-###############
+def test_masked_array_computation_model_eq_true() -> None:
+    assert MaskedArrayComputationModel() == MaskedArrayComputationModel()
+
+
+def test_masked_array_computation_model_eq_false() -> None:
+    assert MaskedArrayComputationModel() != "MaskedArrayComputationModel"
 
 
 def test_masked_array_computation_model_repr() -> None:
