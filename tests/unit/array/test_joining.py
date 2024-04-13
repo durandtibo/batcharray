@@ -35,42 +35,42 @@ def test_concatenate_along_batch(arrays: list[np.ndarray] | tuple[np.ndarray, ..
     )
 
 
-# def test_concatenate_along_batch_masked_array() -> None:
-#     assert objects_are_equal(
-#         concatenate_along_batch(
-#             [
-#                 np.ma.masked_array(
-#                     data=np.array([[0, 1, 2], [4, 5, 6]]),
-#                     mask=np.array(
-#                         [
-#                             [False, False, False],
-#                             [False, True, False],
-#                         ]
-#                     ),
-#                 ),
-#                 np.ma.masked_array(
-#                     data=np.array([[10, 11, 12], [13, 14, 15]]),
-#                     mask=np.array(
-#                         [
-#                             [False, False, True],
-#                             [False, False, False],
-#                         ]
-#                     ),
-#                 ),
-#             ]
-#         ),
-#         np.ma.masked_array(
-#             data=np.array([[0, 1, 2], [4, 5, 6], [10, 11, 12], [13, 14, 15]]),
-#             mask=np.array(
-#                 [
-#                     [False, False, False],
-#                     [False, True, False],
-#                     [False, False, True],
-#                     [False, False, False],
-#                 ]
-#             ),
-#         ),
-#     )
+def test_concatenate_along_batch_masked_array() -> None:
+    assert objects_are_equal(
+        concatenate_along_batch(
+            [
+                np.ma.masked_array(
+                    data=np.array([[0, 1, 2], [4, 5, 6]]),
+                    mask=np.array(
+                        [
+                            [False, False, False],
+                            [False, True, False],
+                        ]
+                    ),
+                ),
+                np.ma.masked_array(
+                    data=np.array([[10, 11, 12], [13, 14, 15]]),
+                    mask=np.array(
+                        [
+                            [False, False, True],
+                            [False, False, False],
+                        ]
+                    ),
+                ),
+            ]
+        ),
+        np.ma.masked_array(
+            data=np.array([[0, 1, 2], [4, 5, 6], [10, 11, 12], [13, 14, 15]]),
+            mask=np.array(
+                [
+                    [False, False, False],
+                    [False, True, False],
+                    [False, False, True],
+                    [False, False, False],
+                ]
+            ),
+        ),
+    )
 
 
 ###########################################
@@ -99,4 +99,40 @@ def test_concatenate_along_seq(arrays: list[np.ndarray] | tuple[np.ndarray, ...]
     assert objects_are_equal(
         concatenate_along_seq(arrays),
         np.array([[0, 1, 2, 10, 11, 12], [4, 5, 6, 13, 14, 15]]),
+    )
+
+
+def test_concatenate_along_seq_masked_array() -> None:
+    assert objects_are_equal(
+        concatenate_along_seq(
+            [
+                np.ma.masked_array(
+                    data=np.array([[0, 1, 2], [4, 5, 6]]),
+                    mask=np.array(
+                        [
+                            [False, False, False],
+                            [False, True, False],
+                        ]
+                    ),
+                ),
+                np.ma.masked_array(
+                    data=np.array([[10, 11, 12], [13, 14, 15]]),
+                    mask=np.array(
+                        [
+                            [False, False, True],
+                            [False, False, False],
+                        ]
+                    ),
+                ),
+            ]
+        ),
+        np.ma.masked_array(
+            data=np.array([[0, 1, 2, 10, 11, 12], [4, 5, 6, 13, 14, 15]]),
+            mask=np.array(
+                [
+                    [False, False, False, False, False, True],
+                    [False, True, False, False, False, False],
+                ]
+            ),
+        ),
     )
