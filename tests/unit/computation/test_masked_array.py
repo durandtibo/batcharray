@@ -12,6 +12,19 @@ if TYPE_CHECKING:
     from collections.abc import Sequence
 
 
+###############
+#     str     #
+###############
+
+
+def test_masked_array_computation_model_repr() -> None:
+    assert repr(MaskedArrayComputationModel()).startswith("MaskedArrayComputationModel(")
+
+
+def test_masked_array_computation_model_str() -> None:
+    assert str(MaskedArrayComputationModel()).startswith("MaskedArrayComputationModel(")
+
+
 #######################
 #     concatenate     #
 #######################
