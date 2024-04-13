@@ -2,16 +2,13 @@ r"""Contain some joining functions for arrays."""
 
 from __future__ import annotations
 
-__all__ = ["concatenate_along_batch", "concatenate_along_seq"]
+__all__ = ["concatenate_along_batch", "concatenate_along_seq", "tile_along_seq"]
 
 
-from typing import TYPE_CHECKING
+import numpy as np
 
 from batcharray import computation as cmpt
 from batcharray.constants import BATCH_AXIS, SEQ_AXIS
-
-if TYPE_CHECKING:
-    import numpy as np
 
 
 def concatenate_along_batch(arrays: list[np.ndarray] | tuple[np.ndarray, ...]) -> np.ndarray:
@@ -86,3 +83,38 @@ def concatenate_along_seq(arrays: list[np.ndarray] | tuple[np.ndarray, ...]) -> 
     ```
     """
     return cmpt.concatenate(arrays, axis=SEQ_AXIS)
+
+
+def tile_along_seq(array: np.ndarray, reps: int) -> np.ndarray:
+    r"""Construct an array by repeating the input array along the
+    sequence axis.
+
+    Note:
+        This function assumes the sequence axis is the second
+            axis.
+
+    Args:
+        array: The input array.
+        reps: The number of repetitions data along the
+            sequence axis.
+
+    Returns:
+        A new array with the data repeated along the sequence
+            axis.
+
+    Example usage:
+
+    ```pycon
+    >>> import numpy as np
+    >>> from batcharray.array import tile_along_seq
+    >>> array = np.arange(10).reshape(2, 5)
+    >>> out = tile_along_seq(array, 2)
+    >>> out
+    array([[0, 1, 2, 3, 4, 0, 1, 2, 3, 4],
+           [5, 6, 7, 8, 9, 5, 6, 7, 8, 9]])
+
+    ```
+    """
+    repeats = [1] * array.ndim
+    repeats[1] = reps
+    return np.tile(array, repeats)

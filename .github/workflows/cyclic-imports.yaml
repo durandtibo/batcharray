@@ -44,6 +44,10 @@ jobs:
         run: |
           poetry run python -c "from batcharray import array"
 
+      - name: check batcharray.computation
+        run: |
+          poetry run python -c "from batcharray import computation"
+
 #      - name: check batcharray.nested
 #        run: |
 #          poetry run python -c "from batcharray import nested"
