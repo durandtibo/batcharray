@@ -1,0 +1,83 @@
+from __future__ import annotations
+
+import numpy as np
+import pytest
+from coola import objects_are_equal
+
+from batcharray.array import take_along_batch, take_along_seq
+
+INDEX_DTYPES = [np.int32, np.int64, np.uint32]
+
+######################################
+#     Tests for take_along_batch     #
+######################################
+
+
+@pytest.mark.parametrize("dtype", INDEX_DTYPES)
+def test_take_along_batch_2(dtype: np.dtype) -> None:
+    assert objects_are_equal(
+        take_along_batch(np.arange(10).reshape(5, 2), np.array([2, 4], dtype=dtype)),
+        np.array([[4, 5], [8, 9]]),
+    )
+
+
+@pytest.mark.parametrize("dtype", INDEX_DTYPES)
+def test_take_along_batch_5(dtype: np.dtype) -> None:
+    assert objects_are_equal(
+        take_along_batch(np.arange(10).reshape(5, 2), np.array([4, 3, 2, 1, 0], dtype=dtype)),
+        np.array([[8, 9], [6, 7], [4, 5], [2, 3], [0, 1]]),
+    )
+
+
+@pytest.mark.parametrize("dtype", INDEX_DTYPES)
+def test_take_along_batch_7(dtype: np.dtype) -> None:
+    assert objects_are_equal(
+        take_along_batch(np.arange(10).reshape(5, 2), np.array([4, 3, 2, 1, 0, 2, 0], dtype=dtype)),
+        np.array([[8, 9], [6, 7], [4, 5], [2, 3], [0, 1], [4, 5], [0, 1]]),
+    )
+
+
+####################################
+#     Tests for take_along_seq     #
+####################################
+
+
+@pytest.mark.parametrize("indices", [np.array([2, 4]), np.array([[2, 4], [2, 4]])])
+@pytest.mark.parametrize("dtype", INDEX_DTYPES)
+def test_take_along_seq_2(dtype: np.dtype, indices: np.ndarray) -> None:
+    assert objects_are_equal(
+        take_along_seq(np.arange(10).reshape(2, 5), indices=indices.astype(dtype=dtype)),
+        np.array([[2, 4], [7, 9]]),
+    )
+
+
+@pytest.mark.parametrize("dtype", INDEX_DTYPES)
+def test_take_along_seq_5(dtype: np.dtype) -> None:
+    assert objects_are_equal(
+        take_along_seq(np.arange(10).reshape(2, 5), indices=np.array([4, 3, 2, 1, 0], dtype=dtype)),
+        np.array([[4, 3, 2, 1, 0], [9, 8, 7, 6, 5]]),
+    )
+
+
+@pytest.mark.parametrize("dtype", INDEX_DTYPES)
+def test_take_along_seq_7(dtype: np.dtype) -> None:
+    assert objects_are_equal(
+        take_along_seq(
+            np.arange(10).reshape(2, 5), indices=np.array([4, 3, 2, 1, 0, 2, 0], dtype=dtype)
+        ),
+        np.array([[4, 3, 2, 1, 0, 2, 0], [9, 8, 7, 6, 5, 7, 5]]),
+    )
+
+
+def test_take_along_seq_per_batch_indices() -> None:
+    assert objects_are_equal(
+        take_along_seq(np.arange(10).reshape(2, 5), indices=np.array([[2, 4], [1, 3]])),
+        np.array([[2, 4], [6, 8]]),
+    )
+
+
+def test_take_along_seq_extra_dims() -> None:
+    assert objects_are_equal(
+        take_along_seq(np.arange(20).reshape(2, 5, 2), indices=np.array([[2, 0], [4, 3]])),
+        np.array([[[4, 5], [0, 1]], [[18, 19], [16, 17]]]),
+    )
