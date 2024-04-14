@@ -26,6 +26,11 @@ class MaskedArrayComputationModel(BaseComputationModel[np.ma.MaskedArray]):
     def __repr__(self) -> str:
         return f"{self.__class__.__qualname__}()"
 
+    def argmax(
+        self, arr: np.ma.MaskedArray, axis: int | None = None, *, keepdims: bool = False
+    ) -> np.ma.MaskedArray:
+        return arr.argmax(axis=axis, keepdims=keepdims)
+
     def concatenate(
         self,
         arrays: Sequence[np.ma.MaskedArray],

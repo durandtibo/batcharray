@@ -95,8 +95,67 @@ def test_auto_computation_model_concatenate() -> None:
 
 
 ##################
-#     mean     #
+#     argmax     #
 ##################
+
+
+@pytest.mark.parametrize("dtype", DTYPES)
+def test_auto_computation_model_argmax_axis_0(dtype: np.dtype) -> None:
+    assert objects_are_equal(
+        AutoComputationModel().argmax(
+            np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]], dtype=dtype), axis=0
+        ),
+        np.array([4, 4]),
+    )
+
+
+@pytest.mark.parametrize("dtype", DTYPES)
+def test_auto_computation_argmax_axis_1(dtype: np.dtype) -> None:
+    assert objects_are_equal(
+        AutoComputationModel().argmax(
+            np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]], dtype=dtype), axis=1
+        ),
+        np.array([4, 4]),
+    )
+
+
+@pytest.mark.parametrize("dtype", DTYPES)
+def test_auto_computation_argmax_axis_none(dtype: np.dtype) -> None:
+    assert objects_are_equal(
+        AutoComputationModel().argmax(np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]], dtype=dtype)),
+        np.int64(9),
+    )
+
+
+@pytest.mark.parametrize("dtype", DTYPES)
+def test_auto_computation_argmax_keepdims_true(dtype: np.dtype) -> None:
+    assert objects_are_equal(
+        AutoComputationModel().argmax(
+            np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]], dtype=dtype), axis=0, keepdims=True
+        ),
+        np.array([[4, 4]]),
+    )
+
+
+@pytest.mark.parametrize("dtype", DTYPES)
+def test_auto_computation_argmax_masked_array(dtype: np.dtype) -> None:
+    assert objects_are_equal(
+        AutoComputationModel().argmax(
+            np.ma.masked_array(
+                data=np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]], dtype=dtype),
+                mask=np.array(
+                    [[False, False], [False, False], [True, False], [False, False], [True, False]]
+                ),
+            ),
+            axis=0,
+        ),
+        np.array([3, 4]),
+    )
+
+
+################
+#     mean     #
+################
 
 
 @pytest.mark.parametrize("dtype", DTYPES)

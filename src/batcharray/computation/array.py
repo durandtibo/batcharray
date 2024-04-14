@@ -26,6 +26,11 @@ class ArrayComputationModel(BaseComputationModel[np.ndarray]):
     def __repr__(self) -> str:
         return f"{self.__class__.__qualname__}()"
 
+    def argmax(
+        self, arr: np.ndarray, axis: int | None = None, *, keepdims: bool = False
+    ) -> np.ndarray:
+        return arr.argmax(axis=axis, keepdims=keepdims)
+
     def concatenate(
         self, arrays: Sequence[np.ndarray], axis: int | None = None, *, dtype: DTypeLike = None
     ) -> np.ndarray:

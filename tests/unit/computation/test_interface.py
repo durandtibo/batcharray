@@ -8,6 +8,62 @@ from batcharray import computation as cmpt
 
 DTYPES = (np.float64, np.int64)
 
+
+##################
+#     argmax     #
+##################
+
+
+@pytest.mark.parametrize("dtype", DTYPES)
+def test_argmax_axis_0(dtype: np.dtype) -> None:
+    assert objects_are_equal(
+        cmpt.argmax(np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]], dtype=dtype), axis=0),
+        np.array([4, 4]),
+    )
+
+
+@pytest.mark.parametrize("dtype", DTYPES)
+def test_argmax_axis_1(dtype: np.dtype) -> None:
+    assert objects_are_equal(
+        cmpt.argmax(np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]], dtype=dtype), axis=1),
+        np.array([4, 4]),
+    )
+
+
+@pytest.mark.parametrize("dtype", DTYPES)
+def test_argmax_axis_none(dtype: np.dtype) -> None:
+    assert objects_are_equal(
+        cmpt.argmax(np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]], dtype=dtype)),
+        np.int64(9),
+    )
+
+
+@pytest.mark.parametrize("dtype", DTYPES)
+def test_argmax_keepdims_true(dtype: np.dtype) -> None:
+    assert objects_are_equal(
+        cmpt.argmax(
+            np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]], dtype=dtype), axis=0, keepdims=True
+        ),
+        np.array([[4, 4]]),
+    )
+
+
+@pytest.mark.parametrize("dtype", DTYPES)
+def test_argmax_masked_array(dtype: np.dtype) -> None:
+    assert objects_are_equal(
+        cmpt.argmax(
+            np.ma.masked_array(
+                data=np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]], dtype=dtype),
+                mask=np.array(
+                    [[False, False], [False, False], [True, False], [False, False], [True, False]]
+                ),
+            ),
+            axis=0,
+        ),
+        np.array([3, 4]),
+    )
+
+
 #######################
 #     concatenate     #
 #######################

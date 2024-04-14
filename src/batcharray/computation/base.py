@@ -25,6 +25,46 @@ class BaseComputationModel(ABC, Generic[T]):
     """
 
     @abstractmethod
+    def argmax(self, arr: T, axis: int | None = None, *, keepdims: bool = False) -> T:
+        r"""Return the array of indices of the maximum values along the
+        given axis.
+
+        Args:
+            arr: The input array.
+            axis: Axis along which the argmax are computed.
+                The default (``None``) is to compute the argmax along
+                a flattened version of the array.
+            keepdims: If this is set to True, the axes which are
+                reduced are left in the result as dimensions with size
+                one. With this option, the result will broadcast
+                correctly against the input array.
+
+        Returns:
+            The array of indices of the maximum values along the given
+                axis.
+
+        Example usage:
+
+        ```pycon
+
+        >>> import numpy as np
+        >>> from batcharray.computation import ArrayComputationModel
+        >>> comp_model = ArrayComputationModel()
+        >>> array = np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]])
+        >>> out = comp_model.argmax(array, axis=0)
+        >>> out
+        array([4, 4])
+        >>> out = comp_model.argmax(array, axis=1)
+        >>> out
+        array([1, 1, 1, 1, 1])
+        >>> out = comp_model.argmax(array, axis=0, keepdims=True)
+        >>> out
+        array([[4, 4]])
+
+        ```
+        """
+
+    @abstractmethod
     def concatenate(
         self, arrays: Sequence[T], axis: int | None = None, *, dtype: DTypeLike = None
     ) -> T:
