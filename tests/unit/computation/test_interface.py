@@ -51,6 +51,61 @@ def test_concatenate_masked_array_axis_0() -> None:
 
 
 ##################
+#     mean     #
+##################
+
+
+@pytest.mark.parametrize("dtype", DTYPES)
+def test_mean_axis_0(dtype: np.dtype) -> None:
+    assert objects_are_equal(
+        cmpt.mean(np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]], dtype=dtype), axis=0),
+        np.array([4.0, 5.0]),
+    )
+
+
+@pytest.mark.parametrize("dtype", DTYPES)
+def test_mean_axis_1(dtype: np.dtype) -> None:
+    assert objects_are_equal(
+        cmpt.mean(np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]], dtype=dtype), axis=1),
+        np.array([2.0, 7.0]),
+    )
+
+
+@pytest.mark.parametrize("dtype", DTYPES)
+def test_mean_axis_none(dtype: np.dtype) -> None:
+    assert objects_are_equal(
+        cmpt.mean(np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]], dtype=dtype)),
+        np.float64(4.5),
+    )
+
+
+@pytest.mark.parametrize("dtype", DTYPES)
+def test_mean_keepdims_true(dtype: np.dtype) -> None:
+    assert objects_are_equal(
+        cmpt.mean(
+            np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]], dtype=dtype), axis=0, keepdims=True
+        ),
+        np.array([[4.0, 5.0]]),
+    )
+
+
+@pytest.mark.parametrize("dtype", DTYPES)
+def test_mean_masked_array(dtype: np.dtype) -> None:
+    assert objects_are_equal(
+        cmpt.mean(
+            np.ma.masked_array(
+                data=np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]], dtype=dtype),
+                mask=np.array(
+                    [[False, False], [False, False], [True, False], [False, False], [True, False]]
+                ),
+            ),
+            axis=0,
+        ),
+        np.ma.masked_array(data=np.array([2.6666666666666665, 5.0]), mask=np.array([False, False])),
+    )
+
+
+##################
 #     median     #
 ##################
 

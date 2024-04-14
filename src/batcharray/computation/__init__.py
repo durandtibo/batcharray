@@ -8,6 +8,7 @@ __all__ = [
     "MaskedArrayComputationModel",
     "AutoComputationModel",
     "concatenate",
+    "mean",
     "median",
     "register_computation_models",
 ]
@@ -18,7 +19,7 @@ from batcharray.computation.auto import (
     register_computation_models,
 )
 from batcharray.computation.base import BaseComputationModel
-from batcharray.computation.interface import concatenate, median
+from batcharray.computation.interface import concatenate, mean, median
 from batcharray.computation.masked_array import MaskedArrayComputationModel
 
 register_computation_models()

@@ -38,6 +38,11 @@ class MaskedArrayComputationModel(BaseComputationModel[np.ma.MaskedArray]):
             out = np.ma.masked_array(data=out.data.astype(dtype), mask=out.mask)
         return out
 
+    def mean(
+        self, arr: np.ma.MaskedArray, axis: int | None = None, *, keepdims: bool = False
+    ) -> np.ma.MaskedArray:
+        return np.ma.mean(arr, axis=axis, keepdims=keepdims)
+
     def median(
         self, arr: np.ma.MaskedArray, axis: int | None = None, *, keepdims: bool = False
     ) -> np.ma.MaskedArray:
