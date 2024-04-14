@@ -158,6 +158,12 @@ class AutoComputationModel(BaseComputationModel[T]):
             arrays=arrays, axis=axis, dtype=dtype
         )
 
+    def mean(self, arr: T, axis: int | None = None, *, keepdims: bool = False) -> T:
+        return self.find_computation_model(type(arr)).mean(arr=arr, axis=axis, keepdims=keepdims)
+
+    def median(self, arr: T, axis: int | None = None, *, keepdims: bool = False) -> T:
+        return self.find_computation_model(type(arr)).median(arr=arr, axis=axis, keepdims=keepdims)
+
 
 def register_computation_models() -> None:
     r"""Register computation models to ``AutoComputationModel``.
