@@ -16,7 +16,9 @@ INDEX_DTYPES = [np.int32, np.int64, np.uint32]
 @pytest.mark.parametrize("dtype", INDEX_DTYPES)
 def test_take_along_batch_2(dtype: np.dtype) -> None:
     assert objects_are_equal(
-        take_along_batch(np.arange(10).reshape(5, 2), np.array([2, 4], dtype=dtype)),
+        take_along_batch(
+            np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]]), np.array([2, 4], dtype=dtype)
+        ),
         np.array([[4, 5], [8, 9]]),
     )
 
@@ -24,7 +26,10 @@ def test_take_along_batch_2(dtype: np.dtype) -> None:
 @pytest.mark.parametrize("dtype", INDEX_DTYPES)
 def test_take_along_batch_5(dtype: np.dtype) -> None:
     assert objects_are_equal(
-        take_along_batch(np.arange(10).reshape(5, 2), np.array([4, 3, 2, 1, 0], dtype=dtype)),
+        take_along_batch(
+            np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]]),
+            np.array([4, 3, 2, 1, 0], dtype=dtype),
+        ),
         np.array([[8, 9], [6, 7], [4, 5], [2, 3], [0, 1]]),
     )
 
@@ -32,7 +37,10 @@ def test_take_along_batch_5(dtype: np.dtype) -> None:
 @pytest.mark.parametrize("dtype", INDEX_DTYPES)
 def test_take_along_batch_7(dtype: np.dtype) -> None:
     assert objects_are_equal(
-        take_along_batch(np.arange(10).reshape(5, 2), np.array([4, 3, 2, 1, 0, 2, 0], dtype=dtype)),
+        take_along_batch(
+            np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]]),
+            np.array([4, 3, 2, 1, 0, 2, 0], dtype=dtype),
+        ),
         np.array([[8, 9], [6, 7], [4, 5], [2, 3], [0, 1], [4, 5], [0, 1]]),
     )
 
@@ -41,7 +49,7 @@ def test_take_along_batch_masked_array() -> None:
     assert objects_are_equal(
         take_along_batch(
             np.ma.masked_array(
-                np.arange(10).reshape(5, 2),
+                np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]]),
                 np.array(
                     [
                         [False, False],
@@ -69,7 +77,9 @@ def test_take_along_batch_masked_array() -> None:
 @pytest.mark.parametrize("dtype", INDEX_DTYPES)
 def test_take_along_seq_2(dtype: np.dtype, indices: np.ndarray) -> None:
     assert objects_are_equal(
-        take_along_seq(np.arange(10).reshape(2, 5), indices=indices.astype(dtype=dtype)),
+        take_along_seq(
+            np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]]), indices=indices.astype(dtype=dtype)
+        ),
         np.array([[2, 4], [7, 9]]),
     )
 
@@ -77,7 +87,10 @@ def test_take_along_seq_2(dtype: np.dtype, indices: np.ndarray) -> None:
 @pytest.mark.parametrize("dtype", INDEX_DTYPES)
 def test_take_along_seq_5(dtype: np.dtype) -> None:
     assert objects_are_equal(
-        take_along_seq(np.arange(10).reshape(2, 5), indices=np.array([4, 3, 2, 1, 0], dtype=dtype)),
+        take_along_seq(
+            np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]]),
+            indices=np.array([4, 3, 2, 1, 0], dtype=dtype),
+        ),
         np.array([[4, 3, 2, 1, 0], [9, 8, 7, 6, 5]]),
     )
 
@@ -86,7 +99,8 @@ def test_take_along_seq_5(dtype: np.dtype) -> None:
 def test_take_along_seq_7(dtype: np.dtype) -> None:
     assert objects_are_equal(
         take_along_seq(
-            np.arange(10).reshape(2, 5), indices=np.array([4, 3, 2, 1, 0, 2, 0], dtype=dtype)
+            np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]]),
+            indices=np.array([4, 3, 2, 1, 0, 2, 0], dtype=dtype),
         ),
         np.array([[4, 3, 2, 1, 0, 2, 0], [9, 8, 7, 6, 5, 7, 5]]),
     )
@@ -94,7 +108,9 @@ def test_take_along_seq_7(dtype: np.dtype) -> None:
 
 def test_take_along_seq_per_batch_indices() -> None:
     assert objects_are_equal(
-        take_along_seq(np.arange(10).reshape(2, 5), indices=np.array([[2, 4], [1, 3]])),
+        take_along_seq(
+            np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]]), indices=np.array([[2, 4], [1, 3]])
+        ),
         np.array([[2, 4], [6, 8]]),
     )
 
@@ -110,7 +126,7 @@ def test_take_along_seq_masked_array_1d() -> None:
     assert objects_are_equal(
         take_along_seq(
             np.ma.masked_array(
-                np.arange(10).reshape(2, 5),
+                np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]]),
                 mask=np.array(
                     [[False, False, True, False, True], [False, False, False, False, False]]
                 ),
@@ -127,7 +143,7 @@ def test_take_along_seq_masked_array_2d() -> None:
     assert objects_are_equal(
         take_along_seq(
             np.ma.masked_array(
-                np.arange(10).reshape(2, 5),
+                np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]]),
                 mask=np.array(
                     [[False, False, True, False, True], [False, False, False, False, False]]
                 ),
