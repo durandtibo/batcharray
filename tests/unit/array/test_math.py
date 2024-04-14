@@ -89,7 +89,7 @@ def test_cumprod_along_seq_masked_array() -> None:
 @pytest.mark.parametrize("dtype", DTYPES)
 def test_cumsum_along_batch(dtype: DTypeLike) -> None:
     assert objects_are_equal(
-        cumsum_along_batch(np.arange(10, dtype=dtype).reshape(5, 2)),
+        cumsum_along_batch(np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]], dtype=dtype)),
         np.array([[0, 1], [2, 4], [6, 9], [12, 16], [20, 25]], dtype=dtype),
     )
 
@@ -121,7 +121,7 @@ def test_cumsum_along_batch_masked_array() -> None:
 @pytest.mark.parametrize("dtype", DTYPES)
 def test_cumsum_along_seq(dtype: DTypeLike) -> None:
     assert objects_are_equal(
-        cumsum_along_seq(np.arange(10, dtype=dtype).reshape(2, 5)),
+        cumsum_along_seq(np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]], dtype=dtype)),
         np.array([[0, 1, 3, 6, 10], [5, 11, 18, 26, 35]], dtype=dtype),
     )
 

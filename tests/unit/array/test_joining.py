@@ -129,7 +129,7 @@ def test_concatenate_along_seq_masked_array() -> None:
 
 def test_tile_along_seq_reps_0() -> None:
     assert objects_are_equal(
-        tile_along_seq(np.arange(10, dtype=float).reshape(2, 5), reps=0),
+        tile_along_seq(np.array([[0.0, 1.0, 2.0, 3.0, 4.0], [5.0, 6.0, 7.0, 8.0, 9.0]]), reps=0),
         np.zeros((2, 0)),
     )
 
@@ -150,21 +150,18 @@ def test_tile_along_seq_reps_2() -> None:
 
 def test_tile_along_seq_reps_3d() -> None:
     assert objects_are_equal(
-        tile_along_seq(np.arange(20).reshape(2, 5, 2), reps=2),
+        tile_along_seq(
+            np.array(
+                [
+                    [[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]],
+                    [[10, 11], [12, 13], [14, 15], [16, 17], [18, 19]],
+                ]
+            ),
+            reps=2,
+        ),
         np.array(
             [
-                [
-                    [0, 1],
-                    [2, 3],
-                    [4, 5],
-                    [6, 7],
-                    [8, 9],
-                    [0, 1],
-                    [2, 3],
-                    [4, 5],
-                    [6, 7],
-                    [8, 9],
-                ],
+                [[0, 1], [2, 3], [4, 5], [6, 7], [8, 9], [0, 1], [2, 3], [4, 5], [6, 7], [8, 9]],
                 [
                     [10, 11],
                     [12, 13],

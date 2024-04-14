@@ -47,7 +47,7 @@ def dfs_array(data: Any) -> Generator[np.ndarray, None, None]:
 
     >>> import numpy as np
     >>> from batcharray.utils.dfs import dfs_array
-    >>> list(dfs_array(["abc", np.ones((2, 3)), 42, np.arange(5)]))
+    >>> list(dfs_array(["abc", np.ones((2, 3)), 42, np.array([0, 1, 2, 3, 4])]))
     [array([[1., 1., 1.], [1., 1., 1.]]), array([0, 1, 2, 3, 4])]
 
     ```
@@ -118,7 +118,7 @@ class MappingArrayIterator(BaseArrayIterator[Mapping]):
 
 
 class ArrayIterator(BaseArrayIterator[Any]):
-    """Implement a array iterator."""
+    """Implement an array iterator."""
 
     registry: ClassVar[dict[type, BaseArrayIterator]] = {}
 

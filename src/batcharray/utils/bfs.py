@@ -46,7 +46,7 @@ def bfs_array(data: Any) -> Generator[np.ndarray, None, None]:
     ```pycon
     >>> import numpy as np
     >>> from batcharray.utils import bfs_array
-    >>> list(bfs_array(["abc", np.ones((2, 3)), 42, np.arange(5)]))
+    >>> list(bfs_array(["abc", np.ones((2, 3)), 42, np.array([0, 1, 2, 3, 4])]))
     [array([[1., 1., 1.], [1., 1., 1.]]), array([0, 1, 2, 3, 4])]
 
     ```

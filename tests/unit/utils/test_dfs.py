@@ -56,41 +56,49 @@ def test_dfs_array_no_array(data: Any) -> None:
 @pytest.mark.parametrize(
     "data",
     [
-        pytest.param([np.ones((2, 3)), np.arange(5)], id="list with only arrays"),
-        pytest.param(["abc", np.ones((2, 3)), 42, np.arange(5)], id="list with non array objects"),
-        pytest.param((np.ones((2, 3)), np.arange(5)), id="tuple with only arrays"),
-        pytest.param(("abc", np.ones((2, 3)), 42, np.arange(5)), id="tuple with non array objects"),
-        pytest.param({"key1": np.ones((2, 3)), "key2": np.arange(5)}, id="dict with only arrays"),
+        pytest.param([np.ones((2, 3)), np.array([0, 1, 2, 3, 4])], id="list with only arrays"),
         pytest.param(
-            {"key1": "abc", "key2": np.ones((2, 3)), "key3": 42, "key4": np.arange(5)},
+            ["abc", np.ones((2, 3)), 42, np.array([0, 1, 2, 3, 4])],
+            id="list with non array objects",
+        ),
+        pytest.param((np.ones((2, 3)), np.array([0, 1, 2, 3, 4])), id="tuple with only arrays"),
+        pytest.param(
+            ("abc", np.ones((2, 3)), 42, np.array([0, 1, 2, 3, 4])),
+            id="tuple with non array objects",
+        ),
+        pytest.param(
+            {"key1": np.ones((2, 3)), "key2": np.array([0, 1, 2, 3, 4])}, id="dict with only arrays"
+        ),
+        pytest.param(
+            {"key1": "abc", "key2": np.ones((2, 3)), "key3": 42, "key4": np.array([0, 1, 2, 3, 4])},
             id="dict with non array objects",
         ),
     ],
 )
 def test_dfs_array_iterable_array(data: Any) -> None:
-    assert objects_are_equal(list(dfs_array(data)), [np.ones((2, 3)), np.arange(5)])
+    assert objects_are_equal(list(dfs_array(data)), [np.ones((2, 3)), np.array([0, 1, 2, 3, 4])])
 
 
 def test_dfs_array_nested_data() -> None:
     data = [
-        {"key1": np.zeros((1, 1, 1)), "key2": np.arange(10)},
+        {"key1": np.zeros((1, 1, 1)), "key2": np.array([0, 1, 2, 3, 4, 5, 6, 7, 8, 9])},
         np.ones((2, 3)),
-        [np.ones(4), -np.arange(3), [np.ones(5)]],
+        [np.ones(4), np.array([0, -1, -2]), [np.ones(5)]],
         (1, np.array([42.0]), np.zeros(2)),
-        np.arange(5),
+        np.array([0, 1, 2, 3, 4]),
     ]
     assert objects_are_equal(
         list(dfs_array(data)),
         [
             np.zeros((1, 1, 1)),
-            np.arange(10),
+            np.array([0, 1, 2, 3, 4, 5, 6, 7, 8, 9]),
             np.ones((2, 3)),
             np.ones(4),
-            -np.arange(3),
+            np.array([0, -1, -2]),
             np.ones(5),
             np.array([42.0]),
             np.zeros(2),
-            np.arange(5),
+            np.array([0, 1, 2, 3, 4]),
         ],
     )
 
@@ -134,15 +142,15 @@ def test_iterable_array_iterator_iterate_empty(data: Iterable, state: IteratorSt
 @pytest.mark.parametrize(
     "data",
     [
-        pytest.param(["abc", np.ones((2, 3)), 42, np.arange(5)], id="list"),
-        pytest.param(deque(["abc", np.ones((2, 3)), 42, np.arange(5)]), id="deque"),
-        pytest.param(("abc", np.ones((2, 3)), 42, np.arange(5)), id="tuple"),
+        pytest.param(["abc", np.ones((2, 3)), 42, np.array([0, 1, 2, 3, 4])], id="list"),
+        pytest.param(deque(["abc", np.ones((2, 3)), 42, np.array([0, 1, 2, 3, 4])]), id="deque"),
+        pytest.param(("abc", np.ones((2, 3)), 42, np.array([0, 1, 2, 3, 4])), id="tuple"),
     ],
 )
 def test_iterable_array_iterator_iterate(data: Iterable, state: IteratorState) -> None:
     assert objects_are_equal(
         list(IterableArrayIterator().iterate(data, state)),
-        [np.ones((2, 3)), np.arange(5)],
+        [np.ones((2, 3)), np.array([0, 1, 2, 3, 4])],
     )
 
 
@@ -171,11 +179,18 @@ def test_mapping_array_iterator_iterate_empty(data: Mapping, state: IteratorStat
     "data",
     [
         pytest.param(
-            {"key1": "abc", "key2": np.ones((2, 3)), "key3": 42, "key4": np.arange(5)},
+            {"key1": "abc", "key2": np.ones((2, 3)), "key3": 42, "key4": np.array([0, 1, 2, 3, 4])},
             id="dict",
         ),
         pytest.param(
-            OrderedDict({"key1": "abc", "key2": np.ones((2, 3)), "key3": 42, "key4": np.arange(5)}),
+            OrderedDict(
+                {
+                    "key1": "abc",
+                    "key2": np.ones((2, 3)),
+                    "key3": 42,
+                    "key4": np.array([0, 1, 2, 3, 4]),
+                }
+            ),
             id="OrderedDict",
         ),
     ],
@@ -183,7 +198,7 @@ def test_mapping_array_iterator_iterate_empty(data: Mapping, state: IteratorStat
 def test_mapping_array_iterator_iterate(data: Mapping, state: IteratorState) -> None:
     assert objects_are_equal(
         list(MappingArrayIterator().iterate(data, state)),
-        [np.ones((2, 3)), np.arange(5)],
+        [np.ones((2, 3)), np.array([0, 1, 2, 3, 4])],
     )
 
 
@@ -224,8 +239,10 @@ def test_iterator_add_iterator_duplicate_exist_ok_false() -> None:
 
 def test_iterator_iterate() -> None:
     state = IteratorState(iterator=ArrayIterator())
-    iterator = ArrayIterator().iterate(["abc", np.ones((2, 3)), 42, np.arange(5)], state=state)
-    assert objects_are_equal(list(iterator), [np.ones((2, 3)), np.arange(5)])
+    iterator = ArrayIterator().iterate(
+        ["abc", np.ones((2, 3)), 42, np.array([0, 1, 2, 3, 4])], state=state
+    )
+    assert objects_are_equal(list(iterator), [np.ones((2, 3)), np.array([0, 1, 2, 3, 4])])
 
 
 def test_iterator_has_iterator_true() -> None:

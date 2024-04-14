@@ -15,7 +15,10 @@ from tests.unit.array.test_indexing import INDEX_DTYPES
 @pytest.mark.parametrize("dtype", INDEX_DTYPES)
 def test_take_along_batch_array(dtype: np.dtype) -> None:
     assert objects_are_equal(
-        take_along_batch(np.arange(10).reshape(5, 2), np.array([4, 3, 2, 1, 0], dtype=dtype)),
+        take_along_batch(
+            np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]]),
+            np.array([4, 3, 2, 1, 0], dtype=dtype),
+        ),
         np.array([[8, 9], [6, 7], [4, 5], [2, 3], [0, 1]]),
     )
 
@@ -25,7 +28,7 @@ def test_take_along_batch_dict(dtype: np.dtype) -> None:
     assert objects_are_equal(
         take_along_batch(
             {
-                "a": np.arange(10).reshape(5, 2),
+                "a": np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]]),
                 "b": np.ma.masked_array(
                     data=np.array([[5], [4], [3], [2], [1]]),
                     mask=np.array([[False], [False], [False], [True], [False]]),
@@ -51,7 +54,9 @@ def test_take_along_batch_dict(dtype: np.dtype) -> None:
 @pytest.mark.parametrize("dtype", INDEX_DTYPES)
 def test_take_along_seq_array(dtype: np.dtype) -> None:
     assert objects_are_equal(
-        take_along_seq(np.arange(10).reshape(2, 5), np.array([4, 3, 2, 1, 0], dtype=dtype)),
+        take_along_seq(
+            np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]]), np.array([4, 3, 2, 1, 0], dtype=dtype)
+        ),
         np.array([[4, 3, 2, 1, 0], [9, 8, 7, 6, 5]]),
     )
 
@@ -61,7 +66,7 @@ def test_take_along_seq_dict(dtype: np.dtype) -> None:
     assert objects_are_equal(
         take_along_seq(
             {
-                "a": np.arange(10).reshape(2, 5),
+                "a": np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]]),
                 "b": np.ma.masked_array(
                     data=np.array([[5, 4, 3, 2, 1]]),
                     mask=np.array([[False, False, False, True, False]]),

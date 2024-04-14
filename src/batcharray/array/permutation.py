@@ -41,7 +41,7 @@ def permute_along_batch(array: np.ndarray, permutation: np.ndarray) -> np.ndarra
     ```pycon
     >>> import numpy as np
     >>> from batcharray.array import permute_along_batch
-    >>> array = np.arange(10).reshape(5, 2)
+    >>> array = np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]])
     >>> out = permute_along_batch(array, np.array([2, 1, 3, 0, 4]))
     >>> out
     array([[4, 5],
@@ -86,7 +86,7 @@ def permute_along_seq(array: np.ndarray, permutation: np.ndarray) -> np.ndarray:
     ```pycon
     >>> import numpy as np
     >>> from batcharray.array import permute_along_seq
-    >>> array = np.arange(10).reshape(2, 5)
+    >>> array = np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]])
     >>> out = permute_along_seq(array, np.array([2, 1, 3, 0, 4]))
     >>> out
     array([[2, 1, 3, 0, 4],
@@ -122,7 +122,7 @@ def shuffle_along_batch(array: np.ndarray, rng: np.random.Generator | None = Non
     ```pycon
     >>> import numpy as np
     >>> from batcharray.array import shuffle_along_batch
-    >>> array = np.arange(10).reshape(5, 2)
+    >>> array = np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]])
     >>> out = shuffle_along_batch(array)
     >>> out
     array([[...]])
@@ -156,7 +156,7 @@ def shuffle_along_seq(array: np.ndarray, rng: np.random.Generator | None = None)
     ```pycon
     >>> import numpy as np
     >>> from batcharray.array import shuffle_along_seq
-    >>> array = np.arange(10).reshape(2, 5)
+    >>> array = np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]])
     >>> out = shuffle_along_seq(array)
     >>> out
     array([[...]])

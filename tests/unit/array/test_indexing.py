@@ -117,7 +117,15 @@ def test_take_along_seq_per_batch_indices() -> None:
 
 def test_take_along_seq_extra_dims() -> None:
     assert objects_are_equal(
-        take_along_seq(np.arange(20).reshape(2, 5, 2), indices=np.array([[2, 0], [4, 3]])),
+        take_along_seq(
+            np.array(
+                [
+                    [[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]],
+                    [[10, 11], [12, 13], [14, 15], [16, 17], [18, 19]],
+                ]
+            ),
+            indices=np.array([[2, 0], [4, 3]]),
+        ),
         np.array([[[4, 5], [0, 1]], [[18, 19], [16, 17]]]),
     )
 

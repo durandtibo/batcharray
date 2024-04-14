@@ -107,7 +107,7 @@ def tile_along_seq(array: np.ndarray, reps: int) -> np.ndarray:
     ```pycon
     >>> import numpy as np
     >>> from batcharray.array import tile_along_seq
-    >>> array = np.arange(10).reshape(2, 5)
+    >>> array = np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]])
     >>> out = tile_along_seq(array, 2)
     >>> out
     array([[0, 1, 2, 3, 4, 0, 1, 2, 3, 4],

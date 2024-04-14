@@ -22,7 +22,10 @@ from tests.unit.array.test_permutation import INDEX_DTYPES
 @pytest.mark.parametrize("dtype", INDEX_DTYPES)
 def test_permute_along_batch_array(dtype: np.dtype) -> None:
     assert objects_are_equal(
-        permute_along_batch(np.arange(10).reshape(5, 2), np.array([4, 3, 2, 1, 0], dtype=dtype)),
+        permute_along_batch(
+            np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]]),
+            np.array([4, 3, 2, 1, 0], dtype=dtype),
+        ),
         np.array([[8, 9], [6, 7], [4, 5], [2, 3], [0, 1]]),
     )
 
@@ -31,7 +34,10 @@ def test_permute_along_batch_array(dtype: np.dtype) -> None:
 def test_permute_along_batch_dict(dtype: np.dtype) -> None:
     assert objects_are_equal(
         permute_along_batch(
-            {"a": np.arange(10).reshape(5, 2), "b": np.array([4, 3, 2, 1, 0])},
+            {
+                "a": np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]]),
+                "b": np.array([4, 3, 2, 1, 0]),
+            },
             np.array([4, 3, 2, 1, 0], dtype=dtype),
         ),
         {
@@ -65,7 +71,10 @@ def test_permute_along_batch_incorrect_shape() -> None:
         match=r"permutation shape \(.*\) is not compatible with array shape \(.*\)",
     ):
         permute_along_batch(
-            {"a": np.arange(10).reshape(5, 2), "b": np.array([4, 3, 2, 1, 0])},
+            {
+                "a": np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]]),
+                "b": np.array([4, 3, 2, 1, 0]),
+            },
             np.array([4, 3, 2, 1, 0, 2]),
         )
 
@@ -78,7 +87,9 @@ def test_permute_along_batch_incorrect_shape() -> None:
 @pytest.mark.parametrize("dtype", INDEX_DTYPES)
 def test_permute_along_seq_array(dtype: np.dtype) -> None:
     assert objects_are_equal(
-        permute_along_seq(np.arange(10).reshape(2, 5), np.array([4, 3, 2, 1, 0], dtype=dtype)),
+        permute_along_seq(
+            np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]]), np.array([4, 3, 2, 1, 0], dtype=dtype)
+        ),
         np.array([[4, 3, 2, 1, 0], [9, 8, 7, 6, 5]]),
     )
 
@@ -87,7 +98,7 @@ def test_permute_along_seq_array(dtype: np.dtype) -> None:
 def test_permute_along_seq_dict(dtype: np.dtype) -> None:
     assert objects_are_equal(
         permute_along_seq(
-            {"a": np.arange(10).reshape(2, 5), "b": np.array([[4, 3, 2, 1, 0]])},
+            {"a": np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]]), "b": np.array([[4, 3, 2, 1, 0]])},
             np.array([4, 3, 2, 1, 0], dtype=dtype),
         ),
         {
@@ -121,7 +132,7 @@ def test_permute_along_seq_incorrect_shape() -> None:
         match=r"permutation shape \(.*\) is not compatible with array shape \(.*\)",
     ):
         permute_along_seq(
-            {"a": np.arange(10).reshape(2, 5), "b": np.array([[4, 3, 2, 1, 0]])},
+            {"a": np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]]), "b": np.array([[4, 3, 2, 1, 0]])},
             np.array([4, 3, 2, 1, 0, 2]),
         )
 
@@ -148,7 +159,11 @@ def test_shuffle_along_batch_dict() -> None:
     rng = Mock(spec=np.random.Generator, permutation=Mock(return_value=np.array([2, 4, 1, 3, 0])))
     assert objects_are_equal(
         shuffle_along_batch(
-            {"a": np.arange(10).reshape(5, 2), "b": np.array([4, 3, 2, 1, 0])}, rng=rng
+            {
+                "a": np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]]),
+                "b": np.array([4, 3, 2, 1, 0]),
+            },
+            rng=rng,
         ),
         {
             "a": np.array([[4, 5], [8, 9], [2, 3], [6, 7], [0, 1]]),
@@ -177,7 +192,7 @@ def test_shuffle_along_batch_nested() -> None:
 
 
 def test_shuffle_along_batch_same_random_seed() -> None:
-    data = {"a": np.arange(10).reshape(5, 2), "b": np.array([4, 3, 2, 1, 0])}
+    data = {"a": np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]]), "b": np.array([4, 3, 2, 1, 0])}
     assert objects_are_equal(
         shuffle_along_batch(data, np.random.default_rng(1)),
         shuffle_along_batch(data, np.random.default_rng(1)),
@@ -185,7 +200,7 @@ def test_shuffle_along_batch_same_random_seed() -> None:
 
 
 def test_shuffle_along_batch_different_random_seeds() -> None:
-    data = {"a": np.arange(10).reshape(5, 2), "b": np.array([4, 3, 2, 1, 0])}
+    data = {"a": np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]]), "b": np.array([4, 3, 2, 1, 0])}
     assert not objects_are_equal(
         shuffle_along_batch(data, np.random.default_rng(1)),
         shuffle_along_batch(data, np.random.default_rng(2)),
@@ -193,7 +208,7 @@ def test_shuffle_along_batch_different_random_seeds() -> None:
 
 
 def test_shuffle_along_batch_multiple_shuffle() -> None:
-    data = {"a": np.arange(10).reshape(5, 2), "b": np.array([4, 3, 2, 1, 0])}
+    data = {"a": np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]]), "b": np.array([4, 3, 2, 1, 0])}
     generator = np.random.default_rng(1)
     assert not objects_are_equal(
         shuffle_along_batch(data, generator), shuffle_along_batch(data, generator)
@@ -213,7 +228,7 @@ def test_shuffle_along_seq() -> None:
 def test_shuffle_along_seq_array() -> None:
     rng = Mock(spec=np.random.Generator, permutation=Mock(return_value=np.array([2, 4, 1, 3, 0])))
     assert objects_are_equal(
-        shuffle_along_seq(np.arange(10).reshape(2, 5), rng=rng),
+        shuffle_along_seq(np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]]), rng=rng),
         np.array([[2, 4, 1, 3, 0], [7, 9, 6, 8, 5]]),
     )
 
@@ -222,7 +237,8 @@ def test_shuffle_along_seq_dict() -> None:
     rng = Mock(spec=np.random.Generator, permutation=Mock(return_value=np.array([2, 4, 1, 3, 0])))
     assert objects_are_equal(
         shuffle_along_seq(
-            {"a": np.arange(10).reshape(2, 5), "b": np.array([[4, 3, 2, 1, 0]])}, rng=rng
+            {"a": np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]]), "b": np.array([[4, 3, 2, 1, 0]])},
+            rng=rng,
         ),
         {
             "a": np.array([[2, 4, 1, 3, 0], [7, 9, 6, 8, 5]]),
@@ -251,7 +267,7 @@ def test_shuffle_along_seq_nested() -> None:
 
 
 def test_shuffle_along_seq_same_random_seed() -> None:
-    data = {"a": np.arange(10).reshape(2, 5), "b": np.array([[4, 3, 2, 1, 0]])}
+    data = {"a": np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]]), "b": np.array([[4, 3, 2, 1, 0]])}
     assert objects_are_equal(
         shuffle_along_seq(data, np.random.default_rng(1)),
         shuffle_along_seq(data, np.random.default_rng(1)),
@@ -259,7 +275,7 @@ def test_shuffle_along_seq_same_random_seed() -> None:
 
 
 def test_shuffle_along_seq_different_random_seeds() -> None:
-    data = {"a": np.arange(10).reshape(2, 5), "b": np.array([[4, 3, 2, 1, 0]])}
+    data = {"a": np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]]), "b": np.array([[4, 3, 2, 1, 0]])}
     assert not objects_are_equal(
         shuffle_along_seq(data, np.random.default_rng(1)),
         shuffle_along_seq(data, np.random.default_rng(2)),
@@ -267,7 +283,7 @@ def test_shuffle_along_seq_different_random_seeds() -> None:
 
 
 def test_shuffle_along_seq_multiple_shuffle() -> None:
-    data = {"a": np.arange(10).reshape(2, 5), "b": np.array([[4, 3, 2, 1, 0]])}
+    data = {"a": np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]]), "b": np.array([[4, 3, 2, 1, 0]])}
     generator = np.random.default_rng(1)
     assert not objects_are_equal(
         shuffle_along_seq(data, generator), shuffle_along_seq(data, generator)

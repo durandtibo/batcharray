@@ -99,7 +99,7 @@ def cumsum_along_batch(array: np.ndarray) -> np.ndarray:
 
     >>> import numpy as np
     >>> from batcharray.array import cumsum_along_batch
-    >>> array = np.arange(10).reshape(5, 2)
+    >>> array = np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]])
     >>> out = cumsum_along_batch(array)
     >>> out
     array([[ 0,  1], [ 2,  4], [ 6,  9], [12, 16], [20, 25]])
@@ -130,7 +130,7 @@ def cumsum_along_seq(array: np.ndarray) -> np.ndarray:
 
     >>> import numpy as np
     >>> from batcharray.array import cumsum_along_seq
-    >>> array = np.arange(10).reshape(2, 5)
+    >>> array = np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]])
     >>> out = cumsum_along_seq(array)
     >>> out
     array([[ 0,  1,  3,  6, 10],
