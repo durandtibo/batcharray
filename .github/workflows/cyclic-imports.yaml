@@ -51,10 +51,10 @@ jobs:
 #      - name: check batcharray.nested
 #        run: |
 #          poetry run python -c "from batcharray import nested"
-#
-#      - name: check batcharray.recursive
-#        run: |
-#          poetry run python -c "from batcharray import recursive"
+
+      - name: check batcharray.recursive
+        run: |
+          poetry run python -c "from batcharray import recursive"
 
       - name: check batcharray.utils
         run: |
