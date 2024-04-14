@@ -9,28 +9,28 @@ import numpy as np
 import pytest
 from coola import objects_are_equal
 
-from batcharray.utils.bfs import (
+from batcharray.utils.dfs import (
     ArrayIterator,
     DefaultArrayIterator,
     IterableArrayIterator,
     IteratorState,
     MappingArrayIterator,
-    bfs_array,
+    dfs_array,
 )
 
 
 @pytest.fixture()
 def state() -> IteratorState:
-    return IteratorState(iterator=ArrayIterator(), queue=deque())
+    return IteratorState(ArrayIterator())
 
 
 ###############################
-#     Tests for bfs_array     #
+#     Tests for dfs_array     #
 ###############################
 
 
-def test_bfs_array_array() -> None:
-    assert objects_are_equal(list(bfs_array(np.ones((2, 3)))), [np.ones((2, 3))])
+def test_dfs_array_array() -> None:
+    assert objects_are_equal(list(dfs_array(np.ones((2, 3)))), [np.ones((2, 3))])
 
 
 @pytest.mark.parametrize(
@@ -49,8 +49,8 @@ def test_bfs_array_array() -> None:
         pytest.param({}, id="empty dict"),
     ],
 )
-def test_bfs_array_no_array(data: Any) -> None:
-    assert objects_are_equal(list(bfs_array(data)), [])
+def test_dfs_array_no_array(data: Any) -> None:
+    assert objects_are_equal(list(dfs_array(data)), [])
 
 
 @pytest.mark.parametrize(
@@ -67,11 +67,11 @@ def test_bfs_array_no_array(data: Any) -> None:
         ),
     ],
 )
-def test_bfs_array_iterable_array(data: Any) -> None:
-    assert objects_are_equal(list(bfs_array(data)), [np.ones((2, 3)), np.arange(5)])
+def test_dfs_array_iterable_array(data: Any) -> None:
+    assert objects_are_equal(list(dfs_array(data)), [np.ones((2, 3)), np.arange(5)])
 
 
-def test_bfs_array_nested_data() -> None:
+def test_dfs_array_nested_data() -> None:
     data = [
         {"key1": np.zeros((1, 1, 1)), "key2": np.arange(10)},
         np.ones((2, 3)),
@@ -80,24 +80,24 @@ def test_bfs_array_nested_data() -> None:
         np.arange(5),
     ]
     assert objects_are_equal(
-        list(bfs_array(data)),
+        list(dfs_array(data)),
         [
-            np.ones((2, 3)),
-            np.arange(5),
             np.zeros((1, 1, 1)),
             np.arange(10),
+            np.ones((2, 3)),
             np.ones(4),
             -np.arange(3),
+            np.ones(5),
             np.array([42.0]),
             np.zeros(2),
-            np.ones(5),
+            np.arange(5),
         ],
     )
 
 
-##########################################
+###########################################
 #     Tests for DefaultArrayIterator     #
-##########################################
+###########################################
 
 
 def test_default_array_iterator_str() -> None:
@@ -105,8 +105,8 @@ def test_default_array_iterator_str() -> None:
 
 
 def test_default_array_iterator_iterable(state: IteratorState) -> None:
-    DefaultArrayIterator().iterate("abc", state)
-    assert state.queue == deque()
+
+    assert list(DefaultArrayIterator().iterate("abc", state)) == []
 
 
 ###########################################
@@ -128,8 +128,7 @@ def test_iterable_array_iterator_str() -> None:
     ],
 )
 def test_iterable_array_iterator_iterate_empty(data: Iterable, state: IteratorState) -> None:
-    IterableArrayIterator().iterate(data, state)
-    assert state.queue == deque()
+    assert list(IterableArrayIterator().iterate(data, state)) == []
 
 
 @pytest.mark.parametrize(
@@ -141,8 +140,10 @@ def test_iterable_array_iterator_iterate_empty(data: Iterable, state: IteratorSt
     ],
 )
 def test_iterable_array_iterator_iterate(data: Iterable, state: IteratorState) -> None:
-    IterableArrayIterator().iterate(data, state)
-    assert objects_are_equal(list(state.queue), ["abc", np.ones((2, 3)), 42, np.arange(5)])
+    assert objects_are_equal(
+        list(IterableArrayIterator().iterate(data, state)),
+        [np.ones((2, 3)), np.arange(5)],
+    )
 
 
 ##########################################
@@ -162,8 +163,8 @@ def test_mapping_array_iterator_str() -> None:
     ],
 )
 def test_mapping_array_iterator_iterate_empty(data: Mapping, state: IteratorState) -> None:
-    MappingArrayIterator().iterate(data, state)
-    assert state.queue == deque()
+
+    assert list(MappingArrayIterator().iterate(data, state)) == []
 
 
 @pytest.mark.parametrize(
@@ -180,8 +181,10 @@ def test_mapping_array_iterator_iterate_empty(data: Mapping, state: IteratorStat
     ],
 )
 def test_mapping_array_iterator_iterate(data: Mapping, state: IteratorState) -> None:
-    MappingArrayIterator().iterate(data, state)
-    assert objects_are_equal(list(state.queue), ["abc", np.ones((2, 3)), 42, np.arange(5)])
+    assert objects_are_equal(
+        list(MappingArrayIterator().iterate(data, state)),
+        [np.ones((2, 3)), np.arange(5)],
+    )
 
 
 ###################################
@@ -219,9 +222,10 @@ def test_iterator_add_iterator_duplicate_exist_ok_false() -> None:
         iterator.add_iterator(list, seq_iterator)
 
 
-def test_iterator_iterate(state: IteratorState) -> None:
-    ArrayIterator().iterate(["abc", np.ones((2, 3)), 42, np.arange(5)], state=state)
-    assert objects_are_equal(list(state.queue), ["abc", np.ones((2, 3)), 42, np.arange(5)])
+def test_iterator_iterate() -> None:
+    state = IteratorState(iterator=ArrayIterator())
+    iterator = ArrayIterator().iterate(["abc", np.ones((2, 3)), 42, np.arange(5)], state=state)
+    assert objects_are_equal(list(iterator), [np.ones((2, 3)), np.arange(5)])
 
 
 def test_iterator_has_iterator_true() -> None:

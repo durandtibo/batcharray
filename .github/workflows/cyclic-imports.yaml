@@ -55,7 +55,7 @@ jobs:
 #      - name: check batcharray.recursive
 #        run: |
 #          poetry run python -c "from batcharray import recursive"
-#
-#      - name: check batcharray.utils
-#        run: |
-#          poetry run python -c "from batcharray import utils"
+
+      - name: check batcharray.utils
+        run: |
+          poetry run python -c "from batcharray import utils"
