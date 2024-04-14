@@ -31,6 +31,11 @@ class ArrayComputationModel(BaseComputationModel[np.ndarray]):
     ) -> np.ndarray:
         return np.concatenate(arrays, axis=axis, dtype=dtype)
 
+    def mean(
+        self, arr: np.ndarray, axis: int | None = None, *, keepdims: bool = False
+    ) -> np.ndarray:
+        return np.mean(arr, axis=axis, keepdims=keepdims)
+
     def median(
         self, arr: np.ndarray, axis: int | None = None, *, keepdims: bool = False
     ) -> np.ndarray:

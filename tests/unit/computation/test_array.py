@@ -116,6 +116,49 @@ def test_array_computation_model_concatenate_dtype(dtype: np.dtype) -> None:
     )
 
 
+################
+#     mean     #
+################
+
+
+@pytest.mark.parametrize("dtype", DTYPES)
+def test_array_computation_model_mean_axis_0(dtype: np.dtype) -> None:
+    assert objects_are_equal(
+        ArrayComputationModel().mean(
+            np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]], dtype=dtype), axis=0
+        ),
+        np.array([4.0, 5.0]),
+    )
+
+
+@pytest.mark.parametrize("dtype", DTYPES)
+def test_array_computation_model_mean_axis_1(dtype: np.dtype) -> None:
+    assert objects_are_equal(
+        ArrayComputationModel().mean(
+            np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]], dtype=dtype), axis=1
+        ),
+        np.array([2.0, 7.0]),
+    )
+
+
+@pytest.mark.parametrize("dtype", DTYPES)
+def test_array_computation_model_mean_axis_none(dtype: np.dtype) -> None:
+    assert objects_are_equal(
+        ArrayComputationModel().mean(np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]], dtype=dtype)),
+        np.float64(4.5),
+    )
+
+
+@pytest.mark.parametrize("dtype", DTYPES)
+def test_array_computation_model_mean_keepdims_true(dtype: np.dtype) -> None:
+    assert objects_are_equal(
+        ArrayComputationModel().mean(
+            np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]], dtype=dtype), axis=0, keepdims=True
+        ),
+        np.array([[4.0, 5.0]]),
+    )
+
+
 ##################
 #     median     #
 ##################

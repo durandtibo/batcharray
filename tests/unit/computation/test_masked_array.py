@@ -4,7 +4,7 @@ from typing import TYPE_CHECKING
 
 import numpy as np
 import pytest
-from coola import objects_are_equal
+from coola import objects_are_allclose, objects_are_equal
 
 from batcharray.computation import MaskedArrayComputationModel
 
@@ -272,6 +272,79 @@ def test_masked_array_computation_model_concatenate_dtype(dtype: np.dtype) -> No
                     [False, False, False],
                 ]
             ),
+        ),
+    )
+
+
+################
+#     mean     #
+################
+
+
+@pytest.mark.parametrize("dtype", DTYPES)
+def test_masked_array_computation_model_mean_axis_0(dtype: np.dtype) -> None:
+    assert objects_are_allclose(
+        MaskedArrayComputationModel().mean(
+            np.ma.masked_array(
+                data=np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]], dtype=dtype),
+                mask=np.array(
+                    [[False, False], [False, False], [True, False], [False, False], [True, False]]
+                ),
+            ),
+            axis=0,
+        ),
+        np.ma.masked_array(data=np.array([2.6666666666666665, 5.0]), mask=np.array([False, False])),
+    )
+
+
+@pytest.mark.parametrize("dtype", DTYPES)
+def test_masked_array_computation_model_mean_axis_1(dtype: np.dtype) -> None:
+    assert objects_are_allclose(
+        MaskedArrayComputationModel().mean(
+            np.ma.masked_array(
+                data=np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]], dtype=dtype),
+                mask=np.array(
+                    [[False, False, False, False, False], [False, False, True, False, True]]
+                ),
+            ),
+            axis=1,
+        ),
+        np.ma.masked_array(
+            data=np.array([2.0, 6.333333333333333]), mask=np.array([[False], [False]])
+        ),
+    )
+
+
+@pytest.mark.parametrize("dtype", DTYPES)
+def test_masked_array_computation_model_mean_axis_none(dtype: np.dtype) -> None:
+    assert objects_are_equal(
+        MaskedArrayComputationModel().mean(
+            np.ma.masked_array(
+                data=np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]], dtype=dtype),
+                mask=np.array(
+                    [[False, False, False, False, False], [False, False, True, False, True]]
+                ),
+            )
+        ),
+        np.float64(3.625),
+    )
+
+
+@pytest.mark.parametrize("dtype", DTYPES)
+def test_masked_array_computation_model_mean_keepdims_true(dtype: np.dtype) -> None:
+    assert objects_are_equal(
+        MaskedArrayComputationModel().mean(
+            np.ma.masked_array(
+                data=np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]], dtype=dtype),
+                mask=np.array(
+                    [[False, False], [False, False], [True, False], [False, False], [True, False]]
+                ),
+            ),
+            axis=0,
+            keepdims=True,
+        ),
+        np.ma.masked_array(
+            data=np.array([[2.6666666666666665, 5.0]]), mask=np.array([[False, False]])
         ),
     )
 
