@@ -9,6 +9,10 @@ __all__ = [
     "cumprod_along_seq",
     "cumsum_along_batch",
     "cumsum_along_seq",
+    "permute_along_batch",
+    "permute_along_seq",
+    "shuffle_along_batch",
+    "shuffle_along_seq",
     "take_along_batch",
     "take_along_seq",
     "tile_along_seq",
@@ -25,4 +29,10 @@ from batcharray.nested.math import (
     cumprod_along_seq,
     cumsum_along_batch,
     cumsum_along_seq,
+)
+from batcharray.nested.permutation import (
+    permute_along_batch,
+    permute_along_seq,
+    shuffle_along_batch,
+    shuffle_along_seq,
 )
