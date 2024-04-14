@@ -2,15 +2,18 @@ r"""Contain some functions to permute data in arrays."""
 
 from __future__ import annotations
 
-__all__ = ["permute_along_batch", "permute_along_seq"]
+__all__ = [
+    "permute_along_batch",
+    "permute_along_seq",
+    "shuffle_along_batch",
+    "shuffle_along_seq",
+]
 
 
-from typing import TYPE_CHECKING
+import numpy as np
 
 from batcharray.array.indexing import take_along_batch, take_along_seq
-
-if TYPE_CHECKING:
-    import numpy as np
+from batcharray.constants import BATCH_AXIS, SEQ_AXIS
 
 
 def permute_along_batch(array: np.ndarray, permutation: np.ndarray) -> np.ndarray:
@@ -98,3 +101,71 @@ def permute_along_seq(array: np.ndarray, permutation: np.ndarray) -> np.ndarray:
         )
         raise RuntimeError(msg)
     return take_along_seq(array, indices=permutation)
+
+
+def shuffle_along_batch(array: np.ndarray, rng: np.random.Generator | None = None) -> np.ndarray:
+    r"""Shuffle the array along the batch dimension.
+
+    Note:
+        This function assumes the batch dimension is the first
+            dimension.
+
+    Args:
+        array: The array to split.
+        rng: An optional random number generator.
+
+    Returns:
+        The shuffled array.
+
+    Example usage:
+
+    ```pycon
+    >>> import numpy as np
+    >>> from batcharray.array import shuffle_along_batch
+    >>> array = np.arange(10).reshape(5, 2)
+    >>> out = shuffle_along_batch(array)
+    >>> out
+    array([[...]])
+
+    ```
+    """
+    if rng is None:
+        rng = np.random.default_rng()
+    return permute_along_batch(
+        array=array,
+        permutation=rng.permutation(array.shape[BATCH_AXIS]),
+    )
+
+
+def shuffle_along_seq(array: np.ndarray, rng: np.random.Generator | None = None) -> np.ndarray:
+    r"""Shuffle the array along the batch dimension.
+
+    Note:
+        This function assumes the sequence dimension is the second
+            dimension.
+
+    Args:
+        array: The array to split.
+        rng: An optional random number generator.
+
+    Returns:
+        The shuffled array.
+
+    Example usage:
+
+    ```pycon
+    >>> import numpy as np
+    >>> from batcharray.array import shuffle_along_seq
+    >>> array = np.arange(10).reshape(2, 5)
+    >>> out = shuffle_along_seq(array)
+    >>> out
+    array([[...]])
+
+    ```
+    """
+    if rng is None:
+        rng = np.random.default_rng()
+    return permute_along_seq(
+        array=array,
+        permutation=rng.permutation(array.shape[SEQ_AXIS]),
+    )
