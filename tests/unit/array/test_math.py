@@ -98,7 +98,7 @@ def test_cumsum_along_batch_masked_array() -> None:
     assert objects_are_equal(
         cumsum_along_batch(
             np.ma.masked_array(
-                data=np.arange(10).reshape(5, 2),
+                data=np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]]),
                 mask=np.array(
                     [[False, False], [False, False], [False, True], [False, False], [True, False]]
                 ),
@@ -130,7 +130,7 @@ def test_cumsum_along_seq_masked_array() -> None:
     assert objects_are_equal(
         cumsum_along_seq(
             np.ma.masked_array(
-                data=np.arange(10).reshape(2, 5),
+                data=np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]]),
                 mask=np.array(
                     [[False, False, False, False, True], [False, False, True, False, False]]
                 ),

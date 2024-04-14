@@ -156,14 +156,14 @@ def test_tile_along_seq_reps_0() -> None:
 
 def test_tile_along_seq_reps_1() -> None:
     assert objects_are_equal(
-        tile_along_seq(np.arange(10).reshape(2, 5), reps=1),
+        tile_along_seq(np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]]), reps=1),
         np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]]),
     )
 
 
 def test_tile_along_seq_reps_2() -> None:
     assert objects_are_equal(
-        tile_along_seq(np.arange(10).reshape(2, 5), reps=2),
+        tile_along_seq(np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]]), reps=2),
         np.array([[0, 1, 2, 3, 4, 0, 1, 2, 3, 4], [5, 6, 7, 8, 9, 5, 6, 7, 8, 9]]),
     )
 
@@ -206,7 +206,7 @@ def test_tile_along_seq_masked_array() -> None:
     assert objects_are_equal(
         tile_along_seq(
             np.ma.masked_array(
-                data=np.arange(10).reshape(2, 5),
+                data=np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]]),
                 mask=np.array(
                     [[False, False, False, False, True], [False, False, True, False, False]]
                 ),
