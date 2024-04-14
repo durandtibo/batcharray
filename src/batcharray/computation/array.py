@@ -30,3 +30,8 @@ class ArrayComputationModel(BaseComputationModel[np.ndarray]):
         self, arrays: Sequence[np.ndarray], axis: int | None = None, *, dtype: DTypeLike = None
     ) -> np.ndarray:
         return np.concatenate(arrays, axis=axis, dtype=dtype)
+
+    def median(
+        self, arr: np.ndarray, axis: int | None = None, *, keepdims: bool = False
+    ) -> np.ndarray:
+        return np.median(arr, axis=axis, keepdims=keepdims)
