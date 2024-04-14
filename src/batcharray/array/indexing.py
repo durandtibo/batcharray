@@ -10,8 +10,8 @@ from batcharray.constants import BATCH_AXIS, SEQ_AXIS
 
 
 def take_along_batch(array: np.ndarray, indices: np.ndarray) -> np.ndarray:
-    r"""Return a new array which indiceses the input array along the
-    batch axis using the entries in ``indices``.
+    r"""Return a new array which index the input array along the batch
+    axis using the entries in ``indices``.
 
     Note:
         This function assumes the batch axis is the first axis.
