@@ -58,3 +58,44 @@ def concatenate(arrays: Sequence[T], axis: int | None = None, *, dtype: DTypeLik
     ```
     """
     return _comp_model.concatenate(arrays=arrays, axis=axis, dtype=dtype)
+
+
+def median(arr: T, axis: int | None = None, *, keepdims: bool = False) -> T:
+    r"""Return the median along the specified axis.
+
+    Args:
+        arr: The input array.
+        axis: Axis along which the medians are computed.
+            The default (``None``) is to compute the median along
+            a flattened version of the array.
+        keepdims: If this is set to True, the axes which are
+            reduced are left in the result as dimensions with size
+            one. With this option, the result will broadcast
+            correctly against the input array.
+
+    Returns:
+        A new array holding the result. If the input contains integers
+            or floats smaller than ``np.float64``, then the output
+            data-type is ``np.float64``. Otherwise, the data-type of
+            the output is the same as that of the input.
+
+    Example usage:
+
+    ```pycon
+
+    >>> import numpy as np
+    >>> from batcharray.computation import median
+    >>> array = np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]])
+    >>> out = median(array, axis=0)
+    >>> out
+    array([4., 5.])
+    >>> out = median(array, axis=1)
+    >>> out
+    array([0.5, 2.5, 4.5, 6.5, 8.5])
+    >>> out = median(array, axis=0, keepdims=True)
+    >>> out
+    array([[4., 5.]])
+
+    ```
+    """
+    return _comp_model.median(arr=arr, axis=axis, keepdims=keepdims)

@@ -17,7 +17,7 @@ if TYPE_CHECKING:
     from numpy._typing import DTypeLike
 
 
-class MaskedArrayComputationModel(BaseComputationModel[np.ndarray]):
+class MaskedArrayComputationModel(BaseComputationModel[np.ma.MaskedArray]):
     r"""Implement a computation model for ``numpy.ma.MaskedArray``s."""
 
     def __eq__(self, other: object) -> bool:
@@ -27,9 +27,18 @@ class MaskedArrayComputationModel(BaseComputationModel[np.ndarray]):
         return f"{self.__class__.__qualname__}()"
 
     def concatenate(
-        self, arrays: Sequence[np.ndarray], axis: int | None = None, *, dtype: DTypeLike = None
-    ) -> np.ndarray:
+        self,
+        arrays: Sequence[np.ma.MaskedArray],
+        axis: int | None = None,
+        *,
+        dtype: DTypeLike = None,
+    ) -> np.ma.MaskedArray:
         out = np.ma.concatenate(arrays, axis=axis)
         if dtype:
             out = np.ma.masked_array(data=out.data.astype(dtype), mask=out.mask)
         return out
+
+    def median(
+        self, arr: np.ma.MaskedArray, axis: int | None = None, *, keepdims: bool = False
+    ) -> np.ma.MaskedArray:
+        return np.ma.median(arr, axis=axis, keepdims=keepdims)
