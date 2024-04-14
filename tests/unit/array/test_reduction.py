@@ -180,7 +180,7 @@ def test_argmax_along_batch_masked_array() -> None:
                 ),
             )
         ),
-        np.ma.masked_array(data=np.array([3, 4]), mask=np.array([[False, False]])),
+        np.array([3, 4]),
     )
 
 
@@ -238,7 +238,7 @@ def test_argmin_along_batch_masked_array() -> None:
                 ),
             )
         ),
-        np.ma.masked_array(data=np.array([0, 0]), mask=np.array([[False, False]])),
+        np.array([0, 0]),
     )
 
 
@@ -388,7 +388,7 @@ def test_mean_along_seq_keepdims_true(dtype: np.dtype) -> None:
 def test_median_along_batch(dtype: np.dtype) -> None:
     assert objects_are_equal(
         median_along_batch(np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]], dtype=dtype)),
-        np.array([4, 5], dtype=np.float64),
+        np.array([4.0, 5.0]),
     )
 
 
@@ -398,7 +398,7 @@ def test_median_along_batch_keepdims_true(dtype: np.dtype) -> None:
         median_along_batch(
             np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]], dtype=dtype), keepdims=True
         ),
-        np.array([[4, 5]], dtype=np.float64),
+        np.array([[4.0, 5.0]]),
     )
 
 
@@ -412,7 +412,7 @@ def test_median_along_batch_masked_array() -> None:
                 ),
             )
         ),
-        np.ma.masked_array(data=np.array([2, 5]), mask=np.array([[False, False]])),
+        np.ma.masked_array(data=np.array([2.0, 5.0]), mask=np.array([[False, False]])),
     )
 
 
@@ -425,7 +425,7 @@ def test_median_along_batch_masked_array() -> None:
 def test_median_along_seq(dtype: np.dtype) -> None:
     assert objects_are_equal(
         median_along_seq(np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]], dtype=dtype)),
-        np.array([2, 7], dtype=np.float64),
+        np.array([2.0, 7.0]),
     )
 
 
@@ -433,7 +433,7 @@ def test_median_along_seq(dtype: np.dtype) -> None:
 def test_median_along_seq_keepdims_true(dtype: np.dtype) -> None:
     assert objects_are_equal(
         median_along_seq(np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]], dtype=dtype), keepdims=True),
-        np.array([[2], [7]], dtype=np.float64),
+        np.array([[2.0], [7.0]]),
     )
 
 
