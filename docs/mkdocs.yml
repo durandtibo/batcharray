@@ -27,8 +27,10 @@ nav:
   - User Guide:
       - uguide/array.md
   - Reference:
-      - refs/nested.md
       - refs/array.md
+      - refs/nested.md
+      - refs/recursive.md
+      - refs/utils.md
   - GitHub: https://github.com/durandtibo/batcharray
 
 repo_url: https://github.com/durandtibo/batcharray
