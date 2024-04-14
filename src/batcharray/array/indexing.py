@@ -29,7 +29,7 @@ def take_along_batch(array: np.ndarray, indices: np.ndarray) -> np.ndarray:
 
     >>> import numpy as np
     >>> from batcharray.array import take_along_batch
-    >>> array = np.arange(10).reshape(5, 2)
+    >>> array = np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]])
     >>> out = take_along_batch(array, np.array([2, 4]))
     >>> out
     array([[4, 5],
@@ -67,7 +67,7 @@ def take_along_seq(array: np.ndarray, indices: np.ndarray) -> np.ndarray:
 
     >>> import numpy as np
     >>> from batcharray.array import take_along_seq
-    >>> array = np.arange(10).reshape(2, 5)
+    >>> array = np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]])
     >>> out = take_along_seq(array, np.array([2, 4]))
     >>> out
     array([[2, 4],

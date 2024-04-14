@@ -174,28 +174,36 @@ def test_concatenate_along_seq_masked_array() -> None:
 
 def test_tile_along_seq_array_reps_0() -> None:
     assert objects_are_equal(
-        tile_along_seq(np.arange(10, dtype=np.float64).reshape(2, 5), reps=0),
+        tile_along_seq(np.array([[0.0, 1.0, 2.0, 3.0, 4.0], [5.0, 6.0, 7.0, 8.0, 9.0]]), reps=0),
         np.zeros((2, 0)),
     )
 
 
 def test_tile_along_seq_array_reps_1() -> None:
     assert objects_are_equal(
-        tile_along_seq(np.arange(10).reshape(2, 5), reps=1),
+        tile_along_seq(np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]]), reps=1),
         np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]]),
     )
 
 
 def test_tile_along_seq_array_reps_2() -> None:
     assert objects_are_equal(
-        tile_along_seq(np.arange(10).reshape(2, 5), reps=2),
+        tile_along_seq(np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]]), reps=2),
         np.array([[0, 1, 2, 3, 4, 0, 1, 2, 3, 4], [5, 6, 7, 8, 9, 5, 6, 7, 8, 9]]),
     )
 
 
 def test_tile_along_seq_array_reps_3d() -> None:
     assert objects_are_equal(
-        tile_along_seq(np.arange(20).reshape(2, 5, 2), reps=2),
+        tile_along_seq(
+            np.array(
+                [
+                    [[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]],
+                    [[10, 11], [12, 13], [14, 15], [16, 17], [18, 19]],
+                ]
+            ),
+            reps=2,
+        ),
         np.array(
             [
                 [
@@ -230,7 +238,8 @@ def test_tile_along_seq_array_reps_3d() -> None:
 def test_tile_along_seq_dict_reps_0() -> None:
     assert objects_are_equal(
         tile_along_seq(
-            {"a": np.arange(10).reshape(2, 5), "b": np.array([[4, 3, 2, 1, 0]])}, reps=0
+            {"a": np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]]), "b": np.array([[4, 3, 2, 1, 0]])},
+            reps=0,
         ),
         {"a": np.zeros((2, 0), dtype=np.int64), "b": np.zeros((1, 0), dtype=np.int64)},
     )
@@ -239,7 +248,8 @@ def test_tile_along_seq_dict_reps_0() -> None:
 def test_tile_along_seq_dict_reps_1() -> None:
     assert objects_are_equal(
         tile_along_seq(
-            {"a": np.arange(10).reshape(2, 5), "b": np.array([[4, 3, 2, 1, 0]])}, reps=1
+            {"a": np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]]), "b": np.array([[4, 3, 2, 1, 0]])},
+            reps=1,
         ),
         {
             "a": np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]]),
@@ -251,7 +261,8 @@ def test_tile_along_seq_dict_reps_1() -> None:
 def test_tile_along_seq_dict_reps_2() -> None:
     assert objects_are_equal(
         tile_along_seq(
-            {"a": np.arange(10).reshape(2, 5), "b": np.array([[4, 3, 2, 1, 0]])}, reps=2
+            {"a": np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]]), "b": np.array([[4, 3, 2, 1, 0]])},
+            reps=2,
         ),
         {
             "a": np.array([[0, 1, 2, 3, 4, 0, 1, 2, 3, 4], [5, 6, 7, 8, 9, 5, 6, 7, 8, 9]]),
@@ -263,7 +274,16 @@ def test_tile_along_seq_dict_reps_2() -> None:
 def test_tile_along_seq_dict_reps_3d() -> None:
     assert objects_are_equal(
         tile_along_seq(
-            {"a": np.arange(20).reshape(2, 5, 2), "b": np.array([[4, 3, 2, 1, 0]])}, reps=2
+            {
+                "a": np.array(
+                    [
+                        [[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]],
+                        [[10, 11], [12, 13], [14, 15], [16, 17], [18, 19]],
+                    ]
+                ),
+                "b": np.array([[4, 3, 2, 1, 0]]),
+            },
+            reps=2,
         ),
         {
             "a": np.array(
@@ -303,7 +323,7 @@ def test_tile_along_seq_dict_nested() -> None:
     assert objects_are_equal(
         tile_along_seq(
             {
-                "a": np.arange(10).reshape(2, 5),
+                "a": np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]]),
                 "b": np.ma.masked_array(
                     data=np.array([[4, 3, 2, 1, 0]]),
                     mask=np.array([[False, False, False, True, False]]),

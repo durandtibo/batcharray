@@ -26,7 +26,7 @@ def cumprod_along_batch(data: Any) -> Any:
             same batch size.
 
     Args:
-        data: The input data. Each item must be a array.
+        data: The input data. Each item must be an array.
 
     Returns:
         The cumulative product of elements of input in the batch
@@ -62,7 +62,7 @@ def cumprod_along_seq(data: Any) -> Any:
             same sequence size.
 
     Args:
-        data: The input data. Each item must be a array.
+        data: The input data. Each item must be an array.
 
     Returns:
         The cumulative product of elements of input in the sequence
@@ -96,7 +96,7 @@ def cumsum_along_batch(data: Any) -> Any:
             same batch size.
 
     Args:
-        data: The input data. Each item must be a array.
+        data: The input data. Each item must be an array.
 
     Returns:
         The cumulative sum of elements of input in the batch
@@ -108,7 +108,7 @@ def cumsum_along_batch(data: Any) -> Any:
 
     >>> import numpy as np
     >>> from batcharray.nested import cumsum_along_batch
-    >>> data = {"a": np.arange(10).reshape(5, 2), "b": np.array([4, 3, 2, 1, 0])}
+    >>> data = {"a": np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]]), "b": np.array([4, 3, 2, 1, 0])}
     >>> out = cumsum_along_batch(data)
     >>> out
     {'a': array([[ 0,  1], [ 2,  4], [ 6,  9], [12, 16], [20, 25]]),
@@ -129,7 +129,7 @@ def cumsum_along_seq(data: Any) -> Any:
             same sequence size.
 
     Args:
-        data: The input data. Each item must be a array.
+        data: The input data. Each item must be an array.
 
     Returns:
         The cumulative sum of elements of input in the sequence
@@ -141,7 +141,7 @@ def cumsum_along_seq(data: Any) -> Any:
 
     >>> import numpy as np
     >>> from batcharray.nested import cumsum_along_seq
-    >>> data = {'a': np.arange(10).reshape(2, 5), 'b': np.array([[4, 3, 2, 1, 0]])}
+    >>> data = {'a': np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]]), 'b': np.array([[4, 3, 2, 1, 0]])}
     >>> out = cumsum_along_seq(data)
     >>> out
     {'a': array([[ 0,  1,  3,  6, 10], [ 5, 11, 18, 26, 35]]),

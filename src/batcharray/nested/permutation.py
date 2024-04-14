@@ -44,7 +44,10 @@ def permute_along_batch(data: Any, permutation: np.ndarray) -> Any:
 
     >>> import numpy as np
     >>> from batcharray.nested import permute_along_batch
-    >>> data = {"a": np.arange(10).reshape(5, 2), "b": np.array([4, 3, 2, 1, 0])}
+    >>> data = {
+    ...     "a": np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]]),
+    ...     "b": np.array([4, 3, 2, 1, 0]),
+    ... }
     >>> out = permute_along_batch(data, np.array([2, 1, 3, 0, 4]))
     >>> out
     {'a': array([[4, 5], [2, 3], [6, 7], [0, 1], [8, 9]]), 'b': array([2, 3, 1, 4, 0])}
@@ -82,7 +85,7 @@ def permute_along_seq(data: Any, permutation: np.ndarray) -> Any:
 
     >>> import numpy as np
     >>> from batcharray.nested import permute_along_seq
-    >>> data = {"a": np.arange(10).reshape(2, 5), "b": np.array([[4, 3, 2, 1, 0]])}
+    >>> data = {"a": np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]]), "b": np.array([[4, 3, 2, 1, 0]])}
     >>> out = permute_along_seq(data, np.array([2, 1, 3, 0, 4]))
     >>> out
     {'a': array([[2, 1, 3, 0, 4], [7, 6, 8, 5, 9]]), 'b': array([[2, 3, 1, 4, 0]])}
@@ -114,7 +117,7 @@ def shuffle_along_batch(data: Any, rng: np.random.Generator | None = None) -> An
 
     >>> import numpy as np
     >>> from batcharray.nested import shuffle_along_batch
-    >>> data = {"a": np.arange(10).reshape(5, 2), "b": np.array([4, 3, 2, 1, 0])}
+    >>> data = {"a": np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]]), "b": np.array([4, 3, 2, 1, 0])}
     >>> out = shuffle_along_batch(data)
     >>> out
     {'a': array([[...]]), 'b': array([...])}
@@ -152,7 +155,7 @@ def shuffle_along_seq(data: Any, rng: np.random.Generator | None = None) -> Any:
 
     >>> import numpy as np
     >>> from batcharray.nested import shuffle_along_seq
-    >>> data = {"a": np.arange(10).reshape(2, 5), "b": np.array([[4, 3, 2, 1, 0]])}
+    >>> data = {"a": np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]]), "b": np.array([[4, 3, 2, 1, 0]])}
     >>> out = shuffle_along_seq(data)
     >>> out
     {'a': array([[...]]), 'b': array([[...]])}

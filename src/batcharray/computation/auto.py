@@ -68,7 +68,7 @@ class AutoComputationModel(BaseComputationModel[T]):
                 type.
             exist_ok: If ``False``, ``RuntimeError`` is raised if the
                 data type already exists. This parameter should be set
-                to ``True`` to overwrite the computation model for a array
+                to ``True`` to overwrite the computation model for an array
                 type.
 
         Raises:
