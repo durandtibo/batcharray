@@ -61,3 +61,63 @@
 </p>
 
 Functions to manipulate NumPy arrays
+
+## Documentation
+
+- [latest (stable)](https://durandtibo.github.io/batcharray/): documentation from the latest stable
+  release.
+- [main (unstable)](https://durandtibo.github.io/batcharray/main/): documentation associated to the
+  main branch of the repo. This documentation may contain a lot of work-in-progress/outdated/missing
+  parts.
+
+## Installation
+
+We highly recommend installing
+a [virtual environment](https://packaging.python.org/guides/installing-using-pip-and-virtual-environments/).
+`batcharray` can be installed from pip using the following command:
+
+```shell
+pip install batcharray
+```
+
+To make the package as slim as possible, only the minimal packages required to use `batcharray` are
+installed.
+To include all the dependencies, you can use the following command:
+
+```shell
+pip install batcharray[all]
+```
+
+Please check the [get started page](https://durandtibo.github.io/batcharray/get_started) to see how
+to install only some specific dependencies or other alternatives to install the library.
+The following is the corresponding `batcharray` versions and tested dependencies.
+
+| `batcharray` | `coola`      | `numpy`       | `python`      |
+|--------------|--------------|---------------|---------------|
+| `main`       | `>=0.1,<1.0` | `>=1.22,<2.0` | `>=3.9,<3.13` |
+
+<sup>*</sup> indicates an optional dependency
+
+## Contributing
+
+Please check the instructions in [CONTRIBUTING.md](.github/CONTRIBUTING.md).
+
+## Suggestions and Communication
+
+Everyone is welcome to contribute to the community.
+If you have any questions or suggestions, you can
+submit [Github Issues](https://github.com/durandtibo/batcharray/issues).
+We will reply to you as soon as possible. Thank you very much.
+
+## API stability
+
+:warning: While `batcharray` is in development stage, no API is guaranteed to be stable from one
+release to the next.
+In fact, it is very likely that the API will change multiple times before a stable 1.0.0 release.
+In practice, this means that upgrading `batcharray` to a new version will possibly break any code
+that was using the old version of `batcharray`.
+
+## License
+
+`batcharray` is licensed under BSD 3-Clause "New" or "Revised" license available
+in [LICENSE](LICENSE) file.
