@@ -154,6 +154,9 @@ class AutoComputationModel(BaseComputationModel[T]):
     def argmax(self, arr: T, axis: int | None = None, *, keepdims: bool = False) -> T:
         return self.find_computation_model(type(arr)).argmax(arr=arr, axis=axis, keepdims=keepdims)
 
+    def argmin(self, arr: T, axis: int | None = None, *, keepdims: bool = False) -> T:
+        return self.find_computation_model(type(arr)).argmin(arr=arr, axis=axis, keepdims=keepdims)
+
     def concatenate(
         self, arrays: Sequence[T], axis: int | None = None, *, dtype: DTypeLike = None
     ) -> T:

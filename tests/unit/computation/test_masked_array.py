@@ -99,6 +99,75 @@ def test_masked_array_computation_model_argmax_keepdims_true(dtype: np.dtype) ->
     )
 
 
+##################
+#     argmin     #
+##################
+
+
+@pytest.mark.parametrize("dtype", DTYPES)
+def test_masked_array_computation_model_argmin_axis_0(dtype: np.dtype) -> None:
+    assert objects_are_equal(
+        MaskedArrayComputationModel().argmin(
+            np.ma.masked_array(
+                data=np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]], dtype=dtype),
+                mask=np.array(
+                    [[True, False], [False, False], [True, False], [False, False], [False, False]]
+                ),
+            ),
+            axis=0,
+        ),
+        np.array([1, 0]),
+    )
+
+
+@pytest.mark.parametrize("dtype", DTYPES)
+def test_masked_array_computation_model_argmin_axis_1(dtype: np.dtype) -> None:
+    assert objects_are_equal(
+        MaskedArrayComputationModel().argmin(
+            np.ma.masked_array(
+                data=np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]], dtype=dtype),
+                mask=np.array(
+                    [[True, False, True, False, False], [False, False, False, False, False]]
+                ),
+            ),
+            axis=1,
+        ),
+        np.array([1, 0]),
+    )
+
+
+@pytest.mark.parametrize("dtype", DTYPES)
+def test_masked_array_computation_model_argmin_axis_none(dtype: np.dtype) -> None:
+    assert objects_are_equal(
+        MaskedArrayComputationModel().argmin(
+            np.ma.masked_array(
+                data=np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]], dtype=dtype),
+                mask=np.array(
+                    [[True, False, True, False, False], [False, False, False, False, False]]
+                ),
+            )
+        ),
+        np.int64(1),
+    )
+
+
+@pytest.mark.parametrize("dtype", DTYPES)
+def test_masked_array_computation_model_argmin_keepdims_true(dtype: np.dtype) -> None:
+    assert objects_are_equal(
+        MaskedArrayComputationModel().argmin(
+            np.ma.masked_array(
+                data=np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]], dtype=dtype),
+                mask=np.array(
+                    [[True, False], [False, False], [True, False], [False, False], [False, False]]
+                ),
+            ),
+            axis=0,
+            keepdims=True,
+        ),
+        np.array([[1, 0]]),
+    )
+
+
 #######################
 #     concatenate     #
 #######################

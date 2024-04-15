@@ -28,8 +28,13 @@ class MaskedArrayComputationModel(BaseComputationModel[np.ma.MaskedArray]):
 
     def argmax(
         self, arr: np.ma.MaskedArray, axis: int | None = None, *, keepdims: bool = False
-    ) -> np.ma.MaskedArray:
+    ) -> np.ndarray:
         return arr.argmax(axis=axis, keepdims=keepdims)
+
+    def argmin(
+        self, arr: np.ma.MaskedArray, axis: int | None = None, *, keepdims: bool = False
+    ) -> np.ndarray:
+        return arr.argmin(axis=axis, keepdims=keepdims)
 
     def concatenate(
         self,
