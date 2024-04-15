@@ -95,8 +95,184 @@ def test_auto_computation_model_concatenate() -> None:
 
 
 ##################
-#     mean     #
+#     argmax     #
 ##################
+
+
+@pytest.mark.parametrize("dtype", DTYPES)
+def test_auto_computation_model_argmax_axis_0(dtype: np.dtype) -> None:
+    assert objects_are_equal(
+        AutoComputationModel().argmax(
+            np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]], dtype=dtype), axis=0
+        ),
+        np.array([4, 4]),
+    )
+
+
+@pytest.mark.parametrize("dtype", DTYPES)
+def test_auto_computation_argmax_axis_1(dtype: np.dtype) -> None:
+    assert objects_are_equal(
+        AutoComputationModel().argmax(
+            np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]], dtype=dtype), axis=1
+        ),
+        np.array([4, 4]),
+    )
+
+
+@pytest.mark.parametrize("dtype", DTYPES)
+def test_auto_computation_argmax_axis_none(dtype: np.dtype) -> None:
+    assert objects_are_equal(
+        AutoComputationModel().argmax(np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]], dtype=dtype)),
+        np.int64(9),
+    )
+
+
+@pytest.mark.parametrize("dtype", DTYPES)
+def test_auto_computation_argmax_keepdims_true(dtype: np.dtype) -> None:
+    assert objects_are_equal(
+        AutoComputationModel().argmax(
+            np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]], dtype=dtype), axis=0, keepdims=True
+        ),
+        np.array([[4, 4]]),
+    )
+
+
+@pytest.mark.parametrize("dtype", DTYPES)
+def test_auto_computation_argmax_masked_array(dtype: np.dtype) -> None:
+    assert objects_are_equal(
+        AutoComputationModel().argmax(
+            np.ma.masked_array(
+                data=np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]], dtype=dtype),
+                mask=np.array(
+                    [[False, False], [False, False], [True, False], [False, False], [True, False]]
+                ),
+            ),
+            axis=0,
+        ),
+        np.array([3, 4]),
+    )
+
+
+##################
+#     argmin     #
+##################
+
+
+@pytest.mark.parametrize("dtype", DTYPES)
+def test_auto_computation_model_argmin_axis_0(dtype: np.dtype) -> None:
+    assert objects_are_equal(
+        AutoComputationModel().argmin(
+            np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]], dtype=dtype), axis=0
+        ),
+        np.array([0, 0]),
+    )
+
+
+@pytest.mark.parametrize("dtype", DTYPES)
+def test_auto_computation_argmin_axis_1(dtype: np.dtype) -> None:
+    assert objects_are_equal(
+        AutoComputationModel().argmin(
+            np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]], dtype=dtype), axis=1
+        ),
+        np.array([0, 0]),
+    )
+
+
+@pytest.mark.parametrize("dtype", DTYPES)
+def test_auto_computation_argmin_axis_none(dtype: np.dtype) -> None:
+    assert objects_are_equal(
+        AutoComputationModel().argmin(np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]], dtype=dtype)),
+        np.int64(0),
+    )
+
+
+@pytest.mark.parametrize("dtype", DTYPES)
+def test_auto_computation_argmin_keepdims_true(dtype: np.dtype) -> None:
+    assert objects_are_equal(
+        AutoComputationModel().argmin(
+            np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]], dtype=dtype), axis=0, keepdims=True
+        ),
+        np.array([[0, 0]]),
+    )
+
+
+@pytest.mark.parametrize("dtype", DTYPES)
+def test_auto_computation_argmin_masked_array(dtype: np.dtype) -> None:
+    assert objects_are_equal(
+        AutoComputationModel().argmin(
+            np.ma.masked_array(
+                data=np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]], dtype=dtype),
+                mask=np.array(
+                    [[True, False], [False, False], [True, False], [False, False], [False, False]]
+                ),
+            ),
+            axis=0,
+        ),
+        np.array([1, 0]),
+    )
+
+
+###############
+#     max     #
+###############
+
+
+@pytest.mark.parametrize("dtype", DTYPES)
+def test_auto_computation_model_max_axis_0(dtype: np.dtype) -> None:
+    assert objects_are_equal(
+        AutoComputationModel().max(
+            np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]], dtype=dtype), axis=0
+        ),
+        np.array([8, 9], dtype=dtype),
+    )
+
+
+@pytest.mark.parametrize("dtype", DTYPES)
+def test_auto_computation_max_axis_1(dtype: np.dtype) -> None:
+    assert objects_are_equal(
+        AutoComputationModel().max(
+            np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]], dtype=dtype), axis=1
+        ),
+        np.array([4, 9], dtype=dtype),
+    )
+
+
+@pytest.mark.parametrize("dtype", DTYPES)
+def test_auto_computation_max_axis_none(dtype: np.dtype) -> None:
+    assert (
+        AutoComputationModel().max(np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]], dtype=dtype)) == 9
+    )
+
+
+@pytest.mark.parametrize("dtype", DTYPES)
+def test_auto_computation_max_keepdims_true(dtype: np.dtype) -> None:
+    assert objects_are_equal(
+        AutoComputationModel().max(
+            np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]], dtype=dtype), axis=0, keepdims=True
+        ),
+        np.array([[8, 9]], dtype=dtype),
+    )
+
+
+@pytest.mark.parametrize("dtype", DTYPES)
+def test_auto_computation_max_masked_array(dtype: np.dtype) -> None:
+    assert objects_are_allclose(
+        AutoComputationModel().max(
+            np.ma.masked_array(
+                data=np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]], dtype=dtype),
+                mask=np.array(
+                    [[False, False], [False, False], [True, False], [False, False], [True, False]]
+                ),
+            ),
+            axis=0,
+        ),
+        np.ma.masked_array(data=np.array([6, 9], dtype=dtype), mask=np.array([False, False])),
+    )
+
+
+################
+#     mean     #
+################
 
 
 @pytest.mark.parametrize("dtype", DTYPES)
@@ -209,4 +385,62 @@ def test_auto_computation_median_masked_array(dtype: np.dtype) -> None:
             axis=0,
         ),
         np.ma.masked_array(data=np.array([2.0, 5.0]), mask=np.array([False, False])),
+    )
+
+
+###############
+#     min     #
+###############
+
+
+@pytest.mark.parametrize("dtype", DTYPES)
+def test_auto_computation_model_min_axis_0(dtype: np.dtype) -> None:
+    assert objects_are_equal(
+        AutoComputationModel().min(
+            np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]], dtype=dtype), axis=0
+        ),
+        np.array([0, 1], dtype=dtype),
+    )
+
+
+@pytest.mark.parametrize("dtype", DTYPES)
+def test_auto_computation_min_axis_1(dtype: np.dtype) -> None:
+    assert objects_are_equal(
+        AutoComputationModel().min(
+            np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]], dtype=dtype), axis=1
+        ),
+        np.array([0, 5], dtype=dtype),
+    )
+
+
+@pytest.mark.parametrize("dtype", DTYPES)
+def test_auto_computation_min_axis_none(dtype: np.dtype) -> None:
+    assert (
+        AutoComputationModel().min(np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]], dtype=dtype)) == 0
+    )
+
+
+@pytest.mark.parametrize("dtype", DTYPES)
+def test_auto_computation_min_keepdims_true(dtype: np.dtype) -> None:
+    assert objects_are_equal(
+        AutoComputationModel().min(
+            np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]], dtype=dtype), axis=0, keepdims=True
+        ),
+        np.array([[0, 1]], dtype=dtype),
+    )
+
+
+@pytest.mark.parametrize("dtype", DTYPES)
+def test_auto_computation_min_masked_array(dtype: np.dtype) -> None:
+    assert objects_are_allclose(
+        AutoComputationModel().min(
+            np.ma.masked_array(
+                data=np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]], dtype=dtype),
+                mask=np.array(
+                    [[True, False], [False, False], [True, False], [False, False], [False, False]]
+                ),
+            ),
+            axis=0,
+        ),
+        np.ma.masked_array(data=np.array([2, 1], dtype=dtype), mask=np.array([False, False])),
     )

@@ -151,6 +151,12 @@ class AutoComputationModel(BaseComputationModel[T]):
         msg = f"Incorrect array type: {array_type}"
         raise TypeError(msg)
 
+    def argmax(self, arr: T, axis: int | None = None, *, keepdims: bool = False) -> T:
+        return self.find_computation_model(type(arr)).argmax(arr=arr, axis=axis, keepdims=keepdims)
+
+    def argmin(self, arr: T, axis: int | None = None, *, keepdims: bool = False) -> T:
+        return self.find_computation_model(type(arr)).argmin(arr=arr, axis=axis, keepdims=keepdims)
+
     def concatenate(
         self, arrays: Sequence[T], axis: int | None = None, *, dtype: DTypeLike = None
     ) -> T:
@@ -158,11 +164,17 @@ class AutoComputationModel(BaseComputationModel[T]):
             arrays=arrays, axis=axis, dtype=dtype
         )
 
+    def max(self, arr: T, axis: int | None = None, *, keepdims: bool = False) -> T:
+        return self.find_computation_model(type(arr)).max(arr=arr, axis=axis, keepdims=keepdims)
+
     def mean(self, arr: T, axis: int | None = None, *, keepdims: bool = False) -> T:
         return self.find_computation_model(type(arr)).mean(arr=arr, axis=axis, keepdims=keepdims)
 
     def median(self, arr: T, axis: int | None = None, *, keepdims: bool = False) -> T:
         return self.find_computation_model(type(arr)).median(arr=arr, axis=axis, keepdims=keepdims)
+
+    def min(self, arr: T, axis: int | None = None, *, keepdims: bool = False) -> T:
+        return self.find_computation_model(type(arr)).min(arr=arr, axis=axis, keepdims=keepdims)
 
 
 def register_computation_models() -> None:

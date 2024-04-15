@@ -26,10 +26,25 @@ class ArrayComputationModel(BaseComputationModel[np.ndarray]):
     def __repr__(self) -> str:
         return f"{self.__class__.__qualname__}()"
 
+    def argmax(
+        self, arr: np.ndarray, axis: int | None = None, *, keepdims: bool = False
+    ) -> np.ndarray:
+        return arr.argmax(axis=axis, keepdims=keepdims)
+
+    def argmin(
+        self, arr: np.ndarray, axis: int | None = None, *, keepdims: bool = False
+    ) -> np.ndarray:
+        return arr.argmin(axis=axis, keepdims=keepdims)
+
     def concatenate(
         self, arrays: Sequence[np.ndarray], axis: int | None = None, *, dtype: DTypeLike = None
     ) -> np.ndarray:
         return np.concatenate(arrays, axis=axis, dtype=dtype)
+
+    def max(
+        self, arr: np.ndarray, axis: int | None = None, *, keepdims: bool = False
+    ) -> np.ndarray:
+        return np.max(arr, axis=axis, keepdims=keepdims)
 
     def mean(
         self, arr: np.ndarray, axis: int | None = None, *, keepdims: bool = False
@@ -40,3 +55,8 @@ class ArrayComputationModel(BaseComputationModel[np.ndarray]):
         self, arr: np.ndarray, axis: int | None = None, *, keepdims: bool = False
     ) -> np.ndarray:
         return np.median(arr, axis=axis, keepdims=keepdims)
+
+    def min(
+        self, arr: np.ndarray, axis: int | None = None, *, keepdims: bool = False
+    ) -> np.ndarray:
+        return np.min(arr, axis=axis, keepdims=keepdims)
