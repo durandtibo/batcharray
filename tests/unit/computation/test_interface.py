@@ -162,6 +162,58 @@ def test_concatenate_masked_array_axis_0() -> None:
 
 
 ################
+#     max     #
+################
+
+
+@pytest.mark.parametrize("dtype", DTYPES)
+def test_max_axis_0(dtype: np.dtype) -> None:
+    assert objects_are_equal(
+        cmpt.max(np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]], dtype=dtype), axis=0),
+        np.array([8, 9], dtype=dtype),
+    )
+
+
+@pytest.mark.parametrize("dtype", DTYPES)
+def test_max_axis_1(dtype: np.dtype) -> None:
+    assert objects_are_equal(
+        cmpt.max(np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]], dtype=dtype), axis=1),
+        np.array([4, 9], dtype=dtype),
+    )
+
+
+@pytest.mark.parametrize("dtype", DTYPES)
+def test_max_axis_none(dtype: np.dtype) -> None:
+    assert cmpt.max(np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]], dtype=dtype)) == 9
+
+
+@pytest.mark.parametrize("dtype", DTYPES)
+def test_max_keepdims_true(dtype: np.dtype) -> None:
+    assert objects_are_equal(
+        cmpt.max(
+            np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]], dtype=dtype), axis=0, keepdims=True
+        ),
+        np.array([[8, 9]], dtype=dtype),
+    )
+
+
+@pytest.mark.parametrize("dtype", DTYPES)
+def test_max_masked_array(dtype: np.dtype) -> None:
+    assert objects_are_equal(
+        cmpt.max(
+            np.ma.masked_array(
+                data=np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]], dtype=dtype),
+                mask=np.array(
+                    [[False, False], [False, False], [True, False], [False, False], [True, False]]
+                ),
+            ),
+            axis=0,
+        ),
+        np.ma.masked_array(data=np.array([6, 9], dtype=dtype), mask=np.array([False, False])),
+    )
+
+
+################
 #     mean     #
 ################
 

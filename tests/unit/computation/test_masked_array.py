@@ -414,6 +414,75 @@ def test_masked_array_computation_model_concatenate_dtype(dtype: np.dtype) -> No
     )
 
 
+###############
+#     max     #
+###############
+
+
+@pytest.mark.parametrize("dtype", DTYPES)
+def test_masked_array_computation_model_max_axis_0(dtype: np.dtype) -> None:
+    assert objects_are_allclose(
+        MaskedArrayComputationModel().max(
+            np.ma.masked_array(
+                data=np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]], dtype=dtype),
+                mask=np.array(
+                    [[False, False], [False, False], [True, False], [False, False], [True, False]]
+                ),
+            ),
+            axis=0,
+        ),
+        np.ma.masked_array(data=np.array([6, 9], dtype=dtype), mask=np.array([False, False])),
+    )
+
+
+@pytest.mark.parametrize("dtype", DTYPES)
+def test_masked_array_computation_model_max_axis_1(dtype: np.dtype) -> None:
+    assert objects_are_allclose(
+        MaskedArrayComputationModel().max(
+            np.ma.masked_array(
+                data=np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]], dtype=dtype),
+                mask=np.array(
+                    [[False, False, False, False, False], [False, False, True, False, True]]
+                ),
+            ),
+            axis=1,
+        ),
+        np.ma.masked_array(data=np.array([4, 8], dtype=dtype), mask=np.array([[False], [False]])),
+    )
+
+
+@pytest.mark.parametrize("dtype", DTYPES)
+def test_masked_array_computation_model_max_axis_none(dtype: np.dtype) -> None:
+    assert (
+        MaskedArrayComputationModel().max(
+            np.ma.masked_array(
+                data=np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]], dtype=dtype),
+                mask=np.array(
+                    [[False, False, False, False, False], [False, False, True, False, True]]
+                ),
+            )
+        )
+        == 8
+    )
+
+
+@pytest.mark.parametrize("dtype", DTYPES)
+def test_masked_array_computation_model_max_keepdims_true(dtype: np.dtype) -> None:
+    assert objects_are_equal(
+        MaskedArrayComputationModel().max(
+            np.ma.masked_array(
+                data=np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]], dtype=dtype),
+                mask=np.array(
+                    [[False, False], [False, False], [True, False], [False, False], [True, False]]
+                ),
+            ),
+            axis=0,
+            keepdims=True,
+        ),
+        np.ma.masked_array(data=np.array([[6, 9]], dtype=dtype), mask=np.array([[False, False]])),
+    )
+
+
 ################
 #     mean     #
 ################

@@ -41,6 +41,11 @@ class ArrayComputationModel(BaseComputationModel[np.ndarray]):
     ) -> np.ndarray:
         return np.concatenate(arrays, axis=axis, dtype=dtype)
 
+    def max(
+        self, arr: np.ndarray, axis: int | None = None, *, keepdims: bool = False
+    ) -> np.ndarray:
+        return np.max(arr, axis=axis, keepdims=keepdims)
+
     def mean(
         self, arr: np.ndarray, axis: int | None = None, *, keepdims: bool = False
     ) -> np.ndarray:
