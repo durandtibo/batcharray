@@ -264,3 +264,41 @@ class BaseComputationModel(ABC, Generic[T]):
 
         ```
         """
+
+    @abstractmethod
+    def min(self, arr: T, axis: int | None = None, *, keepdims: bool = False) -> T:
+        r"""Return the minimum along the specified axis.
+
+        Args:
+            arr: The input array.
+            axis: Axis along which the minimum values are computed.
+                The default (``None``) is to compute the minimum along
+                a flattened version of the array.
+            keepdims: If this is set to True, the axes which are
+                reduced are left in the result as dimensions with size
+                one. With this option, the result will broadcast
+                correctly against the input array.
+
+        Returns:
+            The minimum of the input array along the given axis.
+
+        Example usage:
+
+        ```pycon
+
+        >>> import numpy as np
+        >>> from batcharray.computation import ArrayComputationModel
+        >>> comp_model = ArrayComputationModel()
+        >>> array = np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]])
+        >>> out = comp_model.min(array, axis=0)
+        >>> out
+        array([0, 1])
+        >>> out = comp_model.min(array, axis=1)
+        >>> out
+        array([0, 2, 4, 6, 8])
+        >>> out = comp_model.min(array, axis=0, keepdims=True)
+        >>> out
+        array([[0, 1]])
+
+        ```
+        """

@@ -62,3 +62,8 @@ class MaskedArrayComputationModel(BaseComputationModel[np.ma.MaskedArray]):
         self, arr: np.ma.MaskedArray, axis: int | None = None, *, keepdims: bool = False
     ) -> np.ma.MaskedArray:
         return np.ma.median(arr, axis=axis, keepdims=keepdims)
+
+    def min(
+        self, arr: np.ma.MaskedArray, axis: int | None = None, *, keepdims: bool = False
+    ) -> np.ma.MaskedArray:
+        return np.ma.min(arr, axis=axis, keepdims=keepdims)
