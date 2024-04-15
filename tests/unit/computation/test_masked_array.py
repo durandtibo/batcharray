@@ -623,3 +623,72 @@ def test_masked_array_computation_model_median_keepdims_true(dtype: np.dtype) ->
         ),
         np.ma.masked_array(data=np.array([[2.0, 5.0]]), mask=np.array([[False, False]])),
     )
+
+
+###############
+#     min     #
+###############
+
+
+@pytest.mark.parametrize("dtype", DTYPES)
+def test_masked_array_computation_model_min_axis_0(dtype: np.dtype) -> None:
+    assert objects_are_allclose(
+        MaskedArrayComputationModel().min(
+            np.ma.masked_array(
+                data=np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]], dtype=dtype),
+                mask=np.array(
+                    [[True, False], [False, False], [True, False], [False, False], [False, False]]
+                ),
+            ),
+            axis=0,
+        ),
+        np.ma.masked_array(data=np.array([2, 1], dtype=dtype), mask=np.array([False, False])),
+    )
+
+
+@pytest.mark.parametrize("dtype", DTYPES)
+def test_masked_array_computation_model_min_axis_1(dtype: np.dtype) -> None:
+    assert objects_are_allclose(
+        MaskedArrayComputationModel().min(
+            np.ma.masked_array(
+                data=np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]], dtype=dtype),
+                mask=np.array(
+                    [[False, False, False, False, False], [True, False, False, True, False]]
+                ),
+            ),
+            axis=1,
+        ),
+        np.ma.masked_array(data=np.array([0, 6], dtype=dtype), mask=np.array([[False], [False]])),
+    )
+
+
+@pytest.mark.parametrize("dtype", DTYPES)
+def test_masked_array_computation_model_min_axis_none(dtype: np.dtype) -> None:
+    assert (
+        MaskedArrayComputationModel().min(
+            np.ma.masked_array(
+                data=np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]], dtype=dtype),
+                mask=np.array(
+                    [[False, False, False, False, False], [True, False, False, True, False]]
+                ),
+            )
+        )
+        == 0
+    )
+
+
+@pytest.mark.parametrize("dtype", DTYPES)
+def test_masked_array_computation_model_min_keepdims_true(dtype: np.dtype) -> None:
+    assert objects_are_equal(
+        MaskedArrayComputationModel().min(
+            np.ma.masked_array(
+                data=np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]], dtype=dtype),
+                mask=np.array(
+                    [[True, False], [False, False], [True, False], [False, False], [False, False]]
+                ),
+            ),
+            axis=0,
+            keepdims=True,
+        ),
+        np.ma.masked_array(data=np.array([[2, 1]], dtype=dtype), mask=np.array([[False, False]])),
+    )

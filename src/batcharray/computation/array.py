@@ -55,3 +55,8 @@ class ArrayComputationModel(BaseComputationModel[np.ndarray]):
         self, arr: np.ndarray, axis: int | None = None, *, keepdims: bool = False
     ) -> np.ndarray:
         return np.median(arr, axis=axis, keepdims=keepdims)
+
+    def min(
+        self, arr: np.ndarray, axis: int | None = None, *, keepdims: bool = False
+    ) -> np.ndarray:
+        return np.min(arr, axis=axis, keepdims=keepdims)

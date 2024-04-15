@@ -13,6 +13,7 @@ __all__ = [
     "max",
     "mean",
     "median",
+    "min",
     "register_computation_models",
 ]
 
@@ -29,6 +30,7 @@ from batcharray.computation.interface import (
     max,
     mean,
     median,
+    min,
 )
 from batcharray.computation.masked_array import MaskedArrayComputationModel
 

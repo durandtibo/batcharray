@@ -2,7 +2,7 @@ r"""Contain public functions."""
 
 from __future__ import annotations
 
-__all__ = ["argmax", "argmin", "concatenate", "max", "mean", "median"]
+__all__ = ["argmax", "argmin", "concatenate", "max", "mean", "median", "min"]
 
 from typing import TYPE_CHECKING, TypeVar
 
@@ -258,3 +258,41 @@ def median(arr: T, axis: int | None = None, *, keepdims: bool = False) -> T:
     ```
     """
     return _comp_model.median(arr=arr, axis=axis, keepdims=keepdims)
+
+
+def min(arr: T, axis: int | None = None, *, keepdims: bool = False) -> T:  # noqa: A001
+    r"""Return the minimum along the specified axis.
+
+    Args:
+        arr: The input array.
+        axis: Axis along which the minimum values are computed.
+            The default (``None``) is to compute the minimum along
+            a flattened version of the array.
+        keepdims: If this is set to True, the axes which are
+            reduced are left in the result as dimensions with size
+            one. With this option, the result will broadcast
+            correctly against the input array.
+
+    Returns:
+        The minimum of the input array along the given axis.
+
+    Example usage:
+
+    ```pycon
+
+    >>> import numpy as np
+    >>> from batcharray.computation import min
+    >>> array = np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]])
+    >>> out = min(array, axis=0)
+    >>> out
+    array([0, 1])
+    >>> out = min(array, axis=1)
+    >>> out
+    array([0, 2, 4, 6, 8])
+    >>> out = min(array, axis=0, keepdims=True)
+    >>> out
+    array([[0, 1]])
+
+    ```
+    """
+    return _comp_model.min(arr=arr, axis=axis, keepdims=keepdims)

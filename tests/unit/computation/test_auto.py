@@ -386,3 +386,61 @@ def test_auto_computation_median_masked_array(dtype: np.dtype) -> None:
         ),
         np.ma.masked_array(data=np.array([2.0, 5.0]), mask=np.array([False, False])),
     )
+
+
+###############
+#     min     #
+###############
+
+
+@pytest.mark.parametrize("dtype", DTYPES)
+def test_auto_computation_model_min_axis_0(dtype: np.dtype) -> None:
+    assert objects_are_equal(
+        AutoComputationModel().min(
+            np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]], dtype=dtype), axis=0
+        ),
+        np.array([0, 1], dtype=dtype),
+    )
+
+
+@pytest.mark.parametrize("dtype", DTYPES)
+def test_auto_computation_min_axis_1(dtype: np.dtype) -> None:
+    assert objects_are_equal(
+        AutoComputationModel().min(
+            np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]], dtype=dtype), axis=1
+        ),
+        np.array([0, 5], dtype=dtype),
+    )
+
+
+@pytest.mark.parametrize("dtype", DTYPES)
+def test_auto_computation_min_axis_none(dtype: np.dtype) -> None:
+    assert (
+        AutoComputationModel().min(np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]], dtype=dtype)) == 0
+    )
+
+
+@pytest.mark.parametrize("dtype", DTYPES)
+def test_auto_computation_min_keepdims_true(dtype: np.dtype) -> None:
+    assert objects_are_equal(
+        AutoComputationModel().min(
+            np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]], dtype=dtype), axis=0, keepdims=True
+        ),
+        np.array([[0, 1]], dtype=dtype),
+    )
+
+
+@pytest.mark.parametrize("dtype", DTYPES)
+def test_auto_computation_min_masked_array(dtype: np.dtype) -> None:
+    assert objects_are_allclose(
+        AutoComputationModel().min(
+            np.ma.masked_array(
+                data=np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]], dtype=dtype),
+                mask=np.array(
+                    [[True, False], [False, False], [True, False], [False, False], [False, False]]
+                ),
+            ),
+            axis=0,
+        ),
+        np.ma.masked_array(data=np.array([2, 1], dtype=dtype), mask=np.array([False, False])),
+    )
