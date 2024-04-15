@@ -196,7 +196,7 @@ def argmax_along_batch(array: np.ndarray, keepdims: bool = False) -> np.ndarray:
 
     ```
     """
-    return np.argmax(array, axis=BATCH_AXIS, keepdims=keepdims)
+    return cmpt.argmax(array, axis=BATCH_AXIS, keepdims=keepdims)
 
 
 def argmax_along_seq(array: np.ndarray, keepdims: bool = False) -> np.ndarray:
@@ -231,7 +231,7 @@ def argmax_along_seq(array: np.ndarray, keepdims: bool = False) -> np.ndarray:
 
     ```
     """
-    return np.argmax(array, axis=SEQ_AXIS, keepdims=keepdims)
+    return cmpt.argmax(array, axis=SEQ_AXIS, keepdims=keepdims)
 
 
 def argmin_along_batch(array: np.ndarray, keepdims: bool = False) -> np.ndarray:
@@ -266,7 +266,7 @@ def argmin_along_batch(array: np.ndarray, keepdims: bool = False) -> np.ndarray:
 
     ```
     """
-    return np.argmin(array, axis=BATCH_AXIS, keepdims=keepdims)
+    return cmpt.argmin(array, axis=BATCH_AXIS, keepdims=keepdims)
 
 
 def argmin_along_seq(array: np.ndarray, keepdims: bool = False) -> np.ndarray:
@@ -301,7 +301,7 @@ def argmin_along_seq(array: np.ndarray, keepdims: bool = False) -> np.ndarray:
 
     ```
     """
-    return np.argmin(array, axis=SEQ_AXIS, keepdims=keepdims)
+    return cmpt.argmin(array, axis=SEQ_AXIS, keepdims=keepdims)
 
 
 def max_along_batch(array: np.ndarray, keepdims: bool = False) -> np.ndarray:
@@ -334,7 +334,7 @@ def max_along_batch(array: np.ndarray, keepdims: bool = False) -> np.ndarray:
 
     ```
     """
-    return np.max(array, axis=BATCH_AXIS, keepdims=keepdims)
+    return cmpt.max(array, axis=BATCH_AXIS, keepdims=keepdims)
 
 
 def max_along_seq(array: np.ndarray, keepdims: bool = False) -> np.ndarray:
@@ -367,7 +367,7 @@ def max_along_seq(array: np.ndarray, keepdims: bool = False) -> np.ndarray:
 
     ```
     """
-    return np.max(array, axis=SEQ_AXIS, keepdims=keepdims)
+    return cmpt.max(array, axis=SEQ_AXIS, keepdims=keepdims)
 
 
 def mean_along_batch(array: np.ndarray, keepdims: bool = False) -> np.ndarray:
@@ -538,7 +538,7 @@ def min_along_batch(array: np.ndarray, keepdims: bool = False) -> np.ndarray:
 
     ```
     """
-    return np.min(array, axis=BATCH_AXIS, keepdims=keepdims)
+    return cmpt.min(array, axis=BATCH_AXIS, keepdims=keepdims)
 
 
 def min_along_seq(array: np.ndarray, keepdims: bool = False) -> np.ndarray:
@@ -571,7 +571,7 @@ def min_along_seq(array: np.ndarray, keepdims: bool = False) -> np.ndarray:
 
     ```
     """
-    return np.min(array, axis=SEQ_AXIS, keepdims=keepdims)
+    return cmpt.min(array, axis=SEQ_AXIS, keepdims=keepdims)
 
 
 def prod_along_batch(array: np.ndarray, keepdims: bool = False) -> np.ndarray:
