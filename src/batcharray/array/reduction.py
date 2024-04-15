@@ -315,7 +315,7 @@ def max_along_batch(array: np.ndarray, keepdims: bool = False) -> np.ndarray:
         keepdims: Whether the output array has dim retained or not.
 
     Returns:
-        The minimum of the input array along the batch axis.
+        The maximum of the input array along the batch axis.
 
     Example usage:
 
