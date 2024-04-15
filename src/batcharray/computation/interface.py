@@ -2,7 +2,7 @@ r"""Contain public functions."""
 
 from __future__ import annotations
 
-__all__ = ["concatenate", "mean", "median"]
+__all__ = ["argmax", "concatenate", "mean", "median"]
 
 from typing import TYPE_CHECKING, TypeVar
 
@@ -19,6 +19,46 @@ T = TypeVar("T", bound=np.ndarray)
 
 
 _comp_model = AutoComputationModel()
+
+
+def argmax(arr: T, axis: int | None = None, *, keepdims: bool = False) -> T:
+    r"""Return the array of indices of the maximum values along the given
+    axis.
+
+    Args:
+        arr: The input array.
+        axis: Axis along which the argmax are computed.
+            The default (``None``) is to compute the argmax along
+            a flattened version of the array.
+        keepdims: If this is set to True, the axes which are
+            reduced are left in the result as dimensions with size
+            one. With this option, the result will broadcast
+            correctly against the input array.
+
+    Returns:
+        The array of indices of the maximum values along the given
+            axis.
+
+    Example usage:
+
+    ```pycon
+
+    >>> import numpy as np
+    >>> from batcharray.computation import argmax
+    >>> array = np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]])
+    >>> out = argmax(array, axis=0)
+    >>> out
+    array([4, 4])
+    >>> out = argmax(array, axis=1)
+    >>> out
+    array([1, 1, 1, 1, 1])
+    >>> out = argmax(array, axis=0, keepdims=True)
+    >>> out
+    array([[4, 4]])
+
+    ```
+    """
+    return _comp_model.argmax(arr=arr, axis=axis, keepdims=keepdims)
 
 
 def concatenate(arrays: Sequence[T], axis: int | None = None, *, dtype: DTypeLike = None) -> T:
