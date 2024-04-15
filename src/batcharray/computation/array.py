@@ -31,6 +31,11 @@ class ArrayComputationModel(BaseComputationModel[np.ndarray]):
     ) -> np.ndarray:
         return arr.argmax(axis=axis, keepdims=keepdims)
 
+    def argmin(
+        self, arr: np.ndarray, axis: int | None = None, *, keepdims: bool = False
+    ) -> np.ndarray:
+        return arr.argmin(axis=axis, keepdims=keepdims)
+
     def concatenate(
         self, arrays: Sequence[np.ndarray], axis: int | None = None, *, dtype: DTypeLike = None
     ) -> np.ndarray:

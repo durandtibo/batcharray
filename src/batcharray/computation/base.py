@@ -65,6 +65,46 @@ class BaseComputationModel(ABC, Generic[T]):
         """
 
     @abstractmethod
+    def argmin(self, arr: T, axis: int | None = None, *, keepdims: bool = False) -> T:
+        r"""Return the array of indices of the minimum values along the
+        given axis.
+
+        Args:
+            arr: The input array.
+            axis: Axis along which the argmin are computed.
+                The default (``None``) is to compute the argmin along
+                a flattened version of the array.
+            keepdims: If this is set to True, the axes which are
+                reduced are left in the result as dimensions with size
+                one. With this option, the result will broadcast
+                correctly against the input array.
+
+        Returns:
+            The array of indices of the minimum values along the given
+                axis.
+
+        Example usage:
+
+        ```pycon
+
+        >>> import numpy as np
+        >>> from batcharray.computation import ArrayComputationModel
+        >>> comp_model = ArrayComputationModel()
+        >>> array = np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]])
+        >>> out = comp_model.argmin(array, axis=0)
+        >>> out
+        array([0, 0])
+        >>> out = comp_model.argmin(array, axis=1)
+        >>> out
+        array([0, 0, 0, 0, 0])
+        >>> out = comp_model.argmin(array, axis=0, keepdims=True)
+        >>> out
+        array([[0, 0]])
+
+        ```
+        """
+
+    @abstractmethod
     def concatenate(
         self, arrays: Sequence[T], axis: int | None = None, *, dtype: DTypeLike = None
     ) -> T:
