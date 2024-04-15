@@ -51,13 +51,7 @@ def test_take_along_batch_masked_array() -> None:
             np.ma.masked_array(
                 np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]]),
                 np.array(
-                    [
-                        [False, False],
-                        [False, False],
-                        [True, False],
-                        [False, False],
-                        [True, False],
-                    ]
+                    [[False, False], [False, False], [True, False], [False, False], [True, False]]
                 ),
             ),
             np.array([2, 4]),
