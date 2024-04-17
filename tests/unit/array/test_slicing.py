@@ -14,8 +14,6 @@ from batcharray.array import (
     split_along_seq,
 )
 
-INDEX_DTYPES = [np.int32, np.int64, np.uint32]
-
 #######################################
 #     Tests for chunk_along_batch     #
 #######################################
