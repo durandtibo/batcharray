@@ -45,6 +45,29 @@ def test_chunk_along_batch_chunks_5() -> None:
     )
 
 
+def test_chunk_along_batch_masked_array() -> None:
+    assert objects_are_equal(
+        chunk_along_batch(
+            np.ma.masked_array(
+                data=np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]]),
+                mask=np.array(
+                    [[False, False], [False, False], [False, True], [False, False], [False, True]]
+                ),
+            ),
+            chunks=3,
+        ),
+        [
+            np.ma.masked_array(
+                data=np.array([[0, 1], [2, 3]]), mask=np.array([[False, False], [False, False]])
+            ),
+            np.ma.masked_array(
+                data=np.array([[4, 5], [6, 7]]), mask=np.array([[False, True], [False, False]])
+            ),
+            np.ma.masked_array(data=np.array([[8, 9]]), mask=np.array([[False, True]])),
+        ],
+    )
+
+
 #####################################
 #     Tests for chunk_along_seq     #
 #####################################
@@ -74,6 +97,29 @@ def test_chunk_along_seq_chunks_5() -> None:
     )
 
 
+def test_chunk_along_seq_masked_array() -> None:
+    assert objects_are_equal(
+        chunk_along_seq(
+            np.ma.masked_array(
+                data=np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]]),
+                mask=np.array(
+                    [[False, False, False, False, False], [False, False, True, False, True]]
+                ),
+            ),
+            chunks=3,
+        ),
+        [
+            np.ma.masked_array(
+                data=np.array([[0, 1], [5, 6]]), mask=np.array([[False, False], [False, False]])
+            ),
+            np.ma.masked_array(
+                data=np.array([[2, 3], [7, 8]]), mask=np.array([[False, False], [True, False]])
+            ),
+            np.ma.masked_array(data=np.array([[4], [9]]), mask=np.array([[False], [True]])),
+        ],
+    )
+
+
 ########################################
 #     Tests for select_along_batch     #
 ########################################
@@ -93,6 +139,21 @@ def test_select_along_batch_index_2() -> None:
     )
 
 
+def test_select_along_batch_masked_array() -> None:
+    assert objects_are_equal(
+        select_along_batch(
+            np.ma.masked_array(
+                data=np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]]),
+                mask=np.array(
+                    [[False, False], [False, False], [False, True], [False, False], [False, True]]
+                ),
+            ),
+            index=2,
+        ),
+        np.ma.masked_array(data=np.array([4, 5]), mask=np.array([False, True])),
+    )
+
+
 ######################################
 #     Tests for select_along_seq     #
 ######################################
@@ -109,6 +170,21 @@ def test_select_along_seq_index_2() -> None:
     assert objects_are_equal(
         select_along_seq(np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]]), index=2),
         np.array([2, 7]),
+    )
+
+
+def test_select_along_seq_masked_array() -> None:
+    assert objects_are_equal(
+        select_along_seq(
+            np.ma.masked_array(
+                data=np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]]),
+                mask=np.array(
+                    [[False, False, False, False, False], [False, False, True, False, True]]
+                ),
+            ),
+            index=2,
+        ),
+        np.ma.masked_array(data=np.array([2, 7]), mask=np.array([False, True])),
     )
 
 
@@ -161,6 +237,26 @@ def test_slice_along_batch_start_1_stop_4_step_2() -> None:
     )
 
 
+def test_slice_along_batch_masked_array() -> None:
+    assert objects_are_equal(
+        slice_along_batch(
+            np.ma.masked_array(
+                data=np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]]),
+                mask=np.array(
+                    [[False, False], [False, False], [False, True], [False, False], [False, True]]
+                ),
+            ),
+            start=1,
+            stop=4,
+            step=2,
+        ),
+        np.ma.masked_array(
+            data=np.array([[2, 3], [6, 7]]),
+            mask=np.array([[False, False], [False, False]]),
+        ),
+    )
+
+
 #####################################
 #     Tests for slice_along_seq     #
 #####################################
@@ -205,6 +301,25 @@ def test_slice_along_seq_start_1_stop_4_step_2() -> None:
     assert objects_are_equal(
         slice_along_seq(np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]]), start=1, stop=4, step=2),
         np.array([[1, 3], [6, 8]]),
+    )
+
+
+def test_slice_along_seq_masked_array() -> None:
+    assert objects_are_equal(
+        slice_along_seq(
+            np.ma.masked_array(
+                data=np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]]),
+                mask=np.array(
+                    [[False, False, False, False, False], [False, False, True, False, True]]
+                ),
+            ),
+            start=1,
+            stop=4,
+            step=2,
+        ),
+        np.ma.masked_array(
+            data=np.array([[1, 3], [6, 8]]), mask=np.array([[False, False], [False, False]])
+        ),
     )
 
 
@@ -254,6 +369,29 @@ def test_split_along_batch_split_size_list() -> None:
     )
 
 
+def test_split_along_batch_masked_array() -> None:
+    assert objects_are_equal(
+        split_along_batch(
+            np.ma.masked_array(
+                data=np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]]),
+                mask=np.array(
+                    [[False, False], [False, False], [False, True], [False, False], [False, True]]
+                ),
+            ),
+            split_size_or_sections=2,
+        ),
+        [
+            np.ma.masked_array(
+                data=np.array([[0, 1], [2, 3]]), mask=np.array([[False, False], [False, False]])
+            ),
+            np.ma.masked_array(
+                data=np.array([[4, 5], [6, 7]]), mask=np.array([[False, True], [False, False]])
+            ),
+            np.ma.masked_array(data=np.array([[8, 9]]), mask=np.array([[False, True]])),
+        ],
+    )
+
+
 #####################################
 #     Tests for split_along_seq     #
 #####################################
@@ -292,5 +430,28 @@ def test_split_along_seq_split_size_list() -> None:
             np.array([[0, 1], [5, 6]]),
             np.array([[2, 3], [7, 8]]),
             np.array([[4], [9]]),
+        ],
+    )
+
+
+def test_split_along_seq_masked_array() -> None:
+    assert objects_are_equal(
+        split_along_seq(
+            np.ma.masked_array(
+                data=np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]]),
+                mask=np.array(
+                    [[False, False, False, False, False], [False, False, True, False, True]]
+                ),
+            ),
+            split_size_or_sections=2,
+        ),
+        [
+            np.ma.masked_array(
+                data=np.array([[0, 1], [5, 6]]), mask=np.array([[False, False], [False, False]])
+            ),
+            np.ma.masked_array(
+                data=np.array([[2, 3], [7, 8]]), mask=np.array([[False, False], [True, False]])
+            ),
+            np.ma.masked_array(data=np.array([[4], [9]]), mask=np.array([[False], [True]])),
         ],
     )
