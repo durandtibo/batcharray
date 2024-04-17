@@ -11,6 +11,8 @@ __all__ = [
     "argmax_along_seq",
     "argmin_along_batch",
     "argmin_along_seq",
+    "chunk_along_batch",
+    "chunk_along_seq",
     "concatenate_along_batch",
     "concatenate_along_seq",
     "cumprod_along_batch",
@@ -29,6 +31,8 @@ __all__ = [
     "permute_along_seq",
     "prod_along_batch",
     "prod_along_seq",
+    "select_along_batch",
+    "select_along_seq",
     "shuffle_along_batch",
     "shuffle_along_seq",
     "sum_along_batch",
@@ -77,4 +81,10 @@ from batcharray.array.reduction import (
     prod_along_seq,
     sum_along_batch,
     sum_along_seq,
+)
+from batcharray.array.slicing import (
+    chunk_along_batch,
+    chunk_along_seq,
+    select_along_batch,
+    select_along_seq,
 )
