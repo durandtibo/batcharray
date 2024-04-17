@@ -64,9 +64,50 @@
 
 `batcharray` is lightweight library built on top of [NumPy](https://numpy.org/doc/stable/index.html)
 to manipulate nested data structure with NumPy arrays.
-This library provides functions for arrays where the first dimension is the batch dimension.
-It also provides functions for arrays representing a batch of sequences where the first dimension
-is the batch dimension and the second dimension is the sequence dimension.
+This library provides functions for arrays where the first axis is the batch axis.
+It also provides functions for arrays representing a batch of sequences where the first axis
+is the batch axis and the second axis is the sequence axis.
+
+## Motivation
+
+Let's imagine you have a batch which is represented by a dictionary with three arrays, and you want
+to take the first 2 items.
+`batcharray` provides the function `slice_along_batch` that allows to slide all the arrays:
+
+```pycon
+
+>>> import numpy as np
+>>> from batcharray.nested import slice_along_batch
+>>> batch = {
+...     "a": np.array([[2, 6], [0, 3], [4, 9], [8, 1], [5, 7]]),
+...     "b": np.array([4, 3, 2, 1, 0]),
+...     "c": np.array([1.0, 2.0, 3.0, 4.0, 5.0]),
+... }
+>>> slice_along_batch(batch, stop=2)
+{'a': array([[2, 6], [0, 3]]), 'b': array([4, 3]), 'c': array([1., 2.])}
+
+```
+
+Similarly, it is possible to split a batch in multiple batches by using the
+function `split_along_batch`:
+
+```pycon
+
+>>> import numpy as np
+>>> from batcharray.nested import split_along_batch
+>>> batch = {
+...     "a": np.array([[2, 6], [0, 3], [4, 9], [8, 1], [5, 7]]),
+...     "b": np.array([4, 3, 2, 1, 0]),
+...     "c": np.array([1.0, 2.0, 3.0, 4.0, 5.0]),
+... }
+>>> split_along_batch(batch, split_size_or_sections=2)
+[{'a': array([[2, 6], [0, 3]]), 'b': array([4, 3]), 'c': array([1., 2.])},
+ {'a': array([[4, 9], [8, 1]]), 'b': array([2, 1]), 'c': array([3., 4.])},
+ {'a': array([[5, 7]]), 'b': array([0]), 'c': array([5.])}]
+
+```
+
+Please check the documentation to see all the implemented functions.
 
 ## API stability
 
