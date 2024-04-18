@@ -28,7 +28,7 @@ def arccos(data: Any) -> Any:
     r"""Return new arrays with the inverse cosine of each element.
 
     Args:
-        data: The input data. Each item must be a array.
+        data: The input data. Each item must be an array .
 
     Returns:
         The inverse cosine of the elements. The output has the same
@@ -55,7 +55,7 @@ def arccosh(data: Any) -> Any:
     element.
 
     Args:
-        data: The input data. Each item must be a array.
+        data: The input data. Each item must be an array .
 
     Returns:
         The inverse hyperbolic cosine of the elements. The output has
@@ -81,7 +81,7 @@ def arcsin(data: Any) -> Any:
     r"""Return new arrays with the arcsine of each element.
 
     Args:
-        data: The input data. Each item must be a array.
+        data: The input data. Each item must be an array .
 
     Returns:
         The arcsine of the elements. The output has the same
@@ -108,7 +108,7 @@ def arcsinh(data: Any) -> Any:
     element.
 
     Args:
-        data: The input data. Each item must be a array.
+        data: The input data. Each item must be an array .
 
     Returns:
         The inverse hyperbolic sine of the elements. The output has
@@ -134,7 +134,7 @@ def arctan(data: Any) -> Any:
     r"""Return new arrays with the arctangent of each element.
 
     Args:
-        data: The input data. Each item must be a array.
+        data: The input data. Each item must be an array .
 
     Returns:
         The arctangent of the elements. The output has the same
@@ -161,7 +161,7 @@ def arctanh(data: Any) -> Any:
     element.
 
     Args:
-        data: The input data. Each item must be a array.
+        data: The input data. Each item must be an array .
 
     Returns:
         The inverse hyperbolic tangent of the elements. The output has
@@ -187,7 +187,7 @@ def cos(data: Any) -> Any:
     r"""Return new arrays with the cosine of each element.
 
     Args:
-        data: The input data. Each item must be a array.
+        data: The input data. Each item must be an array .
 
     Returns:
         The cosine of the elements. The output has the same
@@ -213,7 +213,7 @@ def cosh(data: Any) -> Any:
     r"""Return new arrays with the hyperbolic cosine of each element.
 
     Args:
-        data: The input data. Each item must be a array.
+        data: The input data. Each item must be an array .
 
     Returns:
         The inverse cosine of the elements. The output has
@@ -239,7 +239,7 @@ def sin(data: Any) -> Any:
     r"""Return new arrays with the sine of each element.
 
     Args:
-        data: The input data. Each item must be a array.
+        data: The input data. Each item must be an array .
 
     Returns:
         The sine of the elements. The output has the same
@@ -265,7 +265,7 @@ def sinh(data: Any) -> Any:
     r"""Return new arrays with the hyperbolic sine of each element.
 
     Args:
-        data: The input data. Each item must be a array.
+        data: The input data. Each item must be an array .
 
     Returns:
         The hyperbolic sine of the elements. The output has
@@ -291,7 +291,7 @@ def tan(data: Any) -> Any:
     r"""Return new arrays with the tangent of each element.
 
     Args:
-        data: The input data. Each item must be a array.
+        data: The input data. Each item must be an array .
 
     Returns:
         The tangent of the elements. The output has the same
@@ -317,7 +317,7 @@ def tanh(data: Any) -> Any:
     r"""Return new arrays with the hyperbolic tangent of each element.
 
     Args:
-        data: The input data. Each item must be a array.
+        data: The input data. Each item must be an array .
 
     Returns:
         The hyperbolic tangent of the elements. The output has

@@ -107,7 +107,7 @@ def shuffle_along_batch(array: np.ndarray, rng: np.random.Generator | None = Non
     r"""Shuffle the array along the batch dimension.
 
     Note:
-        This function assumes the batch dimension is the first
+        This function assumes the batch axis is the first
             dimension.
 
     Args:
@@ -141,7 +141,7 @@ def shuffle_along_seq(array: np.ndarray, rng: np.random.Generator | None = None)
     r"""Shuffle the array along the batch dimension.
 
     Note:
-        This function assumes the sequence dimension is the second
+        This function assumes the sequence axis is the second
             dimension.
 
     Args:
