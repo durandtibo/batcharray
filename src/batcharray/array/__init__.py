@@ -11,6 +11,8 @@ __all__ = [
     "argmax_along_seq",
     "argmin_along_batch",
     "argmin_along_seq",
+    "argsort_along_batch",
+    "argsort_along_seq",
     "chunk_along_batch",
     "chunk_along_seq",
     "concatenate_along_batch",
@@ -37,6 +39,8 @@ __all__ = [
     "shuffle_along_seq",
     "slice_along_batch",
     "slice_along_seq",
+    "sort_along_batch",
+    "sort_along_seq",
     "split_along_batch",
     "split_along_seq",
     "sum_along_batch",
@@ -46,6 +50,12 @@ __all__ = [
     "tile_along_seq",
 ]
 
+from batcharray.array.comparison import (
+    argsort_along_batch,
+    argsort_along_seq,
+    sort_along_batch,
+    sort_along_seq,
+)
 from batcharray.array.indexing import take_along_batch, take_along_seq
 from batcharray.array.joining import (
     concatenate_along_batch,
