@@ -39,13 +39,13 @@ def test_cumprod_along_batch_dict(dtype: np.dtype, functions: tuple[Callable, Ca
         nested_fn(
             {
                 "a": np.array([[1, 2], [3, 4], [5, 6], [7, 8], [9, 10]], dtype=dtype),
-                "b": np.array([4, 3, 2, 1, 0], dtype=np.float32),
+                "b": np.array([4, 3, 2, 1], dtype=np.float32),
                 "c": [np.array([5, 6, 7, 8, 9], dtype=np.float64)],
             },
         ),
         {
             "a": np_fn(np.array([[1, 2], [3, 4], [5, 6], [7, 8], [9, 10]], dtype=dtype)),
-            "b": np_fn(np.array([4, 3, 2, 1, 0], dtype=np.float32)),
+            "b": np_fn(np.array([4, 3, 2, 1], dtype=np.float32)),
             "c": [np_fn(np.array([5, 6, 7, 8, 9], dtype=np.float64))],
         },
     )

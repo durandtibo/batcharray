@@ -14,7 +14,7 @@ SortKind = Literal["quicksort", "mergesort", "heapsort", "stable"]
 
 
 def argsort_along_batch(array: np.ndarray, kind: SortKind | None = None) -> np.ndarray:
-    r"""Return the indices that sort a array along the batch axis in
+    r"""Return the indices that sort an array  along the batch axis in
     ascending order by value.
 
     Note:
@@ -50,7 +50,7 @@ def argsort_along_batch(array: np.ndarray, kind: SortKind | None = None) -> np.n
 
 
 def argsort_along_seq(array: np.ndarray, kind: SortKind | None = None) -> np.ndarray:
-    r"""Return the indices that sort a array along the sequence axis in
+    r"""Return the indices that sort an array  along the sequence axis in
     ascending order by value.
 
     Note:

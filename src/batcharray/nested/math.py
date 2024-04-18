@@ -21,8 +21,8 @@ def cumprod_along_batch(data: Any) -> Any:
     dimension.
 
     Note:
-        This function assumes the batch dimension is the first
-            dimension of the arrays. All the arrays should have the
+        This function assumes the batch axis is the first
+            axis of the arrays. All the arrays should have the
             same batch size.
 
     Args:
@@ -57,8 +57,8 @@ def cumprod_along_seq(data: Any) -> Any:
     sequence dimension.
 
     Note:
-        This function assumes the sequence dimension is the second
-            dimension of the arrays. All the arrays should have the
+        This function assumes the sequence axis is the second
+            axis of the arrays. All the arrays should have the
             same sequence size.
 
     Args:
@@ -91,8 +91,8 @@ def cumsum_along_batch(data: Any) -> Any:
     dimension.
 
     Note:
-        This function assumes the batch dimension is the first
-            dimension of the arrays. All the arrays should have the
+        This function assumes the batch axis is the first
+            axis of the arrays. All the arrays should have the
             same batch size.
 
     Args:
@@ -124,8 +124,8 @@ def cumsum_along_seq(data: Any) -> Any:
     dimension.
 
     Note:
-        This function assumes the sequence dimension is the second
-            dimension of the arrays. All the arrays should have the
+        This function assumes the sequence axis is the second
+            axis of the arrays. All the arrays should have the
             same sequence size.
 
     Args:

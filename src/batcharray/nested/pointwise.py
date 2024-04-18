@@ -26,7 +26,7 @@ def abs(data: Any) -> Any:  # noqa: A001
     r"""Return new arrays with the absolute value of each element.
 
     Args:
-        data: The input data. Each item must be a array.
+        data: The input data. Each item must be an array .
 
     Returns:
         The absolute value of the elements. The output has the same
@@ -55,7 +55,7 @@ def clip(data: Any, a_min: float | None = None, a_max: float | None = None) -> A
     r"""Clamp all elements in input into the range ``[min, max]``.
 
     Args:
-        data: The input data. Each item must be a array.
+        data: The input data. Each item must be an array .
         a_min: The lower-bound of the range to be clamped to.
         a_max: The upper-bound of the range to be clamped to.
 
@@ -86,7 +86,7 @@ def exp(data: Any) -> Any:
     r"""Return new arrays with the exponential of the elements.
 
     Args:
-        data: The input data. Each item must be a array.
+        data: The input data. Each item must be an array .
 
     Returns:
         The exponential of the elements. The output has the same
@@ -115,7 +115,7 @@ def exp2(data: Any) -> Any:
     r"""Return new arrays with the base two exponential of the elements.
 
     Args:
-        data: The input data. Each item must be a array.
+        data: The input data. Each item must be an array .
 
     Returns:
         The base two exponential of the elements. The output has the
@@ -144,7 +144,7 @@ def expm1(data: Any) -> Any:
     r"""Return new arrays with the exponential of the elements minus 1.
 
     Args:
-        data: The input data. Each item must be a array.
+        data: The input data. Each item must be an array .
 
     Returns:
         The exponential of the elements minus 1. The output has the
@@ -173,7 +173,7 @@ def log(data: Any) -> Any:
     r"""Return new arrays with the natural logarithm of the elements.
 
     Args:
-        data: The input data. Each item must be a array.
+        data: The input data. Each item must be an array .
 
     Returns:
         The natural logarithm of the elements. The output has the same
@@ -203,7 +203,7 @@ def log2(data: Any) -> Any:
     elements.
 
     Args:
-        data: The input data. Each item must be a array.
+        data: The input data. Each item must be an array .
 
     Returns:
         The logarithm to the base 2 of the elements. The output has
@@ -233,7 +233,7 @@ def log10(data: Any) -> Any:
     elements.
 
     Args:
-        data: The input data. Each item must be a array.
+        data: The input data. Each item must be an array .
 
     Returns:
         The with the logarithm to the base 10 of the elements. The
@@ -262,7 +262,7 @@ def log1p(data: Any) -> Any:
     r"""Return new arrays with the natural logarithm of ``(1 + input)``.
 
     Args:
-        data: The input data. Each item must be a array.
+        data: The input data. Each item must be an array .
 
     Returns:
         The natural logarithm of ``(1 + input)``. The output has the
