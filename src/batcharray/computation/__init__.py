@@ -14,6 +14,7 @@ __all__ = [
     "mean",
     "median",
     "min",
+    "sort",
     "register_computation_models",
 ]
 
@@ -31,6 +32,7 @@ from batcharray.computation.interface import (
     mean,
     median,
     min,
+    sort,
 )
 from batcharray.computation.masked_array import MaskedArrayComputationModel
 

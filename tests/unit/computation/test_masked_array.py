@@ -692,3 +692,108 @@ def test_masked_array_computation_model_min_keepdims_true(dtype: np.dtype) -> No
         ),
         np.ma.masked_array(data=np.array([[2, 1]], dtype=dtype), mask=np.array([[False, False]])),
     )
+
+
+################
+#     sort     #
+################
+
+
+@pytest.mark.parametrize("dtype", DTYPES)
+def test_masked_array_computation_model_sort_axis_0(dtype: np.dtype) -> None:
+    assert objects_are_equal(
+        MaskedArrayComputationModel().sort(
+            np.ma.masked_array(
+                data=np.array([[3, 5, 0, 2, 4], [4, 7, 8, 8, 5], [8, 5, 8, 8, 0]], dtype=dtype),
+                mask=np.array(
+                    [
+                        [False, False, False, False, True],
+                        [False, False, False, True, False],
+                        [False, False, True, False, False],
+                    ]
+                ),
+            ),
+            axis=0,
+        ),
+        np.ma.masked_array(
+            data=np.array([[3, 5, 0, 2, 0], [4, 5, 8, 8, 5], [8, 7, 8, 8, 4]], dtype=dtype),
+            mask=np.array(
+                [
+                    [False, False, False, False, False],
+                    [False, False, False, False, False],
+                    [False, False, True, True, True],
+                ]
+            ),
+        ),
+    )
+
+
+@pytest.mark.parametrize("dtype", DTYPES)
+def test_masked_array_computation_model_sort_axis_1(dtype: np.dtype) -> None:
+    assert objects_are_equal(
+        MaskedArrayComputationModel().sort(
+            np.ma.masked_array(
+                data=np.array([[3, 5, 0, 2, 4], [4, 7, 8, 8, 5], [8, 5, 8, 8, 0]], dtype=dtype),
+                mask=np.array(
+                    [
+                        [False, False, False, False, True],
+                        [False, False, False, True, False],
+                        [False, False, True, False, False],
+                    ]
+                ),
+            ),
+            axis=1,
+        ),
+        np.ma.masked_array(
+            data=np.array([[0, 2, 3, 5, 4], [4, 5, 7, 8, 8], [0, 5, 8, 8, 8]], dtype=dtype),
+            mask=np.array(
+                [
+                    [False, False, False, False, True],
+                    [False, False, False, False, True],
+                    [False, False, False, False, True],
+                ]
+            ),
+        ),
+    )
+
+
+@pytest.mark.parametrize("dtype", DTYPES)
+def test_masked_array_computation_model_sort_axis_none(dtype: np.dtype) -> None:
+    assert objects_are_equal(
+        MaskedArrayComputationModel().sort(
+            np.ma.masked_array(
+                data=np.array([[3, 5, 0, 2, 4], [4, 7, 8, 8, 5], [8, 5, 8, 8, 0]], dtype=dtype),
+                mask=np.array(
+                    [
+                        [False, False, False, False, True],
+                        [False, False, False, True, False],
+                        [False, False, True, False, False],
+                    ]
+                ),
+            )
+        ),
+        np.ma.masked_array(
+            data=np.array([0, 0, 2, 3, 4, 5, 5, 5, 7, 8, 8, 8, 4, 8, 8], dtype=dtype),
+            mask=np.array(
+                [
+                    [
+                        False,
+                        False,
+                        False,
+                        False,
+                        False,
+                        False,
+                        False,
+                        False,
+                        False,
+                        False,
+                        False,
+                        False,
+                        True,
+                        True,
+                        True,
+                    ],
+                ]
+            ),
+        ),
+    )

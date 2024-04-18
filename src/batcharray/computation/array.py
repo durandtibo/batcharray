@@ -9,12 +9,12 @@ from typing import TYPE_CHECKING
 
 import numpy as np
 
-from batcharray.computation.base import BaseComputationModel
+from batcharray.computation.base import BaseComputationModel, SortKind
 
 if TYPE_CHECKING:
     from collections.abc import Sequence
 
-    from numpy._typing import DTypeLike
+    from numpy.typing import DTypeLike
 
 
 class ArrayComputationModel(BaseComputationModel[np.ndarray]):
@@ -60,3 +60,8 @@ class ArrayComputationModel(BaseComputationModel[np.ndarray]):
         self, arr: np.ndarray, axis: int | None = None, *, keepdims: bool = False
     ) -> np.ndarray:
         return np.min(arr, axis=axis, keepdims=keepdims)
+
+    def sort(
+        self, arr: np.ndarray, axis: int | None = None, *, kind: SortKind | None = None
+    ) -> np.ndarray:
+        return np.sort(arr, axis=axis, kind=kind)

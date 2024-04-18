@@ -9,7 +9,7 @@ from typing import TYPE_CHECKING
 
 import numpy as np
 
-from batcharray.computation.base import BaseComputationModel
+from batcharray.computation.base import BaseComputationModel, SortKind
 
 if TYPE_CHECKING:
     from collections.abc import Sequence
@@ -67,3 +67,8 @@ class MaskedArrayComputationModel(BaseComputationModel[np.ma.MaskedArray]):
         self, arr: np.ma.MaskedArray, axis: int | None = None, *, keepdims: bool = False
     ) -> np.ma.MaskedArray:
         return np.ma.min(arr, axis=axis, keepdims=keepdims)
+
+    def sort(
+        self, arr: np.ma.MaskedArray, axis: int | None = None, *, kind: SortKind | None = None
+    ) -> np.ndarray:
+        return np.ma.sort(arr, axis=axis, kind=kind)
