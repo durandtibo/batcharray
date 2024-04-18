@@ -2,7 +2,7 @@ r"""Contain public functions."""
 
 from __future__ import annotations
 
-__all__ = ["argmax", "argmin", "concatenate", "max", "mean", "median", "min"]
+__all__ = ["argmax", "argmin", "concatenate", "max", "mean", "median", "min", "sort"]
 
 from typing import TYPE_CHECKING, TypeVar
 
@@ -14,6 +14,8 @@ if TYPE_CHECKING:
     from collections.abc import Sequence
 
     from numpy.typing import DTypeLike
+
+    from batcharray.computation.base import SortKind
 
 T = TypeVar("T", bound=np.ndarray)
 
@@ -296,3 +298,45 @@ def min(arr: T, axis: int | None = None, *, keepdims: bool = False) -> T:  # noq
     ```
     """
     return _comp_model.min(arr=arr, axis=axis, keepdims=keepdims)
+
+
+def sort(arr: T, axis: int | None = None, *, kind: SortKind | None = None) -> T:
+    r"""Sort the elements of the input array along the batch axis in
+    ascending order by value.
+
+    Args:
+        arr: The input array.
+        axis: Axis along which the minimum values are computed.
+            The default (``None``) is to compute the minimum along
+            a flattened version of the array.
+        kind: Sorting algorithm. The default is `quicksort`.
+            Note that both `stable` and `mergesort` use timsort
+            under the covers and, in general, the actual
+            implementation will vary with datatype.
+            The `mergesort` option is retained for backwards
+            compatibility.
+
+    Returns:
+        The minimum of the input array along the given axis.
+
+    Example usage:
+
+    ```pycon
+
+    >>> import numpy as np
+    >>> from batcharray.computation import sort
+    >>> array = np.array([[3, 5, 0, 2, 4], [4, 7, 8, 8, 5], [8, 5, 8, 8, 0]])
+    >>> out = sort(array, axis=0)
+    >>> out
+    array([[3, 5, 0, 2, 0],
+           [4, 5, 8, 8, 4],
+           [8, 7, 8, 8, 5]])
+    >>> out = sort(array, axis=1)
+    >>> out
+    array([[0, 2, 3, 4, 5],
+           [4, 5, 7, 8, 8],
+           [0, 5, 8, 8, 8]])
+
+    ```
+    """
+    return _comp_model.sort(arr=arr, axis=axis, kind=kind)

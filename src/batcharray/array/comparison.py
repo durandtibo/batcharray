@@ -4,13 +4,14 @@ from __future__ import annotations
 
 __all__ = ["argsort_along_batch", "argsort_along_seq", "sort_along_batch", "sort_along_seq"]
 
-from typing import Literal
+from typing import TYPE_CHECKING
 
 import numpy as np
 
 from batcharray.constants import BATCH_AXIS, SEQ_AXIS
 
-SortKind = Literal["quicksort", "mergesort", "heapsort", "stable"]
+if TYPE_CHECKING:
+    from batcharray.computation.base import SortKind
 
 
 def argsort_along_batch(array: np.ndarray, kind: SortKind | None = None) -> np.ndarray:

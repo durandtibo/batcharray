@@ -10,7 +10,7 @@ from typing import TYPE_CHECKING, ClassVar, TypeVar
 import numpy as np
 from coola.utils import repr_indent, repr_mapping, str_indent, str_mapping
 
-from batcharray.computation.base import BaseComputationModel
+from batcharray.computation.base import BaseComputationModel, SortKind
 
 if TYPE_CHECKING:
     from collections.abc import Sequence
@@ -175,6 +175,9 @@ class AutoComputationModel(BaseComputationModel[T]):
 
     def min(self, arr: T, axis: int | None = None, *, keepdims: bool = False) -> T:
         return self.find_computation_model(type(arr)).min(arr=arr, axis=axis, keepdims=keepdims)
+
+    def sort(self, arr: T, axis: int | None = None, *, kind: SortKind | None = None) -> T:
+        return self.find_computation_model(type(arr)).sort(arr, axis=axis, kind=kind)
 
 
 def register_computation_models() -> None:

@@ -371,3 +371,38 @@ def test_array_computation_model_min_keepdims_true(dtype: np.dtype) -> None:
         ),
         np.array([[0, 1]], dtype=dtype),
     )
+
+
+################
+#     sort     #
+################
+
+
+@pytest.mark.parametrize("dtype", DTYPES)
+def test_array_computation_model_sort_axis_0(dtype: np.dtype) -> None:
+    assert objects_are_equal(
+        ArrayComputationModel().sort(
+            np.array([[3, 5, 0, 2, 4], [4, 7, 8, 8, 5], [8, 5, 8, 8, 0]], dtype=dtype), axis=0
+        ),
+        np.array([[3, 5, 0, 2, 0], [4, 5, 8, 8, 4], [8, 7, 8, 8, 5]], dtype=dtype),
+    )
+
+
+@pytest.mark.parametrize("dtype", DTYPES)
+def test_array_computation_model_sort_axis_1(dtype: np.dtype) -> None:
+    assert objects_are_equal(
+        ArrayComputationModel().sort(
+            np.array([[3, 5, 0, 2, 4], [4, 7, 8, 8, 5], [8, 5, 8, 8, 0]], dtype=dtype), axis=1
+        ),
+        np.array([[0, 2, 3, 4, 5], [4, 5, 7, 8, 8], [0, 5, 8, 8, 8]], dtype=dtype),
+    )
+
+
+@pytest.mark.parametrize("dtype", DTYPES)
+def test_array_computation_model_sort_axis_none(dtype: np.dtype) -> None:
+    assert objects_are_equal(
+        ArrayComputationModel().sort(
+            np.array([[3, 5, 0, 2, 4], [4, 7, 8, 8, 5], [8, 5, 8, 8, 0]], dtype=dtype)
+        ),
+        np.array([0, 0, 2, 3, 4, 4, 5, 5, 5, 7, 8, 8, 8, 8, 8], dtype=dtype),
+    )

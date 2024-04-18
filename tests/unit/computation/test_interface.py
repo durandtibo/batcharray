@@ -373,3 +373,65 @@ def test_min_masked_array(dtype: np.dtype) -> None:
         ),
         np.ma.masked_array(data=np.array([2, 1], dtype=dtype), mask=np.array([False, False])),
     )
+
+
+################
+#     sort     #
+################
+
+
+@pytest.mark.parametrize("dtype", DTYPES)
+def test_sort_axis_0(dtype: np.dtype) -> None:
+    assert objects_are_equal(
+        cmpt.sort(
+            np.array([[3, 5, 0, 2, 4], [4, 7, 8, 8, 5], [8, 5, 8, 8, 0]], dtype=dtype), axis=0
+        ),
+        np.array([[3, 5, 0, 2, 0], [4, 5, 8, 8, 4], [8, 7, 8, 8, 5]], dtype=dtype),
+    )
+
+
+@pytest.mark.parametrize("dtype", DTYPES)
+def test_sort_axis_1(dtype: np.dtype) -> None:
+    assert objects_are_equal(
+        cmpt.sort(
+            np.array([[3, 5, 0, 2, 4], [4, 7, 8, 8, 5], [8, 5, 8, 8, 0]], dtype=dtype), axis=1
+        ),
+        np.array([[0, 2, 3, 4, 5], [4, 5, 7, 8, 8], [0, 5, 8, 8, 8]], dtype=dtype),
+    )
+
+
+@pytest.mark.parametrize("dtype", DTYPES)
+def test_sort_axis_none(dtype: np.dtype) -> None:
+    assert objects_are_equal(
+        cmpt.sort(np.array([[3, 5, 0, 2, 4], [4, 7, 8, 8, 5], [8, 5, 8, 8, 0]], dtype=dtype)),
+        np.array([0, 0, 2, 3, 4, 4, 5, 5, 5, 7, 8, 8, 8, 8, 8], dtype=dtype),
+    )
+
+
+@pytest.mark.parametrize("dtype", DTYPES)
+def test_sort_masked_array(dtype: np.dtype) -> None:
+    assert objects_are_equal(
+        cmpt.sort(
+            np.ma.masked_array(
+                data=np.array([[3, 5, 0, 2, 4], [4, 7, 8, 8, 5], [8, 5, 8, 8, 0]], dtype=dtype),
+                mask=np.array(
+                    [
+                        [False, False, False, False, True],
+                        [False, False, False, True, False],
+                        [False, False, True, False, False],
+                    ]
+                ),
+            ),
+            axis=0,
+        ),
+        np.ma.masked_array(
+            data=np.array([[3, 5, 0, 2, 0], [4, 5, 8, 8, 5], [8, 7, 8, 8, 4]], dtype=dtype),
+            mask=np.array(
+                [
+                    [False, False, False, False, False],
+                    [False, False, False, False, False],
+                    [False, False, True, True, True],
+                ]
+            ),
+        ),
+    )

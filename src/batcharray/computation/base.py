@@ -5,7 +5,7 @@ from __future__ import annotations
 __all__ = ["BaseComputationModel"]
 
 from abc import ABC, abstractmethod
-from typing import TYPE_CHECKING, Generic, TypeVar
+from typing import TYPE_CHECKING, Generic, Literal, TypeVar
 
 import numpy as np
 
@@ -15,6 +15,8 @@ if TYPE_CHECKING:
     from numpy.typing import DTypeLike
 
 T = TypeVar("T", bound=np.ndarray)
+
+SortKind = Literal["quicksort", "mergesort", "heapsort", "stable"]
 
 
 class BaseComputationModel(ABC, Generic[T]):
@@ -299,6 +301,48 @@ class BaseComputationModel(ABC, Generic[T]):
         >>> out = comp_model.min(array, axis=0, keepdims=True)
         >>> out
         array([[0, 1]])
+
+        ```
+        """
+
+    @abstractmethod
+    def sort(self, arr: T, axis: int | None = None, *, kind: SortKind | None = None) -> T:
+        r"""Sort the elements of the input array along the batch axis in
+        ascending order by value.
+
+        Args:
+            arr: The input array.
+            axis: Axis along which the minimum values are computed.
+                The default (``None``) is to compute the minimum along
+                a flattened version of the array.
+            kind: Sorting algorithm. The default is `quicksort`.
+                Note that both `stable` and `mergesort` use timsort
+                under the covers and, in general, the actual
+                implementation will vary with datatype.
+                The `mergesort` option is retained for backwards
+                compatibility.
+
+        Returns:
+            The minimum of the input array along the given axis.
+
+        Example usage:
+
+        ```pycon
+
+        >>> import numpy as np
+        >>> from batcharray.computation import ArrayComputationModel
+        >>> comp_model = ArrayComputationModel()
+        >>> array = np.array([[3, 5, 0, 2, 4], [4, 7, 8, 8, 5], [8, 5, 8, 8, 0]])
+        >>> out = comp_model.sort(array, axis=0)
+        >>> out
+        array([[3, 5, 0, 2, 0],
+               [4, 5, 8, 8, 4],
+               [8, 7, 8, 8, 5]])
+        >>> out = comp_model.sort(array, axis=1)
+        >>> out
+        array([[0, 2, 3, 4, 5],
+               [4, 5, 7, 8, 8],
+               [0, 5, 8, 8, 8]])
 
         ```
         """
