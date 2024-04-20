@@ -38,6 +38,11 @@ class ArrayComputationModel(BaseComputationModel[np.ndarray]):
     ) -> np.ndarray:
         return arr.argmin(axis=axis, keepdims=keepdims)
 
+    def argsort(
+        self, arr: np.ndarray, axis: int | None = None, *, kind: SortKind | None = None
+    ) -> np.ndarray:
+        return np.argsort(arr, axis=axis, kind=kind)
+
     def concatenate(
         self, arrays: Sequence[np.ndarray], axis: int | None = None, *, dtype: DTypeLike = None
     ) -> np.ndarray:

@@ -15,7 +15,7 @@ if TYPE_CHECKING:
 
 
 def argsort_along_batch(array: np.ndarray, kind: SortKind | None = None) -> np.ndarray:
-    r"""Return the indices that sort an array  along the batch axis in
+    r"""Return the indices that sort an array along the batch axis in
     ascending order by value.
 
     Note:
@@ -32,7 +32,7 @@ def argsort_along_batch(array: np.ndarray, kind: SortKind | None = None) -> np.n
             compatibility.
 
     Returns:
-        The indices that sort the array along the batch axis
+        The indices that sort the array along the batch axis.
 
     Example usage:
 
@@ -51,7 +51,7 @@ def argsort_along_batch(array: np.ndarray, kind: SortKind | None = None) -> np.n
 
 
 def argsort_along_seq(array: np.ndarray, kind: SortKind | None = None) -> np.ndarray:
-    r"""Return the indices that sort an array  along the sequence axis in
+    r"""Return the indices that sort an array along the sequence axis in
     ascending order by value.
 
     Note:

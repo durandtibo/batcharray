@@ -38,6 +38,11 @@ class MaskedArrayComputationModel(BaseComputationModel[np.ma.MaskedArray]):
     ) -> np.ndarray:
         return arr.argmin(axis=axis, keepdims=keepdims)
 
+    def argsort(
+        self, arr: np.ma.MaskedArray, axis: int | None = None, *, kind: SortKind | None = None
+    ) -> np.ma.MaskedArray:
+        return np.ma.argsort(arr, axis=axis, kind=kind)
+
     def concatenate(
         self,
         arrays: Sequence[np.ma.MaskedArray],

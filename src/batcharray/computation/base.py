@@ -107,6 +107,48 @@ class BaseComputationModel(ABC, Generic[T]):
         """
 
     @abstractmethod
+    def argsort(self, arr: T, axis: int | None = None, *, kind: SortKind | None = None) -> T:
+        r"""Return the indices that sort an array along the given axis in
+        ascending order by value.
+
+        Args:
+            arr: The input array.
+            axis: Axis along which the minimum values are computed.
+                The default (``None``) is to compute the minimum along
+                a flattened version of the array.
+            kind: Sorting algorithm. The default is `quicksort`.
+                Note that both `stable` and `mergesort` use timsort
+                under the covers and, in general, the actual
+                implementation will vary with datatype.
+                The `mergesort` option is retained for backwards
+                compatibility.
+
+        Returns:
+            The indices that sort the array along the given axis.
+
+        Example usage:
+
+        ```pycon
+
+        >>> import numpy as np
+        >>> from batcharray.computation import ArrayComputationModel
+        >>> comp_model = ArrayComputationModel()
+        >>> array = np.array([[3, 5, 0, 2, 4], [4, 7, 8, 8, 5], [8, 5, 8, 8, 0]])
+        >>> out = comp_model.argsort(array, axis=0)
+        >>> out
+        array([[0, 0, 0, 0, 2],
+               [1, 2, 1, 1, 0],
+               [2, 1, 2, 2, 1]])
+        >>> out = comp_model.argsort(array, axis=1)
+        >>> out
+        array([[2, 3, 0, 4, 1],
+               [0, 4, 1, 2, 3],
+               [4, 1, 0, 2, 3]])
+
+        ```
+        """
+
+    @abstractmethod
     def concatenate(
         self, arrays: Sequence[T], axis: int | None = None, *, dtype: DTypeLike = None
     ) -> T:
@@ -323,7 +365,7 @@ class BaseComputationModel(ABC, Generic[T]):
                 compatibility.
 
         Returns:
-            The minimum of the input array along the given axis.
+            The sorted array along the given axis.
 
         Example usage:
 
