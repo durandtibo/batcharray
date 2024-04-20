@@ -9,12 +9,14 @@ from typing import TYPE_CHECKING
 
 import numpy as np
 
-from batcharray.computation.base import BaseComputationModel, SortKind
+from batcharray.computation.base import BaseComputationModel
 
 if TYPE_CHECKING:
     from collections.abc import Sequence
 
-    from numpy._typing import DTypeLike
+    from numpy.typing import DTypeLike
+
+    from batcharray.types import SortKind
 
 
 class MaskedArrayComputationModel(BaseComputationModel[np.ma.MaskedArray]):
@@ -70,5 +72,5 @@ class MaskedArrayComputationModel(BaseComputationModel[np.ma.MaskedArray]):
 
     def sort(
         self, arr: np.ma.MaskedArray, axis: int | None = None, *, kind: SortKind | None = None
-    ) -> np.ndarray:
+    ) -> np.ma.MaskedArray:
         return np.ma.sort(arr, axis=axis, kind=kind)

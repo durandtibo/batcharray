@@ -1,6 +1,9 @@
 from __future__ import annotations
 
+from typing import TYPE_CHECKING
+
 import numpy as np
+import pytest
 from coola import objects_are_equal
 
 from batcharray.array import (
@@ -9,6 +12,11 @@ from batcharray.array import (
     sort_along_batch,
     sort_along_seq,
 )
+from batcharray.types import SORT_KINDS
+
+if TYPE_CHECKING:
+    from batcharray.types import SortKind
+
 
 #########################################
 #     Tests for argsort_along_batch     #
@@ -18,6 +26,14 @@ from batcharray.array import (
 def test_argsort_along_batch() -> None:
     assert objects_are_equal(
         argsort_along_batch(np.array([[4, 9], [1, 7], [2, 5], [5, 6], [3, 8]])),
+        np.array([[1, 2], [2, 3], [4, 1], [0, 4], [3, 0]]),
+    )
+
+
+@pytest.mark.parametrize("kind", SORT_KINDS)
+def test_argsort_along_batch_kind(kind: SortKind) -> None:
+    assert objects_are_equal(
+        argsort_along_batch(np.array([[4, 9], [1, 7], [2, 5], [5, 6], [3, 8]]), kind=kind),
         np.array([[1, 2], [2, 3], [4, 1], [0, 4], [3, 0]]),
     )
 
@@ -34,6 +50,14 @@ def test_argsort_along_seq() -> None:
     )
 
 
+@pytest.mark.parametrize("kind", SORT_KINDS)
+def test_argsort_along_seq_kind(kind: SortKind) -> None:
+    assert objects_are_equal(
+        argsort_along_seq(np.array([[4, 1, 2, 5, 3], [9, 7, 5, 6, 8]]), kind=kind),
+        np.array([[1, 2, 4, 0, 3], [2, 3, 1, 4, 0]]),
+    )
+
+
 ######################################
 #     Tests for sort_along_batch     #
 ######################################
@@ -46,6 +70,14 @@ def test_sort_along_batch() -> None:
     )
 
 
+@pytest.mark.parametrize("kind", SORT_KINDS)
+def test_sort_along_batch_kind(kind: SortKind) -> None:
+    assert objects_are_equal(
+        sort_along_batch(np.array([[4, 9], [1, 7], [2, 5], [5, 6], [3, 8]]), kind=kind),
+        np.array([[1, 5], [2, 6], [3, 7], [4, 8], [5, 9]]),
+    )
+
+
 ####################################
 #     Tests for sort_along_seq     #
 ####################################
@@ -54,6 +86,14 @@ def test_sort_along_batch() -> None:
 def test_sort_along_seq() -> None:
     assert objects_are_equal(
         sort_along_seq(np.array([[4, 1, 2, 5, 3], [9, 7, 5, 6, 8]])),
+        np.array([[1, 2, 3, 4, 5], [5, 6, 7, 8, 9]]),
+    )
+
+
+@pytest.mark.parametrize("kind", SORT_KINDS)
+def test_sort_along_seq_kind(kind: SortKind) -> None:
+    assert objects_are_equal(
+        sort_along_seq(np.array([[4, 1, 2, 5, 3], [9, 7, 5, 6, 8]]), kind=kind),
         np.array([[1, 2, 3, 4, 5], [5, 6, 7, 8, 9]]),
     )
 

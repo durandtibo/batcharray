@@ -15,7 +15,8 @@ if TYPE_CHECKING:
 
     from numpy.typing import DTypeLike
 
-    from batcharray.computation.base import SortKind
+    from batcharray.types import SortKind
+
 
 T = TypeVar("T", bound=np.ndarray)
 

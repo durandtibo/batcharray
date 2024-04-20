@@ -10,12 +10,14 @@ from typing import TYPE_CHECKING, ClassVar, TypeVar
 import numpy as np
 from coola.utils import repr_indent, repr_mapping, str_indent, str_mapping
 
-from batcharray.computation.base import BaseComputationModel, SortKind
+from batcharray.computation.base import BaseComputationModel
 
 if TYPE_CHECKING:
     from collections.abc import Sequence
 
     from numpy.typing import DTypeLike
+
+    from batcharray.types import SortKind
 
 T = TypeVar("T", bound=np.ndarray)
 

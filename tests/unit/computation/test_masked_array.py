@@ -7,9 +7,12 @@ import pytest
 from coola import objects_are_allclose, objects_are_equal
 
 from batcharray.computation import MaskedArrayComputationModel
+from batcharray.types import SORT_KINDS
 
 if TYPE_CHECKING:
     from collections.abc import Sequence
+
+    from batcharray.types import SortKind
 
 DTYPES = (np.float64, np.int64)
 
@@ -793,6 +796,36 @@ def test_masked_array_computation_model_sort_axis_none(dtype: np.dtype) -> None:
                         True,
                         True,
                     ],
+                ]
+            ),
+        ),
+    )
+
+
+@pytest.mark.parametrize("kind", SORT_KINDS)
+def test_masked_array_computation_model_sort_kind(kind: SortKind) -> None:
+    assert objects_are_equal(
+        MaskedArrayComputationModel().sort(
+            np.ma.masked_array(
+                data=np.array([[3, 5, 0, 2, 4], [4, 7, 8, 8, 5], [8, 5, 8, 8, 0]]),
+                mask=np.array(
+                    [
+                        [False, False, False, False, True],
+                        [False, False, False, True, False],
+                        [False, False, True, False, False],
+                    ]
+                ),
+            ),
+            axis=0,
+            kind=kind,
+        ),
+        np.ma.masked_array(
+            data=np.array([[3, 5, 0, 2, 0], [4, 5, 8, 8, 5], [8, 7, 8, 8, 4]]),
+            mask=np.array(
+                [
+                    [False, False, False, False, False],
+                    [False, False, False, False, False],
+                    [False, False, True, True, True],
                 ]
             ),
         ),
