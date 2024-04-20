@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from typing import TYPE_CHECKING
 from unittest.mock import Mock, patch
 
 import numpy as np
@@ -12,6 +13,10 @@ from batcharray.computation import (
     BaseComputationModel,
     MaskedArrayComputationModel,
 )
+from batcharray.types import SORT_KINDS
+
+if TYPE_CHECKING:
+    from batcharray.types import SortKind
 
 DTYPES = (np.float64, np.int64)
 
@@ -478,6 +483,16 @@ def test_auto_computation_model_sort_axis_none(dtype: np.dtype) -> None:
             np.array([[3, 5, 0, 2, 4], [4, 7, 8, 8, 5], [8, 5, 8, 8, 0]], dtype=dtype)
         ),
         np.array([0, 0, 2, 3, 4, 4, 5, 5, 5, 7, 8, 8, 8, 8, 8], dtype=dtype),
+    )
+
+
+@pytest.mark.parametrize("kind", SORT_KINDS)
+def test_auto_computation_model_sort_kind(kind: SortKind) -> None:
+    assert objects_are_equal(
+        AutoComputationModel().sort(
+            np.array([[3, 5, 0, 2, 4], [4, 7, 8, 8, 5], [8, 5, 8, 8, 0]]), axis=0, kind=kind
+        ),
+        np.array([[3, 5, 0, 2, 0], [4, 5, 8, 8, 4], [8, 7, 8, 8, 5]]),
     )
 
 

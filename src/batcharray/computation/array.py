@@ -9,12 +9,14 @@ from typing import TYPE_CHECKING
 
 import numpy as np
 
-from batcharray.computation.base import BaseComputationModel, SortKind
+from batcharray.computation.base import BaseComputationModel
 
 if TYPE_CHECKING:
     from collections.abc import Sequence
 
     from numpy.typing import DTypeLike
+
+    from batcharray.types import SortKind
 
 
 class ArrayComputationModel(BaseComputationModel[np.ndarray]):

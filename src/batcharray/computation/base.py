@@ -5,7 +5,7 @@ from __future__ import annotations
 __all__ = ["BaseComputationModel"]
 
 from abc import ABC, abstractmethod
-from typing import TYPE_CHECKING, Generic, Literal, TypeVar
+from typing import TYPE_CHECKING, Generic, TypeVar
 
 import numpy as np
 
@@ -14,9 +14,9 @@ if TYPE_CHECKING:
 
     from numpy.typing import DTypeLike
 
-T = TypeVar("T", bound=np.ndarray)
+    from batcharray.types import SortKind
 
-SortKind = Literal["quicksort", "mergesort", "heapsort", "stable"]
+T = TypeVar("T", bound=np.ndarray)
 
 
 class BaseComputationModel(ABC, Generic[T]):

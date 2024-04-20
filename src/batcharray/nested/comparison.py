@@ -11,7 +11,7 @@ from batcharray import array as ba
 from batcharray.recursive import recursive_apply
 
 if TYPE_CHECKING:
-    from batcharray.computation.base import SortKind
+    from batcharray.types import SortKind
 
 
 def argsort_along_batch(data: Any, kind: SortKind | None = None) -> Any:

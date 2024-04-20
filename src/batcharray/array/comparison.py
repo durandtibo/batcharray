@@ -11,7 +11,7 @@ import numpy as np
 from batcharray.constants import BATCH_AXIS, SEQ_AXIS
 
 if TYPE_CHECKING:
-    from batcharray.computation.base import SortKind
+    from batcharray.types import SortKind
 
 
 def argsort_along_batch(array: np.ndarray, kind: SortKind | None = None) -> np.ndarray:
