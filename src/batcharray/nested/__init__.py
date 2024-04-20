@@ -10,6 +10,8 @@ __all__ = [
     "arcsinh",
     "arctan",
     "arctanh",
+    "argsort_along_batch",
+    "argsort_along_seq",
     "chunk_along_batch",
     "chunk_along_seq",
     "clip",
@@ -38,6 +40,8 @@ __all__ = [
     "sinh",
     "slice_along_batch",
     "slice_along_seq",
+    "sort_along_batch",
+    "sort_along_seq",
     "split_along_batch",
     "split_along_seq",
     "take_along_batch",
@@ -47,6 +51,12 @@ __all__ = [
     "tile_along_seq",
 ]
 
+from batcharray.nested.comparison import (
+    argsort_along_batch,
+    argsort_along_seq,
+    sort_along_batch,
+    sort_along_seq,
+)
 from batcharray.nested.indexing import take_along_batch, take_along_seq
 from batcharray.nested.joining import (
     concatenate_along_batch,
