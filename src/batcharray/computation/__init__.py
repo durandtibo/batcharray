@@ -9,6 +9,7 @@ __all__ = [
     "AutoComputationModel",
     "argmax",
     "argmin",
+    "argsort",
     "concatenate",
     "max",
     "mean",
@@ -27,6 +28,7 @@ from batcharray.computation.base import BaseComputationModel
 from batcharray.computation.interface import (
     argmax,
     argmin,
+    argsort,
     concatenate,
     max,
     mean,
