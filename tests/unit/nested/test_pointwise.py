@@ -33,7 +33,7 @@ def test_pointwise_function_array(dtype: np.dtype, functions: tuple[Callable, Ca
 
 @pytest.mark.parametrize("dtype", DTYPES)
 @pytest.mark.parametrize("functions", POINTWISE_FUNCTIONS)
-def test_cumprod_along_batch_dict(dtype: np.dtype, functions: tuple[Callable, Callable]) -> None:
+def test_pointwise_function_dict(dtype: np.dtype, functions: tuple[Callable, Callable]) -> None:
     np_fn, nested_fn = functions
     assert objects_are_equal(
         nested_fn(
@@ -41,11 +41,37 @@ def test_cumprod_along_batch_dict(dtype: np.dtype, functions: tuple[Callable, Ca
                 "a": np.array([[1, 2], [3, 4], [5, 6], [7, 8], [9, 10]], dtype=dtype),
                 "b": np.array([4, 3, 2, 1], dtype=np.float32),
                 "c": [np.array([5, 6, 7, 8, 9], dtype=np.float64)],
+                "masked": np.ma.masked_array(
+                    data=np.array([[1, 2], [3, 4], [5, 6], [7, 8], [9, 10]]),
+                    mask=np.array(
+                        [
+                            [False, False],
+                            [False, False],
+                            [False, True],
+                            [False, False],
+                            [False, True],
+                        ]
+                    ),
+                ),
             },
         ),
         {
             "a": np_fn(np.array([[1, 2], [3, 4], [5, 6], [7, 8], [9, 10]], dtype=dtype)),
             "b": np_fn(np.array([4, 3, 2, 1], dtype=np.float32)),
             "c": [np_fn(np.array([5, 6, 7, 8, 9], dtype=np.float64))],
+            "masked": np_fn(
+                np.ma.masked_array(
+                    data=np.array([[1, 2], [3, 4], [5, 6], [7, 8], [9, 10]]),
+                    mask=np.array(
+                        [
+                            [False, False],
+                            [False, False],
+                            [False, True],
+                            [False, False],
+                            [False, True],
+                        ]
+                    ),
+                )
+            ),
         },
     )

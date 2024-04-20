@@ -148,7 +148,7 @@ The following is the corresponding `batcharray` versions and tested dependencies
 
 | `batcharray` | `coola`      | `numpy`       | `python`      |
 |--------------|--------------|---------------|---------------|
-| `main`       | `>=0.1,<1.0` | `>=1.22,<2.0` | `>=3.9,<3.13` |
+| `main`       | `>=0.3,<1.0` | `>=1.22,<2.0` | `>=3.9,<3.13` |
 
 <sup>*</sup> indicates an optional dependency
 
