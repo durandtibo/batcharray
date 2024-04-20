@@ -6,11 +6,12 @@ __all__ = ["argsort_along_batch", "argsort_along_seq", "sort_along_batch", "sort
 
 from typing import TYPE_CHECKING
 
-import numpy as np
-
+from batcharray.computation import argsort, sort
 from batcharray.constants import BATCH_AXIS, SEQ_AXIS
 
 if TYPE_CHECKING:
+    import numpy as np
+
     from batcharray.types import SortKind
 
 
@@ -47,7 +48,7 @@ def argsort_along_batch(array: np.ndarray, kind: SortKind | None = None) -> np.n
 
     ```
     """
-    return np.argsort(array, axis=BATCH_AXIS, kind=kind)
+    return argsort(array, axis=BATCH_AXIS, kind=kind)
 
 
 def argsort_along_seq(array: np.ndarray, kind: SortKind | None = None) -> np.ndarray:
@@ -84,7 +85,7 @@ def argsort_along_seq(array: np.ndarray, kind: SortKind | None = None) -> np.nda
 
     ```
     """
-    return np.argsort(array, axis=SEQ_AXIS, kind=kind)
+    return argsort(array, axis=SEQ_AXIS, kind=kind)
 
 
 def sort_along_batch(array: np.ndarray, kind: SortKind | None = None) -> np.ndarray:
@@ -120,7 +121,7 @@ def sort_along_batch(array: np.ndarray, kind: SortKind | None = None) -> np.ndar
 
     ```
     """
-    return np.sort(array, axis=BATCH_AXIS, kind=kind)
+    return sort(array, axis=BATCH_AXIS, kind=kind)
 
 
 def sort_along_seq(array: np.ndarray, kind: SortKind | None = None) -> np.ndarray:
@@ -156,4 +157,4 @@ def sort_along_seq(array: np.ndarray, kind: SortKind | None = None) -> np.ndarra
 
     ```
     """
-    return np.sort(array, axis=SEQ_AXIS, kind=kind)
+    return sort(array, axis=SEQ_AXIS, kind=kind)
