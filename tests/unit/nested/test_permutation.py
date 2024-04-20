@@ -54,6 +54,18 @@ def test_permute_along_batch_nested() -> None:
                 "a": np.array([[4, 9], [1, 7], [2, 5], [5, 6], [3, 8]]),
                 "b": np.array([4, 3, 2, 1, 0], dtype=np.float32),
                 "list": [np.array([5, 6, 7, 8, 9])],
+                "masked": np.ma.masked_array(
+                    data=np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]]),
+                    mask=np.array(
+                        [
+                            [False, False],
+                            [False, False],
+                            [True, False],
+                            [False, False],
+                            [True, False],
+                        ]
+                    ),
+                ),
             },
             permutation=np.array([2, 4, 1, 3, 0]),
         ),
@@ -61,6 +73,12 @@ def test_permute_along_batch_nested() -> None:
             "a": np.array([[2, 5], [3, 8], [1, 7], [5, 6], [4, 9]]),
             "b": np.array([2, 0, 3, 1, 4], dtype=np.float32),
             "list": [np.array([7, 9, 6, 8, 5])],
+            "masked": np.ma.masked_array(
+                data=np.array([[4, 5], [8, 9], [2, 3], [6, 7], [0, 1]]),
+                mask=np.array(
+                    [[True, False], [True, False], [False, False], [False, False], [False, False]]
+                ),
+            ),
         },
     )
 
@@ -115,6 +133,12 @@ def test_permute_along_seq_nested() -> None:
                 "a": np.array([[4, 1, 2, 5, 3], [9, 7, 5, 6, 8]]),
                 "b": np.array([[4, 3, 2, 1, 0]], dtype=np.float32),
                 "list": [np.array([[5, 6, 7, 8, 9]])],
+                "masked": np.ma.masked_array(
+                    data=np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]]),
+                    mask=np.array(
+                        [[False, False, True, False, True], [False, False, False, False, False]]
+                    ),
+                ),
             },
             permutation=np.array([2, 4, 1, 3, 0]),
         ),
@@ -122,6 +146,12 @@ def test_permute_along_seq_nested() -> None:
             "a": np.array([[2, 3, 1, 5, 4], [5, 8, 7, 6, 9]]),
             "b": np.array([[2, 0, 3, 1, 4]], dtype=np.float32),
             "list": [np.array([[7, 9, 6, 8, 5]])],
+            "masked": np.ma.masked_array(
+                data=np.array([[2, 4, 1, 3, 0], [7, 9, 6, 8, 5]]),
+                mask=np.array(
+                    [[True, True, False, False, False], [False, False, False, False, False]]
+                ),
+            ),
         },
     )
 
@@ -180,6 +210,18 @@ def test_shuffle_along_batch_nested() -> None:
                 "a": np.array([[4, 9], [1, 7], [2, 5], [5, 6], [3, 8]]),
                 "b": np.array([4, 3, 2, 1, 0], dtype=np.float32),
                 "list": [np.array([5, 6, 7, 8, 9])],
+                "masked": np.ma.masked_array(
+                    data=np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]]),
+                    mask=np.array(
+                        [
+                            [False, False],
+                            [False, False],
+                            [True, False],
+                            [False, False],
+                            [True, False],
+                        ]
+                    ),
+                ),
             },
             rng=rng,
         ),
@@ -187,6 +229,12 @@ def test_shuffle_along_batch_nested() -> None:
             "a": np.array([[2, 5], [3, 8], [1, 7], [5, 6], [4, 9]]),
             "b": np.array([2, 0, 3, 1, 4], dtype=np.float32),
             "list": [np.array([7, 9, 6, 8, 5])],
+            "masked": np.ma.masked_array(
+                data=np.array([[4, 5], [8, 9], [2, 3], [6, 7], [0, 1]]),
+                mask=np.array(
+                    [[True, False], [True, False], [False, False], [False, False], [False, False]]
+                ),
+            ),
         },
     )
 
@@ -255,6 +303,12 @@ def test_shuffle_along_seq_nested() -> None:
                 "a": np.array([[4, 1, 2, 5, 3], [9, 7, 5, 6, 8]]),
                 "b": np.array([[4, 3, 2, 1, 0]], dtype=np.float32),
                 "list": [np.array([[5, 6, 7, 8, 9]])],
+                "masked": np.ma.masked_array(
+                    data=np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]]),
+                    mask=np.array(
+                        [[False, False, True, False, True], [False, False, False, False, False]]
+                    ),
+                ),
             },
             rng=rng,
         ),
@@ -262,6 +316,12 @@ def test_shuffle_along_seq_nested() -> None:
             "a": np.array([[2, 3, 1, 5, 4], [5, 8, 7, 6, 9]]),
             "b": np.array([[2, 0, 3, 1, 4]], dtype=np.float32),
             "list": [np.array([[7, 9, 6, 8, 5]])],
+            "masked": np.ma.masked_array(
+                data=np.array([[2, 4, 1, 3, 0], [7, 9, 6, 8, 5]]),
+                mask=np.array(
+                    [[True, True, False, False, False], [False, False, False, False, False]]
+                ),
+            ),
         },
     )
 
