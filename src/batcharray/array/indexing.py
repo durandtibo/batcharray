@@ -3,6 +3,8 @@ r"""Contain some indexing functions for arrays."""
 from __future__ import annotations
 
 __all__ = [
+    "index_select_along_batch",
+    "index_select_along_seq",
     "masked_select_along_batch",
     "masked_select_along_seq",
     "take_along_batch",
@@ -12,6 +14,79 @@ __all__ = [
 import numpy as np
 
 from batcharray.constants import BATCH_AXIS, SEQ_AXIS
+
+
+def index_select_along_batch(array: np.ndarray, indices: np.ndarray) -> np.ndarray:
+    r"""Return a new array which indexes the input array along the batch
+    axis using the entries in ``indices``.
+
+    Note:
+        This function assumes the batch axis is the first axis.
+
+    Args:
+        array: The input array.
+        indices: The 1-D array containing the indices to take.
+
+    Returns:
+        The indexed array along the batch axis.
+
+    Example usage:
+
+    ```pycon
+
+    >>> import numpy as np
+    >>> from batcharray.array import index_select_along_batch
+    >>> array = np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]])
+    >>> out = index_select_along_batch(array, np.array([2, 4]))
+    >>> out
+    array([[4, 5],
+           [8, 9]])
+    >>> out = index_select_along_batch(array, np.array([4, 3, 2, 1, 0]))
+    >>> out
+    array([[8, 9],
+           [6, 7],
+           [4, 5],
+           [2, 3],
+           [0, 1]])
+
+    ```
+    """
+    return take_along_batch(array, indices)
+
+
+def index_select_along_seq(array: np.ndarray, indices: np.ndarray) -> np.ndarray:
+    r"""Return a new array which indexes the input array along the
+    sequence axis using the entries in ``indices``.
+
+    Note:
+        This function assumes the sequence axis is the second axis.
+
+    Args:
+        array: The input array.
+        indices: The 1-D array containing the indices to take.
+
+    Returns:
+        The indexed array along the sequence axis.
+
+    Example usage:
+
+    ```pycon
+
+    >>> import numpy as np
+    >>> from batcharray.array import index_select_along_seq
+    >>> array = np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]])
+    >>> out = index_select_along_seq(array, np.array([2, 4]))
+    >>> out
+    array([[2, 4],
+           [7, 9]])
+    >>> out = index_select_along_seq(array, np.array([4, 3, 2, 1, 0]))
+    >>> out
+    array([[4, 3, 2, 1, 0],
+           [9, 8, 7, 6, 5]])
+
+    ```
+    """
+    return take_along_seq(array, indices)
 
 
 def masked_select_along_batch(array: np.ndarray, mask: np.ndarray) -> np.ndarray:
