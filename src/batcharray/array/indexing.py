@@ -2,15 +2,80 @@ r"""Contain some indexing functions for arrays."""
 
 from __future__ import annotations
 
-__all__ = ["take_along_batch", "take_along_seq"]
+__all__ = [
+    "masked_select_along_batch",
+    "masked_select_along_seq",
+    "take_along_batch",
+    "take_along_seq",
+]
 
 import numpy as np
 
 from batcharray.constants import BATCH_AXIS, SEQ_AXIS
 
 
+def masked_select_along_batch(array: np.ndarray, mask: np.ndarray) -> np.ndarray:
+    r"""Return a new array which indexes the input array along the batch
+    axis according to the boolean mask ``mask``.
+
+    Note:
+        This function assumes the batch axis is the first axis.
+
+    Args:
+        array: The input array.
+        mask: The 1-D array containing the binary mask to index with.
+
+    Returns:
+        The indexed array along the batch axis.
+
+    Example usage:
+
+    ```pycon
+
+    >>> import numpy as np
+    >>> from batcharray.array import masked_select_along_batch
+    >>> array = np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]])
+    >>> out = masked_select_along_batch(array, np.array([False, False, True, False, True]))
+    >>> out
+    array([[4, 5], [8, 9]])
+
+    ```
+    """
+    return array[mask]
+
+
+def masked_select_along_seq(array: np.ndarray, mask: np.ndarray) -> np.ndarray:
+    r"""Return a new array which indexes the input array along the
+    sequence axis according to the boolean mask ``mask``.
+
+    Note:
+        This function assumes the batch axis is the first axis.
+
+    Args:
+        array: The input array.
+        mask: The 1-D array containing the binary mask to index with.
+
+    Returns:
+        The indexed array along the sequence axis.
+
+    Example usage:
+
+    ```pycon
+
+    >>> import numpy as np
+    >>> from batcharray.array import masked_select_along_seq
+    >>> array = np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]])
+    >>> out = masked_select_along_seq(array, np.array([False, False, True, False, True]))
+    >>> out
+    array([[2, 4], [7, 9]])
+
+    ```
+    """
+    return array[:, mask]
+
+
 def take_along_batch(array: np.ndarray, indices: np.ndarray) -> np.ndarray:
-    r"""Return a new array which index the input array along the batch
+    r"""Return a new array which indexes the input array along the batch
     axis using the entries in ``indices``.
 
     Note:
@@ -21,7 +86,7 @@ def take_along_batch(array: np.ndarray, indices: np.ndarray) -> np.ndarray:
         indices: The 1-D array containing the indices to take.
 
     Returns:
-        The indicesed array along the batch axis.
+        The indexed array along the batch axis.
 
     Example usage:
 
@@ -48,7 +113,7 @@ def take_along_batch(array: np.ndarray, indices: np.ndarray) -> np.ndarray:
 
 
 def take_along_seq(array: np.ndarray, indices: np.ndarray) -> np.ndarray:
-    r"""Return a new array which indiceses the input array along the
+    r"""Return a new array which indexes the input array along the
     sequence axis using the entries in ``indices``.
 
     Note:
@@ -59,7 +124,7 @@ def take_along_seq(array: np.ndarray, indices: np.ndarray) -> np.ndarray:
         indices: The 1-D array containing the indices to take.
 
     Returns:
-        The indicesed array along the sequence axis.
+        The indexed array along the sequence axis.
 
     Example usage:
 

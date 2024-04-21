@@ -21,6 +21,8 @@ __all__ = [
     "cumprod_along_seq",
     "cumsum_along_batch",
     "cumsum_along_seq",
+    "masked_select_along_batch",
+    "masked_select_along_seq",
     "max_along_batch",
     "max_along_seq",
     "mean_along_batch",
@@ -56,7 +58,12 @@ from batcharray.array.comparison import (
     sort_along_batch,
     sort_along_seq,
 )
-from batcharray.array.indexing import take_along_batch, take_along_seq
+from batcharray.array.indexing import (
+    masked_select_along_batch,
+    masked_select_along_seq,
+    take_along_batch,
+    take_along_seq,
+)
 from batcharray.array.joining import (
     concatenate_along_batch,
     concatenate_along_seq,
