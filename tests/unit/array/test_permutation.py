@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from typing import TYPE_CHECKING
 from unittest.mock import Mock
 
 import numpy as np
@@ -13,6 +14,9 @@ from batcharray.array import (
     shuffle_along_seq,
 )
 
+if TYPE_CHECKING:
+    from numpy.typing import DTypeLike
+
 INDEX_DTYPES = [np.int32, np.int64, np.uint32]
 
 #########################################
@@ -21,7 +25,7 @@ INDEX_DTYPES = [np.int32, np.int64, np.uint32]
 
 
 @pytest.mark.parametrize("dtype", INDEX_DTYPES)
-def test_permute_along_batch(dtype: np.dtype) -> None:
+def test_permute_along_batch(dtype: DTypeLike) -> None:
     assert objects_are_equal(
         permute_along_batch(
             np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]]),
@@ -67,7 +71,7 @@ def test_permute_along_batch_masked_array() -> None:
 
 
 @pytest.mark.parametrize("dtype", INDEX_DTYPES)
-def test_permute_along_seq(dtype: np.dtype) -> None:
+def test_permute_along_seq(dtype: DTypeLike) -> None:
     assert objects_are_equal(
         permute_along_seq(
             np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]]), np.array([4, 3, 2, 1, 0], dtype=dtype)

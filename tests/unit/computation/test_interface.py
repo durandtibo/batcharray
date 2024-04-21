@@ -10,6 +10,8 @@ from batcharray import computation as cmpt
 from batcharray.types import SORT_KINDS
 
 if TYPE_CHECKING:
+    from numpy.typing import DTypeLike
+
     from batcharray.types import SortKind
 
 DTYPES = (np.float64, np.int64)
@@ -21,7 +23,7 @@ DTYPES = (np.float64, np.int64)
 
 
 @pytest.mark.parametrize("dtype", DTYPES)
-def test_argmax_axis_0(dtype: np.dtype) -> None:
+def test_argmax_axis_0(dtype: DTypeLike) -> None:
     assert objects_are_equal(
         cmpt.argmax(np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]], dtype=dtype), axis=0),
         np.array([4, 4]),
@@ -29,7 +31,7 @@ def test_argmax_axis_0(dtype: np.dtype) -> None:
 
 
 @pytest.mark.parametrize("dtype", DTYPES)
-def test_argmax_axis_1(dtype: np.dtype) -> None:
+def test_argmax_axis_1(dtype: DTypeLike) -> None:
     assert objects_are_equal(
         cmpt.argmax(np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]], dtype=dtype), axis=1),
         np.array([4, 4]),
@@ -37,7 +39,7 @@ def test_argmax_axis_1(dtype: np.dtype) -> None:
 
 
 @pytest.mark.parametrize("dtype", DTYPES)
-def test_argmax_axis_none(dtype: np.dtype) -> None:
+def test_argmax_axis_none(dtype: DTypeLike) -> None:
     assert objects_are_equal(
         cmpt.argmax(np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]], dtype=dtype)),
         np.int64(9),
@@ -45,7 +47,7 @@ def test_argmax_axis_none(dtype: np.dtype) -> None:
 
 
 @pytest.mark.parametrize("dtype", DTYPES)
-def test_argmax_keepdims_true(dtype: np.dtype) -> None:
+def test_argmax_keepdims_true(dtype: DTypeLike) -> None:
     assert objects_are_equal(
         cmpt.argmax(
             np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]], dtype=dtype), axis=0, keepdims=True
@@ -55,7 +57,7 @@ def test_argmax_keepdims_true(dtype: np.dtype) -> None:
 
 
 @pytest.mark.parametrize("dtype", DTYPES)
-def test_argmax_masked_array(dtype: np.dtype) -> None:
+def test_argmax_masked_array(dtype: DTypeLike) -> None:
     assert objects_are_equal(
         cmpt.argmax(
             np.ma.masked_array(
@@ -76,7 +78,7 @@ def test_argmax_masked_array(dtype: np.dtype) -> None:
 
 
 @pytest.mark.parametrize("dtype", DTYPES)
-def test_argmin_axis_0(dtype: np.dtype) -> None:
+def test_argmin_axis_0(dtype: DTypeLike) -> None:
     assert objects_are_equal(
         cmpt.argmin(np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]], dtype=dtype), axis=0),
         np.array([0, 0]),
@@ -84,7 +86,7 @@ def test_argmin_axis_0(dtype: np.dtype) -> None:
 
 
 @pytest.mark.parametrize("dtype", DTYPES)
-def test_argmin_axis_1(dtype: np.dtype) -> None:
+def test_argmin_axis_1(dtype: DTypeLike) -> None:
     assert objects_are_equal(
         cmpt.argmin(np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]], dtype=dtype), axis=1),
         np.array([0, 0]),
@@ -92,7 +94,7 @@ def test_argmin_axis_1(dtype: np.dtype) -> None:
 
 
 @pytest.mark.parametrize("dtype", DTYPES)
-def test_argmin_axis_none(dtype: np.dtype) -> None:
+def test_argmin_axis_none(dtype: DTypeLike) -> None:
     assert objects_are_equal(
         cmpt.argmin(np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]], dtype=dtype)),
         np.int64(0),
@@ -100,7 +102,7 @@ def test_argmin_axis_none(dtype: np.dtype) -> None:
 
 
 @pytest.mark.parametrize("dtype", DTYPES)
-def test_argmin_keepdims_true(dtype: np.dtype) -> None:
+def test_argmin_keepdims_true(dtype: DTypeLike) -> None:
     assert objects_are_equal(
         cmpt.argmin(
             np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]], dtype=dtype), axis=0, keepdims=True
@@ -110,7 +112,7 @@ def test_argmin_keepdims_true(dtype: np.dtype) -> None:
 
 
 @pytest.mark.parametrize("dtype", DTYPES)
-def test_argmin_masked_array(dtype: np.dtype) -> None:
+def test_argmin_masked_array(dtype: DTypeLike) -> None:
     assert objects_are_equal(
         cmpt.argmin(
             np.ma.masked_array(
@@ -131,7 +133,7 @@ def test_argmin_masked_array(dtype: np.dtype) -> None:
 
 
 @pytest.mark.parametrize("dtype", DTYPES)
-def test_argsort_axis_0(dtype: np.dtype) -> None:
+def test_argsort_axis_0(dtype: DTypeLike) -> None:
     assert objects_are_equal(
         cmpt.argsort(
             np.array([[3, 5, 0, 2, 4], [4, 7, 8, 8, 5], [8, 4, 1, 3, 0]], dtype=dtype), axis=0
@@ -141,7 +143,7 @@ def test_argsort_axis_0(dtype: np.dtype) -> None:
 
 
 @pytest.mark.parametrize("dtype", DTYPES)
-def test_argsort_axis_1(dtype: np.dtype) -> None:
+def test_argsort_axis_1(dtype: DTypeLike) -> None:
     assert objects_are_equal(
         cmpt.argsort(
             np.array([[3, 5, 0, 2, 4], [4, 7, 8, 8, 5], [8, 5, 8, 8, 0]], dtype=dtype), axis=1
@@ -151,7 +153,7 @@ def test_argsort_axis_1(dtype: np.dtype) -> None:
 
 
 @pytest.mark.parametrize("dtype", DTYPES)
-def test_argsort_axis_none(dtype: np.dtype) -> None:
+def test_argsort_axis_none(dtype: DTypeLike) -> None:
     assert objects_are_equal(
         cmpt.argsort(np.array([[3, 5, 0, 2, 4], [4, 7, 8, 8, 5], [8, 5, 8, 8, 0]], dtype=dtype)),
         np.array([2, 14, 3, 0, 4, 5, 1, 9, 11, 6, 7, 8, 10, 12, 13]),
@@ -169,7 +171,7 @@ def test_argsort_kind(kind: SortKind) -> None:
 
 
 @pytest.mark.parametrize("dtype", DTYPES)
-def test_auto_array_computation_model_argsort_masked_array(dtype: np.dtype) -> None:
+def test_auto_array_computation_model_argsort_masked_array(dtype: DTypeLike) -> None:
     assert objects_are_equal(
         cmpt.argsort(
             np.ma.masked_array(
@@ -236,7 +238,7 @@ def test_concatenate_masked_array_axis_0() -> None:
 
 
 @pytest.mark.parametrize("dtype", DTYPES)
-def test_max_axis_0(dtype: np.dtype) -> None:
+def test_max_axis_0(dtype: DTypeLike) -> None:
     assert objects_are_equal(
         cmpt.max(np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]], dtype=dtype), axis=0),
         np.array([8, 9], dtype=dtype),
@@ -244,7 +246,7 @@ def test_max_axis_0(dtype: np.dtype) -> None:
 
 
 @pytest.mark.parametrize("dtype", DTYPES)
-def test_max_axis_1(dtype: np.dtype) -> None:
+def test_max_axis_1(dtype: DTypeLike) -> None:
     assert objects_are_equal(
         cmpt.max(np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]], dtype=dtype), axis=1),
         np.array([4, 9], dtype=dtype),
@@ -252,12 +254,12 @@ def test_max_axis_1(dtype: np.dtype) -> None:
 
 
 @pytest.mark.parametrize("dtype", DTYPES)
-def test_max_axis_none(dtype: np.dtype) -> None:
+def test_max_axis_none(dtype: DTypeLike) -> None:
     assert cmpt.max(np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]], dtype=dtype)) == 9
 
 
 @pytest.mark.parametrize("dtype", DTYPES)
-def test_max_keepdims_true(dtype: np.dtype) -> None:
+def test_max_keepdims_true(dtype: DTypeLike) -> None:
     assert objects_are_equal(
         cmpt.max(
             np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]], dtype=dtype), axis=0, keepdims=True
@@ -267,7 +269,7 @@ def test_max_keepdims_true(dtype: np.dtype) -> None:
 
 
 @pytest.mark.parametrize("dtype", DTYPES)
-def test_max_masked_array(dtype: np.dtype) -> None:
+def test_max_masked_array(dtype: DTypeLike) -> None:
     assert objects_are_equal(
         cmpt.max(
             np.ma.masked_array(
@@ -288,7 +290,7 @@ def test_max_masked_array(dtype: np.dtype) -> None:
 
 
 @pytest.mark.parametrize("dtype", DTYPES)
-def test_mean_axis_0(dtype: np.dtype) -> None:
+def test_mean_axis_0(dtype: DTypeLike) -> None:
     assert objects_are_equal(
         cmpt.mean(np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]], dtype=dtype), axis=0),
         np.array([4.0, 5.0]),
@@ -296,7 +298,7 @@ def test_mean_axis_0(dtype: np.dtype) -> None:
 
 
 @pytest.mark.parametrize("dtype", DTYPES)
-def test_mean_axis_1(dtype: np.dtype) -> None:
+def test_mean_axis_1(dtype: DTypeLike) -> None:
     assert objects_are_equal(
         cmpt.mean(np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]], dtype=dtype), axis=1),
         np.array([2.0, 7.0]),
@@ -304,7 +306,7 @@ def test_mean_axis_1(dtype: np.dtype) -> None:
 
 
 @pytest.mark.parametrize("dtype", DTYPES)
-def test_mean_axis_none(dtype: np.dtype) -> None:
+def test_mean_axis_none(dtype: DTypeLike) -> None:
     assert objects_are_equal(
         cmpt.mean(np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]], dtype=dtype)),
         np.float64(4.5),
@@ -312,7 +314,7 @@ def test_mean_axis_none(dtype: np.dtype) -> None:
 
 
 @pytest.mark.parametrize("dtype", DTYPES)
-def test_mean_keepdims_true(dtype: np.dtype) -> None:
+def test_mean_keepdims_true(dtype: DTypeLike) -> None:
     assert objects_are_equal(
         cmpt.mean(
             np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]], dtype=dtype), axis=0, keepdims=True
@@ -322,7 +324,7 @@ def test_mean_keepdims_true(dtype: np.dtype) -> None:
 
 
 @pytest.mark.parametrize("dtype", DTYPES)
-def test_mean_masked_array(dtype: np.dtype) -> None:
+def test_mean_masked_array(dtype: DTypeLike) -> None:
     assert objects_are_equal(
         cmpt.mean(
             np.ma.masked_array(
@@ -343,7 +345,7 @@ def test_mean_masked_array(dtype: np.dtype) -> None:
 
 
 @pytest.mark.parametrize("dtype", DTYPES)
-def test_median_axis_0(dtype: np.dtype) -> None:
+def test_median_axis_0(dtype: DTypeLike) -> None:
     assert objects_are_equal(
         cmpt.median(np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]], dtype=dtype), axis=0),
         np.array([4.0, 5.0]),
@@ -351,7 +353,7 @@ def test_median_axis_0(dtype: np.dtype) -> None:
 
 
 @pytest.mark.parametrize("dtype", DTYPES)
-def test_median_axis_1(dtype: np.dtype) -> None:
+def test_median_axis_1(dtype: DTypeLike) -> None:
     assert objects_are_equal(
         cmpt.median(np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]], dtype=dtype), axis=1),
         np.array([2.0, 7.0]),
@@ -359,7 +361,7 @@ def test_median_axis_1(dtype: np.dtype) -> None:
 
 
 @pytest.mark.parametrize("dtype", DTYPES)
-def test_median_axis_none(dtype: np.dtype) -> None:
+def test_median_axis_none(dtype: DTypeLike) -> None:
     assert objects_are_equal(
         cmpt.median(np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]], dtype=dtype)),
         np.float64(4.5),
@@ -367,7 +369,7 @@ def test_median_axis_none(dtype: np.dtype) -> None:
 
 
 @pytest.mark.parametrize("dtype", DTYPES)
-def test_median_keepdims_true(dtype: np.dtype) -> None:
+def test_median_keepdims_true(dtype: DTypeLike) -> None:
     assert objects_are_equal(
         cmpt.median(
             np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]], dtype=dtype), axis=0, keepdims=True
@@ -377,7 +379,7 @@ def test_median_keepdims_true(dtype: np.dtype) -> None:
 
 
 @pytest.mark.parametrize("dtype", DTYPES)
-def test_median_masked_array(dtype: np.dtype) -> None:
+def test_median_masked_array(dtype: DTypeLike) -> None:
     assert objects_are_equal(
         cmpt.median(
             np.ma.masked_array(
@@ -398,7 +400,7 @@ def test_median_masked_array(dtype: np.dtype) -> None:
 
 
 @pytest.mark.parametrize("dtype", DTYPES)
-def test_min_axis_0(dtype: np.dtype) -> None:
+def test_min_axis_0(dtype: DTypeLike) -> None:
     assert objects_are_equal(
         cmpt.min(np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]], dtype=dtype), axis=0),
         np.array([0, 1], dtype=dtype),
@@ -406,7 +408,7 @@ def test_min_axis_0(dtype: np.dtype) -> None:
 
 
 @pytest.mark.parametrize("dtype", DTYPES)
-def test_min_axis_1(dtype: np.dtype) -> None:
+def test_min_axis_1(dtype: DTypeLike) -> None:
     assert objects_are_equal(
         cmpt.min(np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]], dtype=dtype), axis=1),
         np.array([0, 5], dtype=dtype),
@@ -414,12 +416,12 @@ def test_min_axis_1(dtype: np.dtype) -> None:
 
 
 @pytest.mark.parametrize("dtype", DTYPES)
-def test_min_axis_none(dtype: np.dtype) -> None:
+def test_min_axis_none(dtype: DTypeLike) -> None:
     assert cmpt.min(np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]], dtype=dtype)) == 0
 
 
 @pytest.mark.parametrize("dtype", DTYPES)
-def test_min_keepdims_true(dtype: np.dtype) -> None:
+def test_min_keepdims_true(dtype: DTypeLike) -> None:
     assert objects_are_equal(
         cmpt.min(
             np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]], dtype=dtype), axis=0, keepdims=True
@@ -429,7 +431,7 @@ def test_min_keepdims_true(dtype: np.dtype) -> None:
 
 
 @pytest.mark.parametrize("dtype", DTYPES)
-def test_min_masked_array(dtype: np.dtype) -> None:
+def test_min_masked_array(dtype: DTypeLike) -> None:
     assert objects_are_equal(
         cmpt.min(
             np.ma.masked_array(
@@ -450,7 +452,7 @@ def test_min_masked_array(dtype: np.dtype) -> None:
 
 
 @pytest.mark.parametrize("dtype", DTYPES)
-def test_sort_axis_0(dtype: np.dtype) -> None:
+def test_sort_axis_0(dtype: DTypeLike) -> None:
     assert objects_are_equal(
         cmpt.sort(
             np.array([[3, 5, 0, 2, 4], [4, 7, 8, 8, 5], [8, 5, 8, 8, 0]], dtype=dtype), axis=0
@@ -460,7 +462,7 @@ def test_sort_axis_0(dtype: np.dtype) -> None:
 
 
 @pytest.mark.parametrize("dtype", DTYPES)
-def test_sort_axis_1(dtype: np.dtype) -> None:
+def test_sort_axis_1(dtype: DTypeLike) -> None:
     assert objects_are_equal(
         cmpt.sort(
             np.array([[3, 5, 0, 2, 4], [4, 7, 8, 8, 5], [8, 5, 8, 8, 0]], dtype=dtype), axis=1
@@ -470,7 +472,7 @@ def test_sort_axis_1(dtype: np.dtype) -> None:
 
 
 @pytest.mark.parametrize("dtype", DTYPES)
-def test_sort_axis_none(dtype: np.dtype) -> None:
+def test_sort_axis_none(dtype: DTypeLike) -> None:
     assert objects_are_equal(
         cmpt.sort(np.array([[3, 5, 0, 2, 4], [4, 7, 8, 8, 5], [8, 5, 8, 8, 0]], dtype=dtype)),
         np.array([0, 0, 2, 3, 4, 4, 5, 5, 5, 7, 8, 8, 8, 8, 8], dtype=dtype),
@@ -486,7 +488,7 @@ def test_sort_kind(kind: SortKind) -> None:
 
 
 @pytest.mark.parametrize("dtype", DTYPES)
-def test_sort_masked_array(dtype: np.dtype) -> None:
+def test_sort_masked_array(dtype: DTypeLike) -> None:
     assert objects_are_equal(
         cmpt.sort(
             np.ma.masked_array(
