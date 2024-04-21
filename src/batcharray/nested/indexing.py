@@ -33,6 +33,9 @@ def index_select_along_batch(data: Any, indices: np.ndarray) -> Any:
             axis of the arrays. All the arrays should have the
             same batch size.
 
+    Note:
+        Equivalent to ``take_along_batch``.
+
     Args:
         data: The input data. Each item must be an array.
         indices: The 1-D array containing the indices to take.
@@ -70,6 +73,9 @@ def index_select_along_seq(data: Any, indices: np.ndarray) -> Any:
         This function assumes the sequence axis is the second
             axis of the arrays. All the arrays should have the
             same sequence size.
+
+    Note:
+        Equivalent to ``take_along_seq``.
 
     Args:
         data: The input data. Each item must be an array.
@@ -173,6 +179,9 @@ def take_along_batch(data: Any, indices: np.ndarray) -> Any:
             axis of the arrays. All the arrays should have the
             same batch size.
 
+    Note:
+        Equivalent to ``index_select_along_batch``.
+
     Args:
         data: The input data. Each item must be an array.
         indices: The 1-D array containing the indices to take.
@@ -210,6 +219,9 @@ def take_along_seq(data: Any, indices: np.ndarray) -> Any:
         This function assumes the sequence axis is the second
             axis of the arrays. All the arrays should have the
             same sequence size.
+
+    Note:
+        Equivalent to ``index_select_along_seq``.
 
     Args:
         data: The input data. Each item must be an array.
