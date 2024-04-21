@@ -3,6 +3,7 @@ from collections.abc import Callable
 import numpy as np
 import pytest
 from coola import objects_are_allclose
+from numpy.typing import DTypeLike
 
 from batcharray import nested
 
@@ -26,7 +27,7 @@ POINTWISE_FUNCTIONS = [
 @pytest.mark.filterwarnings("ignore::RuntimeWarning")
 @pytest.mark.parametrize("dtype", DTYPES)
 @pytest.mark.parametrize("functions", POINTWISE_FUNCTIONS)
-def test_trigo_array(dtype: np.dtype, functions: tuple[Callable, Callable]) -> None:
+def test_trigo_array(dtype: DTypeLike, functions: tuple[Callable, Callable]) -> None:
     np_fn, nested_fn = functions
     array = np.random.randn(5, 2).astype(dtype=dtype)
     assert objects_are_allclose(nested_fn(array), np_fn(array), equal_nan=True)
@@ -35,7 +36,7 @@ def test_trigo_array(dtype: np.dtype, functions: tuple[Callable, Callable]) -> N
 @pytest.mark.filterwarnings("ignore::RuntimeWarning")
 @pytest.mark.parametrize("dtype", DTYPES)
 @pytest.mark.parametrize("functions", POINTWISE_FUNCTIONS)
-def test_trigo_dict(dtype: np.dtype, functions: tuple[Callable, Callable]) -> None:
+def test_trigo_dict(dtype: DTypeLike, functions: tuple[Callable, Callable]) -> None:
     np_fn, nested_fn = functions
     assert objects_are_allclose(
         nested_fn(

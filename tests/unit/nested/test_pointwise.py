@@ -4,6 +4,7 @@ from functools import partial
 import numpy as np
 import pytest
 from coola import objects_are_equal
+from numpy.typing import DTypeLike
 
 from batcharray import nested
 
@@ -25,7 +26,7 @@ POINTWISE_FUNCTIONS = [
 
 @pytest.mark.parametrize("dtype", DTYPES)
 @pytest.mark.parametrize("functions", POINTWISE_FUNCTIONS)
-def test_pointwise_function_array(dtype: np.dtype, functions: tuple[Callable, Callable]) -> None:
+def test_pointwise_function_array(dtype: DTypeLike, functions: tuple[Callable, Callable]) -> None:
     np_fn, nested_fn = functions
     array = np.array([[1, 2], [3, 4], [5, 6], [7, 8], [9, 10]], dtype=dtype)
     assert objects_are_equal(nested_fn(array), np_fn(array))
@@ -33,7 +34,7 @@ def test_pointwise_function_array(dtype: np.dtype, functions: tuple[Callable, Ca
 
 @pytest.mark.parametrize("dtype", DTYPES)
 @pytest.mark.parametrize("functions", POINTWISE_FUNCTIONS)
-def test_pointwise_function_dict(dtype: np.dtype, functions: tuple[Callable, Callable]) -> None:
+def test_pointwise_function_dict(dtype: DTypeLike, functions: tuple[Callable, Callable]) -> None:
     np_fn, nested_fn = functions
     assert objects_are_equal(
         nested_fn(

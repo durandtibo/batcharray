@@ -12,6 +12,8 @@ from batcharray.types import SORT_KINDS
 if TYPE_CHECKING:
     from collections.abc import Sequence
 
+    from numpy.typing import DTypeLike
+
     from batcharray.types import SortKind
 
 DTYPES = (np.float64, np.int64)
@@ -39,7 +41,7 @@ def test_masked_array_computation_model_str() -> None:
 
 
 @pytest.mark.parametrize("dtype", DTYPES)
-def test_masked_array_computation_model_argmax_axis_0(dtype: np.dtype) -> None:
+def test_masked_array_computation_model_argmax_axis_0(dtype: DTypeLike) -> None:
     assert objects_are_equal(
         MaskedArrayComputationModel().argmax(
             np.ma.masked_array(
@@ -55,7 +57,7 @@ def test_masked_array_computation_model_argmax_axis_0(dtype: np.dtype) -> None:
 
 
 @pytest.mark.parametrize("dtype", DTYPES)
-def test_masked_array_computation_model_argmax_axis_1(dtype: np.dtype) -> None:
+def test_masked_array_computation_model_argmax_axis_1(dtype: DTypeLike) -> None:
     assert objects_are_equal(
         MaskedArrayComputationModel().argmax(
             np.ma.masked_array(
@@ -71,7 +73,7 @@ def test_masked_array_computation_model_argmax_axis_1(dtype: np.dtype) -> None:
 
 
 @pytest.mark.parametrize("dtype", DTYPES)
-def test_masked_array_computation_model_argmax_axis_none(dtype: np.dtype) -> None:
+def test_masked_array_computation_model_argmax_axis_none(dtype: DTypeLike) -> None:
     assert objects_are_equal(
         MaskedArrayComputationModel().argmax(
             np.ma.masked_array(
@@ -86,7 +88,7 @@ def test_masked_array_computation_model_argmax_axis_none(dtype: np.dtype) -> Non
 
 
 @pytest.mark.parametrize("dtype", DTYPES)
-def test_masked_array_computation_model_argmax_keepdims_true(dtype: np.dtype) -> None:
+def test_masked_array_computation_model_argmax_keepdims_true(dtype: DTypeLike) -> None:
     assert objects_are_equal(
         MaskedArrayComputationModel().argmax(
             np.ma.masked_array(
@@ -108,7 +110,7 @@ def test_masked_array_computation_model_argmax_keepdims_true(dtype: np.dtype) ->
 
 
 @pytest.mark.parametrize("dtype", DTYPES)
-def test_masked_array_computation_model_argmin_axis_0(dtype: np.dtype) -> None:
+def test_masked_array_computation_model_argmin_axis_0(dtype: DTypeLike) -> None:
     assert objects_are_equal(
         MaskedArrayComputationModel().argmin(
             np.ma.masked_array(
@@ -124,7 +126,7 @@ def test_masked_array_computation_model_argmin_axis_0(dtype: np.dtype) -> None:
 
 
 @pytest.mark.parametrize("dtype", DTYPES)
-def test_masked_array_computation_model_argmin_axis_1(dtype: np.dtype) -> None:
+def test_masked_array_computation_model_argmin_axis_1(dtype: DTypeLike) -> None:
     assert objects_are_equal(
         MaskedArrayComputationModel().argmin(
             np.ma.masked_array(
@@ -140,7 +142,7 @@ def test_masked_array_computation_model_argmin_axis_1(dtype: np.dtype) -> None:
 
 
 @pytest.mark.parametrize("dtype", DTYPES)
-def test_masked_array_computation_model_argmin_axis_none(dtype: np.dtype) -> None:
+def test_masked_array_computation_model_argmin_axis_none(dtype: DTypeLike) -> None:
     assert objects_are_equal(
         MaskedArrayComputationModel().argmin(
             np.ma.masked_array(
@@ -155,7 +157,7 @@ def test_masked_array_computation_model_argmin_axis_none(dtype: np.dtype) -> Non
 
 
 @pytest.mark.parametrize("dtype", DTYPES)
-def test_masked_array_computation_model_argmin_keepdims_true(dtype: np.dtype) -> None:
+def test_masked_array_computation_model_argmin_keepdims_true(dtype: DTypeLike) -> None:
     assert objects_are_equal(
         MaskedArrayComputationModel().argmin(
             np.ma.masked_array(
@@ -177,7 +179,7 @@ def test_masked_array_computation_model_argmin_keepdims_true(dtype: np.dtype) ->
 
 
 @pytest.mark.parametrize("dtype", DTYPES)
-def test_masked_array_computation_model_argsort_axis_0(dtype: np.dtype) -> None:
+def test_masked_array_computation_model_argsort_axis_0(dtype: DTypeLike) -> None:
     assert objects_are_equal(
         MaskedArrayComputationModel().argsort(
             np.ma.masked_array(
@@ -197,7 +199,7 @@ def test_masked_array_computation_model_argsort_axis_0(dtype: np.dtype) -> None:
 
 
 @pytest.mark.parametrize("dtype", DTYPES)
-def test_masked_array_computation_model_argsort_axis_1(dtype: np.dtype) -> None:
+def test_masked_array_computation_model_argsort_axis_1(dtype: DTypeLike) -> None:
     assert objects_are_equal(
         MaskedArrayComputationModel().argsort(
             np.ma.masked_array(
@@ -217,7 +219,7 @@ def test_masked_array_computation_model_argsort_axis_1(dtype: np.dtype) -> None:
 
 
 @pytest.mark.parametrize("dtype", DTYPES)
-def test_masked_array_computation_model_argsort_axis_none(dtype: np.dtype) -> None:
+def test_masked_array_computation_model_argsort_axis_none(dtype: DTypeLike) -> None:
     assert objects_are_equal(
         MaskedArrayComputationModel().argsort(
             np.ma.masked_array(
@@ -471,7 +473,7 @@ def test_masked_array_computation_model_concatenate_axis_none(
 
 
 @pytest.mark.parametrize("dtype", [int, float])
-def test_masked_array_computation_model_concatenate_dtype(dtype: np.dtype) -> None:
+def test_masked_array_computation_model_concatenate_dtype(dtype: DTypeLike) -> None:
     out = MaskedArrayComputationModel().concatenate(
         [
             np.ma.masked_array(
@@ -508,7 +510,7 @@ def test_masked_array_computation_model_concatenate_dtype(dtype: np.dtype) -> No
 
 
 @pytest.mark.parametrize("dtype", DTYPES)
-def test_masked_array_computation_model_max_axis_0(dtype: np.dtype) -> None:
+def test_masked_array_computation_model_max_axis_0(dtype: DTypeLike) -> None:
     assert objects_are_allclose(
         MaskedArrayComputationModel().max(
             np.ma.masked_array(
@@ -524,7 +526,7 @@ def test_masked_array_computation_model_max_axis_0(dtype: np.dtype) -> None:
 
 
 @pytest.mark.parametrize("dtype", DTYPES)
-def test_masked_array_computation_model_max_axis_1(dtype: np.dtype) -> None:
+def test_masked_array_computation_model_max_axis_1(dtype: DTypeLike) -> None:
     assert objects_are_allclose(
         MaskedArrayComputationModel().max(
             np.ma.masked_array(
@@ -540,7 +542,7 @@ def test_masked_array_computation_model_max_axis_1(dtype: np.dtype) -> None:
 
 
 @pytest.mark.parametrize("dtype", DTYPES)
-def test_masked_array_computation_model_max_axis_none(dtype: np.dtype) -> None:
+def test_masked_array_computation_model_max_axis_none(dtype: DTypeLike) -> None:
     assert (
         MaskedArrayComputationModel().max(
             np.ma.masked_array(
@@ -555,7 +557,7 @@ def test_masked_array_computation_model_max_axis_none(dtype: np.dtype) -> None:
 
 
 @pytest.mark.parametrize("dtype", DTYPES)
-def test_masked_array_computation_model_max_keepdims_true(dtype: np.dtype) -> None:
+def test_masked_array_computation_model_max_keepdims_true(dtype: DTypeLike) -> None:
     assert objects_are_equal(
         MaskedArrayComputationModel().max(
             np.ma.masked_array(
@@ -577,7 +579,7 @@ def test_masked_array_computation_model_max_keepdims_true(dtype: np.dtype) -> No
 
 
 @pytest.mark.parametrize("dtype", DTYPES)
-def test_masked_array_computation_model_mean_axis_0(dtype: np.dtype) -> None:
+def test_masked_array_computation_model_mean_axis_0(dtype: DTypeLike) -> None:
     assert objects_are_allclose(
         MaskedArrayComputationModel().mean(
             np.ma.masked_array(
@@ -593,7 +595,7 @@ def test_masked_array_computation_model_mean_axis_0(dtype: np.dtype) -> None:
 
 
 @pytest.mark.parametrize("dtype", DTYPES)
-def test_masked_array_computation_model_mean_axis_1(dtype: np.dtype) -> None:
+def test_masked_array_computation_model_mean_axis_1(dtype: DTypeLike) -> None:
     assert objects_are_allclose(
         MaskedArrayComputationModel().mean(
             np.ma.masked_array(
@@ -611,7 +613,7 @@ def test_masked_array_computation_model_mean_axis_1(dtype: np.dtype) -> None:
 
 
 @pytest.mark.parametrize("dtype", DTYPES)
-def test_masked_array_computation_model_mean_axis_none(dtype: np.dtype) -> None:
+def test_masked_array_computation_model_mean_axis_none(dtype: DTypeLike) -> None:
     assert objects_are_equal(
         MaskedArrayComputationModel().mean(
             np.ma.masked_array(
@@ -626,7 +628,7 @@ def test_masked_array_computation_model_mean_axis_none(dtype: np.dtype) -> None:
 
 
 @pytest.mark.parametrize("dtype", DTYPES)
-def test_masked_array_computation_model_mean_keepdims_true(dtype: np.dtype) -> None:
+def test_masked_array_computation_model_mean_keepdims_true(dtype: DTypeLike) -> None:
     assert objects_are_equal(
         MaskedArrayComputationModel().mean(
             np.ma.masked_array(
@@ -650,7 +652,7 @@ def test_masked_array_computation_model_mean_keepdims_true(dtype: np.dtype) -> N
 
 
 @pytest.mark.parametrize("dtype", DTYPES)
-def test_masked_array_computation_model_median_axis_0(dtype: np.dtype) -> None:
+def test_masked_array_computation_model_median_axis_0(dtype: DTypeLike) -> None:
     assert objects_are_equal(
         MaskedArrayComputationModel().median(
             np.ma.masked_array(
@@ -666,7 +668,7 @@ def test_masked_array_computation_model_median_axis_0(dtype: np.dtype) -> None:
 
 
 @pytest.mark.parametrize("dtype", DTYPES)
-def test_masked_array_computation_model_median_axis_1(dtype: np.dtype) -> None:
+def test_masked_array_computation_model_median_axis_1(dtype: DTypeLike) -> None:
     assert objects_are_equal(
         MaskedArrayComputationModel().median(
             np.ma.masked_array(
@@ -682,7 +684,7 @@ def test_masked_array_computation_model_median_axis_1(dtype: np.dtype) -> None:
 
 
 @pytest.mark.parametrize("dtype", DTYPES)
-def test_masked_array_computation_model_median_axis_none(dtype: np.dtype) -> None:
+def test_masked_array_computation_model_median_axis_none(dtype: DTypeLike) -> None:
     assert objects_are_equal(
         MaskedArrayComputationModel().median(
             np.ma.masked_array(
@@ -697,7 +699,7 @@ def test_masked_array_computation_model_median_axis_none(dtype: np.dtype) -> Non
 
 
 @pytest.mark.parametrize("dtype", DTYPES)
-def test_masked_array_computation_model_median_keepdims_true(dtype: np.dtype) -> None:
+def test_masked_array_computation_model_median_keepdims_true(dtype: DTypeLike) -> None:
     assert objects_are_equal(
         MaskedArrayComputationModel().median(
             np.ma.masked_array(
@@ -719,7 +721,7 @@ def test_masked_array_computation_model_median_keepdims_true(dtype: np.dtype) ->
 
 
 @pytest.mark.parametrize("dtype", DTYPES)
-def test_masked_array_computation_model_min_axis_0(dtype: np.dtype) -> None:
+def test_masked_array_computation_model_min_axis_0(dtype: DTypeLike) -> None:
     assert objects_are_allclose(
         MaskedArrayComputationModel().min(
             np.ma.masked_array(
@@ -735,7 +737,7 @@ def test_masked_array_computation_model_min_axis_0(dtype: np.dtype) -> None:
 
 
 @pytest.mark.parametrize("dtype", DTYPES)
-def test_masked_array_computation_model_min_axis_1(dtype: np.dtype) -> None:
+def test_masked_array_computation_model_min_axis_1(dtype: DTypeLike) -> None:
     assert objects_are_allclose(
         MaskedArrayComputationModel().min(
             np.ma.masked_array(
@@ -751,7 +753,7 @@ def test_masked_array_computation_model_min_axis_1(dtype: np.dtype) -> None:
 
 
 @pytest.mark.parametrize("dtype", DTYPES)
-def test_masked_array_computation_model_min_axis_none(dtype: np.dtype) -> None:
+def test_masked_array_computation_model_min_axis_none(dtype: DTypeLike) -> None:
     assert (
         MaskedArrayComputationModel().min(
             np.ma.masked_array(
@@ -766,7 +768,7 @@ def test_masked_array_computation_model_min_axis_none(dtype: np.dtype) -> None:
 
 
 @pytest.mark.parametrize("dtype", DTYPES)
-def test_masked_array_computation_model_min_keepdims_true(dtype: np.dtype) -> None:
+def test_masked_array_computation_model_min_keepdims_true(dtype: DTypeLike) -> None:
     assert objects_are_equal(
         MaskedArrayComputationModel().min(
             np.ma.masked_array(
@@ -788,7 +790,7 @@ def test_masked_array_computation_model_min_keepdims_true(dtype: np.dtype) -> No
 
 
 @pytest.mark.parametrize("dtype", DTYPES)
-def test_masked_array_computation_model_sort_axis_0(dtype: np.dtype) -> None:
+def test_masked_array_computation_model_sort_axis_0(dtype: DTypeLike) -> None:
     assert objects_are_equal(
         MaskedArrayComputationModel().sort(
             np.ma.masked_array(
@@ -817,7 +819,7 @@ def test_masked_array_computation_model_sort_axis_0(dtype: np.dtype) -> None:
 
 
 @pytest.mark.parametrize("dtype", DTYPES)
-def test_masked_array_computation_model_sort_axis_1(dtype: np.dtype) -> None:
+def test_masked_array_computation_model_sort_axis_1(dtype: DTypeLike) -> None:
     assert objects_are_equal(
         MaskedArrayComputationModel().sort(
             np.ma.masked_array(
@@ -846,7 +848,7 @@ def test_masked_array_computation_model_sort_axis_1(dtype: np.dtype) -> None:
 
 
 @pytest.mark.parametrize("dtype", DTYPES)
-def test_masked_array_computation_model_sort_axis_none(dtype: np.dtype) -> None:
+def test_masked_array_computation_model_sort_axis_none(dtype: DTypeLike) -> None:
     assert objects_are_equal(
         MaskedArrayComputationModel().sort(
             np.ma.masked_array(
