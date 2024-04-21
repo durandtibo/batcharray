@@ -23,6 +23,9 @@ def index_select_along_batch(array: np.ndarray, indices: np.ndarray) -> np.ndarr
     Note:
         This function assumes the batch axis is the first axis.
 
+    Note:
+        Equivalent to ``take_along_batch``.
+
     Args:
         array: The input array.
         indices: The 1-D array containing the indices to take.
@@ -60,6 +63,9 @@ def index_select_along_seq(array: np.ndarray, indices: np.ndarray) -> np.ndarray
 
     Note:
         This function assumes the sequence axis is the second axis.
+
+    Note:
+        Equivalent to ``take_along_seq``.
 
     Args:
         array: The input array.
@@ -156,6 +162,9 @@ def take_along_batch(array: np.ndarray, indices: np.ndarray) -> np.ndarray:
     Note:
         This function assumes the batch axis is the first axis.
 
+    Note:
+        Equivalent to ``index_select_along_batch``.
+
     Args:
         array: The input array.
         indices: The 1-D array containing the indices to take.
@@ -193,6 +202,9 @@ def take_along_seq(array: np.ndarray, indices: np.ndarray) -> np.ndarray:
 
     Note:
         This function assumes the sequence axis is the second axis.
+
+    Note:
+        Equivalent to ``index_select_along_seq``.
 
     Args:
         array: The input array.
