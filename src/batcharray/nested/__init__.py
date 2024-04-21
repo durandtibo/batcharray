@@ -69,6 +69,8 @@ __all__ = [
     "prod_along_seq",
     "sum_along_batch",
     "sum_along_seq",
+    "index_select_along_batch",
+    "index_select_along_seq",
 ]
 
 
@@ -78,7 +80,12 @@ from batcharray.nested.comparison import (
     sort_along_batch,
     sort_along_seq,
 )
-from batcharray.nested.indexing import take_along_batch, take_along_seq
+from batcharray.nested.indexing import (
+    index_select_along_batch,
+    index_select_along_seq,
+    take_along_batch,
+    take_along_seq,
+)
 from batcharray.nested.joining import (
     concatenate_along_batch,
     concatenate_along_seq,
