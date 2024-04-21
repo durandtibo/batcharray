@@ -5,6 +5,8 @@ from __future__ import annotations
 __all__ = [
     "index_select_along_batch",
     "index_select_along_seq",
+    "masked_select_along_batch",
+    "masked_select_along_seq",
     "take_along_batch",
     "take_along_seq",
 ]
@@ -93,6 +95,73 @@ def index_select_along_seq(data: Any, indices: np.ndarray) -> Any:
     ```
     """
     return recursive_apply(data, partial(array.index_select_along_seq, indices=indices))
+
+
+def masked_select_along_batch(data: Any, mask: np.ndarray) -> Any:
+    r"""Return the arrays which index the arrays along the batch axis
+    according to the boolean mask ``mask``.
+
+    Note:
+        This function assumes the batch axis is the first
+            axis of the arrays. All the arrays should have the
+            same batch size.
+
+    Args:
+        data: The input data. Each item must be an array.
+        mask: The 1-D array containing the binary mask to index with.
+
+    Returns:
+        The indexed arrays along the batch axis.
+
+    Example usage:
+
+    ```pycon
+
+    >>> import numpy as np
+    >>> from batcharray.nested import masked_select_along_batch
+    >>> arrays = {
+    ...     "a": np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]]),
+    ...     "b": np.array([4, 3, 2, 1, 0]),
+    ... }
+    >>> out = masked_select_along_batch(arrays, np.array([False, False, True, False, True]))
+    >>> out
+    {'a': array([[4, 5], [8, 9]]), 'b': array([2, 0])}
+
+    ```
+    """
+    return recursive_apply(data, partial(array.masked_select_along_batch, mask=mask))
+
+
+def masked_select_along_seq(data: Any, mask: np.ndarray) -> Any:
+    r"""Return the arrays which index the arrays along the sequence axis
+    according to the boolean mask ``mask``.
+
+    Note:
+        This function assumes the sequence axis is the second
+            axis of the arrays. All the arrays should have the
+            same sequence size.
+
+    Args:
+        data: The input data. Each item must be an array.
+        mask: The 1-D array containing the binary mask to index with.
+
+    Returns:
+        The indexed arrays along the sequence axis.
+
+    Example usage:
+
+    ```pycon
+
+    >>> import numpy as np
+    >>> from batcharray.nested import masked_select_along_seq
+    >>> arrays = {'a': np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]]), 'b': np.array([[4, 3, 2, 1, 0]])}
+    >>> out = masked_select_along_seq(arrays, np.array([False, False, True, False, True]))
+    >>> out
+    {'a': array([[2, 4], [7, 9]]), 'b': array([[2, 0]])}
+
+    ```
+    """
+    return recursive_apply(data, partial(array.masked_select_along_seq, mask=mask))
 
 
 def take_along_batch(data: Any, indices: np.ndarray) -> Any:
