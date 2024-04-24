@@ -54,7 +54,7 @@ jobs:
           - os: macos-latest
             python-version: '3.9'
         include:
-          - os: macos-14
+          - os: macos-13
             python-version: '3.9'
 
     steps:
