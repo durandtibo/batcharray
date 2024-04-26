@@ -73,6 +73,7 @@ __all__ = [
     "tan",
     "tanh",
     "tile_along_seq",
+    "to_list",
 ]
 
 from batcharray.nested.comparison import (
@@ -81,6 +82,7 @@ from batcharray.nested.comparison import (
     sort_along_batch,
     sort_along_seq,
 )
+from batcharray.nested.conversion import to_list
 from batcharray.nested.indexing import (
     index_select_along_batch,
     index_select_along_seq,
