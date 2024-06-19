@@ -137,7 +137,7 @@ def select_along_batch(data: Any, index: int) -> Any:
     >>> data = {"a": np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]]), "b": np.array([4, 3, 2, 1, 0])}
     >>> out = select_along_batch(data, index=2)
     >>> out
-    {'a': array([4, 5]), 'b': 2}
+    {'a': array([4, 5]), 'b': np.int64(2)}
 
     ```
     """
