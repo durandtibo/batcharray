@@ -134,12 +134,12 @@ class BaseComputationModel(ABC, Generic[T]):
         >>> from batcharray.computation import ArrayComputationModel
         >>> comp_model = ArrayComputationModel()
         >>> array = np.array([[3, 5, 0, 2, 4], [4, 7, 8, 8, 5], [8, 5, 8, 8, 0]])
-        >>> out = comp_model.argsort(array, axis=0)
+        >>> out = comp_model.argsort(array, axis=0, kind='stable')
         >>> out
         array([[0, 0, 0, 0, 2],
                [1, 2, 1, 1, 0],
                [2, 1, 2, 2, 1]])
-        >>> out = comp_model.argsort(array, axis=1)
+        >>> out = comp_model.argsort(array, axis=1, kind='stable')
         >>> out
         array([[2, 3, 0, 4, 1],
                [0, 4, 1, 2, 3],
