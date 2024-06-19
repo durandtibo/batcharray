@@ -130,7 +130,7 @@ def test_argsort_along_seq_nested() -> None:
                         ]
                     ),
                 ),
-            }
+            },
         ),
         {
             "a": np.array([[2, 1, 4, 0, 3], [0, 4, 3, 2, 1]]),
