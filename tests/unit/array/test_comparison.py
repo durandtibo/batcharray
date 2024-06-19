@@ -91,6 +91,7 @@ def test_argsort_along_seq_masked_array() -> None:
             )
         ),
         np.array([[2, 3, 0, 1, 4], [0, 4, 1, 2, 3], [4, 1, 0, 3, 2]]),
+        show_difference=True
     )
 
 
