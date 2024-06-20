@@ -228,7 +228,19 @@ def test_auto_computation_argmin_masked_array(dtype: DTypeLike) -> None:
 def test_auto_computation_model_argsort_axis_0(dtype: DTypeLike) -> None:
     assert objects_are_equal(
         AutoComputationModel().argsort(
-            np.array([[3, 5, 0, 2, 4], [4, 7, 8, 8, 5], [8, 4, 1, 3, 0]], dtype=dtype), axis=0
+            np.array([[1, 14, 4, 13, 6], [3, 0, 10, 5, 11], [2, 8, 7, 12, 9]], dtype=dtype), axis=0
+        ),
+        np.array([[0, 1, 0, 1, 0], [2, 2, 2, 2, 2], [1, 0, 1, 0, 1]]),
+    )
+
+
+@pytest.mark.parametrize("dtype", DTYPES)
+def test_auto_computation_model_argsort_axis_0_stable(dtype: DTypeLike) -> None:
+    assert objects_are_equal(
+        AutoComputationModel().argsort(
+            np.array([[3, 5, 0, 2, 4], [4, 7, 8, 8, 5], [8, 4, 1, 3, 0]], dtype=dtype),
+            axis=0,
+            kind="stable",
         ),
         np.array([[0, 2, 0, 0, 2], [1, 0, 2, 2, 0], [2, 1, 1, 1, 1]]),
     )
@@ -238,7 +250,19 @@ def test_auto_computation_model_argsort_axis_0(dtype: DTypeLike) -> None:
 def test_auto_computation_model_argsort_axis_1(dtype: DTypeLike) -> None:
     assert objects_are_equal(
         AutoComputationModel().argsort(
-            np.array([[3, 5, 0, 2, 4], [4, 7, 8, 8, 5], [8, 5, 8, 8, 0]], dtype=dtype), axis=1
+            np.array([[1, 14, 4, 13, 6], [3, 0, 10, 5, 11], [2, 8, 7, 12, 9]], dtype=dtype), axis=1
+        ),
+        np.array([[0, 2, 4, 3, 1], [1, 0, 3, 2, 4], [0, 2, 1, 4, 3]]),
+    )
+
+
+@pytest.mark.parametrize("dtype", DTYPES)
+def test_auto_computation_model_argsort_axis_1_stable(dtype: DTypeLike) -> None:
+    assert objects_are_equal(
+        AutoComputationModel().argsort(
+            np.array([[3, 5, 0, 2, 4], [4, 7, 8, 8, 5], [8, 5, 8, 8, 0]], dtype=dtype),
+            axis=1,
+            kind="stable",
         ),
         np.array([[2, 3, 0, 4, 1], [0, 4, 1, 2, 3], [4, 1, 0, 2, 3]]),
     )
@@ -248,7 +272,18 @@ def test_auto_computation_model_argsort_axis_1(dtype: DTypeLike) -> None:
 def test_auto_computation_model_argsort_axis_none(dtype: DTypeLike) -> None:
     assert objects_are_equal(
         AutoComputationModel().argsort(
-            np.array([[3, 5, 0, 2, 4], [4, 7, 8, 8, 5], [8, 5, 8, 8, 0]], dtype=dtype)
+            np.array([[1, 14, 4, 13, 6], [3, 0, 10, 5, 11], [2, 8, 7, 12, 9]], dtype=dtype)
+        ),
+        np.array([6, 0, 10, 5, 2, 8, 4, 12, 11, 14, 7, 9, 13, 3, 1]),
+    )
+
+
+@pytest.mark.parametrize("dtype", DTYPES)
+def test_auto_computation_model_argsort_axis_none_stable(dtype: DTypeLike) -> None:
+    assert objects_are_equal(
+        AutoComputationModel().argsort(
+            np.array([[3, 5, 0, 2, 4], [4, 7, 8, 8, 5], [8, 5, 8, 8, 0]], dtype=dtype),
+            kind="stable",
         ),
         np.array([2, 14, 3, 0, 4, 5, 1, 9, 11, 6, 7, 8, 10, 12, 13]),
     )

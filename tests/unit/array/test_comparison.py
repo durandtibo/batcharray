@@ -80,7 +80,7 @@ def test_argsort_along_seq_masked_array() -> None:
     assert objects_are_equal(
         argsort_along_seq(
             np.ma.masked_array(
-                data=np.array([[3, 5, 0, 2, 4], [4, 7, 8, 8, 5], [8, 5, 8, 8, 0]]),
+                data=np.array([[1, 14, 4, 13, 6], [3, 0, 10, 5, 11], [2, 8, 7, 12, 9]]),
                 mask=np.array(
                     [
                         [False, False, False, False, True],
@@ -89,6 +89,25 @@ def test_argsort_along_seq_masked_array() -> None:
                     ]
                 ),
             )
+        ),
+        np.array([[0, 2, 3, 1, 4], [1, 0, 2, 4, 3], [0, 1, 4, 3, 2]]),
+    )
+
+
+def test_argsort_along_seq_masked_array_stable() -> None:
+    assert objects_are_equal(
+        argsort_along_seq(
+            np.ma.masked_array(
+                data=np.array([[3, 5, 0, 2, 4], [4, 7, 8, 8, 5], [8, 5, 8, 8, 0]]),
+                mask=np.array(
+                    [
+                        [False, False, False, False, True],
+                        [False, False, False, True, False],
+                        [False, False, True, False, False],
+                    ]
+                ),
+            ),
+            kind="stable",
         ),
         np.array([[2, 3, 0, 1, 4], [0, 4, 1, 2, 3], [4, 1, 0, 3, 2]]),
     )

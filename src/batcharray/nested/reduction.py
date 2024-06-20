@@ -59,7 +59,7 @@ def amax_along_batch(data: Any, keepdims: bool = False) -> Any:
     ... }
     >>> out = amax_along_batch(data)
     >>> out
-    {'a': array([8, 9]), 'b': 4}
+    {'a': array([8, 9]), 'b': np.int64(4)}
     >>> out = amax_along_batch(data, keepdims=True)
     >>> out
     {'a': array([[8, 9]]), 'b': array([4])}
@@ -127,7 +127,7 @@ def amin_along_batch(data: Any, keepdims: bool = False) -> Any:
     >>> data = {"a": np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]]), "b": np.array([4, 3, 2, 1, 0])}
     >>> out = amin_along_batch(data)
     >>> out
-    {'a': array([0, 1]), 'b': 0}
+    {'a': array([0, 1]), 'b': np.int64(0)}
     >>> out = amin_along_batch(data, keepdims=True)
     >>> out
     {'a': array([[0, 1]]), 'b': array([0])}
@@ -197,7 +197,7 @@ def argmax_along_batch(data: Any, keepdims: bool = False) -> Any:
     >>> data = {"a": np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]]), "b": np.array([4, 3, 2, 1, 0])}
     >>> out = argmax_along_batch(data)
     >>> out
-    {'a': array([4, 4]), 'b': 0}
+    {'a': array([4, 4]), 'b': np.int64(0)}
     >>> out = argmax_along_batch(data, keepdims=True)
     >>> out
     {'a': array([[4, 4]]), 'b': array([0])}
@@ -269,7 +269,7 @@ def argmin_along_batch(data: Any, keepdims: bool = False) -> Any:
     >>> data = {"a": np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]]), "b": np.array([4, 3, 2, 1, 0])}
     >>> out = argmin_along_batch(data)
     >>> out
-    {'a': array([0, 0]), 'b': 4}
+    {'a': array([0, 0]), 'b': np.int64(4)}
     >>> out = argmin_along_batch(data, keepdims=True)
     >>> out
     {'a': array([[0, 0]]), 'b': array([4])}
@@ -341,7 +341,7 @@ def max_along_batch(data: Any, keepdims: bool = False) -> Any:
     >>> data = {"a": np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]]), "b": np.array([4, 3, 2, 1, 0])}
     >>> out = max_along_batch(data)
     >>> out
-    {'a': array([8, 9]), 'b': 4}
+    {'a': array([8, 9]), 'b': np.int64(4)}
     >>> out = max_along_batch(data, keepdims=True)
     >>> out
     {'a': array([[8, 9]]), 'b': array([4])}
@@ -411,7 +411,7 @@ def mean_along_batch(data: Any, keepdims: bool = False) -> Any:
     >>> data = {"a": np.array([[0., 1.], [2., 3.], [4., 5.], [6., 7.], [8., 9.]]), "b": np.array([4, 3, 2, 1, 0], dtype=np.float32)}
     >>> out = mean_along_batch(data)
     >>> out
-    {'a': array([4., 5.]), 'b': 2.0}
+    {'a': array([4., 5.]), 'b': np.float32(2.0)}
     >>> out = mean_along_batch(data, keepdims=True)
     >>> out
     {'a': array([[4., 5.]]), 'b': array([2.], dtype=float32)}
@@ -482,7 +482,7 @@ def median_along_batch(data: Any, keepdims: bool = False) -> Any:
     >>> data = {"a": np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]]), "b": np.array([4, 3, 2, 1, 0])}
     >>> out = median_along_batch(data)
     >>> out
-    {'a': array([4., 5.]), 'b': 2.0}
+    {'a': array([4., 5.]), 'b': np.float64(2.0)}
     >>> out = median_along_batch(data, keepdims=True)
     >>> out
     {'a': array([[4., 5.]]), 'b': array([2.])}
@@ -554,7 +554,7 @@ def min_along_batch(data: Any, keepdims: bool = False) -> Any:
     >>> data = {"a": np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]]), "b": np.array([4, 3, 2, 1, 0])}
     >>> out = min_along_batch(data)
     >>> out
-    {'a': array([0, 1]), 'b': 0}
+    {'a': array([0, 1]), 'b': np.int64(0)}
     >>> out = min_along_batch(data, keepdims=True)
     >>> out
     {'a': array([[0, 1]]), 'b': array([0])}
@@ -624,7 +624,7 @@ def prod_along_batch(data: Any, keepdims: bool = False) -> Any:
     >>> data = {"a": np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]]), "b": np.array([5, 4, 3, 2, 1])}
     >>> out = prod_along_batch(data)
     >>> out
-    {'a': array([  0, 945]), 'b': 120}
+    {'a': array([  0, 945]), 'b': np.int64(120)}
     >>> out = prod_along_batch(data, keepdims=True)
     >>> out
     {'a': array([[  0, 945]]), 'b': array([120])}
@@ -692,7 +692,7 @@ def sum_along_batch(data: Any, keepdims: bool = False) -> Any:
     >>> data = {"a": np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]]), "b": np.array([4, 3, 2, 1, 0])}
     >>> out = sum_along_batch(data)
     >>> out
-    {'a': array([20, 25]), 'b': 10}
+    {'a': array([20, 25]), 'b': np.int64(10)}
     >>> out = sum_along_batch(data, keepdims=True)
     >>> out
     {'a': array([[20, 25]]), 'b': array([10])}
