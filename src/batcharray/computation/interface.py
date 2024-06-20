@@ -130,7 +130,7 @@ def argsort(arr: T, axis: int | None = None, *, kind: SortKind | None = None) ->
     >>> import numpy as np
     >>> from batcharray.computation import ArrayComputationModel
     >>> comp_model = ArrayComputationModel()
-    >>> array = np.array([[3, 5, 0, 2, 4], [4, 7, 8, 8, 5], [8, 5, 8, 8, 0]])
+    >>> array = np.array([[3, 5, 0, 2, 4], [4, 7, 8, 9, 5], [7, 5, 8, 9, 0]])
     >>> out = comp_model.argsort(array, axis=0)
     >>> out
     array([[0, 0, 0, 0, 2],

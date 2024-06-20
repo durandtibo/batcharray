@@ -121,6 +121,34 @@ def test_argsort_along_seq_nested() -> None:
                 "b": np.array([[4, 3, 2, 1, 0]], dtype=np.float32),
                 "list": [np.array([[5, 6, 7, 8, 9]])],
                 "masked": np.ma.masked_array(
+                    data=np.array([[1, 14, 4, 13, 6], [3, 0, 10, 5, 11], [2, 8, 7, 12, 9]]),
+                    mask=np.array(
+                        [
+                            [False, False, False, False, True],
+                            [False, False, False, True, False],
+                            [False, False, True, False, False],
+                        ]
+                    ),
+                ),
+            },
+        ),
+        {
+            "a": np.array([[2, 1, 4, 0, 3], [0, 4, 3, 2, 1]]),
+            "b": np.array([[4, 3, 2, 1, 0]]),
+            "list": [np.array([[0, 1, 2, 3, 4]])],
+            "masked": np.array([[0, 2, 3, 1, 4], [1, 0, 2, 4, 3], [0, 1, 4, 3, 2]]),
+        },
+    )
+
+
+def test_argsort_along_seq_nested_stable() -> None:
+    assert objects_are_equal(
+        argsort_along_seq(
+            {
+                "a": np.array([[7, 3, 0, 8, 5], [1, 9, 6, 4, 2]]),
+                "b": np.array([[4, 3, 2, 1, 0]], dtype=np.float32),
+                "list": [np.array([[5, 6, 7, 8, 9]])],
+                "masked": np.ma.masked_array(
                     data=np.array([[3, 5, 0, 2, 4], [4, 7, 8, 8, 5], [8, 5, 8, 8, 0]]),
                     mask=np.array(
                         [
@@ -130,7 +158,8 @@ def test_argsort_along_seq_nested() -> None:
                         ]
                     ),
                 ),
-            }
+            },
+            kind="stable",
         ),
         {
             "a": np.array([[2, 1, 4, 0, 3], [0, 4, 3, 2, 1]]),
