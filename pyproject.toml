@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "batcharray"
-version = "0.0.3"
+version = "0.0.4a0"
 description = "Functions to manipulate NumPy arrays"
 readme = "README.md"
 authors = ["Thibaut Durand <durand.tibo+gh@gmail.com>"]
@@ -64,7 +64,7 @@ pygments = "^2.18"
 pytest = "^8.2"
 pytest-cov = "^5.0"
 pytest-timeout = "^2.3"
-ruff = ">=0.4.0,<1.0"
+ruff = ">=0.5.0,<1.0"
 xdoctest = "^1.1"
 
 
