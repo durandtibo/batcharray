@@ -83,7 +83,9 @@ class AutoComputationModel(BaseComputationModel[T]):
 
         >>> import numpy as np
         >>> from batcharray.computation import AutoComputationModel, ArrayComputationModel
-        >>> AutoComputationModel.add_computation_model(np.ndarray, ArrayComputationModel(), exist_ok=True)
+        >>> AutoComputationModel.add_computation_model(
+        ...     np.ndarray, ArrayComputationModel(), exist_ok=True
+        ... )
 
         ```
         """

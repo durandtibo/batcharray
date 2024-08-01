@@ -81,7 +81,10 @@ def argsort_along_seq(data: Any, kind: SortKind | None = None) -> Any:
 
     >>> import numpy as np
     >>> from batcharray.nested import argsort_along_seq
-    >>> data = {'a': np.array([[7, 3, 0, 8, 5], [1, 9, 6, 4, 2]]), 'b': np.array([[4, 3, 2, 1, 0]])}
+    >>> data = {
+    ...     "a": np.array([[7, 3, 0, 8, 5], [1, 9, 6, 4, 2]]),
+    ...     "b": np.array([[4, 3, 2, 1, 0]]),
+    ... }
     >>> out = argsort_along_seq(data)
     >>> out
     {'a': array([[2, 1, 4, 0, 3], [0, 4, 3, 2, 1]]), 'b': array([[4, 3, 2, 1, 0]])}
@@ -160,7 +163,10 @@ def sort_along_seq(data: Any, kind: SortKind | None = None) -> Any:
 
     >>> import numpy as np
     >>> from batcharray.nested import sort_along_seq
-    >>> data = {'a': np.array([[7, 3, 0, 8, 5], [1, 9, 6, 4, 2]]), 'b': np.array([[4, 3, 2, 1, 0]])}
+    >>> data = {
+    ...     "a": np.array([[7, 3, 0, 8, 5], [1, 9, 6, 4, 2]]),
+    ...     "b": np.array([[4, 3, 2, 1, 0]]),
+    ... }
     >>> out = sort_along_seq(data)
     >>> out
     {'a': array([[0, 3, 5, 7, 8], [1, 2, 4, 6, 9]]), 'b': array([[0, 1, 2, 3, 4]])}

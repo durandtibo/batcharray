@@ -90,7 +90,10 @@ def amax_along_seq(data: Any, keepdims: bool = False) -> Any:
 
     >>> import numpy as np
     >>> from batcharray.nested import amax_along_seq
-    >>> data = {'a': np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]]), 'b': np.array([[4, 3, 2, 1, 0]])}
+    >>> data = {
+    ...     "a": np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]]),
+    ...     "b": np.array([[4, 3, 2, 1, 0]]),
+    ... }
     >>> out = amax_along_seq(data)
     >>> out
     {'a': array([4, 9]), 'b': array([4])}
@@ -124,7 +127,10 @@ def amin_along_batch(data: Any, keepdims: bool = False) -> Any:
 
     >>> import numpy as np
     >>> from batcharray.nested import amin_along_batch
-    >>> data = {"a": np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]]), "b": np.array([4, 3, 2, 1, 0])}
+    >>> data = {
+    ...     "a": np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]]),
+    ...     "b": np.array([4, 3, 2, 1, 0]),
+    ... }
     >>> out = amin_along_batch(data)
     >>> out
     {'a': array([0, 1]), 'b': np.int64(0)}
@@ -158,7 +164,10 @@ def amin_along_seq(data: Any, keepdims: bool = False) -> Any:
 
     >>> import numpy as np
     >>> from batcharray.nested import amin_along_seq
-    >>> data = {'a': np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]]), 'b': np.array([[4, 3, 2, 1, 0]])}
+    >>> data = {
+    ...     "a": np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]]),
+    ...     "b": np.array([[4, 3, 2, 1, 0]]),
+    ... }
     >>> out = amin_along_seq(data)
     >>> out
     {'a': array([0, 5]), 'b': array([0])}
@@ -194,7 +203,10 @@ def argmax_along_batch(data: Any, keepdims: bool = False) -> Any:
 
     >>> import numpy as np
     >>> from batcharray.nested import argmax_along_batch
-    >>> data = {"a": np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]]), "b": np.array([4, 3, 2, 1, 0])}
+    >>> data = {
+    ...     "a": np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]]),
+    ...     "b": np.array([4, 3, 2, 1, 0]),
+    ... }
     >>> out = argmax_along_batch(data)
     >>> out
     {'a': array([4, 4]), 'b': np.int64(0)}
@@ -230,7 +242,10 @@ def argmax_along_seq(data: Any, keepdims: bool = False) -> Any:
 
     >>> import numpy as np
     >>> from batcharray.nested import argmax_along_seq
-    >>> data = {'a': np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]]), 'b': np.array([[4, 3, 2, 1, 0]])}
+    >>> data = {
+    ...     "a": np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]]),
+    ...     "b": np.array([[4, 3, 2, 1, 0]]),
+    ... }
     >>> out = argmax_along_seq(data)
     >>> out
     {'a': array([4, 4]), 'b': array([0])}
@@ -266,7 +281,10 @@ def argmin_along_batch(data: Any, keepdims: bool = False) -> Any:
 
     >>> import numpy as np
     >>> from batcharray.nested import argmin_along_batch
-    >>> data = {"a": np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]]), "b": np.array([4, 3, 2, 1, 0])}
+    >>> data = {
+    ...     "a": np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]]),
+    ...     "b": np.array([4, 3, 2, 1, 0]),
+    ... }
     >>> out = argmin_along_batch(data)
     >>> out
     {'a': array([0, 0]), 'b': np.int64(4)}
@@ -302,7 +320,10 @@ def argmin_along_seq(data: Any, keepdims: bool = False) -> Any:
 
     >>> import numpy as np
     >>> from batcharray.nested import argmin_along_seq
-    >>> data = {'a': np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]]), 'b': np.array([[4, 3, 2, 1, 0]])}
+    >>> data = {
+    ...     "a": np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]]),
+    ...     "b": np.array([[4, 3, 2, 1, 0]]),
+    ... }
     >>> out = argmin_along_seq(data)
     >>> out
     {'a': array([0, 0]), 'b': array([4])}
@@ -338,7 +359,10 @@ def max_along_batch(data: Any, keepdims: bool = False) -> Any:
 
     >>> import numpy as np
     >>> from batcharray.nested import max_along_batch
-    >>> data = {"a": np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]]), "b": np.array([4, 3, 2, 1, 0])}
+    >>> data = {
+    ...     "a": np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]]),
+    ...     "b": np.array([4, 3, 2, 1, 0]),
+    ... }
     >>> out = max_along_batch(data)
     >>> out
     {'a': array([8, 9]), 'b': np.int64(4)}
@@ -374,7 +398,10 @@ def max_along_seq(data: Any, keepdims: bool = False) -> Any:
 
     >>> import numpy as np
     >>> from batcharray.nested import max_along_seq
-    >>> data = {'a': np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]]), 'b': np.array([[4, 3, 2, 1, 0]])}
+    >>> data = {
+    ...     "a": np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]]),
+    ...     "b": np.array([[4, 3, 2, 1, 0]]),
+    ... }
     >>> out = max_along_seq(data)
     >>> out
     {'a': array([4, 9]), 'b': array([4])}
@@ -408,7 +435,10 @@ def mean_along_batch(data: Any, keepdims: bool = False) -> Any:
 
     >>> import numpy as np
     >>> from batcharray.nested import mean_along_batch
-    >>> data = {"a": np.array([[0., 1.], [2., 3.], [4., 5.], [6., 7.], [8., 9.]]), "b": np.array([4, 3, 2, 1, 0], dtype=np.float32)}
+    >>> data = {
+    ...     "a": np.array([[0.0, 1.0], [2.0, 3.0], [4.0, 5.0], [6.0, 7.0], [8.0, 9.0]]),
+    ...     "b": np.array([4, 3, 2, 1, 0], dtype=np.float32),
+    ... }
     >>> out = mean_along_batch(data)
     >>> out
     {'a': array([4., 5.]), 'b': np.float32(2.0)}
@@ -443,7 +473,10 @@ def mean_along_seq(data: Any, keepdims: bool = False) -> Any:
 
     >>> import numpy as np
     >>> from batcharray.nested import mean_along_seq
-    >>> data = {'a': np.array([[0., 1., 2., 3., 4.], [5., 6., 7., 8., 9.]]), 'b': np.array([[4, 3, 2, 1, 0]], dtype=np.float32)}
+    >>> data = {
+    ...     "a": np.array([[0.0, 1.0, 2.0, 3.0, 4.0], [5.0, 6.0, 7.0, 8.0, 9.0]]),
+    ...     "b": np.array([[4, 3, 2, 1, 0]], dtype=np.float32),
+    ... }
     >>> out = mean_along_seq(data)
     >>> out
     {'a': array([2., 7.]), 'b': array([2.], dtype=float32)}
@@ -479,7 +512,10 @@ def median_along_batch(data: Any, keepdims: bool = False) -> Any:
 
     >>> import numpy as np
     >>> from batcharray.nested import median_along_batch
-    >>> data = {"a": np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]]), "b": np.array([4, 3, 2, 1, 0])}
+    >>> data = {
+    ...     "a": np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]]),
+    ...     "b": np.array([4, 3, 2, 1, 0]),
+    ... }
     >>> out = median_along_batch(data)
     >>> out
     {'a': array([4., 5.]), 'b': np.float64(2.0)}
@@ -515,7 +551,10 @@ def median_along_seq(data: Any, keepdims: bool = False) -> Any:
 
     >>> import numpy as np
     >>> from batcharray.nested import median_along_seq
-    >>> data = {'a': np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]]), 'b': np.array([[4, 3, 2, 1, 0]])}
+    >>> data = {
+    ...     "a": np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]]),
+    ...     "b": np.array([[4, 3, 2, 1, 0]]),
+    ... }
     >>> out = median_along_seq(data)
     >>> out
     {'a': array([2., 7.]), 'b': array([2.])}
@@ -551,7 +590,10 @@ def min_along_batch(data: Any, keepdims: bool = False) -> Any:
 
     >>> import numpy as np
     >>> from batcharray.nested import min_along_batch
-    >>> data = {"a": np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]]), "b": np.array([4, 3, 2, 1, 0])}
+    >>> data = {
+    ...     "a": np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]]),
+    ...     "b": np.array([4, 3, 2, 1, 0]),
+    ... }
     >>> out = min_along_batch(data)
     >>> out
     {'a': array([0, 1]), 'b': np.int64(0)}
@@ -587,7 +629,10 @@ def min_along_seq(data: Any, keepdims: bool = False) -> Any:
 
     >>> import numpy as np
     >>> from batcharray.nested import min_along_seq
-    >>> data = {'a': np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]]), 'b': np.array([[4, 3, 2, 1, 0]])}
+    >>> data = {
+    ...     "a": np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]]),
+    ...     "b": np.array([[4, 3, 2, 1, 0]]),
+    ... }
     >>> out = min_along_seq(data)
     >>> out
     {'a': array([0, 5]), 'b': array([0])}
@@ -621,7 +666,10 @@ def prod_along_batch(data: Any, keepdims: bool = False) -> Any:
 
     >>> import numpy as np
     >>> from batcharray.nested import prod_along_batch
-    >>> data = {"a": np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]]), "b": np.array([5, 4, 3, 2, 1])}
+    >>> data = {
+    ...     "a": np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]]),
+    ...     "b": np.array([5, 4, 3, 2, 1]),
+    ... }
     >>> out = prod_along_batch(data)
     >>> out
     {'a': array([  0, 945]), 'b': np.int64(120)}
@@ -655,7 +703,10 @@ def prod_along_seq(data: Any, keepdims: bool = False) -> Any:
 
     >>> import numpy as np
     >>> from batcharray.nested import prod_along_seq
-    >>> data = {'a': np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]]), 'b': np.array([[5, 4, 3, 2, 1]])}
+    >>> data = {
+    ...     "a": np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]]),
+    ...     "b": np.array([[5, 4, 3, 2, 1]]),
+    ... }
     >>> out = prod_along_seq(data)
     >>> out
     {'a': array([    0, 15120]), 'b': array([120])}
@@ -689,7 +740,10 @@ def sum_along_batch(data: Any, keepdims: bool = False) -> Any:
 
     >>> import numpy as np
     >>> from batcharray.nested import sum_along_batch
-    >>> data = {"a": np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]]), "b": np.array([4, 3, 2, 1, 0])}
+    >>> data = {
+    ...     "a": np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]]),
+    ...     "b": np.array([4, 3, 2, 1, 0]),
+    ... }
     >>> out = sum_along_batch(data)
     >>> out
     {'a': array([20, 25]), 'b': np.int64(10)}
@@ -723,7 +777,10 @@ def sum_along_seq(data: Any, keepdims: bool = False) -> Any:
 
     >>> import numpy as np
     >>> from batcharray.nested import sum_along_seq
-    >>> data = {'a': np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]]), 'b': np.array([[4, 3, 2, 1, 0]])}
+    >>> data = {
+    ...     "a": np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]]),
+    ...     "b": np.array([[4, 3, 2, 1, 0]]),
+    ... }
     >>> out = sum_along_seq(data)
     >>> out
     {'a': array([10, 35]), 'b': array([10])}

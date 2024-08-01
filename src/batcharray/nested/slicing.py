@@ -94,7 +94,10 @@ def chunk_along_seq(
 
     >>> import numpy as np
     >>> from batcharray.nested import chunk_along_seq
-    >>> data = {'a': np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]]), 'b': np.array([[4, 3, 2, 1, 0]])}
+    >>> data = {
+    ...     "a": np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]]),
+    ...     "b": np.array([[4, 3, 2, 1, 0]]),
+    ... }
     >>> outputs = chunk_along_seq(data, chunks=3)
     >>> outputs
     [{'a': array([[0, 1], [5, 6]]), 'b': array([[4, 3]])},
@@ -134,7 +137,10 @@ def select_along_batch(data: Any, index: int) -> Any:
 
     >>> import numpy as np
     >>> from batcharray.nested import select_along_batch
-    >>> data = {"a": np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]]), "b": np.array([4, 3, 2, 1, 0])}
+    >>> data = {
+    ...     "a": np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]]),
+    ...     "b": np.array([4, 3, 2, 1, 0]),
+    ... }
     >>> out = select_along_batch(data, index=2)
     >>> out
     {'a': array([4, 5]), 'b': np.int64(2)}
@@ -168,7 +174,10 @@ def select_along_seq(data: Any, index: int) -> Any:
 
     >>> import numpy as np
     >>> from batcharray.nested import select_along_seq
-    >>> data = {'a': np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]]), 'b': np.array([[4, 3, 2, 1, 0]])}
+    >>> data = {
+    ...     "a": np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]]),
+    ...     "b": np.array([[4, 3, 2, 1, 0]]),
+    ... }
     >>> out = select_along_seq(data, index=2)
     >>> out
     {'a': array([2, 7]), 'b': array([2])}
@@ -202,7 +211,10 @@ def slice_along_batch(data: Any, start: int = 0, stop: int | None = None, step: 
 
     >>> import numpy as np
     >>> from batcharray.nested import slice_along_batch
-    >>> data = {"a": np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]]), "b": np.array([4, 3, 2, 1, 0])}
+    >>> data = {
+    ...     "a": np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]]),
+    ...     "b": np.array([4, 3, 2, 1, 0]),
+    ... }
     >>> out = slice_along_batch(data, start=2)
     >>> out
     {'a': array([[4, 5], [6, 7], [8, 9]]), 'b': array([2, 1, 0])}
@@ -242,7 +254,10 @@ def slice_along_seq(data: Any, start: int = 0, stop: int | None = None, step: in
 
     >>> import numpy as np
     >>> from batcharray.nested import slice_along_seq
-    >>> data = {'a': np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]]), 'b': np.array([[4, 3, 2, 1, 0]])}
+    >>> data = {
+    ...     "a": np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]]),
+    ...     "b": np.array([[4, 3, 2, 1, 0]]),
+    ... }
     >>> out = slice_along_seq(data, start=2)
     >>> out
     {'a': array([[2, 3, 4], [7, 8, 9]]), 'b': array([[2, 1, 0]])}
@@ -284,7 +299,10 @@ def split_along_batch(
 
     >>> import numpy as np
     >>> from batcharray.nested import split_along_batch
-    >>> data = {"a": np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]]), "b": np.array([4, 3, 2, 1, 0])}
+    >>> data = {
+    ...     "a": np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]]),
+    ...     "b": np.array([4, 3, 2, 1, 0]),
+    ... }
     >>> outputs = split_along_batch(data, split_size_or_sections=2)
     >>> outputs
     [{'a': array([[0, 1], [2, 3]]), 'b': array([4, 3])},
@@ -328,7 +346,10 @@ def split_along_seq(
 
     >>> import numpy as np
     >>> from batcharray.nested import split_along_seq
-    >>> data = {"a": np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]]), "b": np.array([[4, 3, 2, 1, 0]])}
+    >>> data = {
+    ...     "a": np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]]),
+    ...     "b": np.array([[4, 3, 2, 1, 0]]),
+    ... }
     >>> outputs = split_along_seq(data, split_size_or_sections=2)
     >>> outputs
     [{'a': array([[0, 1], [5, 6]]), 'b': array([[4, 3]])},

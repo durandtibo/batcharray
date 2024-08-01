@@ -90,7 +90,10 @@ def index_select_along_seq(data: Any, indices: np.ndarray) -> Any:
 
     >>> import numpy as np
     >>> from batcharray.nested import index_select_along_seq
-    >>> arrays = {'a': np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]]), 'b': np.array([[4, 3, 2, 1, 0]])}
+    >>> arrays = {
+    ...     "a": np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]]),
+    ...     "b": np.array([[4, 3, 2, 1, 0]]),
+    ... }
     >>> out = index_select_along_seq(arrays, np.array([2, 4]))
     >>> out
     {'a': array([[2, 4], [7, 9]]), 'b': array([[2, 0]])}
@@ -160,7 +163,10 @@ def masked_select_along_seq(data: Any, mask: np.ndarray) -> Any:
 
     >>> import numpy as np
     >>> from batcharray.nested import masked_select_along_seq
-    >>> arrays = {'a': np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]]), 'b': np.array([[4, 3, 2, 1, 0]])}
+    >>> arrays = {
+    ...     "a": np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]]),
+    ...     "b": np.array([[4, 3, 2, 1, 0]]),
+    ... }
     >>> out = masked_select_along_seq(arrays, np.array([False, False, True, False, True]))
     >>> out
     {'a': array([[2, 4], [7, 9]]), 'b': array([[2, 0]])}
@@ -236,7 +242,10 @@ def take_along_seq(data: Any, indices: np.ndarray) -> Any:
 
     >>> import numpy as np
     >>> from batcharray.nested import take_along_seq
-    >>> arrays = {'a': np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]]), 'b': np.array([[4, 3, 2, 1, 0]])}
+    >>> arrays = {
+    ...     "a": np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]]),
+    ...     "b": np.array([[4, 3, 2, 1, 0]]),
+    ... }
     >>> out = take_along_seq(arrays, np.array([2, 4]))
     >>> out
     {'a': array([[2, 4], [7, 9]]), 'b': array([[2, 0]])}
