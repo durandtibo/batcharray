@@ -390,7 +390,7 @@ def mean_along_batch(array: np.ndarray, keepdims: bool = False) -> np.ndarray:
 
     >>> import numpy as np
     >>> from batcharray.array import mean_along_batch
-    >>> array = np.array([[0., 1.], [2., 3.], [4., 5.], [6., 7.], [8., 9.]])
+    >>> array = np.array([[0.0, 1.0], [2.0, 3.0], [4.0, 5.0], [6.0, 7.0], [8.0, 9.0]])
     >>> out = mean_along_batch(array)
     >>> out
     array([4., 5.])
@@ -423,7 +423,7 @@ def mean_along_seq(array: np.ndarray, keepdims: bool = False) -> np.ndarray:
 
     >>> import numpy as np
     >>> from batcharray.array import mean_along_seq
-    >>> array = np.array([[0., 1., 2., 3., 4.], [5., 6., 7., 8., 9.]])
+    >>> array = np.array([[0.0, 1.0, 2.0, 3.0, 4.0], [5.0, 6.0, 7.0, 8.0, 9.0]])
     >>> out = mean_along_seq(array)
     >>> out
     array([2., 7.])

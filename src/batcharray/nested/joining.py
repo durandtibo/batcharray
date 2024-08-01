@@ -128,7 +128,10 @@ def tile_along_seq(data: Any, reps: int) -> Any:
 
     >>> import numpy as np
     >>> from batcharray.nested import tile_along_seq
-    >>> data = {'a': np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]]), 'b': np.array([[4, 3, 2, 1, 0]])}
+    >>> data = {
+    ...     "a": np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]]),
+    ...     "b": np.array([[4, 3, 2, 1, 0]]),
+    ... }
     >>> out = tile_along_seq(data, 2)
     >>> out
     {'a': array([[0, 1, 2, 3, 4, 0, 1, 2, 3, 4], [5, 6, 7, 8, 9, 5, 6, 7, 8, 9]]),

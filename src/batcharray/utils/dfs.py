@@ -28,7 +28,7 @@ logger = logging.getLogger(__name__)
 T = TypeVar("T")
 
 
-def dfs_array(data: Any) -> Generator[np.ndarray, None, None]:
+def dfs_array(data: Any) -> Generator[np.ndarray]:
     r"""Implement a Depth-First Search (DFS) iterator over the
     ``np.ndarray``s.
 
@@ -67,7 +67,7 @@ class BaseArrayIterator(Generic[T]):
     r"""Define the base class to iterate over the data to find the
     arrays with a Depth-First Search (DFS) strategy."""
 
-    def iterate(self, data: T, state: IteratorState) -> Generator[np.ndarray, None, None]:
+    def iterate(self, data: T, state: IteratorState) -> Generator[np.ndarray]:
         r"""Iterate over the data and add the items to the queue.
 
         Args:
@@ -90,7 +90,7 @@ class DefaultArrayIterator(BaseArrayIterator[Any]):
         self,
         data: Any,
         state: IteratorState,  # noqa: ARG002
-    ) -> Generator[np.ndarray, None, None]:
+    ) -> Generator[np.ndarray]:
         if isinstance(data, np.ndarray):
             yield data
 
@@ -101,7 +101,7 @@ class IterableArrayIterator(BaseArrayIterator[Iterable]):
     def __repr__(self) -> str:
         return f"{self.__class__.__qualname__}()"
 
-    def iterate(self, data: Iterable, state: IteratorState) -> Generator[np.ndarray, None, None]:
+    def iterate(self, data: Iterable, state: IteratorState) -> Generator[np.ndarray]:
         for item in data:
             yield from state.iterator.iterate(item, state)
 
@@ -112,7 +112,7 @@ class MappingArrayIterator(BaseArrayIterator[Mapping]):
     def __repr__(self) -> str:
         return f"{self.__class__.__qualname__}()"
 
-    def iterate(self, data: Mapping, state: IteratorState) -> Generator[np.ndarray, None, None]:
+    def iterate(self, data: Mapping, state: IteratorState) -> Generator[np.ndarray]:
         for item in data.values():
             yield from state.iterator.iterate(item, state)
 
@@ -159,7 +159,7 @@ class ArrayIterator(BaseArrayIterator[Any]):
             raise RuntimeError(msg)
         cls.registry[data_type] = iterator
 
-    def iterate(self, data: Iterable, state: IteratorState) -> Generator[np.ndarray, None, None]:
+    def iterate(self, data: Iterable, state: IteratorState) -> Generator[np.ndarray]:
         yield from self.find_iterator(type(data)).iterate(data, state)
 
     @classmethod

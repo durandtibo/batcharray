@@ -28,7 +28,7 @@ logger = logging.getLogger(__name__)
 T = TypeVar("T")
 
 
-def bfs_array(data: Any) -> Generator[np.ndarray, None, None]:
+def bfs_array(data: Any) -> Generator[np.ndarray]:
     r"""Implement a Breadth-First Search (BFS) iterator over the
     ``numpy.ndarray``s.
 
