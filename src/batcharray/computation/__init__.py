@@ -4,9 +4,9 @@ from __future__ import annotations
 
 __all__ = [
     "ArrayComputationModel",
+    "AutoComputationModel",
     "BaseComputationModel",
     "MaskedArrayComputationModel",
-    "AutoComputationModel",
     "argmax",
     "argmin",
     "argsort",
@@ -15,8 +15,8 @@ __all__ = [
     "mean",
     "median",
     "min",
-    "sort",
     "register_computation_models",
+    "sort",
 ]
 
 from batcharray.computation.array import ArrayComputationModel

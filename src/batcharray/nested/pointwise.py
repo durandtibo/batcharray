@@ -9,9 +9,9 @@ __all__ = [
     "exp2",
     "expm1",
     "log",
-    "log10",
     "log1p",
     "log2",
+    "log10",
 ]
 
 from functools import partial

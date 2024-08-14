@@ -4,14 +4,14 @@ Breadth-First Search (BFS) strategy."""
 from __future__ import annotations
 
 __all__ = [
+    "ArrayIterator",
     "BaseArrayIterator",
     "DefaultArrayIterator",
     "IterableArrayIterator",
     "MappingArrayIterator",
-    "ArrayIterator",
     "bfs_array",
-    "register_iterators",
     "register_default_iterators",
+    "register_iterators",
 ]
 
 import logging

@@ -2,7 +2,7 @@ r"""Contain types used in the remaining of the package."""
 
 from __future__ import annotations
 
-__all__ = ["SortKind", "SORT_KINDS"]
+__all__ = ["SORT_KINDS", "SortKind"]
 
 from typing import Literal
 
