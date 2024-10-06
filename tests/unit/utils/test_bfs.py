@@ -19,7 +19,7 @@ from batcharray.utils.bfs import (
 )
 
 
-@pytest.fixture()
+@pytest.fixture
 def state() -> IteratorState:
     return IteratorState(iterator=ArrayIterator(), queue=deque())
 
