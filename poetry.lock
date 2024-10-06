@@ -364,13 +364,13 @@ test = ["pytest (>=6)"]
 
 [[package]]
 name = "feu"
-version = "0.2.1"
+version = "0.2.3"
 description = "A light library to help to manage packages"
 optional = false
 python-versions = "<3.13,>=3.9"
 files = [
-    {file = "feu-0.2.1-py3-none-any.whl", hash = "sha256:86e86bbd34b8ca8136e446927d107dd26744de628fc53d2550efa8cc0b12d7db"},
-    {file = "feu-0.2.1.tar.gz", hash = "sha256:9ef33f264468cedb7ed4c0d8aa4c5c7dd67accd790ec20810afa4a1492576adf"},
+    {file = "feu-0.2.3-py3-none-any.whl", hash = "sha256:af4dca581b0e6c8299ee716e6d9136b3e989342220539543d53b7baad34ba506"},
+    {file = "feu-0.2.3.tar.gz", hash = "sha256:a46b855cce1abcd52e01a0c9e882cca454dbc76c4fd943e56cb47969d37ba2fb"},
 ]
 
 [package.dependencies]
@@ -707,13 +707,13 @@ pyyaml = ">=5.1"
 
 [[package]]
 name = "mkdocs-material"
-version = "9.5.36"
+version = "9.5.39"
 description = "Documentation that simply works"
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "mkdocs_material-9.5.36-py3-none-any.whl", hash = "sha256:36734c1fd9404bea74236242ba3359b267fc930c7233b9fd086b0898825d0ac9"},
-    {file = "mkdocs_material-9.5.36.tar.gz", hash = "sha256:140456f761320f72b399effc073fa3f8aac744c77b0970797c201cae2f6c967f"},
+    {file = "mkdocs_material-9.5.39-py3-none-any.whl", hash = "sha256:0f2f68c8db89523cb4a59705cd01b4acd62b2f71218ccb67e1e004e560410d2b"},
+    {file = "mkdocs_material-9.5.39.tar.gz", hash = "sha256:25faa06142afa38549d2b781d475a86fb61de93189f532b88e69bf11e5e5c3be"},
 ]
 
 [package.dependencies]
