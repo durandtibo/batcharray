@@ -56,4 +56,4 @@ repos:
     hooks:
       - id: ruff
         types_or: [ python, pyi, jupyter ]
-        args: [ --fix, --unsafe-fixes, --preview ]
+        args: [ --fix, --unsafe-fixes ]
