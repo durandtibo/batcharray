@@ -358,13 +358,13 @@ test = ["pytest (>=6)"]
 
 [[package]]
 name = "feu"
-version = "0.3.0"
+version = "0.3.1"
 description = "A light library to help to manage packages"
 optional = false
 python-versions = "<3.14,>=3.9"
 files = [
-    {file = "feu-0.3.0-py3-none-any.whl", hash = "sha256:fec3f7a289ae0a594541a235a5526363dd48accf00025a8e860f974c498a2a22"},
-    {file = "feu-0.3.0.tar.gz", hash = "sha256:ccaa1a1e9371765fe75878550de296a418ddabf60ba801b69228b6db5e717200"},
+    {file = "feu-0.3.1-py3-none-any.whl", hash = "sha256:ed425fc594d38a1e33af2d770ab353f1a2670e5d7a421b16b82e3293c745d27e"},
+    {file = "feu-0.3.1.tar.gz", hash = "sha256:4fba5cbf8ba8081d29ac4e9ecae05aae6001a55245f52b8b1c378f3098a6c716"},
 ]
 
 [package.dependencies]
@@ -712,13 +712,13 @@ pyyaml = ">=5.1"
 
 [[package]]
 name = "mkdocs-material"
-version = "9.5.42"
+version = "9.5.43"
 description = "Documentation that simply works"
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "mkdocs_material-9.5.42-py3-none-any.whl", hash = "sha256:452a7c5d21284b373f36b981a2cbebfff59263feebeede1bc28652e9c5bbe316"},
-    {file = "mkdocs_material-9.5.42.tar.gz", hash = "sha256:92779b5e9b5934540c574c11647131d217dc540dce72b05feeda088c8eb1b8f2"},
+    {file = "mkdocs_material-9.5.43-py3-none-any.whl", hash = "sha256:4aae0664c456fd12837a3192e0225c17960ba8bf55d7f0a7daef7e4b0b914a34"},
+    {file = "mkdocs_material-9.5.43.tar.gz", hash = "sha256:83be7ff30b65a1e4930dfa4ab911e75780a3afc9583d162692e434581cb46979"},
 ]
 
 [package.dependencies]
@@ -1027,17 +1027,17 @@ dev = ["argcomplete", "attrs (>=19.2)", "hypothesis (>=3.56)", "mock", "pygments
 
 [[package]]
 name = "pytest-cov"
-version = "5.0.0"
+version = "6.0.0"
 description = "Pytest plugin for measuring coverage."
 optional = false
-python-versions = ">=3.8"
+python-versions = ">=3.9"
 files = [
-    {file = "pytest-cov-5.0.0.tar.gz", hash = "sha256:5837b58e9f6ebd335b0f8060eecce69b662415b16dc503883a02f45dfeb14857"},
-    {file = "pytest_cov-5.0.0-py3-none-any.whl", hash = "sha256:4f0764a1219df53214206bf1feea4633c3b558a2925c8b59f144f682861ce652"},
+    {file = "pytest-cov-6.0.0.tar.gz", hash = "sha256:fde0b595ca248bb8e2d76f020b465f3b107c9632e6a1d1705f17834c89dcadc0"},
+    {file = "pytest_cov-6.0.0-py3-none-any.whl", hash = "sha256:eee6f1b9e61008bd34975a4d5bab25801eb31898b032dd55addc93e96fcaaa35"},
 ]
 
 [package.dependencies]
-coverage = {version = ">=5.2.1", extras = ["toml"]}
+coverage = {version = ">=7.5", extras = ["toml"]}
 pytest = ">=4.6"
 
 [package.extras]
@@ -1486,4 +1486,4 @@ all = []
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.9,<3.14"
-content-hash = "12eb79a7d8a596cf4000cc08daa0b136d0924ea7d3b84d346500ff898e7f7f61"
+content-hash = "7ffebf7c359924ad2727896536f8068ce31693e5cce4638c1c5714c7b012ace0"
