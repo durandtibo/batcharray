@@ -17,7 +17,7 @@ if TYPE_CHECKING:
 
 
 def concatenate_along_batch(
-    data: Sequence[dict[Hashable, np.ndarray]]
+    data: Sequence[dict[Hashable, np.ndarray]],
 ) -> dict[Hashable, np.ndarray]:
     r"""Concatenate the given arrays in the batch axis.
 
