@@ -207,7 +207,7 @@ def register_computation_models() -> None:
     ```
     """
     # Local import to avoid cyclic dependency
-    from batcharray import computation as cmpt
+    from batcharray import computation as cmpt  # noqa: PLC0415
 
     comp_models = {
         np.ndarray: cmpt.ArrayComputationModel(),

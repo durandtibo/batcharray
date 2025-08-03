@@ -113,7 +113,6 @@ def test_default_array_iterator_str() -> None:
 
 
 def test_default_array_iterator_iterable(state: IteratorState) -> None:
-
     assert list(DefaultArrayIterator().iterate("abc", state)) == []
 
 
@@ -171,7 +170,6 @@ def test_mapping_array_iterator_str() -> None:
     ],
 )
 def test_mapping_array_iterator_iterate_empty(data: Mapping, state: IteratorState) -> None:
-
     assert list(MappingArrayIterator().iterate(data, state)) == []
 
 
