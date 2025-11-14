@@ -231,7 +231,7 @@ def test_iterator_add_iterator_duplicate_exist_ok_false() -> None:
     iterator = ArrayIterator()
     seq_iterator = IterableArrayIterator()
     iterator.add_iterator(list, DefaultArrayIterator())
-    with pytest.raises(RuntimeError, match="An iterator (.*) is already registered"):
+    with pytest.raises(RuntimeError, match=r"An iterator (.*) is already registered"):
         iterator.add_iterator(list, seq_iterator)
 
 
@@ -260,7 +260,7 @@ def test_iterator_find_iterator_indirect() -> None:
 
 
 def test_iterator_find_iterator_incorrect_type() -> None:
-    with pytest.raises(TypeError, match="Incorrect data type:"):
+    with pytest.raises(TypeError, match=r"Incorrect data type:"):
         ArrayIterator().find_iterator(Mock(__mro__=[]))
 
 
