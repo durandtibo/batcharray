@@ -47,7 +47,7 @@ def test_auto_computation_model_add_computation_model_exist_ok_false() -> None:
     assert len(AutoComputationModel.registry) == 0
     AutoComputationModel.add_computation_model(np.ndarray, ArrayComputationModel())
     with pytest.raises(
-        RuntimeError, match="A computation model .* is already registered for the array type"
+        RuntimeError, match=r"A computation model .* is already registered for the array type"
     ):
         AutoComputationModel.add_computation_model(np.ndarray, ArrayComputationModel())
 
@@ -80,7 +80,7 @@ def test_auto_computation_model_find_computation_model_masked_array() -> None:
 
 
 def test_auto_computation_model_find_computation_model_missing() -> None:
-    with pytest.raises(TypeError, match="Incorrect array type:"):
+    with pytest.raises(TypeError, match=r"Incorrect array type:"):
         AutoComputationModel.find_computation_model(str)
 
 
