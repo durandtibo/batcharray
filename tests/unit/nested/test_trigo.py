@@ -29,7 +29,8 @@ POINTWISE_FUNCTIONS = [
 @pytest.mark.parametrize("functions", POINTWISE_FUNCTIONS)
 def test_trigo_array(dtype: DTypeLike, functions: tuple[Callable, Callable]) -> None:
     np_fn, nested_fn = functions
-    array = np.random.randn(5, 2).astype(dtype=dtype)
+    rng = np.random.default_rng()
+    array = rng.normal(size=(5, 2)).astype(dtype=dtype)
     assert objects_are_allclose(nested_fn(array), np_fn(array), equal_nan=True)
 
 
