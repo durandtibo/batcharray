@@ -15,7 +15,6 @@ jobs:
     uses: ./.github/workflows/cyclic-imports.yaml
 
   test:
-    needs: get-versions
     uses: ./.github/workflows/test-package-dep.yaml
     with:
       install-cmd: "[ 'uv pip install batcharray' ]"
