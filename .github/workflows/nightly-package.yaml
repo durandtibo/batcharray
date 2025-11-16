@@ -17,11 +17,12 @@ jobs:
   test:
     uses: ./.github/workflows/test-package-dep.yaml
     with:
-      install-cmd: "[ 'uv pip install batcharray' ]"
-
-#        'uv pip install --pre batcharray',
-#        'uv pip install batcharray\[all\]',
-#        'uv pip install --pre batcharray\[all\]',
+      install-cmd: "[
+      'uv pip install batcharray',
+      'uv pip install --pre batcharray',
+      'uv pip install \"batcharray[all]\"',
+      'uv pip install --pre \"batcharray[all]\"'
+    ]"
 
   ########################
   #     Dependencies     #
