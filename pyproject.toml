@@ -1,6 +1,6 @@
 [project]
 name = "batcharray"
-version = "0.2.0"
+version = "0.2.1a0"
 description = "Functions to manipulate NumPy arrays"
 readme = "README.md"
 authors = [
