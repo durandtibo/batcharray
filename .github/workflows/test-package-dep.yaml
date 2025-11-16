@@ -7,7 +7,7 @@ on:
         description: "Optional package name to install"
         required: false
         type: string
-      package-version:
+      package-versions:
         default: "[ '' ]"
         description: "Optional package version to install"
         required: false
