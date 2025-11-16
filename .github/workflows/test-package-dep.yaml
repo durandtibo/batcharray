@@ -3,11 +3,20 @@ on:
   workflow_call:
     inputs:
       package-name:
+        default: ""
+        description: "Optional package name to install"
+        required: false
         type: string
-        required: true
-      package-versions:
+      package-version:
+        default: "[ '' ]"
+        description: "Optional package version to install"
+        required: false
         type: string
-        required: true
+      install-cmd:
+        default: "[ 'uv pip install batcharray' ]"
+        description: "Command to install the package"
+        required: false
+        type: string
 
 permissions:
   contents: read
@@ -23,6 +32,7 @@ jobs:
         os: [ ubuntu-latest ]
         python-version: [ '3.14', '3.13', '3.12', '3.11', '3.10' ]
         package-version: ${{ fromJson(inputs.package-versions) }}
+        install-cmd: ${{ fromJson(inputs.install-cmd) }}
 
     steps:
       - name: Checkout
@@ -36,9 +46,10 @@ jobs:
 
       - name: Install package
         run: |
-          uv pip install batcharray
+          ${{ matrix.install-cmd }}
 
       - name: Install valid package version
+        if: ${{ inputs.package-name != '' }}
         uses: durandtibo/uv-install-package-action@v0.1.1
         with:
           package-name: ${{ inputs.package-name }}
@@ -48,7 +59,7 @@ jobs:
       - name: Show dependency tree
         shell: bash
         run: |
-          uv pip tree
+          uv pip tree --show-version-specifiers
 
       - name: Run some checks
         run: |
