@@ -32,7 +32,6 @@ jobs:
       install-cmd: 'uv pip install --pre "batcharray[all]"'
 
 
-
   ########################
   #     Dependencies     #
   ########################
