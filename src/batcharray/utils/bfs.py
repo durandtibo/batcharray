@@ -36,7 +36,7 @@ def bfs_array(data: Any) -> Generator[np.ndarray]:
     structure.
 
     Args:
-        data: Specifies the data to iterate on.
+        data: The data to iterate on.
 
     Yields:
         The next ``numpy.ndarray`` in the data.
@@ -76,9 +76,8 @@ class BaseArrayIterator(Generic[T]):
         r"""Iterate over the data and add the items to the queue.
 
         Args:
-            data: Specifies the data to iterate on.
-            state: Specifies the current state, which include the
-                queue.
+            data: The data to iterate on.
+            state: The current state, which includes the queue.
         """
 
 
@@ -115,7 +114,7 @@ class MappingArrayIterator(BaseArrayIterator[Mapping]):
 
 
 class ArrayIterator(BaseArrayIterator[Any]):
-    """Implement an array iterator."""
+    r"""Implement an array iterator."""
 
     registry: ClassVar[dict[type, BaseArrayIterator]] = {}
 
@@ -129,8 +128,8 @@ class ArrayIterator(BaseArrayIterator[Any]):
         r"""Add an iterator for a given data type.
 
         Args:
-            data_type: Specifies the data type for this test.
-            iterator: Specifies the iterator object.
+            data_type: The data type for this test.
+            iterator: The iterator object.
             exist_ok: If ``False``, ``RuntimeError`` is raised if the
                 data type already exists. This parameter should be set
                 to ``True`` to overwrite the iterator for a type.
@@ -165,7 +164,7 @@ class ArrayIterator(BaseArrayIterator[Any]):
         type.
 
         Args:
-            data_type: Specifies the data type to check.
+            data_type: The data type to check.
 
         Returns:
             ``True`` if an iterator is registered, otherwise ``False``.
@@ -188,7 +187,7 @@ class ArrayIterator(BaseArrayIterator[Any]):
         r"""Find the iterator associated to an object.
 
         Args:
-            data_type: Specifies the data type to get.
+            data_type: The data type to get.
 
         Returns:
             The iterator associated to the data type.
@@ -214,7 +213,7 @@ def register_iterators(mapping: Mapping[type, BaseArrayIterator]) -> None:
     r"""Register some iterators.
 
     Args:
-        mapping: Specifies the iterators to register.
+        mapping: The iterators to register.
     """
     for typ, op in mapping.items():
         if not ArrayIterator.has_iterator(typ):  # pragma: no cover

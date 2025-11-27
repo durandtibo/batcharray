@@ -23,7 +23,7 @@ T = TypeVar("T", bound=np.ndarray)
 
 
 class AutoComputationModel(BaseComputationModel[T]):
-    """Implement a computation model that automatically finds the right
+    r"""Implement a computation model that automatically finds the right
     computation model based on the array type.
 
     Example usage:
