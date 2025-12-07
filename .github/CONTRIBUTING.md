@@ -17,16 +17,65 @@ Once you implement and test your feature or bug-fix, please submit a Pull Reques
 We actively welcome your pull requests.
 
 1. Fork the repo and create your branch from `main`.
-2. If you've added code that should be tested, add tests.
-3. If you've changed APIs, update the documentation.
-4. Ensure the test suite passes. You can use the following command to run the tests:
+2. Set up your development environment (see [Installation](#installation) below).
+3. If you've added code that should be tested, add tests.
+4. If you've changed APIs, update the documentation.
+5. Ensure the test suite passes. You can use the following command to run the tests:
    ```shell
    make unit-test-cov
    ```
-5. Make sure your code lints. The following commands can help you to format the code:
+6. Make sure your code lints. The following commands can help you to format the code:
    ```shell
    pre-commit run --all-files
    ```
+
+## Installation
+
+### Prerequisites
+
+This project uses [`uv`](https://docs.astral.sh/uv/) for dependency management. Install it first:
+
+```shell
+# On macOS and Linux
+curl -LsSf https://astral.sh/uv/install.sh | sh
+
+# On Windows
+powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"
+
+# Or using pip
+pip install uv
+```
+
+### Setting up the development environment
+
+1. Clone your fork:
+   ```shell
+   git clone git@github.com:YOUR_USERNAME/batcharray.git
+   cd batcharray
+   ```
+
+2. Set up the virtual environment and install dependencies:
+   ```shell
+   make setup-venv
+   source .venv/bin/activate  # On Unix/macOS
+   # or
+   .venv\Scripts\activate  # On Windows
+   ```
+
+3. Install pre-commit hooks:
+   ```shell
+   pre-commit install
+   ```
+
+### Available Make commands
+
+- `make install` - Install core dependencies
+- `make install-all` - Install all dependencies including docs
+- `make lint` - Check code with ruff
+- `make format` - Check code formatting with black
+- `make unit-test` - Run unit tests
+- `make unit-test-cov` - Run unit tests with coverage
+- `make doctest-src` - Run doctests in source code
 
 ## Issues
 

@@ -23,9 +23,15 @@ theme:
 
 nav:
   - Home: index.md
-  - get_started.md
+  - Get Started: get_started.md
   - User Guide:
-      - uguide/array.md
+      - Array Operations: uguide/array.md
+      - Nested Structures: uguide/nested.md
+      - Computation Models: uguide/computation.md
+      - Recursive Operations: uguide/recursive.md
+      - Utility Functions: uguide/utils.md
+  - FAQ: faq.md
+  - Troubleshooting: troubleshooting.md
   - Reference:
       - array: refs/array.md
       - computation: refs/computation.md

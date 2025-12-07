@@ -64,9 +64,11 @@ is the batch axis and the second axis is the sequence axis.
 - [Motivation](#motivation)
 - [Documentation](https://durandtibo.github.io/batcharray/)
 - [Installation](#installation)
+- [Features](#features)
 - [Contributing](#contributing)
 - [API stability](#api-stability)
 - [License](#license)
+- [Changelog](CHANGELOG.md)
 
 ## Motivation
 
@@ -108,6 +110,38 @@ function `split_along_batch`:
 ```
 
 Please check the documentation to see all the implemented functions.
+
+## Features
+
+`batcharray` provides several modules for different use cases:
+
+- **`array`**: Functions to manipulate single NumPy arrays with batch and sequence dimensions
+  - Slicing, indexing, and selection operations
+  - Statistical reductions (mean, max, min, etc.)
+  - Sorting and permutation operations
+  - Cumulative operations (cumsum, cumprod)
+  - Support for both regular and masked arrays
+
+- **`nested`**: Functions to manipulate nested data structures (dicts, lists) containing arrays
+  - Apply operations to all arrays in a structure simultaneously
+  - Maintain relationships between related arrays
+  - Mathematical operations (abs, exp, log, trigonometric functions)
+  - All operations from `array` module, but for nested structures
+
+- **`computation`**: Computation models for abstracting array operations
+  - Automatic selection of appropriate implementation based on array type
+  - Support for regular arrays and masked arrays
+  - Extensible for custom array types
+
+- **`recursive`**: Tools for recursively applying functions to nested structures
+  - Traverse complex hierarchies of dicts, lists, and tuples
+  - Apply transformations to specific types
+  - Customizable traversal strategies
+
+- **`utils`**: Utility functions for exploring nested structures
+  - Breadth-first search (BFS) for wide structures
+  - Depth-first search (DFS) for deep structures
+  - Helpful for debugging and validation
 
 ## Documentation
 
