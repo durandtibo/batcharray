@@ -32,6 +32,7 @@ nav:
       - Utility Functions: uguide/utils.md
   - FAQ: faq.md
   - Troubleshooting: troubleshooting.md
+  - Migration Guide: migration.md
   - Reference:
       - array: refs/array.md
       - computation: refs/computation.md

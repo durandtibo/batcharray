@@ -11,27 +11,20 @@ print("=" * 60)
 print("Nested Data Structures Example")
 print("=" * 60)
 
-# Create a nested batch structure
+# Create a batch structure (flat dictionary for simplicity)
 print("\n1. Creating nested batch data")
 print("-" * 40)
 batch = {
     "features": np.array([[1.0, 2.0], [3.0, 4.0], [5.0, 6.0], [7.0, 8.0], [9.0, 10.0]]),
     "labels": np.array([0, 1, 0, 1, 0]),
     "weights": np.array([1.0, 2.0, 1.5, 2.5, 1.0]),
-    "metadata": {
-        "ids": np.array([100, 101, 102, 103, 104]),
-        "timestamps": np.array([1, 2, 3, 4, 5])
-    }
+    "ids": np.array([100, 101, 102, 103, 104]),
+    "timestamps": np.array([1, 2, 3, 4, 5])
 }
 
 print("Batch structure:")
 for key, value in batch.items():
-    if isinstance(value, dict):
-        print(f"  {key}: (nested dict)")
-        for k, v in value.items():
-            print(f"    {k}: shape {v.shape}")
-    else:
-        print(f"  {key}: shape {value.shape}")
+    print(f"  {key}: shape {value.shape}")
 
 # Slicing all arrays together
 print("\n2. Slicing nested structure")
@@ -40,7 +33,7 @@ sliced = nested.slice_along_batch(batch, stop=3)
 print(f"Sliced batch (first 3 items):")
 print(f"  features shape: {sliced['features'].shape}")
 print(f"  labels: {sliced['labels']}")
-print(f"  metadata.ids: {sliced['metadata']['ids']}")
+print(f"  ids: {sliced['ids']}")
 
 # Splitting into multiple batches
 print("\n3. Splitting into batches")
@@ -67,7 +60,7 @@ np.random.seed(42)
 shuffled = nested.shuffle_along_batch(batch)
 print("After shuffling:")
 print(f"  Labels: {shuffled['labels']}")
-print(f"  IDs: {shuffled['metadata']['ids']}")
+print(f"  IDs: {shuffled['ids']}")
 print("Note: Labels and IDs remain synchronized!")
 
 # Concatenating batches
