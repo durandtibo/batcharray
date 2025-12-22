@@ -5,7 +5,7 @@ from __future__ import annotations
 __all__ = ["BaseApplier"]
 
 from abc import ABC, abstractmethod
-from typing import TYPE_CHECKING, Generic, TypeVar
+from typing import TYPE_CHECKING, Any, Generic, TypeVar
 
 if TYPE_CHECKING:
     from collections.abc import Callable
@@ -22,7 +22,7 @@ class BaseApplier(ABC, Generic[T]):
         return f"{self.__class__.__qualname__}()"
 
     @abstractmethod
-    def apply(self, data: T, func: Callable, state: ApplyState) -> T:
+    def apply(self, data: T, func: Callable[[Any], Any], state: ApplyState) -> T:
         r"""Recursively apply a function on all the items in a nested
         data.
 

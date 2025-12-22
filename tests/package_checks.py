@@ -5,7 +5,7 @@ import logging
 import numpy as np
 from coola import objects_are_equal
 
-logger = logging.getLogger(__name__)
+logger: logging.Logger = logging.getLogger(__name__)
 
 
 def check_array() -> None:

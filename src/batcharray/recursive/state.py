@@ -6,9 +6,9 @@ __all__ = ["ApplyState"]
 
 import logging
 from dataclasses import dataclass
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Any
 
-logger = logging.getLogger(__name__)
+logger: logging.Logger = logging.getLogger(__name__)
 
 
 if TYPE_CHECKING:
@@ -19,7 +19,7 @@ if TYPE_CHECKING:
 class ApplyState:
     r"""Store the current state."""
 
-    applier: BaseApplier
+    applier: BaseApplier[Any]
     depth: int = 0
 
     def increment_depth(self, increment: int = 1) -> ApplyState:

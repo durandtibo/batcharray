@@ -47,7 +47,7 @@ class AutoComputationModel(BaseComputationModel[T]):
     ```
     """
 
-    registry: ClassVar[dict[type, BaseComputationModel]] = {}
+    registry: ClassVar[dict[type, BaseComputationModel[T]]] = {}
 
     def __repr__(self) -> str:
         return f"{self.__class__.__qualname__}(\n  {repr_indent(repr_mapping(self.registry))}\n)"
