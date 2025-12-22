@@ -8,7 +8,7 @@ import logging
 from dataclasses import dataclass
 from typing import TYPE_CHECKING
 
-logger = logging.getLogger(__name__)
+logger: logging.Logger = logging.getLogger(__name__)
 
 
 if TYPE_CHECKING:

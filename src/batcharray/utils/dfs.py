@@ -15,6 +15,7 @@ __all__ = [
 ]
 
 import logging
+from abc import ABC, abstractmethod
 from collections import deque
 from collections.abc import Generator, Iterable, Mapping
 from dataclasses import dataclass
@@ -23,7 +24,7 @@ from typing import Any, ClassVar, Generic, TypeVar
 import numpy as np
 from coola.utils import str_indent, str_mapping
 
-logger = logging.getLogger(__name__)
+logger: logging.Logger = logging.getLogger(__name__)
 
 T = TypeVar("T")
 
@@ -60,13 +61,14 @@ def dfs_array(data: Any) -> Generator[np.ndarray]:
 class IteratorState:
     r"""Store the current state."""
 
-    iterator: BaseArrayIterator
+    iterator: BaseArrayIterator[Any]
 
 
-class BaseArrayIterator(Generic[T]):
+class BaseArrayIterator(ABC, Generic[T]):
     r"""Define the base class to iterate over the data to find the
     arrays with a Depth-First Search (DFS) strategy."""
 
+    @abstractmethod
     def iterate(self, data: T, state: IteratorState) -> Generator[np.ndarray]:
         r"""Iterate over the data and add the items to the queue.
 
@@ -94,24 +96,24 @@ class DefaultArrayIterator(BaseArrayIterator[Any]):
             yield data
 
 
-class IterableArrayIterator(BaseArrayIterator[Iterable]):
+class IterableArrayIterator(BaseArrayIterator[Iterable[Any]]):
     r"""Implement the array iterator for iterable objects."""
 
     def __repr__(self) -> str:
         return f"{self.__class__.__qualname__}()"
 
-    def iterate(self, data: Iterable, state: IteratorState) -> Generator[np.ndarray]:
+    def iterate(self, data: Iterable[Any], state: IteratorState) -> Generator[np.ndarray]:
         for item in data:
             yield from state.iterator.iterate(item, state)
 
 
-class MappingArrayIterator(BaseArrayIterator[Mapping]):
+class MappingArrayIterator(BaseArrayIterator[Mapping[Any, Any]]):
     r"""Implement the array iterator for mapping objects."""
 
     def __repr__(self) -> str:
         return f"{self.__class__.__qualname__}()"
 
-    def iterate(self, data: Mapping, state: IteratorState) -> Generator[np.ndarray]:
+    def iterate(self, data: Mapping[Any, Any], state: IteratorState) -> Generator[np.ndarray]:
         for item in data.values():
             yield from state.iterator.iterate(item, state)
 
@@ -119,14 +121,14 @@ class MappingArrayIterator(BaseArrayIterator[Mapping]):
 class ArrayIterator(BaseArrayIterator[Any]):
     r"""Implement an array iterator."""
 
-    registry: ClassVar[dict[type, BaseArrayIterator]] = {}
+    registry: ClassVar[dict[type, BaseArrayIterator[Any]]] = {}
 
     def __repr__(self) -> str:
         return f"{self.__class__.__qualname__}(\n  {str_indent(str_mapping(self.registry))}\n)"
 
     @classmethod
     def add_iterator(
-        cls, data_type: type, iterator: BaseArrayIterator, exist_ok: bool = False
+        cls, data_type: type, iterator: BaseArrayIterator[Any], exist_ok: bool = False
     ) -> None:
         r"""Add an iterator for a given data type.
 
@@ -158,7 +160,7 @@ class ArrayIterator(BaseArrayIterator[Any]):
             raise RuntimeError(msg)
         cls.registry[data_type] = iterator
 
-    def iterate(self, data: Iterable, state: IteratorState) -> Generator[np.ndarray]:
+    def iterate(self, data: Iterable[Any], state: IteratorState) -> Generator[np.ndarray]:
         yield from self.find_iterator(type(data)).iterate(data, state)
 
     @classmethod
@@ -186,7 +188,7 @@ class ArrayIterator(BaseArrayIterator[Any]):
         return data_type in cls.registry
 
     @classmethod
-    def find_iterator(cls, data_type: Any) -> BaseArrayIterator:
+    def find_iterator(cls, data_type: T) -> BaseArrayIterator[T]:
         r"""Find the iterator associated to an object.
 
         Args:
@@ -212,7 +214,7 @@ class ArrayIterator(BaseArrayIterator[Any]):
         raise TypeError(msg)
 
 
-def register_iterators(mapping: Mapping[type, BaseArrayIterator]) -> None:
+def register_iterators(mapping: Mapping[type, BaseArrayIterator[Any]]) -> None:
     r"""Register some iterators.
 
     Args:
