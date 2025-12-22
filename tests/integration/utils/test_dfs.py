@@ -6,7 +6,7 @@ import numpy as np
 import pytest
 from coola import objects_are_equal
 
-from batcharray.utils.dfs2 import (
+from batcharray.utils.dfs import (
     BaseArrayIterator,
     DefaultArrayIterator,
     IterableArrayIterator,

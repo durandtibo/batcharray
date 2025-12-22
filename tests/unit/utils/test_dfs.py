@@ -1,27 +1,51 @@
 from __future__ import annotations
 
 from collections import OrderedDict, deque
-from collections.abc import Iterable, Mapping
-from typing import Any
-from unittest.mock import Mock, patch
+from typing import TYPE_CHECKING, Any
 
 import numpy as np
 import pytest
 from coola import objects_are_equal
 
 from batcharray.utils.dfs import (
-    ArrayIterator,
+    BaseArrayIterator,
     DefaultArrayIterator,
     IterableArrayIterator,
-    IteratorState,
+    IteratorRegistry,
     MappingArrayIterator,
     dfs_array,
+    get_default_registry,
+    register_iterators,
 )
 
+if TYPE_CHECKING:
+    from collections.abc import Generator, Iterable, Mapping
 
-@pytest.fixture
-def state() -> IteratorState:
-    return IteratorState(ArrayIterator())
+
+@pytest.fixture(autouse=True)
+def _reset_default_registry() -> Generator[None, None, None]:
+    """Reset the registry before and after each test."""
+    if hasattr(get_default_registry, "_registry"):
+        del get_default_registry._registry
+    yield
+    if hasattr(get_default_registry, "_registry"):
+        del get_default_registry._registry
+
+
+class CustomType:
+    r"""Create a custom class."""
+
+
+class CustomType1:
+    r"""Create a custom class."""
+
+
+class CustomType2:
+    r"""Create a custom class."""
+
+
+class CustomList(list):
+    r"""Create a custom class that inherits from list."""
 
 
 ###############################
@@ -103,17 +127,49 @@ def test_dfs_array_nested_data() -> None:
     )
 
 
-###########################################
+def test_dfs_array_with_custom_registry() -> None:
+    registry = IteratorRegistry()
+    registry.register(list, IterableArrayIterator())
+    registry.register(dict, MappingArrayIterator())
+    assert objects_are_equal(
+        list(
+            dfs_array(
+                ["abc", np.ones((2, 3)), {"key": np.array([0, 1, 2, 3, 4])}], registry=registry
+            )
+        ),
+        [np.ones((2, 3)), np.array([0, 1, 2, 3, 4])],
+    )
+
+
+def test_dfs_array_uses_default_registry_when_none() -> None:
+    assert objects_are_equal(list(dfs_array([np.ones((2, 3))])), [np.ones((2, 3))])
+
+
+##########################################
 #     Tests for DefaultArrayIterator     #
-###########################################
+##########################################
+
+
+def test_default_array_iterator_repr() -> None:
+    assert repr(DefaultArrayIterator()) == "DefaultArrayIterator()"
 
 
 def test_default_array_iterator_str() -> None:
-    assert str(DefaultArrayIterator()).startswith("DefaultArrayIterator(")
+    assert str(DefaultArrayIterator()) == "DefaultArrayIterator()"
 
 
-def test_default_array_iterator_iterable(state: IteratorState) -> None:
-    assert list(DefaultArrayIterator().iterate("abc", state)) == []
+def test_default_array_iterator_iterate_array() -> None:
+    registry = IteratorRegistry()
+    iterator = DefaultArrayIterator()
+    assert objects_are_equal(list(iterator.iterate(np.ones((2, 3)), registry)), [np.ones((2, 3))])
+
+
+def test_default_array_iterator_iterate_non_array() -> None:
+    registry = IteratorRegistry()
+    iterator = DefaultArrayIterator()
+    assert list(iterator.iterate("abc", registry)) == []
+    assert list(iterator.iterate(42, registry)) == []
+    assert list(iterator.iterate([1, 2, 3], registry)) == []
 
 
 ###########################################
@@ -121,8 +177,12 @@ def test_default_array_iterator_iterable(state: IteratorState) -> None:
 ###########################################
 
 
+def test_iterable_array_iterator_repr() -> None:
+    assert repr(IterableArrayIterator()) == "IterableArrayIterator()"
+
+
 def test_iterable_array_iterator_str() -> None:
-    assert str(IterableArrayIterator()).startswith("IterableArrayIterator(")
+    assert str(IterableArrayIterator()) == "IterableArrayIterator()"
 
 
 @pytest.mark.parametrize(
@@ -134,8 +194,9 @@ def test_iterable_array_iterator_str() -> None:
         pytest.param(deque(), id="empty deque"),
     ],
 )
-def test_iterable_array_iterator_iterate_empty(data: Iterable, state: IteratorState) -> None:
-    assert list(IterableArrayIterator().iterate(data, state)) == []
+def test_iterable_array_iterator_iterate_empty(data: Iterable) -> None:
+    registry = get_default_registry()
+    assert list(IterableArrayIterator().iterate(data, registry)) == []
 
 
 @pytest.mark.parametrize(
@@ -146,10 +207,19 @@ def test_iterable_array_iterator_iterate_empty(data: Iterable, state: IteratorSt
         pytest.param(("abc", np.ones((2, 3)), 42, np.array([0, 1, 2, 3, 4])), id="tuple"),
     ],
 )
-def test_iterable_array_iterator_iterate(data: Iterable, state: IteratorState) -> None:
+def test_iterable_array_iterator_iterate(data: Iterable) -> None:
+    registry = get_default_registry()
     assert objects_are_equal(
-        list(IterableArrayIterator().iterate(data, state)),
+        list(IterableArrayIterator().iterate(data, registry)),
         [np.ones((2, 3)), np.array([0, 1, 2, 3, 4])],
+    )
+
+
+def test_iterable_array_iterator_iterate_nested() -> None:
+    registry = get_default_registry()
+    assert objects_are_equal(
+        list(IterableArrayIterator().iterate([[np.ones(2)], [np.zeros(3)]], registry)),
+        [np.ones(2), np.zeros(3)],
     )
 
 
@@ -158,8 +228,12 @@ def test_iterable_array_iterator_iterate(data: Iterable, state: IteratorState) -
 ##########################################
 
 
+def test_mapping_array_iterator_repr() -> None:
+    assert repr(MappingArrayIterator()) == "MappingArrayIterator()"
+
+
 def test_mapping_array_iterator_str() -> None:
-    assert str(MappingArrayIterator()).startswith("MappingArrayIterator(")
+    assert str(MappingArrayIterator()) == "MappingArrayIterator()"
 
 
 @pytest.mark.parametrize(
@@ -169,8 +243,9 @@ def test_mapping_array_iterator_str() -> None:
         pytest.param(OrderedDict(), id="empty OrderedDict"),
     ],
 )
-def test_mapping_array_iterator_iterate_empty(data: Mapping, state: IteratorState) -> None:
-    assert list(MappingArrayIterator().iterate(data, state)) == []
+def test_mapping_array_iterator_iterate_empty(data: Mapping) -> None:
+    registry = get_default_registry()
+    assert list(MappingArrayIterator().iterate(data, registry)) == []
 
 
 @pytest.mark.parametrize(
@@ -193,85 +268,230 @@ def test_mapping_array_iterator_iterate_empty(data: Mapping, state: IteratorStat
         ),
     ],
 )
-def test_mapping_array_iterator_iterate(data: Mapping, state: IteratorState) -> None:
+def test_mapping_array_iterator_iterate(data: Mapping) -> None:
+    registry = get_default_registry()
     assert objects_are_equal(
-        list(MappingArrayIterator().iterate(data, state)),
+        list(MappingArrayIterator().iterate(data, registry)),
         [np.ones((2, 3)), np.array([0, 1, 2, 3, 4])],
     )
 
 
-###################################
-#     Tests for ArrayIterator     #
-###################################
-
-
-def test_iterator_str() -> None:
-    assert str(ArrayIterator()).startswith("ArrayIterator(")
-
-
-@patch.dict(ArrayIterator.registry, {}, clear=True)
-def test_iterator_add_iterator() -> None:
-    iterator = ArrayIterator()
-    seq_iterator = IterableArrayIterator()
-    iterator.add_iterator(list, seq_iterator)
-    assert iterator.registry[list] is seq_iterator
-
-
-@patch.dict(ArrayIterator.registry, {}, clear=True)
-def test_iterator_add_iterator_duplicate_exist_ok_true() -> None:
-    iterator = ArrayIterator()
-    seq_iterator = IterableArrayIterator()
-    iterator.add_iterator(list, DefaultArrayIterator())
-    iterator.add_iterator(list, seq_iterator, exist_ok=True)
-    assert iterator.registry[list] is seq_iterator
-
-
-@patch.dict(ArrayIterator.registry, {}, clear=True)
-def test_iterator_add_iterator_duplicate_exist_ok_false() -> None:
-    iterator = ArrayIterator()
-    seq_iterator = IterableArrayIterator()
-    iterator.add_iterator(list, DefaultArrayIterator())
-    with pytest.raises(RuntimeError, match=r"An iterator (.*) is already registered"):
-        iterator.add_iterator(list, seq_iterator)
-
-
-def test_iterator_iterate() -> None:
-    state = IteratorState(iterator=ArrayIterator())
-    iterator = ArrayIterator().iterate(
-        ["abc", np.ones((2, 3)), 42, np.array([0, 1, 2, 3, 4])], state=state
+def test_mapping_array_iterator_iterate_nested() -> None:
+    registry = get_default_registry()
+    assert objects_are_equal(
+        list(MappingArrayIterator().iterate({"a": {"b": np.ones(2)}, "c": np.zeros(3)}, registry)),
+        [np.ones(2), np.zeros(3)],
     )
-    assert objects_are_equal(list(iterator), [np.ones((2, 3)), np.array([0, 1, 2, 3, 4])])
 
 
-def test_iterator_has_iterator_true() -> None:
-    assert ArrayIterator().has_iterator(list)
+######################################
+#     Tests for IteratorRegistry     #
+######################################
 
 
-def test_iterator_has_iterator_false() -> None:
-    assert not ArrayIterator().has_iterator(type(None))
+def test_iterator_registry_repr() -> None:
+    assert repr(IteratorRegistry()).startswith("IteratorRegistry(")
 
 
-def test_iterator_find_iterator_direct() -> None:
-    assert isinstance(ArrayIterator().find_iterator(list), IterableArrayIterator)
+def test_iterator_registry_str() -> None:
+    assert str(IteratorRegistry()).startswith("IteratorRegistry(")
 
 
-def test_iterator_find_iterator_indirect() -> None:
-    assert isinstance(ArrayIterator().find_iterator(str), DefaultArrayIterator)
+def test_iterator_registry_init_with_dict() -> None:
+    registry = IteratorRegistry(
+        {
+            list: IterableArrayIterator(),
+            dict: MappingArrayIterator(),
+        }
+    )
+    assert len(registry._registry) == 2
+    assert list in registry._registry
+    assert dict in registry._registry
 
 
-def test_iterator_find_iterator_incorrect_type() -> None:
-    with pytest.raises(TypeError, match=r"Incorrect data type:"):
-        ArrayIterator().find_iterator(Mock(__mro__=[]))
+def test_iterator_registry_init_copies_dict() -> None:
+    initial: dict[type, BaseArrayIterator] = {list: IterableArrayIterator()}
+    registry = IteratorRegistry(initial)
+    # Modify original dict
+    initial[dict] = MappingArrayIterator()
+    # Registry should not be affected
+    assert dict not in registry._registry
+    assert len(registry._registry) == 1
 
 
-def test_iterator_registry_default() -> None:
-    assert len(ArrayIterator.registry) >= 9
-    assert isinstance(ArrayIterator.registry[Iterable], IterableArrayIterator)
-    assert isinstance(ArrayIterator.registry[Mapping], MappingArrayIterator)
-    assert isinstance(ArrayIterator.registry[deque], IterableArrayIterator)
-    assert isinstance(ArrayIterator.registry[dict], MappingArrayIterator)
-    assert isinstance(ArrayIterator.registry[list], IterableArrayIterator)
-    assert isinstance(ArrayIterator.registry[object], DefaultArrayIterator)
-    assert isinstance(ArrayIterator.registry[set], IterableArrayIterator)
-    assert isinstance(ArrayIterator.registry[str], DefaultArrayIterator)
-    assert isinstance(ArrayIterator.registry[tuple], IterableArrayIterator)
+def test_iterator_registry_init_with_none() -> None:
+    registry = IteratorRegistry(None)
+    assert len(registry._registry) == 0
+
+
+def test_iterator_registry_register() -> None:
+    registry = IteratorRegistry()
+    iterator = IterableArrayIterator()
+    registry.register(list, iterator)
+    assert registry._registry[list] is iterator
+
+
+def test_iterator_registry_register_duplicate_exist_ok_true() -> None:
+    registry = IteratorRegistry()
+    iterator1 = DefaultArrayIterator()
+    iterator2 = IterableArrayIterator()
+    registry.register(list, iterator1)
+    registry.register(list, iterator2, exist_ok=True)
+    assert registry._registry[list] is iterator2
+
+
+def test_iterator_registry_register_duplicate_exist_ok_false() -> None:
+    registry = IteratorRegistry()
+    registry.register(list, DefaultArrayIterator())
+    with pytest.raises(RuntimeError, match=r"An iterator (.*) is already registered"):
+        registry.register(list, IterableArrayIterator())
+
+
+def test_iterator_registry_register_many() -> None:
+    registry = IteratorRegistry()
+    registry.register_many(
+        {
+            list: IterableArrayIterator(),
+            dict: MappingArrayIterator(),
+        }
+    )
+    assert isinstance(registry._registry[list], IterableArrayIterator)
+    assert isinstance(registry._registry[dict], MappingArrayIterator)
+
+
+def test_iterator_registry_register_many_exist_ok_false() -> None:
+    registry = IteratorRegistry({list: DefaultArrayIterator()})
+    iterators = {
+        list: IterableArrayIterator(),
+        dict: MappingArrayIterator(),
+    }
+    with pytest.raises(RuntimeError, match=r"An iterator (.*) is already registered"):
+        registry.register_many(iterators, exist_ok=False)
+
+
+def test_iterator_registry_register_many_exist_ok_true() -> None:
+    registry = IteratorRegistry({list: DefaultArrayIterator()})
+    registry.register_many(
+        {
+            list: IterableArrayIterator(),
+            dict: MappingArrayIterator(),
+        },
+        exist_ok=True,
+    )
+    assert isinstance(registry._registry[list], IterableArrayIterator)
+    assert isinstance(registry._registry[dict], MappingArrayIterator)
+
+
+def test_iterator_registry_has_iterator_true() -> None:
+    registry = IteratorRegistry({list: IterableArrayIterator()})
+    assert registry.has_iterator(list)
+
+
+def test_iterator_registry_has_iterator_false() -> None:
+    registry = IteratorRegistry()
+    assert not registry.has_iterator(list)
+
+
+def test_iterator_registry_find_iterator_direct() -> None:
+    iterator = IterableArrayIterator()
+    registry = IteratorRegistry({list: iterator})
+    assert registry.find_iterator(list) is iterator
+
+
+def test_iterator_registry_find_iterator_mro_lookup() -> None:
+    iterator = IterableArrayIterator()
+    registry = IteratorRegistry({list: iterator})
+    assert registry.find_iterator(CustomList) is iterator
+    # CustomList should NOT be in the registry after lookup
+    assert CustomList not in registry._registry
+
+
+def test_iterator_registry_find_iterator_default() -> None:
+    registry = IteratorRegistry()
+    assert isinstance(registry.find_iterator(int), DefaultArrayIterator)
+
+
+def test_iterator_registry_iterate() -> None:
+    registry = IteratorRegistry({list: IterableArrayIterator()})
+    assert objects_are_equal(
+        list(registry.iterate([np.ones((2, 3)), "abc", np.array([0, 1, 2, 3, 4])])),
+        [np.ones((2, 3)), np.array([0, 1, 2, 3, 4])],
+    )
+
+
+def test_iterator_registry_iterate_uses_find_iterator() -> None:
+    registry = IteratorRegistry({list: IterableArrayIterator()})
+    assert objects_are_equal(list(registry.iterate([np.ones(3)])), [np.ones(3)])
+
+
+##########################################
+#     Tests for get_default_registry     #
+##########################################
+
+
+def test_get_default_registry_returns_same_instance() -> None:
+    registry1 = get_default_registry()
+    registry2 = get_default_registry()
+    assert registry1 is registry2
+
+
+def test_get_default_registry_has_default_iterators() -> None:
+    registry = get_default_registry()
+    assert registry.has_iterator(list)
+    assert registry.has_iterator(dict)
+    assert registry.has_iterator(tuple)
+    assert registry.has_iterator(set)
+    assert registry.has_iterator(deque)
+    assert registry.has_iterator(str)
+
+
+def test_get_default_registry_iterators_are_correct_type() -> None:
+    registry = get_default_registry()
+    assert isinstance(registry.find_iterator(list), IterableArrayIterator)
+    assert isinstance(registry.find_iterator(dict), MappingArrayIterator)
+    assert isinstance(registry.find_iterator(tuple), IterableArrayIterator)
+    assert isinstance(registry.find_iterator(set), IterableArrayIterator)
+    assert isinstance(registry.find_iterator(deque), IterableArrayIterator)
+    assert isinstance(registry.find_iterator(str), DefaultArrayIterator)
+    assert isinstance(registry.find_iterator(object), DefaultArrayIterator)
+
+
+########################################
+#     Tests for register_iterators     #
+########################################
+
+
+def test_register_iterators() -> None:
+    iterator = DefaultArrayIterator()
+    register_iterators({CustomType: iterator})
+
+    registry = get_default_registry()
+    assert registry.has_iterator(CustomType)
+    assert registry.find_iterator(CustomType) is iterator
+
+
+def test_register_iterators_multiple() -> None:
+    iterator1 = DefaultArrayIterator()
+    iterator2 = IterableArrayIterator()
+
+    register_iterators(
+        {
+            CustomType1: iterator1,
+            CustomType2: iterator2,
+        },
+        exist_ok=True,
+    )
+
+    registry = get_default_registry()
+    assert registry.has_iterator(CustomType1)
+    assert registry.has_iterator(CustomType2)
+
+
+def test_register_iterators_exist_ok_false() -> None:
+    with pytest.raises(RuntimeError, match=r"An iterator (.*) is already registered"):
+        register_iterators({list: DefaultArrayIterator()}, exist_ok=False)
+
+
+def test_register_iterators_exist_ok_true() -> None:
+    new_iterator = DefaultArrayIterator()
+    register_iterators({list: new_iterator}, exist_ok=True)
