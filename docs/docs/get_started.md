@@ -22,48 +22,64 @@ pip install 'batcharray[all]'
 
 ## Installing from source
 
-To install `batcharray` from source, you can follow the steps below. First, you will need to
-install [`poetry`](https://python-poetry.org/docs/master/). `poetry` is used to manage and install
-the dependencies.
-If `poetry` is already installed on your machine, you can skip this step. There are several ways to
-install `poetry` so you can use the one that you prefer. You can check the `poetry` installation by
-running the following command:
+To install `batcharray` from source, you can follow the steps below.
+
+### Prerequisites
+
+The project uses [`uv`](https://docs.astral.sh/uv/) for dependency management. First, install `uv` if you haven't already:
 
 ```shell
-poetry --version
+# On macOS and Linux
+curl -LsSf https://astral.sh/uv/install.sh | sh
 ```
 
-Then, you can clone the git repository:
+You can verify the installation by running:
+
+```shell
+uv --version
+```
+
+### Clone the repository
+
+Clone the git repository:
 
 ```shell
 git clone git@github.com:durandtibo/batcharray.git
+cd batcharray
 ```
 
-It is recommended to create a Python 3.8+ virtual environment. This step is optional so you
-can skip it. To create a virtual environment, you can use the following command:
+### Set up development environment
+
+Create a Python 3.10+ virtual environment and install dependencies:
 
 ```shell
-make conda
+make setup-venv
 ```
 
-It automatically creates a conda virtual environment. When the virtual environment is created, you
-can activate it with the following command:
+This command will:
+1. Update `uv` to the latest version
+2. Create a virtual environment with Python 3.13
+3. Install `invoke` for task management
+4. Install all dependencies including documentation dependencies
 
-```shell
-conda activate batcharray
-```
 
-This example uses `conda` to create a virtual environment, but you can use other tools or
-configurations. Then, you should install the required package to use `batcharray` with the
-following command:
+### Install the package
+
+To install only the core dependencies:
 
 ```shell
 make install
 ```
 
-This command will install all the required packages. You can also use this command to update the
-required packages. This command will check if there is a more recent package available and will
-install it. Finally, you can test the installation with the following command:
+To install all dependencies including documentation tools:
+
+```shell
+make install-all
+```
+
+### Verify installation
+
+Run the test suite to verify everything is working correctly:
 
 ```shell
 make unit-test-cov
