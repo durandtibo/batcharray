@@ -13,14 +13,18 @@ Main modules:
     - utils: Utility functions for exploring nested structures
 
 Example usage:
-    >>> import numpy as np
-    >>> from batcharray import array, nested
-    >>> # Working with single arrays
-    >>> batch = np.array([[1, 2], [3, 4], [5, 6]])
-    >>> sliced = array.slice_along_batch(batch, stop=2)
-    >>> # Working with nested structures
-    >>> data = {"a": np.array([1, 2, 3]), "b": np.array([4, 5, 6])}
-    >>> sliced = nested.slice_along_batch(data, stop=2)
+
+```pycon
+>>> import numpy as np
+>>> from batcharray import array, nested
+>>> # Working with single arrays
+>>> batch = np.array([[1, 2], [3, 4], [5, 6]])
+>>> sliced = array.slice_along_batch(batch, stop=2)
+>>> # Working with nested structures
+>>> data = {"a": np.array([1, 2, 3]), "b": np.array([4, 5, 6])}
+>>> sliced = nested.slice_along_batch(data, stop=2)
+
+```
 
 For more information, see https://durandtibo.github.io/batcharray/
 """
