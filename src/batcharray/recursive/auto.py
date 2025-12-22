@@ -5,7 +5,7 @@ from __future__ import annotations
 
 __all__ = ["AutoApplier"]
 
-from typing import TYPE_CHECKING, Any, ClassVar
+from typing import TYPE_CHECKING, Any, ClassVar, TypeVar
 
 from coola.utils import str_indent, str_mapping
 
@@ -16,18 +16,22 @@ if TYPE_CHECKING:
 
     from batcharray.recursive import ApplyState
 
+T = TypeVar("T")
+
 
 class AutoApplier(BaseApplier[Any]):
     r"""Implement an applier that can automatically call other appliers
     based on the data type."""
 
-    registry: ClassVar[dict[type, BaseApplier]] = {}
+    registry: ClassVar[dict[type, BaseApplier[Any]]] = {}
 
     def __repr__(self) -> str:
         return f"{self.__class__.__qualname__}(\n  {str_indent(str_mapping(self.registry))}\n)"
 
     @classmethod
-    def add_applier(cls, data_type: type, applier: BaseApplier, exist_ok: bool = False) -> None:
+    def add_applier(
+        cls, data_type: type, applier: BaseApplier[Any], exist_ok: bool = False
+    ) -> None:
         r"""Add an applier for a given data type.
 
         Args:
@@ -58,7 +62,7 @@ class AutoApplier(BaseApplier[Any]):
             raise RuntimeError(msg)
         cls.registry[data_type] = applier
 
-    def apply(self, data: Any, func: Callable, state: ApplyState) -> Any:
+    def apply(self, data: Any, func: Callable[[Any], Any], state: ApplyState) -> Any:
         return self.find_applier(type(data)).apply(data, func, state)
 
     @classmethod
@@ -85,7 +89,7 @@ class AutoApplier(BaseApplier[Any]):
         return data_type in cls.registry
 
     @classmethod
-    def find_applier(cls, data_type: Any) -> BaseApplier:
+    def find_applier(cls, data_type: T) -> BaseApplier[T]:
         r"""Find the applier associated to an object.
 
         Args:
@@ -111,7 +115,7 @@ class AutoApplier(BaseApplier[Any]):
         raise TypeError(msg)
 
 
-def register_appliers(mapping: Mapping[type, BaseApplier]) -> None:
+def register_appliers(mapping: Mapping[type, BaseApplier[Any]]) -> None:
     r"""Register some appliers to ``AutoApplier``.
 
     Args:

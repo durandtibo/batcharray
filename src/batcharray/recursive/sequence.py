@@ -5,7 +5,7 @@ from __future__ import annotations
 __all__ = ["SequenceApplier"]
 
 from collections.abc import Sequence
-from typing import TYPE_CHECKING, TypeVar
+from typing import TYPE_CHECKING, Any, TypeVar
 
 from batcharray.recursive.auto import register_appliers
 from batcharray.recursive.base import BaseApplier
@@ -37,7 +37,7 @@ class SequenceApplier(BaseApplier[T]):
     ```
     """
 
-    def apply(self, data: T, func: Callable, state: ApplyState) -> T:
+    def apply(self, data: T, func: Callable[[Any], Any], state: ApplyState) -> T:
         return type(data)(
             [state.applier.apply(value, func, state.increment_depth()) for value in data]
         )

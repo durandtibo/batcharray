@@ -5,7 +5,7 @@ from __future__ import annotations
 __all__ = ["MappingApplier"]
 
 from collections.abc import Mapping
-from typing import TYPE_CHECKING, TypeVar
+from typing import TYPE_CHECKING, Any, TypeVar
 
 from batcharray.recursive.auto import register_appliers
 from batcharray.recursive.base import BaseApplier
@@ -37,7 +37,7 @@ class MappingApplier(BaseApplier[T]):
     ```
     """
 
-    def apply(self, data: T, func: Callable, state: ApplyState) -> T:
+    def apply(self, data: T, func: Callable[[Any], Any], state: ApplyState) -> T:
         return type(data)(
             {
                 key: state.applier.apply(value, func, state.increment_depth())

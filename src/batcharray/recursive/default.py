@@ -35,7 +35,12 @@ class DefaultApplier(BaseApplier[Any]):
     ```
     """
 
-    def apply(self, data: Any, func: Callable, state: ApplyState) -> Any:  # noqa: ARG002
+    def apply(
+        self,
+        data: Any,
+        func: Callable[[Any], Any],
+        state: ApplyState,  # noqa: ARG002
+    ) -> Any:
         return func(data)
 
 
