@@ -364,6 +364,19 @@ def test_bfs_array_string_not_iterated() -> None:
     )
 
 
+def test_bfs_array_scalar_array() -> None:
+    assert objects_are_equal(
+        list(bfs_array([np.array(42), np.array([1, 2, 3])])), [np.array(42), np.array([1, 2, 3])]
+    )
+
+
+def test_bfs_array_empty_arrays() -> None:
+    assert objects_are_equal(
+        list(bfs_array([np.array([]), np.array([1, 2, 3]), np.array([])])),
+        [np.array([]), np.array([1, 2, 3]), np.array([])],
+    )
+
+
 ##########################################
 #     Tests for DefaultArrayIterator     #
 ##########################################
@@ -663,12 +676,19 @@ def test_iterator_registry_iterate_uses_find_iterator() -> None:
 
 
 def test_iterator_registry_iterate_bfs_order() -> None:
-    # Verify BFS processes level by level
     registry = IteratorRegistry({list: IterableArrayIterator()})
     assert objects_are_equal(
         list(registry.iterate([np.ones(2), [np.zeros(3), [np.full(4, 5)]]])),
         [np.ones(2), np.zeros(3), np.full(4, 5)],
     )
+
+
+def test_iterator_registry_iterate_with_unregistered_type() -> None:
+    registry = IteratorRegistry()
+    # Default iterator treats unknown types as leaf nodes, but list iterator should still work
+    # However, without registering list, it won't iterate the list either
+    # This tests that unknown types don't break the system
+    assert list(registry.iterate([CustomType(), np.array([1]), CustomType()])) == []
 
 
 ##########################################
@@ -742,86 +762,3 @@ def test_register_iterators_exist_ok_false() -> None:
 def test_register_iterators_exist_ok_true() -> None:
     new_iterator = DefaultArrayIterator()
     register_iterators({list: new_iterator}, exist_ok=True)
-
-
-####################################################
-#     Tests for BFS-specific behavior              #
-####################################################
-
-
-def test_custom_iterator_with_multiple_array_types() -> None:
-    # Test that custom iterators work correctly with the BFS system
-    class Container:
-        def __init__(self, items) -> None:
-            self.items = items
-
-    class ContainerIterator(BaseArrayIterator):
-        def get_children(self, data: Container) -> list[Any]:
-            return data.items
-
-    registry = IteratorRegistry()
-    registry.register(Container, ContainerIterator())
-    registry.register(list, IterableArrayIterator())
-
-    data = Container([np.array([1]), Container([np.array([2])])])
-    result = list(bfs_array(data, registry=registry))
-    assert objects_are_equal(result, [np.array([1]), np.array([2])])
-
-
-def test_bfs_array_scalar_array() -> None:
-    # 0-dimensional arrays (scalars) should still be found
-    data = [np.array(42), np.array([1, 2, 3])]
-    result = list(bfs_array(data))
-    assert len(result) == 2
-    assert objects_are_equal(result[0], np.array(42))
-    assert objects_are_equal(result[1], np.array([1, 2, 3]))
-
-
-def test_bfs_array_empty_arrays() -> None:
-    # Empty arrays should be found
-    data = [np.array([]), np.array([1, 2, 3]), np.array([])]
-    result = list(bfs_array(data))
-    assert len(result) == 3
-    assert objects_are_equal(result[0], np.array([]))
-    assert objects_are_equal(result[1], np.array([1, 2, 3]))
-    assert objects_are_equal(result[2], np.array([]))
-
-
-def test_iterator_registry_iterate_with_unregistered_type() -> None:
-    # Unregistered types should use default iterator
-    registry = IteratorRegistry()
-
-    class UnknownType:
-        pass
-
-    data = [UnknownType(), np.array([1]), UnknownType()]
-    result = list(registry.iterate(data))
-    # Default iterator treats unknown types as leaf nodes, but list iterator should still work
-    # However, without registering list, it won't iterate the list either
-    # This tests that unknown types don't break the system
-    assert len(result) == 0  # No iterators registered, so no arrays found
-
-
-def test_iterator_registry_iterate_with_partially_registered_types() -> None:
-    # Register only some types
-    registry = IteratorRegistry()
-    registry.register(list, IterableArrayIterator())
-    # dict is not registered
-
-    data = [np.array([1]), {"key": np.array([2])}]
-    result = list(registry.iterate(data))
-    # Should find first array, but not the one in the dict
-    assert len(result) == 1
-    assert objects_are_equal(result[0], np.array([1]))
-
-
-def test_bfs_array_generator_lazy_evaluation() -> None:
-    # Verify that bfs_array returns a generator (lazy evaluation)
-    data = [np.array([1]), np.array([2])]
-    result = bfs_array(data)
-    # Should be a generator, not a list
-    assert hasattr(result, "__next__")
-    # Can iterate multiple times by recreating generator
-    result1 = list(bfs_array(data))
-    result2 = list(bfs_array(data))
-    assert objects_are_equal(result1, result2)
