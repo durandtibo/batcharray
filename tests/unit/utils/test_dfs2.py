@@ -48,20 +48,6 @@ class CustomList(list):
     r"""Create a custom class that inherits from list."""
 
 
-class LinkedListNode:
-    def __init__(self, value: Any, next_node: LinkedListNode | None = None) -> None:
-        self.value = value
-        self.next = next_node
-
-
-class LinkedListIterator(BaseArrayIterator):
-    def iterate(self, data: LinkedListNode, registry: IteratorRegistry) -> Generator[np.ndarray]:
-        current = data
-        while current is not None:
-            yield from registry.iterate(current.value)
-            current = current.next
-
-
 ###############################
 #     Tests for dfs_array     #
 ###############################

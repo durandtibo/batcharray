@@ -30,12 +30,27 @@ def _reset_default_registry() -> Generator[None, None, None]:
 
 
 class LinkedListNode:
+    """A simple linked list node for testing custom iterators.
+
+    Args:
+        value: The value stored in this node. Can be any data type.
+        next_node: Optional reference to the next node in the list.
+    """
+
     def __init__(self, value: Any, next_node: LinkedListNode | None = None) -> None:
         self.value = value
         self.next = next_node
 
 
 class LinkedListIterator(BaseArrayIterator):
+    """Custom iterator for traversing linked list structures.
+
+    This iterator demonstrates how to extend the system to handle custom
+    data structures. It traverses the linked list by following the
+    'next' pointers and recursively searches each node's value for numpy
+    arrays.
+    """
+
     def iterate(self, data: LinkedListNode, registry: IteratorRegistry) -> Generator[np.ndarray]:
         current = data
         while current is not None:
