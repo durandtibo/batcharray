@@ -7,13 +7,13 @@ import numpy as np
 import pytest
 from coola import objects_are_equal
 
-from batcharray.utils.dfs2 import (
+from batcharray.utils.bfs2 import (
     BaseArrayIterator,
     DefaultArrayIterator,
     IterableArrayIterator,
     IteratorRegistry,
     MappingArrayIterator,
-    dfs_array,
+    bfs_array,
     get_default_registry,
     register_iterators,
 )
@@ -49,12 +49,12 @@ class CustomList(list):
 
 
 ###############################
-#     Tests for dfs_array     #
+#     Tests for bfs_array     #
 ###############################
 
 
-def test_dfs_array_array() -> None:
-    assert objects_are_equal(list(dfs_array(np.ones((2, 3)))), [np.ones((2, 3))])
+def test_bfs_array_array() -> None:
+    assert objects_are_equal(list(bfs_array(np.ones((2, 3)))), [np.ones((2, 3))])
 
 
 @pytest.mark.parametrize(
@@ -73,8 +73,8 @@ def test_dfs_array_array() -> None:
         pytest.param({}, id="empty dict"),
     ],
 )
-def test_dfs_array_no_array(data: Any) -> None:
-    assert objects_are_equal(list(dfs_array(data)), [])
+def test_bfs_array_no_array(data: Any) -> None:
+    assert objects_are_equal(list(bfs_array(data)), [])
 
 
 @pytest.mark.parametrize(
@@ -99,11 +99,16 @@ def test_dfs_array_no_array(data: Any) -> None:
         ),
     ],
 )
-def test_dfs_array_iterable_array(data: Any) -> None:
-    assert objects_are_equal(list(dfs_array(data)), [np.ones((2, 3)), np.array([0, 1, 2, 3, 4])])
+def test_bfs_array_iterable_array(data: Any) -> None:
+    assert objects_are_equal(list(bfs_array(data)), [np.ones((2, 3)), np.array([0, 1, 2, 3, 4])])
 
 
-def test_dfs_array_nested_data() -> None:
+def test_bfs_array_nested_data() -> None:
+    # BFS processes level by level, so the order differs from DFS
+    # Level 0: root list
+    # Level 1: dict, np.ones((2,3)), list, tuple, np.array([0,1,2,3,4])
+    # Level 2: items from dict, items from nested list, items from tuple
+    # etc.
     data = [
         {"key1": np.zeros((1, 1, 1)), "key2": np.array([0, 1, 2, 3, 4, 5, 6, 7, 8, 9])},
         np.ones((2, 3)),
@@ -111,29 +116,28 @@ def test_dfs_array_nested_data() -> None:
         (1, np.array([42.0]), np.zeros(2)),
         np.array([0, 1, 2, 3, 4]),
     ]
+    # BFS order: arrays at same depth level come before deeper ones
     assert objects_are_equal(
-        list(dfs_array(data)),
+        list(bfs_array(data)),
         [
-            np.zeros((1, 1, 1)),
-            np.array([0, 1, 2, 3, 4, 5, 6, 7, 8, 9]),
-            np.ones((2, 3)),
-            np.ones(4),
-            np.array([0, -1, -2]),
-            np.ones(5),
-            np.array([42.0]),
-            np.zeros(2),
-            np.array([0, 1, 2, 3, 4]),
+            np.ones((2, 3)),  # Level 1
+            np.array([0, 1, 2, 3, 4]),  # Level 1
+            np.zeros((1, 1, 1)),  # Level 2 (from dict)
+            np.array([0, 1, 2, 3, 4, 5, 6, 7, 8, 9]),  # Level 2 (from dict)
+            np.ones(4),  # Level 2 (from nested list)
+            np.array([0, -1, -2]),  # Level 2 (from nested list)
+            np.array([42.0]),  # Level 2 (from tuple)
+            np.zeros(2),  # Level 2 (from tuple)
+            np.ones(5),  # Level 3 (from doubly nested list)
         ],
     )
 
 
-def test_dfs_array_with_custom_registry() -> None:
-    registry = IteratorRegistry()
-    registry.register(list, IterableArrayIterator())
-    registry.register(dict, MappingArrayIterator())
+def test_bfs_array_with_custom_registry() -> None:
+    registry = IteratorRegistry({list: IterableArrayIterator(), dict: MappingArrayIterator()})
     assert objects_are_equal(
         list(
-            dfs_array(
+            bfs_array(
                 ["abc", np.ones((2, 3)), {"key": np.array([0, 1, 2, 3, 4])}], registry=registry
             )
         ),
@@ -141,8 +145,169 @@ def test_dfs_array_with_custom_registry() -> None:
     )
 
 
-def test_dfs_array_uses_default_registry_when_none() -> None:
-    assert objects_are_equal(list(dfs_array([np.ones((2, 3))])), [np.ones((2, 3))])
+def test_bfs_array_uses_default_registry_when_none() -> None:
+    assert objects_are_equal(list(bfs_array([np.ones((2, 3))])), [np.ones((2, 3))])
+
+
+def test_bfs_array_level_order_simple() -> None:
+    data = [
+        np.array([1]),  # Level 1
+        [np.array([2]), np.array([3])],  # Level 2
+    ]
+    result = list(bfs_array(data))
+    assert objects_are_equal(result, [np.array([1]), np.array([2]), np.array([3])])
+
+
+def test_bfs_array_level_order_complex() -> None:
+    data = {
+        "level1_a": np.array([1]),
+        "level1_b": [np.array([2]), {"level2": np.array([3])}],
+    }
+    result = list(bfs_array(data))
+    # Level 1: np.array([1])
+    # Level 2: np.array([2])
+    # Level 3: np.array([3])
+    assert objects_are_equal(result, [np.array([1]), np.array([2]), np.array([3])])
+
+
+def test_bfs_array_deeply_nested() -> None:
+    data = [[[[[np.array([1])]]]]]
+    result = list(bfs_array(data))
+    assert objects_are_equal(result, [np.array([1])])
+
+
+def test_bfs_array_wide_structure() -> None:
+    assert objects_are_equal(
+        list(bfs_array([np.array([i]) for i in range(10)])), [np.array([i]) for i in range(10)]
+    )
+
+
+def test_bfs_array_mixed_depth_structure() -> None:
+    data = [
+        np.array([1]),  # Shallow
+        [[[np.array([2])]]],  # Deep
+        [np.array([3])],  # Medium
+    ]
+    result = list(bfs_array(data))
+    # Level 1: array([1])
+    # Level 2: array([3])
+    # Level 4: array([2])
+    assert objects_are_equal(result, [np.array([1]), np.array([3]), np.array([2])])
+
+
+def test_bfs_array_multiple_arrays_same_container() -> None:
+    assert objects_are_equal(
+        list(bfs_array([np.array([1, 2, 3]), np.array([4, 5, 6]), np.array([7, 8, 9])])),
+        [np.array([1, 2, 3]), np.array([4, 5, 6]), np.array([7, 8, 9])],
+    )
+
+
+def test_bfs_array_deque_structure() -> None:
+    assert objects_are_equal(
+        list(bfs_array(deque([np.array([1]), deque([np.array([2]), np.array([3])])]))),
+        [np.array([1]), np.array([2]), np.array([3])],
+    )
+
+
+def test_bfs_array_ordered_dict() -> None:
+    data = OrderedDict(
+        [
+            ("first", np.array([1])),
+            ("second", [np.array([2])]),
+            ("third", np.array([3])),
+        ]
+    )
+    # Level 1: arrays directly in dict values
+    # Level 2: array nested in list
+    assert objects_are_equal(list(bfs_array(data)), [np.array([1]), np.array([3]), np.array([2])])
+
+
+def test_bfs_array_dict_with_nested_dict() -> None:
+    data = {
+        "outer1": {"inner1": np.array([1]), "inner2": np.array([2])},
+        "outer2": np.array([3]),
+    }
+    assert objects_are_equal(list(bfs_array(data)), [np.array([3]), np.array([1]), np.array([2])])
+
+
+def test_bfs_array_empty_nested_containers() -> None:
+    assert objects_are_equal(list(bfs_array([[], {}, [[]], np.array([1])])), [np.array([1])])
+
+
+def test_bfs_array_tuple_of_tuples() -> None:
+    # Level 1: first two tuples
+    # Level 2: arrays from first tuple
+    # Level 3: array and nested tuple from second tuple
+    # Level 4: array from deeply nested tuple
+    assert objects_are_equal(
+        list(bfs_array(((np.array([1]), np.array([2])), (np.array([3]), (np.array([4]),))))),
+        [np.array([1]), np.array([2]), np.array([3]), np.array([4])],
+    )
+
+
+def test_bfs_array_multidimensional_arrays() -> None:
+    assert objects_are_equal(
+        list(bfs_array([np.array([1, 2, 3]), np.ones((2, 3)), np.zeros((2, 3, 4))])),
+        [np.array([1, 2, 3]), np.ones((2, 3)), np.zeros((2, 3, 4))],
+    )
+
+
+def test_bfs_array_different_dtypes() -> None:
+    assert objects_are_equal(
+        list(
+            bfs_array(
+                [
+                    np.array([1, 2, 3], dtype=np.int32),
+                    np.array([1.0, 2.0, 3.0], dtype=np.float64),
+                    np.array([True, False], dtype=bool),
+                    np.array(["a", "b"], dtype=object),
+                ]
+            )
+        ),
+        [
+            np.array([1, 2, 3], dtype=np.int32),
+            np.array([1.0, 2.0, 3.0], dtype=np.float64),
+            np.array([True, False], dtype=bool),
+            np.array(["a", "b"], dtype=object),
+        ],
+    )
+
+
+def test_bfs_array_mixed_container_types() -> None:
+    data = {"list": [np.array([1])], "tuple": (np.array([2]),), "dict": {"nested": np.array([3])}}
+    assert objects_are_equal(list(bfs_array(data)), [np.array([1]), np.array([2]), np.array([3])])
+
+
+def test_iterator_registry_iterate_empty_queue() -> None:
+    registry = IteratorRegistry({list: IterableArrayIterator()})
+    assert list(registry.iterate([])) == []
+
+
+def test_bfs_array_none_values() -> None:
+    assert objects_are_equal(
+        list(bfs_array([None, np.array([1]), None, [None, np.array([2])]])),
+        [np.array([1]), np.array([2])],
+    )
+
+
+def test_bfs_array_string_not_iterated() -> None:
+    assert objects_are_equal(
+        list(bfs_array(["hello", np.array([1]), ["world", np.array([2])]])),
+        [np.array([1]), np.array([2])],
+    )
+
+
+def test_bfs_array_scalar_array() -> None:
+    assert objects_are_equal(
+        list(bfs_array([np.array(42), np.array([1, 2, 3])])), [np.array(42), np.array([1, 2, 3])]
+    )
+
+
+def test_bfs_array_empty_arrays() -> None:
+    assert objects_are_equal(
+        list(bfs_array([np.array([]), np.array([1, 2, 3]), np.array([])])),
+        [np.array([]), np.array([1, 2, 3]), np.array([])],
+    )
 
 
 ##########################################
@@ -158,18 +323,24 @@ def test_default_array_iterator_str() -> None:
     assert str(DefaultArrayIterator()) == "DefaultArrayIterator()"
 
 
-def test_default_array_iterator_iterate_array() -> None:
-    registry = IteratorRegistry()
-    iterator = DefaultArrayIterator()
-    assert objects_are_equal(list(iterator.iterate(np.ones((2, 3)), registry)), [np.ones((2, 3))])
+def test_default_array_iterator_get_children_array() -> None:
+    assert DefaultArrayIterator().get_children(np.ones((2, 3))) == []
 
 
-def test_default_array_iterator_iterate_non_array() -> None:
-    registry = IteratorRegistry()
-    iterator = DefaultArrayIterator()
-    assert list(iterator.iterate("abc", registry)) == []
-    assert list(iterator.iterate(42, registry)) == []
-    assert list(iterator.iterate([1, 2, 3], registry)) == []
+@pytest.mark.parametrize(
+    "data",
+    [
+        pytest.param([1, 2, 3], id="list"),
+        pytest.param([], id="empty list"),
+        pytest.param((), id="empty tuple"),
+        pytest.param(set(), id="empty set"),
+        pytest.param(deque(), id="empty deque"),
+        pytest.param("abc", id="string"),
+        pytest.param(42, id="int"),
+    ],
+)
+def test_default_array_iterator_get_children_non_array(data: Any) -> None:
+    assert DefaultArrayIterator().get_children(data) == []
 
 
 ###########################################
@@ -194,32 +365,38 @@ def test_iterable_array_iterator_str() -> None:
         pytest.param(deque(), id="empty deque"),
     ],
 )
-def test_iterable_array_iterator_iterate_empty(data: Iterable) -> None:
-    registry = get_default_registry()
-    assert list(IterableArrayIterator().iterate(data, registry)) == []
+def test_iterable_array_iterator_get_children_empty(data: Iterable) -> None:
+    assert IterableArrayIterator().get_children(data) == []
 
 
 @pytest.mark.parametrize(
-    "data",
+    ("data", "expected"),
     [
-        pytest.param(["abc", np.ones((2, 3)), 42, np.array([0, 1, 2, 3, 4])], id="list"),
-        pytest.param(deque(["abc", np.ones((2, 3)), 42, np.array([0, 1, 2, 3, 4])]), id="deque"),
-        pytest.param(("abc", np.ones((2, 3)), 42, np.array([0, 1, 2, 3, 4])), id="tuple"),
+        pytest.param(
+            ["abc", np.ones((2, 3)), 42, np.array([0, 1, 2, 3, 4])],
+            ["abc", np.ones((2, 3)), 42, np.array([0, 1, 2, 3, 4])],
+            id="list",
+        ),
+        pytest.param(
+            deque(["abc", np.ones((2, 3)), 42, np.array([0, 1, 2, 3, 4])]),
+            ["abc", np.ones((2, 3)), 42, np.array([0, 1, 2, 3, 4])],
+            id="deque",
+        ),
+        pytest.param(
+            ("abc", np.ones((2, 3)), 42, np.array([0, 1, 2, 3, 4])),
+            ["abc", np.ones((2, 3)), 42, np.array([0, 1, 2, 3, 4])],
+            id="tuple",
+        ),
     ],
 )
-def test_iterable_array_iterator_iterate(data: Iterable) -> None:
-    registry = get_default_registry()
-    assert objects_are_equal(
-        list(IterableArrayIterator().iterate(data, registry)),
-        [np.ones((2, 3)), np.array([0, 1, 2, 3, 4])],
-    )
+def test_iterable_array_iterator_get_children(data: Iterable, expected: list) -> None:
+    assert objects_are_equal(IterableArrayIterator().get_children(data), expected)
 
 
-def test_iterable_array_iterator_iterate_nested() -> None:
-    registry = get_default_registry()
+def test_iterable_array_iterator_get_children_nested() -> None:
     assert objects_are_equal(
-        list(IterableArrayIterator().iterate([[np.ones(2)], [np.zeros(3)]], registry)),
-        [np.ones(2), np.zeros(3)],
+        IterableArrayIterator().get_children([[np.ones(2)], [np.zeros(3)]]),
+        [[np.ones(2)], [np.zeros(3)]],
     )
 
 
@@ -243,16 +420,20 @@ def test_mapping_array_iterator_str() -> None:
         pytest.param(OrderedDict(), id="empty OrderedDict"),
     ],
 )
-def test_mapping_array_iterator_iterate_empty(data: Mapping) -> None:
-    registry = get_default_registry()
-    assert list(MappingArrayIterator().iterate(data, registry)) == []
+def test_mapping_array_iterator_get_children_empty(data: Mapping) -> None:
+    assert MappingArrayIterator().get_children(data) == []
 
 
 @pytest.mark.parametrize(
     "data",
     [
         pytest.param(
-            {"key1": "abc", "key2": np.ones((2, 3)), "key3": 42, "key4": np.array([0, 1, 2, 3, 4])},
+            {
+                "key1": "abc",
+                "key2": np.ones((2, 3)),
+                "key3": 42,
+                "key4": np.array([0, 1, 2, 3, 4]),
+            },
             id="dict",
         ),
         pytest.param(
@@ -268,19 +449,22 @@ def test_mapping_array_iterator_iterate_empty(data: Mapping) -> None:
         ),
     ],
 )
-def test_mapping_array_iterator_iterate(data: Mapping) -> None:
-    registry = get_default_registry()
+def test_mapping_array_iterator_get_children(data: Mapping) -> None:
     assert objects_are_equal(
-        list(MappingArrayIterator().iterate(data, registry)),
-        [np.ones((2, 3)), np.array([0, 1, 2, 3, 4])],
+        MappingArrayIterator().get_children(data),
+        [
+            "abc",
+            np.ones((2, 3)),
+            42,
+            np.array([0, 1, 2, 3, 4]),
+        ],
     )
 
 
-def test_mapping_array_iterator_iterate_nested() -> None:
-    registry = get_default_registry()
+def test_mapping_array_iterator_get_children_nested() -> None:
     assert objects_are_equal(
-        list(MappingArrayIterator().iterate({"a": {"b": np.ones(2)}, "c": np.zeros(3)}, registry)),
-        [np.ones(2), np.zeros(3)],
+        MappingArrayIterator().get_children({"a": {"b": np.ones(2)}, "c": np.zeros(3)}),
+        [{"b": np.ones(2)}, np.zeros(3)],
     )
 
 
@@ -422,6 +606,22 @@ def test_iterator_registry_iterate() -> None:
 def test_iterator_registry_iterate_uses_find_iterator() -> None:
     registry = IteratorRegistry({list: IterableArrayIterator()})
     assert objects_are_equal(list(registry.iterate([np.ones(3)])), [np.ones(3)])
+
+
+def test_iterator_registry_iterate_bfs_order() -> None:
+    registry = IteratorRegistry({list: IterableArrayIterator()})
+    assert objects_are_equal(
+        list(registry.iterate([np.ones(2), [np.zeros(3), [np.full(4, 5)]]])),
+        [np.ones(2), np.zeros(3), np.full(4, 5)],
+    )
+
+
+def test_iterator_registry_iterate_with_unregistered_type() -> None:
+    registry = IteratorRegistry()
+    # Default iterator treats unknown types as leaf nodes, but list iterator should still work
+    # However, without registering list, it won't iterate the list either
+    # This tests that unknown types don't break the system
+    assert list(registry.iterate([CustomType(), np.array([1]), CustomType()])) == []
 
 
 ##########################################
