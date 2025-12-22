@@ -1,24 +1,24 @@
 # batcharray
 
 <p align="center">
-    <a href="https://github.com/durandtibo/batcharray/actions">
-        <img alt="CI" src="https://github.com/durandtibo/batcharray/workflows/CI/badge.svg">
+    <a href="https://github.com/durandtibo/batcharray/actions/workflows/ci.yaml">
+        <img alt="CI" src="https://github.com/durandtibo/batcharray/actions/workflows/ci.yaml/badge.svg">
     </a>
-    <a href="https://github.com/durandtibo/batcharray/actions">
-        <img alt="Nightly Tests" src="https://github.com/durandtibo/batcharray/workflows/Nightly%20Tests/badge.svg">
+    <a href="https://github.com/durandtibo/batcharray/actions/workflows/nightly-tests.yaml">
+        <img alt="Nightly Tests" src="https://github.com/durandtibo/batcharray/actions/workflows/nightly-tests.yaml/badge.svg">
     </a>
-    <a href="https://github.com/durandtibo/batcharray/actions">
-        <img alt="Nightly Package Tests" src="https://github.com/durandtibo/batcharray/workflows/Nightly%20Package%20Tests/badge.svg">
+    <a href="https://github.com/durandtibo/batcharray/actions/workflows/nightly-package.yaml">
+        <img alt="Nightly Package Tests" src="https://github.com/durandtibo/batcharray/actions/workflows/nightly-package.yaml/badge.svg">
     </a>
     <a href="https://codecov.io/gh/durandtibo/batcharray">
         <img alt="Codecov" src="https://codecov.io/gh/durandtibo/batcharray/branch/main/graph/badge.svg">
     </a>
     <br/>
     <a href="https://durandtibo.github.io/batcharray/">
-        <img alt="Documentation" src="https://github.com/durandtibo/batcharray/workflows/Documentation%20(stable)/badge.svg">
+        <img alt="Documentation" src="https://github.com/durandtibo/batcharray/actions/workflows/docs.yaml/badge.svg">
     </a>
-    <a href="https://durandtibo.github.io/batcharray/">
-        <img alt="Documentation" src="https://github.com/durandtibo/batcharray/workflows/Documentation%20(unstable)/badge.svg">
+    <a href="https://durandtibo.github.io/batcharray/dev/">
+        <img alt="Documentation" src="https://github.com/durandtibo/batcharray/actions/workflows/docs-dev.yaml/badge.svg">
     </a>
     <br/>
     <a href="https://github.com/psf/black">
@@ -141,7 +141,7 @@ The following is the corresponding `batcharray` versions and tested dependencies
 
 | `batcharray` | `coola`        | `numpy`       | `python`       |
 |--------------|----------------|---------------|----------------|
-| `main`       | `>=0.9.1,<1.0` | `>=1.22,<3.0` | `>=3.10,<3.15` |
+| `main`       | `>=0.10,<1.0`  | `>=1.22,<3.0` | `>=3.10`       |
 | `0.2.0`      | `>=0.9.1,<1.0` | `>=1.22,<3.0` | `>=3.10,<3.15` |
 | `0.1.0`      | `>=0.8.4,<1.0` | `>=1.22,<3.0` | `>=3.9,<3.14`  |
 | `0.0.3`      | `>=0.3,<1.0`   | `>=1.22,<3.0` | `>=3.9,<3.13`  |

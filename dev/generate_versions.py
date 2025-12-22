@@ -8,28 +8,28 @@ from pathlib import Path
 
 from feu.utils.io import save_json
 from feu.version import (
-    get_latest_minor_versions,
-    get_versions,
+    fetch_latest_minor_versions,
+    fetch_versions,
 )
 
 logger = logging.getLogger(__name__)
 
 
-def get_package_versions() -> dict[str, list[str]]:
+def fetch_package_versions() -> dict[str, list[str]]:
     r"""Get the versions for each package.
 
     Returns:
         A dictionary with the versions for each package.
     """
     return {
-        "coola": list(get_versions("coola", lower="0.9.1")),
-        "numpy": list(get_latest_minor_versions("numpy", lower="1.22")),
+        "coola": list(fetch_versions("coola", lower="0.10.0")),
+        "numpy": list(fetch_latest_minor_versions("numpy", lower="1.22")),
     }
 
 
 def main() -> None:
     r"""Generate the package versions and save them in a JSON file."""
-    versions = get_package_versions()
+    versions = fetch_package_versions()
     logger.info(f"{versions=}")
     path = Path(__file__).parent.parent.joinpath("dev/config").joinpath("package_versions.json")
     logger.info(f"Saving package versions to {path}")
