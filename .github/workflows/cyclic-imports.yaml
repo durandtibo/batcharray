@@ -7,15 +7,9 @@ permissions:
   contents: read
 
 jobs:
-  cyclic-import:
-    runs-on: ${{ matrix.os }}
+  cyclic-imports:
+    runs-on: ubuntu-latest
     timeout-minutes: 2
-    strategy:
-      max-parallel: 8
-      fail-fast: false
-      matrix:
-        os: [ ubuntu-latest ]
-        python-version: [ '3.12' ]
 
     steps:
       - name: Checkout
