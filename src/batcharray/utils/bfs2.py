@@ -298,9 +298,15 @@ class IteratorRegistry:
         Example usage:
 
         ```pycon
-        >>> from batcharray.utils.bfs2 import IteratorRegistry
+        >>> from batcharray.utils.bfs2 import (
+        ...     IteratorRegistry,
+        ...     IterableArrayIterator,
+        ...     MappingArrayIterator,
+        ... )
         >>> import numpy as np
-        >>> registry = IteratorRegistry()
+        >>> registry = IteratorRegistry(
+        ...     {list: IterableArrayIterator(), dict: MappingArrayIterator()}
+        ... )
         >>> data = {"a": np.array([1, 2]), "b": [np.array([3, 4]), "text"]}
         >>> list(registry.iterate(data))
         [array([1, 2]), array([3, 4])]
