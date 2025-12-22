@@ -46,42 +46,9 @@ The simplest way is using pip:
 pip install batcharray
 ```
 
-For all optional dependencies:
-
-```bash
-pip install batcharray[all]
-```
-
 ### What Python versions are supported?
 
-`batcharray` supports Python 3.10 and above (3.10, 3.11, 3.12, 3.13, 3.14).
-
-### What are the dependencies?
-
-The minimal dependencies are:
-
-- `numpy >= 1.22, < 3.0`
-- `coola >= 0.9.1, < 1.0`
-
-### Can I use batcharray with PyTorch or TensorFlow?
-
-Yes! While `batcharray` is designed for NumPy arrays, you can easily convert between NumPy and other frameworks:
-
-```python
-import numpy as np
-import torch
-from batcharray import array
-
-# Convert PyTorch tensor to NumPy
-torch_tensor = torch.randn(10, 5)
-numpy_array = torch_tensor.numpy()
-
-# Use batcharray
-sliced = array.slice_along_batch(numpy_array, stop=5)
-
-# Convert back to PyTorch
-result_tensor = torch.from_numpy(sliced)
-```
+`batcharray` supports Python 3.10 and above.
 
 ## Usage Questions
 
@@ -181,100 +148,6 @@ splits = nested.split_along_batch(data, split_size_or_sections=[80, 20])
 train, val = splits[0], splits[1]
 ```
 
-## Performance Questions
-
-### Is batcharray fast?
-
-Yes! `batcharray` is built on NumPy, which uses highly optimized C and Fortran libraries. The overhead from `batcharray` is minimal as it mostly provides convenient wrappers around NumPy operations.
-
-### Does batcharray support parallel processing?
-
-`batcharray` leverages NumPy's built-in parallelization for operations that support it. For custom parallel processing, you can use:
-
-```python
-import numpy as np
-from batcharray import array
-from concurrent.futures import ProcessPoolExecutor
-
-
-def process_batch(batch):
-    return array.mean_along_seq(batch)
-
-
-# Split data and process in parallel
-chunks = array.chunk_along_batch(large_array, chunks=4)
-with ProcessPoolExecutor() as executor:
-    results = list(executor.map(process_batch, chunks))
-```
-
-### How much memory does batcharray use?
-
-`batcharray` operations typically use views rather than copies when possible, minimizing memory overhead. However, some operations (like sorting) may require copies. Check the documentation for specific functions.
-
-## Troubleshooting
-
-### Why am I getting "axis out of bounds" errors?
-
-This usually means your array doesn't have the expected number of dimensions. `batcharray` assumes:
-
-- Batch operations: arrays have shape `(batch_size, ...)`
-- Sequence operations: arrays have shape `(batch_size, seq_len, ...)`
-
-Check your array shapes:
-
-```python
-import numpy as np
-
-arr = np.array([1, 2, 3])  # 1D array
-print(arr.shape)  # (3,)
-
-# Need at least 2D for sequence operations
-arr_2d = arr.reshape(1, -1)  # Shape: (1, 3)
-```
-
-### Why doesn't `nested` work with my data structure?
-
-The `nested` module expects dictionaries where all values are arrays with compatible shapes along the batch/sequence dimension. Ensure:
-
-1. All arrays have the same batch size (first dimension)
-2. For sequence operations, all arrays have compatible sequence length (second dimension)
-
-```python
-import numpy as np
-from batcharray import nested
-
-# This works - both arrays have batch_size=3
-good_data = {
-    "a": np.array([[1, 2], [3, 4], [5, 6]]),  # (3, 2)
-    "b": np.array([7, 8, 9]),  # (3,)
-}
-
-# This fails - incompatible batch sizes
-bad_data = {
-    "a": np.array([[1, 2], [3, 4]]),  # batch_size=2
-    "b": np.array([7, 8, 9]),  # batch_size=3
-}
-```
-
-### How do I debug issues with nested structures?
-
-Use the `utils` module to inspect your data:
-
-```python
-import numpy as np
-from batcharray.utils import bfs_array
-
-data = {"a": np.array([1, 2]), "b": {"c": np.array([3, 4])}}
-
-# List all arrays
-arrays = list(bfs_array(data))
-print(f"Found {len(arrays)} arrays")
-
-# Check shapes
-for i, arr in enumerate(arrays):
-    print(f"Array {i}: shape={arr.shape}, dtype={arr.dtype}")
-```
-
 ## Advanced Topics
 
 ### Can I create custom operations?
@@ -306,16 +179,6 @@ We welcome contributions! Please see the [CONTRIBUTING.md](.github/CONTRIBUTING.
 - Code style guidelines
 - Submitting pull requests
 
-### Is the API stable?
-
-⚠️ `batcharray` is currently in development (version 0.x). The API may change between releases. We're working toward a stable 1.0.0 release. See the [CHANGELOG.md](../CHANGELOG.md) for version-specific changes.
-
-### Where can I get help?
-
-- **Documentation**: [https://durandtibo.github.io/batcharray/](https://durandtibo.github.io/batcharray/)
-- **Issues**: [GitHub Issues](https://github.com/durandtibo/batcharray/issues)
-- **Discussions**: [GitHub Discussions](https://github.com/durandtibo/batcharray/discussions)
-
 ### How do I report a bug?
 
 Please [open an issue](https://github.com/durandtibo/batcharray/issues) with:
@@ -324,19 +187,3 @@ Please [open an issue](https://github.com/durandtibo/batcharray/issues) with:
 2. A minimal code example that reproduces the issue
 3. Your environment details (Python version, OS, batcharray version)
 4. Expected vs actual behavior
-
-## Migration Questions
-
-### How do I migrate from version 0.1.0 to 0.2.0?
-
-Key changes in 0.2.0:
-
-1. **Build system**: Changed from poetry to uv/hatchling
-2. **Python support**: Minimum version is now 3.10 (was 3.9)
-3. **Dependencies**: Updated to coola >= 0.9.1
-
-Code changes should be minimal. Check the [CHANGELOG.md](../CHANGELOG.md) for specific details.
-
-### Can I use batcharray with older NumPy versions?
-
-`batcharray` requires NumPy >= 1.22. For older NumPy versions, you may need to use an older version of `batcharray`. Check the compatibility table in the [README](../README.md).
