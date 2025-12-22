@@ -1,8 +1,7 @@
 from __future__ import annotations
 
 from collections import OrderedDict, deque
-from collections.abc import Generator, Iterable, Mapping
-from typing import Any
+from typing import TYPE_CHECKING, Any
 
 import numpy as np
 import pytest
@@ -18,6 +17,48 @@ from batcharray.utils.dfs2 import (
     get_default_registry,
     register_iterators,
 )
+
+if TYPE_CHECKING:
+    from collections.abc import Generator, Iterable, Mapping
+
+
+@pytest.fixture(autouse=True)
+def _reset_default_registry() -> Generator[None, None, None]:
+    """Reset the registry after each test."""
+    yield
+    if hasattr(get_default_registry, "_registry"):
+        del get_default_registry._registry
+
+
+class CustomType:
+    r"""Create a custom class."""
+
+
+class CustomType1:
+    r"""Create a custom class."""
+
+
+class CustomType2:
+    r"""Create a custom class."""
+
+
+class CustomList(list):
+    r"""Create a custom class that inherits from list."""
+
+
+class LinkedListNode:
+    def __init__(self, value: Any, next_node: LinkedListNode | None = None) -> None:
+        self.value = value
+        self.next = next_node
+
+
+class LinkedListIterator(BaseArrayIterator):
+    def iterate(self, data: LinkedListNode, registry: IteratorRegistry) -> Generator[np.ndarray]:
+        current = data
+        while current is not None:
+            yield from registry.iterate(current.value)
+            current = current.next
+
 
 ###############################
 #     Tests for dfs_array     #
@@ -349,8 +390,10 @@ def test_iterator_registry_find_iterator_direct() -> None:
 def test_iterator_registry_find_iterator_mro_lookup() -> None:
     registry = IteratorRegistry()
     iterator = IterableArrayIterator()
-    registry.register(Iterable, iterator)
-    assert registry.find_iterator(list) is iterator
+    registry.register(list, iterator)
+    assert registry.find_iterator(CustomList) is iterator
+    # CustomList should NOT be in the registry after lookup
+    assert CustomList not in registry._registry
 
 
 def test_iterator_registry_find_iterator_default() -> None:
@@ -410,25 +453,15 @@ def test_get_default_registry_iterators_are_correct_type() -> None:
 
 
 def test_register_iterators() -> None:
-    # Note: This modifies global state, but get_default_registry() is idempotent
-    class CustomType:
-        pass
-
-    custom_iterator = DefaultArrayIterator()
-    register_iterators({CustomType: custom_iterator}, exist_ok=True)
+    iterator = DefaultArrayIterator()
+    register_iterators({CustomType: iterator})
 
     registry = get_default_registry()
     assert registry.has_iterator(CustomType)
-    assert registry.find_iterator(CustomType) is custom_iterator
+    assert registry.find_iterator(CustomType) is iterator
 
 
 def test_register_iterators_multiple() -> None:
-    class CustomType1:
-        pass
-
-    class CustomType2:
-        pass
-
     iterator1 = DefaultArrayIterator()
     iterator2 = IterableArrayIterator()
 
@@ -446,35 +479,18 @@ def test_register_iterators_multiple() -> None:
 
 
 def test_register_iterators_exist_ok_false() -> None:
-    # Trying to register list again should raise error
     with pytest.raises(RuntimeError, match=r"An iterator (.*) is already registered"):
         register_iterators({list: DefaultArrayIterator()}, exist_ok=False)
 
 
 def test_register_iterators_exist_ok_true() -> None:
-    # Should not raise error with exist_ok=True
     new_iterator = DefaultArrayIterator()
     register_iterators({list: new_iterator}, exist_ok=True)
-    # Note: This modifies the global registry
 
 
-#############################################
-#     Integration tests for extensibility #
-#############################################
-
-
-class LinkedListNode:
-    def __init__(self, value: Any, next_node: LinkedListNode | None = None) -> None:
-        self.value = value
-        self.next = next_node
-
-
-class LinkedListIterator(BaseArrayIterator):
-    def iterate(self, data: LinkedListNode, registry: IteratorRegistry) -> Generator[np.ndarray]:
-        current = data
-        while current is not None:
-            yield from registry.iterate(current.value)
-            current = current.next
+##############################################
+#     Integration tests for extensibility    #
+##############################################
 
 
 def test_custom_data_structure_with_custom_iterator() -> None:
@@ -490,11 +506,9 @@ def test_custom_data_structure_with_custom_iterator() -> None:
     node2 = LinkedListNode([np.array([2])], node3)
     node1 = LinkedListNode(np.array([1]), node2)
 
-    result = list(dfs_array(node1, registry=registry))
-    assert len(result) == 3
-    assert objects_are_equal(result[0], np.array([1]))
-    assert objects_are_equal(result[1], np.array([2]))
-    assert objects_are_equal(result[2], np.array([3, 4]))
+    assert objects_are_equal(
+        list(dfs_array(node1, registry=registry)), [np.array([1]), np.array([2]), np.array([3, 4])]
+    )
 
 
 def test_multiple_custom_registries_isolated() -> None:
@@ -509,9 +523,7 @@ def test_multiple_custom_registries_isolated() -> None:
     data = [np.ones(2), np.zeros(3)]
 
     # Registry 1 should yield nothing (treats list as leaf)
-    result1 = list(dfs_array(data, registry=registry1))
-    assert len(result1) == 0
+    assert objects_are_equal(list(dfs_array(data, registry=registry1)), [])
 
     # Registry 2 should yield arrays
-    result2 = list(dfs_array(data, registry=registry2))
-    assert len(result2) == 2
+    assert objects_are_equal(list(dfs_array(data, registry=registry2)), [np.ones(2), np.zeros(3)])

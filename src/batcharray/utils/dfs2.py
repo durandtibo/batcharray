@@ -286,7 +286,7 @@ class IteratorRegistry:
             return self._registry[data_type]
 
         # MRO lookup for inheritance
-        for base_type in data_type.__mro__[1:]:  # Skip the type itself
+        for base_type in data_type.__mro__:  # Skip the type itself
             if base_type in self._registry:
                 return self._registry[base_type]
 
@@ -415,22 +415,3 @@ def register_iterators(mapping: Mapping[type, BaseArrayIterator], exist_ok: bool
     ```
     """
     get_default_registry().register_many(mapping, exist_ok=exist_ok)
-
-
-def register_default_iterators() -> None:
-    r"""Ensure default iterators are registered to the global registry.
-
-    This function is idempotent and safe to call multiple times. It ensures
-    that the default global registry is initialized with iterators for common
-    Python data structures. In most cases, you don't need to call this directly
-    as it's automatically invoked when ``get_default_registry()`` is first called.
-
-    Example usage:
-
-    ```pycon
-    >>> from batcharray.utils.dfs2 import register_default_iterators
-    >>> register_default_iterators()  # Safe to call, ensures defaults are loaded
-
-    ```
-    """
-    get_default_registry()  # This will trigger registration if not done
