@@ -68,7 +68,6 @@ is the batch axis and the second axis is the sequence axis.
 - [Contributing](#contributing)
 - [API stability](#api-stability)
 - [License](#license)
-- [Changelog](CHANGELOG.md)
 
 ## Motivation
 
