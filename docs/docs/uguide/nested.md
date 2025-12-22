@@ -24,7 +24,7 @@ from batcharray import nested
 batch = {
     "features": np.array([[1, 2], [3, 4], [5, 6], [7, 8], [9, 10]]),
     "labels": np.array([0, 1, 0, 1, 0]),
-    "weights": np.array([1.0, 2.0, 1.5, 2.5, 1.0])
+    "weights": np.array([1.0, 2.0, 1.5, 2.5, 1.0]),
 }
 
 # Slice all arrays in the batch
@@ -48,7 +48,7 @@ from batcharray import nested
 
 batch = {
     "data": np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]]),
-    "mask": np.array([True, False, True])
+    "mask": np.array([True, False, True]),
 }
 
 # Select specific indices
@@ -70,15 +70,9 @@ masked = nested.masked_select_along_batch(batch, mask=mask)
 import numpy as np
 from batcharray import nested
 
-batch1 = {
-    "x": np.array([[1, 2], [3, 4]]),
-    "y": np.array([0, 1])
-}
+batch1 = {"x": np.array([[1, 2], [3, 4]]), "y": np.array([0, 1])}
 
-batch2 = {
-    "x": np.array([[5, 6], [7, 8]]),
-    "y": np.array([1, 0])
-}
+batch2 = {"x": np.array([[5, 6], [7, 8]]), "y": np.array([1, 0])}
 
 # Concatenate batches
 combined = nested.concatenate_along_batch([batch1, batch2])
@@ -97,14 +91,13 @@ import numpy as np
 from batcharray import nested
 
 sequences = {
-    "inputs": np.array([
-        [[1, 2], [3, 4], [5, 6]],  # Sequence 1
-        [[7, 8], [9, 10], [11, 12]]  # Sequence 2
-    ]),
-    "targets": np.array([
-        [[0], [1], [0]],
-        [[1], [1], [0]]
-    ])
+    "inputs": np.array(
+        [
+            [[1, 2], [3, 4], [5, 6]],  # Sequence 1
+            [[7, 8], [9, 10], [11, 12]],  # Sequence 2
+        ]
+    ),
+    "targets": np.array([[[0], [1], [0]], [[1], [1], [0]]]),
 }
 
 # Slice sequences
@@ -126,7 +119,7 @@ from batcharray import nested
 
 batch = {
     "scores": np.array([[1.0, 2.0, 3.0], [4.0, 5.0, 6.0]]),
-    "values": np.array([[0.1, 0.2, 0.3], [0.4, 0.5, 0.6]])
+    "values": np.array([[0.1, 0.2, 0.3], [0.4, 0.5, 0.6]]),
 }
 
 # Compute mean along batch
@@ -149,8 +142,8 @@ import numpy as np
 from batcharray import nested
 
 data = {
-    "angles": np.array([[0, np.pi/2], [np.pi, 3*np.pi/2]]),
-    "values": np.array([[1, -2], [3, -4]])
+    "angles": np.array([[0, np.pi / 2], [np.pi, 3 * np.pi / 2]]),
+    "values": np.array([[1, -2], [3, -4]]),
 }
 
 # Apply trigonometric functions
@@ -179,7 +172,7 @@ from batcharray import nested
 
 batch = {
     "images": np.random.randn(100, 28, 28),
-    "labels": np.random.randint(0, 10, 100)
+    "labels": np.random.randint(0, 10, 100),
 }
 
 # Shuffle all arrays with the same permutation
@@ -201,7 +194,7 @@ from batcharray import nested
 
 batch = {
     "scores": np.array([3.0, 1.0, 4.0, 2.0]),
-    "names": np.array(["Alice", "Bob", "Charlie", "David"])
+    "names": np.array(["Alice", "Bob", "Charlie", "David"]),
 }
 
 # Get sorting indices for scores
@@ -220,10 +213,7 @@ Convert nested structures to native Python lists:
 import numpy as np
 from batcharray import nested
 
-batch = {
-    "data": np.array([[1, 2], [3, 4]]),
-    "info": np.array([True, False])
-}
+batch = {"data": np.array([[1, 2], [3, 4]]), "info": np.array([True, False])}
 
 # Convert to lists recursively
 as_lists = nested.to_list(batch)
@@ -232,13 +222,6 @@ as_lists = nested.to_list(batch)
 #     "info": [True, False]
 # }
 ```
-
-## Best Practices
-
-1. **Consistent shapes**: Ensure all arrays in your nested structure have compatible batch sizes
-2. **Key preservation**: Operations preserve the keys/structure of your nested data
-3. **Type consistency**: Mix arrays and masked arrays carefully as they behave differently
-4. **Performance**: Nested operations are optimized but still iterate over structures - consider flattening for very deep nesting
 
 ## Common Use Cases
 
@@ -252,7 +235,7 @@ from batcharray import nested
 batch = {
     "inputs": np.random.randn(32, 784),  # MNIST-like data
     "labels": np.random.randint(0, 10, 32),
-    "sample_weights": np.random.rand(32)
+    "sample_weights": np.random.rand(32),
 }
 
 # Create train/val split
@@ -267,10 +250,7 @@ import numpy as np
 from batcharray import nested
 
 # Original batch
-batch = {
-    "images": np.random.randn(16, 28, 28),
-    "labels": np.random.randint(0, 10, 16)
-}
+batch = {"images": np.random.randn(16, 28, 28), "labels": np.random.randint(0, 10, 16)}
 
 # Shuffle for data augmentation
 augmented = nested.shuffle_along_batch(batch)

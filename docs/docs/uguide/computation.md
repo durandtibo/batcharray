@@ -28,6 +28,7 @@ max_val = computation.max(arr, axis=0)  # [4, 5, 6]
 
 # Automatically works with masked arrays too
 import numpy.ma as ma
+
 masked_arr = ma.array([[1, 2, 3], [4, 5, 6]], mask=[[0, 1, 0], [1, 0, 0]])
 max_val = computation.max(masked_arr, axis=0)  # [4, --, 6]
 ```
@@ -43,10 +44,10 @@ from batcharray import computation
 data = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
 
 # Statistical operations
-max_vals = computation.max(data, axis=0)      # [7, 8, 9]
-min_vals = computation.min(data, axis=0)      # [1, 2, 3]
-mean_vals = computation.mean(data, axis=0)    # [4., 5., 6.]
-median_vals = computation.median(data, axis=0) # [4., 5., 6.]
+max_vals = computation.max(data, axis=0)  # [7, 8, 9]
+min_vals = computation.min(data, axis=0)  # [1, 2, 3]
+mean_vals = computation.mean(data, axis=0)  # [4., 5., 6.]
+median_vals = computation.median(data, axis=0)  # [4., 5., 6.]
 
 # Indexing operations
 max_indices = computation.argmax(data, axis=0)  # [2, 2, 2]
@@ -95,7 +96,7 @@ model = MaskedArrayComputationModel()
 # Create masked array
 masked_arr = ma.array(
     [[1, 2, 3], [4, 5, 6], [7, 8, 9]],
-    mask=[[False, True, False], [False, False, True], [True, False, False]]
+    mask=[[False, True, False], [False, False, True], [True, False, False]],
 )
 
 # Operations handle masked values appropriately
@@ -131,19 +132,22 @@ You can create custom computation models by extending `BaseComputationModel`:
 import numpy as np
 from batcharray.computation import BaseComputationModel, register_computation_models
 
+
 class CustomArrayComputationModel(BaseComputationModel):
     """Custom computation model for special array types."""
-    
-    def max(self, array: np.ndarray, axis: int | None = None, 
-            keepdims: bool = False) -> np.ndarray:
+
+    def max(
+        self, array: np.ndarray, axis: int | None = None, keepdims: bool = False
+    ) -> np.ndarray:
         # Custom max implementation
         return np.amax(array, axis=axis, keepdims=keepdims)
-    
-    def min(self, array: np.ndarray, axis: int | None = None,
-            keepdims: bool = False) -> np.ndarray:
+
+    def min(
+        self, array: np.ndarray, axis: int | None = None, keepdims: bool = False
+    ) -> np.ndarray:
         # Custom min implementation
         return np.amin(array, axis=axis, keepdims=keepdims)
-    
+
     # Implement other required methods...
 ```
 
@@ -172,12 +176,12 @@ from batcharray import computation
 
 # Create data with some missing values
 data = ma.array(
-    [[1.0, 2.0, 3.0], 
-     [4.0, 5.0, 6.0], 
-     [7.0, 8.0, 9.0]],
-    mask=[[False, True, False],   # 2nd value is masked
-          [False, False, True],    # 3rd value is masked
-          [True, False, False]]    # 1st value is masked
+    [[1.0, 2.0, 3.0], [4.0, 5.0, 6.0], [7.0, 8.0, 9.0]],
+    mask=[
+        [False, True, False],  # 2nd value is masked
+        [False, False, True],  # 3rd value is masked
+        [True, False, False],
+    ],  # 1st value is masked
 )
 
 # Operations automatically handle masked values
@@ -234,21 +238,13 @@ from batcharray import array, computation
 
 # Create masked array batch
 batch = ma.array(
-    [[1, 2, 3], [4, 5, 6], [7, 8, 9]],
-    mask=[[0, 1, 0], [1, 0, 1], [0, 0, 0]]
+    [[1, 2, 3], [4, 5, 6], [7, 8, 9]], mask=[[0, 1, 0], [1, 0, 1], [0, 0, 0]]
 )
 
 # Use array operations (they use computation models internally)
 sliced = array.slice_along_batch(batch, stop=2)
 max_vals = array.amax_along_batch(batch)  # Uses computation.max internally
 ```
-
-## Best Practices
-
-1. **Use interface functions**: Prefer `computation.max()` over directly using model classes for automatic type handling
-2. **Masked arrays for missing data**: Use masked arrays when dealing with incomplete datasets
-3. **Consistent types**: Keep array types consistent within a pipeline to avoid unnecessary conversions
-4. **Custom models**: Create custom computation models only when you have specialized array types or need custom behavior
 
 ## Common Patterns
 
@@ -279,8 +275,7 @@ from batcharray import computation, array
 
 # Batch with some missing values
 batch = ma.array(
-    np.random.randn(100, 50),
-    mask=np.random.random((100, 50)) < 0.1  # 10% missing
+    np.random.randn(100, 50), mask=np.random.random((100, 50)) < 0.1  # 10% missing
 )
 
 # Process batch

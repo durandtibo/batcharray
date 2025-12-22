@@ -183,7 +183,8 @@ Run with warnings enabled to catch future deprecations:
 
 ```python
 import warnings
-warnings.simplefilter('always', DeprecationWarning)
+
+warnings.simplefilter("always", DeprecationWarning)
 
 # Your code here
 ```

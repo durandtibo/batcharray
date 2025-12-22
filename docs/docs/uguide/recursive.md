@@ -28,13 +28,7 @@ Works with deeply nested structures:
 ```python
 from batcharray.recursive import recursive_apply
 
-data = {
-    "level1": {
-        "level2a": [1, 2, 3],
-        "level2b": {"level3": 4}
-    },
-    "other": 5
-}
+data = {"level1": {"level2a": [1, 2, 3], "level2b": {"level3": 4}}, "other": 5}
 
 # Convert all numbers to strings
 result = recursive_apply(data, str)
@@ -58,16 +52,18 @@ from batcharray.recursive import recursive_apply
 data = {
     "features": {
         "image": np.array([[1, 2], [3, 4]]),
-        "embedding": np.array([0.1, 0.2, 0.3])
+        "embedding": np.array([0.1, 0.2, 0.3]),
     },
-    "label": np.array([1, 0])
+    "label": np.array([1, 0]),
 }
+
 
 # Apply function only to arrays
 def double_arrays(x):
     if isinstance(x, np.ndarray):
         return x * 2
     return x
+
 
 result = recursive_apply(data, double_arrays)
 # All arrays are doubled, structure is preserved
@@ -147,22 +143,21 @@ Apply complex transformations based on data type:
 import numpy as np
 from batcharray.recursive import recursive_apply
 
+
 def smart_transform(x):
     if isinstance(x, np.ndarray):
         return x.mean()  # Compute mean for arrays
     elif isinstance(x, str):
         return x.upper()  # Uppercase for strings
     elif isinstance(x, (int, float)):
-        return x ** 2  # Square for numbers
+        return x**2  # Square for numbers
     return x
 
+
 data = {
-    "arrays": {
-        "a": np.array([1, 2, 3]),
-        "b": np.array([4, 5, 6])
-    },
+    "arrays": {"a": np.array([1, 2, 3]), "b": np.array([4, 5, 6])},
     "text": "hello",
-    "number": 5
+    "number": 5,
 }
 
 result = recursive_apply(data, smart_transform)
@@ -181,16 +176,18 @@ Apply transformations only to specific types:
 import numpy as np
 from batcharray.recursive import recursive_apply
 
+
 def normalize_arrays(x):
     if isinstance(x, np.ndarray) and x.dtype in [np.float32, np.float64]:
         # Normalize float arrays
         return (x - x.mean()) / (x.std() + 1e-8)
     return x
 
+
 data = {
     "features": np.array([1.0, 2.0, 3.0, 4.0, 5.0], dtype=np.float32),
     "indices": np.array([0, 1, 2, 3, 4], dtype=np.int32),
-    "label": "class_A"
+    "label": "class_A",
 }
 
 result = recursive_apply(data, normalize_arrays)
@@ -205,6 +202,7 @@ Apply different transformations based on context:
 import numpy as np
 from batcharray.recursive import recursive_apply
 
+
 def conditional_transform(x):
     if isinstance(x, np.ndarray):
         if x.ndim == 1:
@@ -215,10 +213,8 @@ def conditional_transform(x):
             return x.T
     return x
 
-data = {
-    "vector": np.array([1, 2, 3]),
-    "matrix": np.array([[1, 2], [3, 4]])
-}
+
+data = {"vector": np.array([1, 2, 3]), "matrix": np.array([[1, 2], [3, 4]])}
 
 result = recursive_apply(data, conditional_transform)
 # "vector" becomes shape (3, 1), "matrix" becomes shape (2, 2) transposed
@@ -233,10 +229,7 @@ import numpy as np
 from batcharray import nested
 
 # These nested operations use recursive_apply internally
-data = {
-    "a": np.array([1, 2, 3]),
-    "b": np.array([4, 5, 6])
-}
+data = {"a": np.array([1, 2, 3]), "b": np.array([4, 5, 6])}
 
 # Slice operation uses recursive_apply to handle the dictionary
 sliced = nested.slice_along_batch(data, stop=2)
@@ -255,9 +248,11 @@ state = ApplyState(applier)
 # State can be used to track depth, visited objects, etc.
 data = {"level1": {"level2": [1, 2, 3]}}
 
+
 def func_with_state(x):
     # You can use state information here if needed
     return x * 2
+
 
 result = applier.apply(data, func_with_state, state)
 ```
@@ -271,39 +266,28 @@ from batcharray.recursive import BaseApplier, ApplyState
 from typing import Any
 from collections.abc import Callable
 
+
 class CustomDataApplier(BaseApplier):
     """Applier for custom data structures."""
-    
+
     def apply(self, data: Any, func: Callable, state: ApplyState) -> Any:
         # Check if this applier can handle the data
         if not self.can_apply(data):
             return func(data)
-        
+
         # Custom transformation logic
         # For example, handle a custom class
         if isinstance(data, MyCustomClass):
             # Transform the custom class's data
-            transformed_data = state.applier.apply(
-                data.get_data(), 
-                func, 
-                state
-            )
+            transformed_data = state.applier.apply(data.get_data(), func, state)
             return MyCustomClass(transformed_data)
-        
+
         return func(data)
-    
+
     def can_apply(self, data: Any) -> bool:
         """Check if this applier can handle the data."""
         return isinstance(data, MyCustomClass)
 ```
-
-## Best Practices
-
-1. **Pure functions**: Use pure functions (no side effects) with `recursive_apply` for predictable behavior
-2. **Type checking**: Always check the type before transforming to avoid unexpected behavior
-3. **Identity for unknown types**: Return the input unchanged for types you don't want to transform
-4. **Performance**: For very deep structures, consider iterative approaches or limit recursion depth
-5. **Immutability**: `recursive_apply` creates new structures; original data is not modified
 
 ## Common Use Cases
 
@@ -313,21 +297,23 @@ class CustomDataApplier(BaseApplier):
 import numpy as np
 from batcharray.recursive import recursive_apply
 
+
 def preprocess(x):
     if isinstance(x, np.ndarray) and x.dtype == np.float64:
         # Normalize to [0, 1]
         return (x - x.min()) / (x.max() - x.min() + 1e-8)
     return x
 
+
 raw_data = {
     "train": {
         "images": np.random.randn(100, 28, 28),
-        "labels": np.array([0, 1, 2] * 33 + [0])
+        "labels": np.array([0, 1, 2] * 33 + [0]),
     },
     "val": {
         "images": np.random.randn(20, 28, 28),
-        "labels": np.array([0, 1, 2] * 6 + [0, 1])
-    }
+        "labels": np.array([0, 1, 2] * 6 + [0, 1]),
+    },
 }
 
 preprocessed = recursive_apply(raw_data, preprocess)
@@ -339,14 +325,16 @@ preprocessed = recursive_apply(raw_data, preprocess)
 import numpy as np
 from batcharray.recursive import recursive_apply
 
+
 def convert_to_float32(x):
     if isinstance(x, np.ndarray) and x.dtype != np.float32:
         return x.astype(np.float32)
     return x
 
+
 data = {
     "features": np.array([1, 2, 3], dtype=np.int64),
-    "weights": np.array([0.1, 0.2, 0.3], dtype=np.float64)
+    "weights": np.array([0.1, 0.2, 0.3], dtype=np.float64),
 }
 
 converted = recursive_apply(data, convert_to_float32)
@@ -359,16 +347,15 @@ converted = recursive_apply(data, convert_to_float32)
 import numpy as np
 from batcharray.recursive import recursive_apply
 
+
 def validate_arrays(x):
     if isinstance(x, np.ndarray):
         if not np.isfinite(x).all():
             raise ValueError(f"Array contains non-finite values: {x}")
     return x
 
-data = {
-    "values": np.array([1.0, 2.0, 3.0]),
-    "scores": np.array([0.5, 0.7, 0.9])
-}
+
+data = {"values": np.array([1.0, 2.0, 3.0]), "scores": np.array([0.5, 0.7, 0.9])}
 
 # Validates all arrays in the structure
 validated = recursive_apply(data, validate_arrays)

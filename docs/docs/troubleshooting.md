@@ -53,15 +53,15 @@ from batcharray import nested
 
 # Error: Incompatible batch sizes
 bad_data = {
-    "a": np.array([[1, 2], [3, 4]]),        # batch_size=2
-    "b": np.array([5, 6, 7])                 # batch_size=3
+    "a": np.array([[1, 2], [3, 4]]),  # batch_size=2
+    "b": np.array([5, 6, 7]),  # batch_size=3
 }
 # nested.slice_along_batch(bad_data, stop=1)  # Fails!
 
 # Fix: Ensure consistent batch sizes
 good_data = {
     "a": np.array([[1, 2], [3, 4], [5, 6]]),  # batch_size=3
-    "b": np.array([7, 8, 9])                   # batch_size=3
+    "b": np.array([7, 8, 9]),  # batch_size=3
 }
 result = nested.slice_along_batch(good_data, stop=1)  # Works!
 ```
@@ -79,16 +79,13 @@ import numpy as np
 from batcharray import nested
 
 # Error: Non-array value
-bad_data = {
-    "array": np.array([1, 2, 3]),
-    "scalar": 42  # Not an array!
-}
+bad_data = {"array": np.array([1, 2, 3]), "scalar": 42}  # Not an array!
 # nested.mean_along_batch(bad_data)  # Fails on scalar
 
 # Fix: Ensure all values are arrays
 good_data = {
     "array": np.array([1, 2, 3]),
-    "scalar": np.array([42, 42, 42])  # Now an array
+    "scalar": np.array([42, 42, 42]),  # Now an array
 }
 result = nested.mean_along_batch(good_data)  # Works!
 ```
@@ -105,10 +102,7 @@ result = nested.mean_along_batch(good_data)  # Works!
 import numpy as np
 from batcharray import array, nested
 
-data = {
-    "a": np.array([1, 2, 3]),
-    "b": np.array([4, 5, 6])
-}
+data = {"a": np.array([1, 2, 3]), "b": np.array([4, 5, 6])}
 
 # Error: Using array module with dict
 # result = array.slice_along_batch(data, stop=2)  # Fails!
@@ -175,19 +169,21 @@ for i in range(100):
 import numpy as np
 from batcharray.utils import bfs_array
 
+
 def analyze_memory(data):
     """Check memory usage of nested structure."""
     total_bytes = sum(arr.nbytes for arr in bfs_array(data))
     print(f"Total memory: {total_bytes / (1024**2):.2f} MB")
-    
+
     # Check for large arrays
     for i, arr in enumerate(bfs_array(data)):
         if arr.nbytes > 1024**2:  # > 1 MB
             print(f"Array {i}: {arr.nbytes / (1024**2):.2f} MB, shape={arr.shape}")
 
+
 data = {
     "features": np.random.randn(10000, 1000),
-    "labels": np.random.randint(0, 10, 10000)
+    "labels": np.random.randint(0, 10, 10000),
 }
 analyze_memory(data)
 ```
@@ -246,12 +242,14 @@ for chunk in chunks:
 ```python
 import numpy as np
 
+
 def check_array(arr):
     """Check for problematic values."""
     print(f"Shape: {arr.shape}")
     print(f"Contains NaN: {np.isnan(arr).any()}")
     print(f"Contains Inf: {np.isinf(arr).any()}")
     print(f"Min: {np.nanmin(arr)}, Max: {np.nanmax(arr)}")
+
 
 data = np.array([1.0, 2.0, np.nan, 4.0])
 check_array(data)
@@ -297,14 +295,16 @@ data[~np.isfinite(data)] = 0
 import numpy as np
 from batcharray.utils import bfs_array
 
+
 def check_types(data):
     """Check types of all arrays in nested structure."""
     for i, arr in enumerate(bfs_array(data)):
         print(f"Array {i}: dtype={arr.dtype}, type={type(arr)}")
 
+
 data = {
     "int": np.array([1, 2, 3], dtype=np.int32),
-    "float": np.array([1.0, 2.0, 3.0], dtype=np.float64)
+    "float": np.array([1.0, 2.0, 3.0], dtype=np.float64),
 }
 check_types(data)
 ```
@@ -317,14 +317,16 @@ check_types(data)
 import numpy as np
 from batcharray.recursive import recursive_apply
 
+
 def ensure_float32(x):
     if isinstance(x, np.ndarray):
         return x.astype(np.float32)
     return x
 
+
 data = {
     "int_array": np.array([1, 2, 3], dtype=np.int64),
-    "float_array": np.array([1.0, 2.0], dtype=np.float64)
+    "float_array": np.array([1.0, 2.0], dtype=np.float64),
 }
 
 # Convert all to float32
@@ -339,7 +341,7 @@ from batcharray import nested
 
 data = {
     "a": np.array([1, 2, 3], dtype=np.int32),
-    "b": np.array([1.0, 2.0, 3.0], dtype=np.float32)
+    "b": np.array([1.0, 2.0, 3.0], dtype=np.float32),
 }
 
 # Operations handle mixed types
@@ -424,35 +426,34 @@ logging.basicConfig(level=logging.DEBUG)
 import numpy as np
 from batcharray.utils import bfs_array
 
+
 def validate_structure(data, expected_batch_size=None):
     """Validate nested data structure."""
     arrays = list(bfs_array(data))
-    
+
     if not arrays:
         print("Warning: No arrays found in structure")
         return False
-    
+
     print(f"Found {len(arrays)} arrays")
-    
+
     # Check batch sizes
     batch_sizes = [arr.shape[0] if arr.ndim > 0 else None for arr in arrays]
     unique_sizes = set(batch_sizes)
-    
+
     if len(unique_sizes) > 1:
         print(f"Warning: Inconsistent batch sizes: {unique_sizes}")
         return False
-    
+
     if expected_batch_size and unique_sizes.pop() != expected_batch_size:
         print(f"Warning: Expected batch size {expected_batch_size}, got {unique_sizes}")
         return False
-    
+
     print("✓ Structure is valid")
     return True
 
-data = {
-    "a": np.array([[1, 2], [3, 4]]),
-    "b": np.array([5, 6])
-}
+
+data = {"a": np.array([[1, 2], [3, 4]]), "b": np.array([5, 6])}
 
 validate_structure(data, expected_batch_size=2)
 ```

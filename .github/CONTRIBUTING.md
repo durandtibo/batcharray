@@ -38,12 +38,6 @@ This project uses [`uv`](https://docs.astral.sh/uv/) for dependency management. 
 ```shell
 # On macOS and Linux
 curl -LsSf https://astral.sh/uv/install.sh | sh
-
-# On Windows
-powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"
-
-# Or using pip
-pip install uv
 ```
 
 ### Setting up the development environment
@@ -58,8 +52,6 @@ pip install uv
    ```shell
    make setup-venv
    source .venv/bin/activate  # On Unix/macOS
-   # or
-   .venv\Scripts\activate  # On Windows
    ```
 
 3. Install pre-commit hooks:

@@ -45,8 +45,8 @@ batch = np.array([[1.0, 2.0], [3.0, 4.0], [5.0, 6.0]])
 
 # Compute statistics along batch
 mean_val = array.mean_along_batch(batch)  # [3.0, 4.0]
-max_val = array.amax_along_batch(batch)   # [5.0, 6.0]
-sum_val = array.sum_along_batch(batch)    # [9.0, 12.0]
+max_val = array.amax_along_batch(batch)  # [5.0, 6.0]
+sum_val = array.sum_along_batch(batch)  # [9.0, 12.0]
 ```
 
 ### Sorting and Permutation
@@ -79,10 +79,12 @@ import numpy as np
 from batcharray import array
 
 # Batch of sequences: (batch_size=2, seq_len=4, features=3)
-sequences = np.array([
-    [[1, 2, 3], [4, 5, 6], [7, 8, 9], [10, 11, 12]],
-    [[13, 14, 15], [16, 17, 18], [19, 20, 21], [22, 23, 24]]
-])
+sequences = np.array(
+    [
+        [[1, 2, 3], [4, 5, 6], [7, 8, 9], [10, 11, 12]],
+        [[13, 14, 15], [16, 17, 18], [19, 20, 21], [22, 23, 24]],
+    ]
+)
 
 # Slice sequences
 sliced = array.slice_along_seq(sequences, start=1, stop=3)
@@ -102,10 +104,9 @@ chunks = array.split_along_seq(sequences, split_size_or_sections=2)
 import numpy as np
 from batcharray import array
 
-sequences = np.array([
-    [[1.0, 2.0], [3.0, 4.0], [5.0, 6.0]],
-    [[7.0, 8.0], [9.0, 10.0], [11.0, 12.0]]
-])
+sequences = np.array(
+    [[[1.0, 2.0], [3.0, 4.0], [5.0, 6.0]], [[7.0, 8.0], [9.0, 10.0], [11.0, 12.0]]]
+)
 
 # Compute mean for each batch across sequence
 mean_seq = array.mean_along_seq(sequences)
@@ -146,8 +147,9 @@ import numpy.ma as ma
 from batcharray import array
 
 # Create masked array
-data = ma.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]], 
-                mask=[[0, 0, 1], [0, 1, 0], [1, 0, 0]])
+data = ma.array(
+    [[1, 2, 3], [4, 5, 6], [7, 8, 9]], mask=[[0, 0, 1], [0, 1, 0], [1, 0, 0]]
+)
 
 # Operations work with masked values
 mean = array.mean_along_batch(data)

@@ -93,10 +93,7 @@ Use the `nested` module:
 import numpy as np
 from batcharray import nested
 
-batch = {
-    "features": np.array([[1, 2], [3, 4], [5, 6]]),
-    "labels": np.array([0, 1, 0])
-}
+batch = {"features": np.array([[1, 2], [3, 4], [5, 6]]), "labels": np.array([0, 1, 0])}
 
 # Slice all arrays together
 sliced = nested.slice_along_batch(batch, stop=2)
@@ -135,9 +132,11 @@ from batcharray import array
 # Create masked array (some values are missing)
 data = ma.array(
     [[1, 2, 3], [4, 5, 6], [7, 8, 9]],
-    mask=[[False, True, False],  # 2nd value is missing
-          [False, False, True],   # 3rd value is missing
-          [True, False, False]]   # 1st value is missing
+    mask=[
+        [False, True, False],  # 2nd value is missing
+        [False, False, True],  # 3rd value is missing
+        [True, False, False],
+    ],  # 1st value is missing
 )
 
 # Operations automatically handle masked values
@@ -155,7 +154,7 @@ from batcharray import nested
 
 batch = {
     "images": np.random.randn(100, 28, 28),
-    "labels": np.random.randint(0, 10, 100)
+    "labels": np.random.randint(0, 10, 100),
 }
 
 # Shuffles both arrays with the same permutation
@@ -171,10 +170,7 @@ Use slicing or splitting functions:
 import numpy as np
 from batcharray import nested
 
-data = {
-    "X": np.random.randn(100, 10),
-    "y": np.random.randint(0, 2, 100)
-}
+data = {"X": np.random.randn(100, 10), "y": np.random.randint(0, 2, 100)}
 
 # Split 80/20
 train = nested.slice_along_batch(data, stop=80)
@@ -200,8 +196,10 @@ import numpy as np
 from batcharray import array
 from concurrent.futures import ProcessPoolExecutor
 
+
 def process_batch(batch):
     return array.mean_along_seq(batch)
+
 
 # Split data and process in parallel
 chunks = array.chunk_along_batch(large_array, chunks=4)
@@ -248,13 +246,13 @@ from batcharray import nested
 # This works - both arrays have batch_size=3
 good_data = {
     "a": np.array([[1, 2], [3, 4], [5, 6]]),  # (3, 2)
-    "b": np.array([7, 8, 9])  # (3,)
+    "b": np.array([7, 8, 9]),  # (3,)
 }
 
 # This fails - incompatible batch sizes
 bad_data = {
     "a": np.array([[1, 2], [3, 4]]),  # batch_size=2
-    "b": np.array([7, 8, 9])  # batch_size=3
+    "b": np.array([7, 8, 9]),  # batch_size=3
 }
 ```
 
@@ -287,13 +285,15 @@ Yes! You can extend `batcharray` functionality:
 import numpy as np
 from batcharray.recursive import recursive_apply
 
+
 def custom_normalize(data):
     """Custom normalization for nested data."""
+
     def normalize_array(x):
         if isinstance(x, np.ndarray) and np.issubdtype(x.dtype, np.floating):
             return (x - x.mean()) / (x.std() + 1e-8)
         return x
-    
+
     return recursive_apply(data, normalize_array)
 ```
 
