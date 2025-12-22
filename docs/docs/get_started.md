@@ -31,12 +31,6 @@ The project uses [`uv`](https://docs.astral.sh/uv/) for dependency management. F
 ```shell
 # On macOS and Linux
 curl -LsSf https://astral.sh/uv/install.sh | sh
-
-# On Windows
-powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"
-
-# Using pip
-pip install uv
 ```
 
 You can verify the installation by running:
@@ -68,13 +62,6 @@ This command will:
 3. Install `invoke` for task management
 4. Install all dependencies including documentation dependencies
 
-Alternatively, you can create a conda environment:
-
-```shell
-make conda
-conda activate batcharray
-make install
-```
 
 ### Install the package
 
