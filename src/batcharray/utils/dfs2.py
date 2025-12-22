@@ -172,8 +172,8 @@ class IteratorRegistry:
     ```
     """
 
-    def __init__(self) -> None:
-        self._registry: dict[type, BaseArrayIterator] = {}
+    def __init__(self, registry: dict[type, BaseArrayIterator] | None = None) -> None:
+        self._registry: dict[type, BaseArrayIterator] = registry.copy() if registry else {}
         self._default_iterator: BaseArrayIterator = DefaultArrayIterator()
 
     def __repr__(self) -> str:

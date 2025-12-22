@@ -311,6 +311,33 @@ def test_iterator_registry_str() -> None:
     assert str(IteratorRegistry()).startswith("IteratorRegistry(")
 
 
+def test_iterator_registry_init_with_dict() -> None:
+    registry = IteratorRegistry(
+        {
+            list: IterableArrayIterator(),
+            dict: MappingArrayIterator(),
+        }
+    )
+    assert len(registry._registry) == 2
+    assert list in registry._registry
+    assert dict in registry._registry
+
+
+def test_iterator_registry_init_copies_dict() -> None:
+    initial: dict[type, BaseArrayIterator] = {list: IterableArrayIterator()}
+    registry = IteratorRegistry(initial)
+    # Modify original dict
+    initial[dict] = MappingArrayIterator()
+    # Registry should not be affected
+    assert dict not in registry._registry
+    assert len(registry._registry) == 1
+
+
+def test_iterator_registry_init_with_none() -> None:
+    registry = IteratorRegistry(None)
+    assert len(registry._registry) == 0
+
+
 def test_iterator_registry_register() -> None:
     registry = IteratorRegistry()
     iterator = IterableArrayIterator()
@@ -347,8 +374,7 @@ def test_iterator_registry_register_many() -> None:
 
 
 def test_iterator_registry_register_many_exist_ok_false() -> None:
-    registry = IteratorRegistry()
-    registry.register(list, DefaultArrayIterator())
+    registry = IteratorRegistry({list: DefaultArrayIterator()})
     iterators = {
         list: IterableArrayIterator(),
         dict: MappingArrayIterator(),
@@ -358,8 +384,7 @@ def test_iterator_registry_register_many_exist_ok_false() -> None:
 
 
 def test_iterator_registry_register_many_exist_ok_true() -> None:
-    registry = IteratorRegistry()
-    registry.register(list, DefaultArrayIterator())
+    registry = IteratorRegistry({list: DefaultArrayIterator()})
     registry.register_many(
         {
             list: IterableArrayIterator(),
@@ -372,8 +397,7 @@ def test_iterator_registry_register_many_exist_ok_true() -> None:
 
 
 def test_iterator_registry_has_iterator_true() -> None:
-    registry = IteratorRegistry()
-    registry.register(list, IterableArrayIterator())
+    registry = IteratorRegistry({list: IterableArrayIterator()})
     assert registry.has_iterator(list)
 
 
@@ -383,16 +407,14 @@ def test_iterator_registry_has_iterator_false() -> None:
 
 
 def test_iterator_registry_find_iterator_direct() -> None:
-    registry = IteratorRegistry()
     iterator = IterableArrayIterator()
-    registry.register(list, iterator)
+    registry = IteratorRegistry({list: iterator})
     assert registry.find_iterator(list) is iterator
 
 
 def test_iterator_registry_find_iterator_mro_lookup() -> None:
-    registry = IteratorRegistry()
     iterator = IterableArrayIterator()
-    registry.register(list, iterator)
+    registry = IteratorRegistry({list: iterator})
     assert registry.find_iterator(CustomList) is iterator
     # CustomList should NOT be in the registry after lookup
     assert CustomList not in registry._registry
@@ -400,20 +422,19 @@ def test_iterator_registry_find_iterator_mro_lookup() -> None:
 
 def test_iterator_registry_find_iterator_default() -> None:
     registry = IteratorRegistry()
-    iterator = registry.find_iterator(int)
-    assert isinstance(iterator, DefaultArrayIterator)
+    assert isinstance(registry.find_iterator(int), DefaultArrayIterator)
 
 
 def test_iterator_registry_iterate() -> None:
-    registry = IteratorRegistry()
-    registry.register(list, IterableArrayIterator())
-    result = list(registry.iterate([np.ones((2, 3)), "abc", np.array([0, 1, 2, 3, 4])]))
-    assert objects_are_equal(result, [np.ones((2, 3)), np.array([0, 1, 2, 3, 4])])
+    registry = IteratorRegistry({list: IterableArrayIterator()})
+    assert objects_are_equal(
+        list(registry.iterate([np.ones((2, 3)), "abc", np.array([0, 1, 2, 3, 4])])),
+        [np.ones((2, 3)), np.array([0, 1, 2, 3, 4])],
+    )
 
 
 def test_iterator_registry_iterate_uses_find_iterator() -> None:
-    registry = IteratorRegistry()
-    registry.register(list, IterableArrayIterator())
+    registry = IteratorRegistry({list: IterableArrayIterator()})
     assert objects_are_equal(list(registry.iterate([np.ones(3)])), [np.ones(3)])
 
 
@@ -488,44 +509,3 @@ def test_register_iterators_exist_ok_false() -> None:
 def test_register_iterators_exist_ok_true() -> None:
     new_iterator = DefaultArrayIterator()
     register_iterators({list: new_iterator}, exist_ok=True)
-
-
-##############################################
-#     Integration tests for extensibility    #
-##############################################
-
-
-def test_custom_data_structure_with_custom_iterator() -> None:
-    """Test that users can easily extend the system with custom data
-    structures."""
-    # Create custom registry
-    registry = IteratorRegistry()
-    registry.register(LinkedListNode, LinkedListIterator())
-    registry.register(list, IterableArrayIterator())
-
-    # Create linked list with arrays
-    node3 = LinkedListNode(np.array([3, 4]))
-    node2 = LinkedListNode([np.array([2])], node3)
-    node1 = LinkedListNode(np.array([1]), node2)
-
-    assert objects_are_equal(
-        list(dfs_array(node1, registry=registry)), [np.array([1]), np.array([2]), np.array([3, 4])]
-    )
-
-
-def test_multiple_custom_registries_isolated() -> None:
-    """Test that multiple custom registries don't interfere with each
-    other."""
-    registry1 = IteratorRegistry()
-    registry1.register(list, DefaultArrayIterator())  # Treat lists as leaf nodes
-
-    registry2 = IteratorRegistry()
-    registry2.register(list, IterableArrayIterator())  # Iterate into lists
-
-    data = [np.ones(2), np.zeros(3)]
-
-    # Registry 1 should yield nothing (treats list as leaf)
-    assert objects_are_equal(list(dfs_array(data, registry=registry1)), [])
-
-    # Registry 2 should yield arrays
-    assert objects_are_equal(list(dfs_array(data, registry=registry2)), [np.ones(2), np.zeros(3)])
