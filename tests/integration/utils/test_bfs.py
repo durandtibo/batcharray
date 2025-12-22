@@ -6,7 +6,7 @@ import numpy as np
 import pytest
 from coola import objects_are_equal
 
-from batcharray.utils.bfs2 import (
+from batcharray.utils.bfs import (
     BaseArrayIterator,
     IterableArrayIterator,
     IteratorRegistry,
@@ -77,7 +77,7 @@ class LinkedListIterator(BaseArrayIterator):
 
     ```pycon
     >>> import numpy as np
-    >>> from batcharray.utils.bfs2 import IteratorRegistry, bfs_array
+    >>> from batcharray.utils.bfs import IteratorRegistry, bfs_array
     >>> registry = IteratorRegistry()
     >>> registry.register(LinkedListNode, LinkedListIterator())
     >>> node2 = LinkedListNode(np.array([2]))
