@@ -158,7 +158,7 @@ class TransformerRegistry:
         Example:
             ```pycon
             >>> from batcharray.recursive2 import TransformerRegistry
-            >>> from batcharray.recursive2.transformer import SequenceTransformer
+            >>> from batcharray.recursive2.transformer import SequenceTransformer, MappingTransformer
             >>> registry = TransformerRegistry()
             >>> registry.register_many(
             ...     {
@@ -252,6 +252,7 @@ class TransformerRegistry:
 
         Example:
             ```pycon
+            >>> from collections.abc import Sequence
             >>> from batcharray.recursive2 import TransformerRegistry
             >>> from batcharray.recursive2.transformer import SequenceTransformer
             >>> registry = TransformerRegistry()
