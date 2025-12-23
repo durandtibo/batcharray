@@ -5,7 +5,7 @@ from __future__ import annotations
 
 __all__ = ["ConditionalTransformer"]
 
-from typing import TYPE_CHECKING, Any
+from typing import TYPE_CHECKING, Any, TypeVar
 
 from coola.utils import repr_indent, repr_mapping, str_indent, str_mapping
 
@@ -17,7 +17,10 @@ if TYPE_CHECKING:
     from batcharray.recursive2.registry import TransformerRegistry
 
 
-class ConditionalTransformer(BaseTransformer):
+T = TypeVar("T")
+
+
+class ConditionalTransformer(BaseTransformer[T]):
     """Wrapper transformer that only applies function if condition
     matches.
 
@@ -47,7 +50,7 @@ class ConditionalTransformer(BaseTransformer):
 
     def __init__(
         self,
-        transformer: BaseTransformer,
+        transformer: BaseTransformer[T],
         condition: Callable[[Any], bool],
     ) -> None:
         self._transformer = transformer
@@ -63,7 +66,7 @@ class ConditionalTransformer(BaseTransformer):
 
     def transform(
         self,
-        data: Any,
+        data: T,
         func: Callable[[Any], Any],
         registry: TransformerRegistry,
     ) -> Any:

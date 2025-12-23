@@ -4,6 +4,7 @@ from __future__ import annotations
 
 __all__ = ["TransformerRegistry"]
 
+import functools
 from collections.abc import Mapping, Sequence
 from typing import TYPE_CHECKING, Any
 
@@ -49,6 +50,11 @@ class TransformerRegistry:
     def __init__(self, registry: dict[type, BaseTransformer[Any]] | None = None) -> None:
         self._registry: dict[type, BaseTransformer[Any]] = registry.copy() if registry else {}
         self._default_transformer: BaseTransformer[Any] = DefaultTransformer()
+
+        # LRU cache for type lookups
+        self._find_transformer_cached = functools.lru_cache(maxsize=256)(
+            self._find_transformer_uncached
+        )
 
     def __repr__(self) -> str:
         return f"{self.__class__.__qualname__}(\n  {repr_indent(repr_mapping(self._registry))}\n)"
