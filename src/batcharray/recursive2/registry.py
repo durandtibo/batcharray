@@ -106,6 +106,20 @@ class TransformerRegistry:
         """Check if a transformer is registered for the given type."""
         return data_type in self._registry
 
+    def _find_transformer_uncached(self, data_type: type) -> BaseTransformer[Any]:
+        """Find transformer using MRO (uncached version)."""
+        # Direct lookup first (most common case)
+        if data_type in self._registry:
+            return self._registry[data_type]
+
+        # MRO lookup for inheritance
+        for base_type in data_type.__mro__:
+            if base_type in self._registry:
+                return self._registry[base_type]
+
+        # Fall back to default
+        return self._default_transformer
+
     def find_transformer(self, data_type: type) -> BaseTransformer[Any]:
         """Find the appropriate transformer for a given type.
 
@@ -118,17 +132,7 @@ class TransformerRegistry:
         Returns:
             The transformer for this type or a parent type
         """
-        # Direct lookup first (most common case)
-        if data_type in self._registry:
-            return self._registry[data_type]
-
-        # MRO lookup for inheritance
-        for base_type in data_type.__mro__:
-            if base_type in self._registry:
-                return self._registry[base_type]
-
-        # Fall back to default
-        return self._default_transformer
+        return self._find_transformer_cached(data_type)
 
     def transform(self, data: Any, func: Callable[[Any], Any]) -> Any:
         """Transform data by applying func recursively.
