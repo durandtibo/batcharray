@@ -9,7 +9,12 @@ This design is inspired by the DFS array iterator pattern and provides:
 
 from __future__ import annotations
 
-__all__ = ["TransformerRegistry", "recursive_apply", "register_transformers"]
+__all__ = [
+    "TransformerRegistry",
+    "get_default_registry",
+    "recursive_apply",
+    "register_transformers",
+]
 
 from batcharray.recursive2.interface import recursive_apply, register_transformers
-from batcharray.recursive2.registry import TransformerRegistry
+from batcharray.recursive2.registry import TransformerRegistry, get_default_registry
