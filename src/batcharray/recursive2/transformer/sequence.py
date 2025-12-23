@@ -1,20 +1,21 @@
-r"""Define the default transformer for sequences data (list, tuple).."""
+r"""Define the default transformer for sequences data (list, tuple)."""
 
 from __future__ import annotations
 
 __all__ = ["SequenceTransformer"]
 
+from collections.abc import Sequence
 from typing import TYPE_CHECKING, Any
 
 from batcharray.recursive2.transformer.base import BaseTransformer
 
 if TYPE_CHECKING:
-    from collections.abc import Callable, Sequence
+    from collections.abc import Callable
 
     from batcharray.recursive2.registry import TransformerRegistry
 
 
-class SequenceTransformer(BaseTransformer):
+class SequenceTransformer(BaseTransformer[Sequence[Any]]):
     """Transformer for sequences (list, tuple).
 
     Recursively transforms elements and rebuilds the sequence.
