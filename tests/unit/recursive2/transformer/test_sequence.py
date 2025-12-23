@@ -17,7 +17,7 @@ def test_sequence_transformer_repr() -> None:
 
 
 def test_sequence_transformer_str() -> None:
-    assert repr(SequenceTransformer()) == "SequenceTransformer()"
+    assert str(SequenceTransformer()) == "SequenceTransformer()"
 
 
 @pytest.mark.parametrize(

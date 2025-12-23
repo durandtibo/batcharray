@@ -17,7 +17,7 @@ def test_set_transformer_repr() -> None:
 
 
 def test_set_transformer_str() -> None:
-    assert repr(SetTransformer()) == "SetTransformer()"
+    assert str(SetTransformer()) == "SetTransformer()"
 
 
 @pytest.mark.parametrize(

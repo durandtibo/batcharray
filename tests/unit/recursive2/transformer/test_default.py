@@ -17,7 +17,7 @@ def test_default_transformer_repr() -> None:
 
 
 def test_default_transformer_str() -> None:
-    assert repr(DefaultTransformer()) == "DefaultTransformer()"
+    assert str(DefaultTransformer()) == "DefaultTransformer()"
 
 
 @pytest.mark.parametrize(
