@@ -37,6 +37,8 @@ class BaseTransformer(ABC, Generic[T]):
     >>> from batcharray.recursive2 import TransformerRegistry
     >>> registry = TransformerRegistry()
     >>> transformer = DefaultTransformer()
+    >>> transformer
+    DefaultTransformer()
     >>> transformer.transform([1, 2, 3], func=str, registry=registry)
     '[1, 2, 3]'
 
