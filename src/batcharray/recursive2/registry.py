@@ -4,14 +4,20 @@ from __future__ import annotations
 
 __all__ = ["TransformerRegistry"]
 
+from collections.abc import Mapping, Sequence
 from typing import TYPE_CHECKING, Any
 
 from coola.utils import repr_indent, repr_mapping, str_indent, str_mapping
 
-from batcharray.recursive2.transformer import DefaultTransformer
+from batcharray.recursive2.transformer import (
+    DefaultTransformer,
+    MappingTransformer,
+    SequenceTransformer,
+    SetTransformer,
+)
 
 if TYPE_CHECKING:
-    from collections.abc import Callable, Mapping
+    from collections.abc import Callable
 
     from batcharray.recursive2.transformer import BaseTransformer
 
@@ -133,3 +139,48 @@ class TransformerRegistry:
         """
         transformer = self.find_transformer(type(data))
         return transformer.transform(data, func, self)
+
+
+def get_default_registry() -> TransformerRegistry:
+    """Get or create the default global registry.
+
+    Returns a singleton registry with pre-registered transformers for
+    common Python types.
+    """
+    if not hasattr(get_default_registry, "_registry"):
+        registry = TransformerRegistry()
+        _register_default_transformers(registry)
+        get_default_registry._registry = registry
+    return get_default_registry._registry
+
+
+def _register_default_transformers(registry: TransformerRegistry) -> None:
+    """Register default transformers for common Python types."""
+    default = DefaultTransformer()
+    sequence = SequenceTransformer()
+    set_transformer = SetTransformer()
+    mapping = MappingTransformer()
+
+    registry.register_many(
+        {
+            # Object is the catch-all base
+            object: default,
+            # Strings should not be iterated character by character
+            str: default,
+            # Numbers
+            int: default,
+            float: default,
+            complex: default,
+            bool: default,
+            # Sequences
+            list: sequence,
+            tuple: sequence,
+            Sequence: sequence,
+            # Sets
+            set: set_transformer,
+            frozenset: set_transformer,
+            # Mappings
+            dict: mapping,
+            Mapping: mapping,
+        }
+    )
