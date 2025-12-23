@@ -1,4 +1,4 @@
-r"""Define the transformer registry."""
+r"""Define the default transformer."""
 
 from __future__ import annotations
 
@@ -32,6 +32,9 @@ class DefaultTransformer(BaseTransformer[Any]):
 
     ```
     """
+
+    def __repr__(self) -> str:
+        return f"{self.__class__.__qualname__}()"
 
     def transform(
         self,
