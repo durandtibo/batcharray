@@ -257,7 +257,6 @@ class TransformerRegistry:
             type's transformer via MRO, or the default transformer
 
         Example:
-
             ```pycon
             >>> from batcharray.recursive2 import TransformerRegistry
             >>> from batcharray.recursive2.transformer import SequenceTransformer
@@ -339,6 +338,11 @@ def get_default_registry() -> TransformerRegistry:
             - Sets (set, frozenset)
             - Mappings (dict, Mapping ABC)
 
+    Note:
+        The singleton pattern means modifications to the returned registry
+        affect all future calls to this function. If you need an isolated
+        registry, create a new TransformerRegistry instance directly.
+
     Example:
         ```pycon
         >>> from batcharray.recursive2 import get_default_registry
@@ -350,11 +354,6 @@ def get_default_registry() -> TransformerRegistry:
         {'a': 10, 'b': 20}
 
         ```
-
-    Note:
-        The singleton pattern means modifications to the returned registry
-        affect all future calls to this function. If you need an isolated
-        registry, create a new TransformerRegistry instance directly.
     """
     if not hasattr(get_default_registry, "_registry"):
         registry = TransformerRegistry()
