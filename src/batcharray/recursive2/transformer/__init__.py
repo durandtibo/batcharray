@@ -4,6 +4,7 @@ from __future__ import annotations
 
 __all__ = [
     "BaseTransformer",
+    "ConditionalTransformer",
     "DefaultTransformer",
     "MappingTransformer",
     "SequenceTransformer",
@@ -11,6 +12,7 @@ __all__ = [
 ]
 
 from batcharray.recursive2.transformer.base import BaseTransformer
+from batcharray.recursive2.transformer.conditional import ConditionalTransformer
 from batcharray.recursive2.transformer.default import DefaultTransformer
 from batcharray.recursive2.transformer.mapping import MappingTransformer
 from batcharray.recursive2.transformer.sequence import SequenceTransformer

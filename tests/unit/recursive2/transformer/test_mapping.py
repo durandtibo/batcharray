@@ -18,7 +18,7 @@ def test_mapping_transformer_repr() -> None:
 
 
 def test_mapping_transformer_str() -> None:
-    assert repr(MappingTransformer()) == "MappingTransformer()"
+    assert str(MappingTransformer()) == "MappingTransformer()"
 
 
 @pytest.mark.parametrize(
