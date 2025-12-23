@@ -9,7 +9,6 @@ from __future__ import annotations
 
 __all__ = ["TransformerRegistry"]
 
-import functools
 from collections.abc import Mapping, Sequence
 from typing import TYPE_CHECKING, Any
 
@@ -93,10 +92,8 @@ class TransformerRegistry:
         self._registry: dict[type, BaseTransformer[Any]] = registry.copy() if registry else {}
         self._default_transformer: BaseTransformer[Any] = DefaultTransformer()
 
-        # LRU cache for type lookups - improves performance for repeated transforms
-        self._find_transformer_cached = functools.lru_cache(maxsize=256)(
-            self._find_transformer_uncached
-        )
+        # cache for type lookups - improves performance for repeated transforms
+        self._transformer_cache: dict[type, BaseTransformer[Any]] = {}
 
     def __repr__(self) -> str:
         return f"{self.__class__.__qualname__}(\n  {repr_indent(repr_mapping(self._registry))}\n)"
@@ -144,7 +141,7 @@ class TransformerRegistry:
             raise RuntimeError(msg)
         self._registry[data_type] = transformer
         # Clear cache when registry changes to ensure new registrations are used
-        self._find_transformer_cached.cache_clear()
+        self._transformer_cache.clear()
 
     def register_many(
         self,
@@ -260,6 +257,7 @@ class TransformerRegistry:
             type's transformer via MRO, or the default transformer
 
         Example:
+
             ```pycon
             >>> from batcharray.recursive2 import TransformerRegistry
             >>> from batcharray.recursive2.transformer import SequenceTransformer
@@ -272,7 +270,9 @@ class TransformerRegistry:
 
             ```
         """
-        return self._find_transformer_cached(data_type)
+        if data_type not in self._transformer_cache:
+            self._transformer_cache[data_type] = self._find_transformer_uncached(data_type)
+        return self._transformer_cache[data_type]
 
     def transform(self, data: Any, func: Callable[[Any], Any]) -> Any:
         """Transform data by applying a function recursively through the
