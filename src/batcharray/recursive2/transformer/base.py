@@ -41,7 +41,7 @@ class BaseTransformer(ABC, Generic[T]):
     def transform(
         self,
         data: T,
-        func: Callable[[T], T],
+        func: Callable[[Any], Any],
         registry: TransformerRegistry,
     ) -> Any:
         """Transform data by applying func recursively.
