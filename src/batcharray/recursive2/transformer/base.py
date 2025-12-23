@@ -20,10 +20,22 @@ class BaseTransformer(ABC, Generic[T]):
 
     Each transformer knows how to rebuild its specific type after
     transformation of nested elements.
-    """
 
-    def __repr__(self) -> str:
-        return f"{self.__class__.__qualname__}()"
+    Example usage:
+
+    ```pycon
+
+    >>> from batcharray.recursive2.transformer import DefaultTransformer
+    >>> from batcharray.recursive2 import TransformerRegistry
+    >>> registry = TransformerRegistry()
+    >>> transformer = DefaultTransformer()
+    >>> transformer
+    DefaultTransformer()
+    >>> transformer.transform([1, 2, 3], func=str, registry=registry)
+    '[1, 2, 3]'
+
+    ```
+    """
 
     @abstractmethod
     def transform(
@@ -41,4 +53,17 @@ class BaseTransformer(ABC, Generic[T]):
 
         Returns:
             Transformed data
+
+        Example usage:
+
+        ```pycon
+
+        >>> from batcharray.recursive2.transformer import DefaultTransformer
+        >>> from batcharray.recursive2 import TransformerRegistry
+        >>> registry = TransformerRegistry()
+        >>> transformer = DefaultTransformer()
+        >>> transformer.transform([1, 2, 3], func=str, registry=registry)
+        '[1, 2, 3]'
+
+        ```
         """

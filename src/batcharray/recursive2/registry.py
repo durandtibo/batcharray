@@ -30,9 +30,10 @@ class TransformerRegistry:
     >>> from batcharray.recursive2 import TransformerRegistry
     >>> from batcharray.recursive2.transformer import SequenceTransformer
     >>> registry = TransformerRegistry({list: SequenceTransformer()})
-    >>> registry.register()
-    >>> print(registry)
-    abc
+    >>> registry
+    TransformerRegistry(
+      (<class 'list'>): SequenceTransformer()
+    )
     >>> registry.transform([1, 2, 3], str)
     ['1', '2', '3']
 
