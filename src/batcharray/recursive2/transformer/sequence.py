@@ -18,6 +18,21 @@ class SequenceTransformer(BaseTransformer):
     """Transformer for sequences (list, tuple).
 
     Recursively transforms elements and rebuilds the sequence.
+
+    Example usage:
+
+    ```pycon
+
+    >>> from batcharray.recursive2.transformer import SequenceTransformer
+    >>> from batcharray.recursive2 import TransformerRegistry
+    >>> registry = TransformerRegistry()
+    >>> transformer = SequenceTransformer()
+    >>> transformer
+    SequenceTransformer()
+    >>> transformer.transform([1, 2, 3], func=str, registry=registry)
+    ['1', '2', '3']
+
+    ```
     """
 
     def __repr__(self) -> str:
