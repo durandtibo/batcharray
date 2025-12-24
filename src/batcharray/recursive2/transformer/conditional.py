@@ -21,29 +21,49 @@ T = TypeVar("T")
 
 
 class ConditionalTransformer(BaseTransformer[T]):
-    """Wrapper transformer that only applies function if condition
-    matches.
+    r"""Wrapper transformer that conditionally applies transformations.
 
-    This transformer allows to add filtering without changing the core
-    design.
+    This transformer wraps another transformer and only applies it when
+    a given condition evaluates to True. If the condition is False, the
+    data is returned unchanged. This allows for selective transformation
+    based on runtime checks without modifying the underlying transformer
+    or core architecture.
+
+    Type Parameters:
+        T: The type of data this transformer handles
+
+    Args:
+        transformer: The underlying transformer to apply when the condition
+            is met. This can be any BaseTransformer implementation.
+        condition: A predicate function that determines whether to apply
+            the transformation. Should accept the data as input and return
+            True to transform or False to pass through unchanged.
 
     Example usage:
 
     ```pycon
-
     >>> from batcharray.recursive2.transformer import DefaultTransformer, ConditionalTransformer
     >>> from batcharray.recursive2 import TransformerRegistry
     >>> registry = TransformerRegistry()
+    >>> # Create a transformer that only processes positive numbers
     >>> transformer = ConditionalTransformer(
-    ...     transformer=DefaultTransformer(), condition=lambda x: isinstance(x, str)
+    ...     transformer=DefaultTransformer(),
+    ...     condition=lambda x: isinstance(x, (int, float)) and x > 0,
     ... )
     >>> transformer
     ConditionalTransformer(
       (transformer): DefaultTransformer()
       (condition): <function <lambda> at 0x...>
     )
-    >>> transformer.transform("abc", func=str.upper, registry=registry)
-    'ABC'
+    >>> # Positive number: condition passes, transformation applied
+    >>> transformer.transform(5, func=lambda x: x * 2, registry=registry)
+    10
+    >>> # Negative number: condition fails, returned unchanged
+    >>> transformer.transform(-5, func=lambda x: x * 2, registry=registry)
+    -5
+    >>> # Non-numeric: condition fails, returned unchanged
+    >>> transformer.transform("text", func=lambda x: x * 2, registry=registry)
+    'text'
 
     ```
     """

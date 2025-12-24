@@ -16,15 +16,23 @@ T = TypeVar("T")
 
 
 class BaseTransformer(ABC, Generic[T]):
-    """Base class for type-specific transformers.
+    r"""Base class for type-specific transformers.
 
-    Each transformer knows how to rebuild its specific type after
-    transformation of nested elements.
+    This abstract base class defines the interface for transformers that
+    recursively apply functions to nested data structures. Each concrete
+    transformer implementation handles a specific data type and knows how
+    to reconstruct that type after transforming its nested elements.
+
+    Type Parameters:
+        T: The type of data this transformer handles
+
+    Notes:
+        Subclasses must implement the `transform` method to define how
+        their specific type should be traversed and reconstructed.
 
     Example usage:
 
     ```pycon
-
     >>> from batcharray.recursive2.transformer import DefaultTransformer
     >>> from batcharray.recursive2 import TransformerRegistry
     >>> registry = TransformerRegistry()
@@ -44,26 +52,38 @@ class BaseTransformer(ABC, Generic[T]):
         func: Callable[[Any], Any],
         registry: TransformerRegistry,
     ) -> Any:
-        """Transform data by applying func recursively.
+        r"""Transform data by recursively applying a function.
+
+        This method traverses the data structure, applies the given function
+        to leaf values, and reconstructs the original structure with the
+        transformed values. The registry is used to resolve appropriate
+        transformers for nested data types encountered during traversal.
 
         Args:
-            data: The data to transform
-            func: Function to apply to leaf values
-            registry: Registry to resolve transformers for nested data
+            data: The data structure to transform. Must be of type T that
+                this transformer handles.
+            func: A function to apply to leaf values (non-container elements).
+                Should accept a single argument and return the transformed value.
+            registry: The transformer registry used to look up transformers
+                for nested data structures of different types.
 
         Returns:
-            Transformed data
+            The transformed data structure, maintaining the original type
+            and structure but with leaf values transformed by func.
 
         Example usage:
 
         ```pycon
-
-        >>> from batcharray.recursive2.transformer import DefaultTransformer
+        >>> from batcharray.recursive2.transformer import DefaultTransformer, SequenceTransformer
         >>> from batcharray.recursive2 import TransformerRegistry
         >>> registry = TransformerRegistry()
         >>> transformer = DefaultTransformer()
+        >>> # Convert numeric values to strings
         >>> transformer.transform([1, 2, 3], func=str, registry=registry)
         '[1, 2, 3]'
+        >>> # Apply a mathematical operation
+        >>> transformer.transform([1, 2, 3], func=lambda x: x * 2, registry=registry)
+        [1, 2, 3, 1, 2, 3]
 
         ```
         """
