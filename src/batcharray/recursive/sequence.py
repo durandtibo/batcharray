@@ -21,10 +21,8 @@ T = TypeVar("T", Sequence, list, tuple, set)
 class SequenceApplier(BaseApplier[T]):
     r"""Define a applier for sequences/lists/tuples.
 
-    Example usage:
-
+    Example:
     ```pycon
-
     >>> from batcharray.recursive import SequenceApplier, AutoApplier, ApplyState
     >>> state = ApplyState(applier=AutoApplier())
     >>> applier = SequenceApplier()

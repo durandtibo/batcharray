@@ -41,8 +41,7 @@ class SetTransformer(BaseTransformer[AbstractSet[Any]]):
         - Empty sets are preserved as empty sets of the same type
         - If transformation produces unhashable values, a TypeError will be raised
 
-    Example usage:
-
+    Example:
     ```pycon
     >>> from batcharray.recursive2.transformer import SetTransformer
     >>> from batcharray.recursive2 import TransformerRegistry

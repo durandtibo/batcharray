@@ -23,18 +23,16 @@ def to_list(data: Any) -> Any:
             ``numpy.ndarray``s. The output data has the same structure
             as the input.
 
-    Example usage:
+    Example:
+        ```pycon
+        >>> import numpy as np
+        >>> from batcharray.nested import to_list
+        >>> data = {"a": np.ones((2, 5)), "b": np.array([0, 1, 2, 3, 4])}
+        >>> out = to_list(data)
+        >>> out
+        {'a': [[1.0, 1.0, 1.0, 1.0, 1.0], [1.0, 1.0, 1.0, 1.0, 1.0]], 'b': [0, 1, 2, 3, 4]}
 
-    ```pycon
-
-    >>> import numpy as np
-    >>> from batcharray.nested import to_list
-    >>> data = {"a": np.ones((2, 5)), "b": np.array([0, 1, 2, 3, 4])}
-    >>> out = to_list(data)
-    >>> out
-    {'a': [[1.0, 1.0, 1.0, 1.0, 1.0], [1.0, 1.0, 1.0, 1.0, 1.0]], 'b': [0, 1, 2, 3, 4]}
-
-    ```
+        ```
     """
     return recursive_apply(
         data, lambda item: item.tolist() if isinstance(item, np.ndarray) else item

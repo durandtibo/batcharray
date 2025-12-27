@@ -32,8 +32,7 @@ class DefaultTransformer(BaseTransformer[Any]):
         transformer does not traverse nested structures. It treats all
         input as atomic values and applies the function directly.
 
-    Example usage:
-
+    Example:
     ```pycon
     >>> from batcharray.recursive2.transformer import DefaultTransformer
     >>> from batcharray.recursive2 import TransformerRegistry

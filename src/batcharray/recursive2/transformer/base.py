@@ -30,8 +30,7 @@ class BaseTransformer(ABC, Generic[T]):
         Subclasses must implement the `transform` method to define how
         their specific type should be traversed and reconstructed.
 
-    Example usage:
-
+    Example:
     ```pycon
     >>> from batcharray.recursive2.transformer import DefaultTransformer
     >>> from batcharray.recursive2 import TransformerRegistry
@@ -71,8 +70,7 @@ class BaseTransformer(ABC, Generic[T]):
             The transformed data structure, maintaining the original type
             and structure but with leaf values transformed by func.
 
-        Example usage:
-
+        Example:
         ```pycon
         >>> from batcharray.recursive2.transformer import DefaultTransformer, SequenceTransformer
         >>> from batcharray.recursive2 import TransformerRegistry

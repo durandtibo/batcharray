@@ -45,25 +45,23 @@ class BaseComputationModel(ABC, Generic[T]):
             The array of indices of the maximum values along the given
                 axis.
 
-        Example usage:
+        Example:
+            ```pycon
+            >>> import numpy as np
+            >>> from batcharray.computation import ArrayComputationModel
+            >>> comp_model = ArrayComputationModel()
+            >>> array = np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]])
+            >>> out = comp_model.argmax(array, axis=0)
+            >>> out
+            array([4, 4])
+            >>> out = comp_model.argmax(array, axis=1)
+            >>> out
+            array([1, 1, 1, 1, 1])
+            >>> out = comp_model.argmax(array, axis=0, keepdims=True)
+            >>> out
+            array([[4, 4]])
 
-        ```pycon
-
-        >>> import numpy as np
-        >>> from batcharray.computation import ArrayComputationModel
-        >>> comp_model = ArrayComputationModel()
-        >>> array = np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]])
-        >>> out = comp_model.argmax(array, axis=0)
-        >>> out
-        array([4, 4])
-        >>> out = comp_model.argmax(array, axis=1)
-        >>> out
-        array([1, 1, 1, 1, 1])
-        >>> out = comp_model.argmax(array, axis=0, keepdims=True)
-        >>> out
-        array([[4, 4]])
-
-        ```
+            ```
         """
 
     @abstractmethod
@@ -85,25 +83,23 @@ class BaseComputationModel(ABC, Generic[T]):
             The array of indices of the minimum values along the given
                 axis.
 
-        Example usage:
+        Example:
+            ```pycon
+            >>> import numpy as np
+            >>> from batcharray.computation import ArrayComputationModel
+            >>> comp_model = ArrayComputationModel()
+            >>> array = np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]])
+            >>> out = comp_model.argmin(array, axis=0)
+            >>> out
+            array([0, 0])
+            >>> out = comp_model.argmin(array, axis=1)
+            >>> out
+            array([0, 0, 0, 0, 0])
+            >>> out = comp_model.argmin(array, axis=0, keepdims=True)
+            >>> out
+            array([[0, 0]])
 
-        ```pycon
-
-        >>> import numpy as np
-        >>> from batcharray.computation import ArrayComputationModel
-        >>> comp_model = ArrayComputationModel()
-        >>> array = np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]])
-        >>> out = comp_model.argmin(array, axis=0)
-        >>> out
-        array([0, 0])
-        >>> out = comp_model.argmin(array, axis=1)
-        >>> out
-        array([0, 0, 0, 0, 0])
-        >>> out = comp_model.argmin(array, axis=0, keepdims=True)
-        >>> out
-        array([[0, 0]])
-
-        ```
+            ```
         """
 
     @abstractmethod
@@ -126,26 +122,24 @@ class BaseComputationModel(ABC, Generic[T]):
         Returns:
             The indices that sort the array along the given axis.
 
-        Example usage:
+        Example:
+            ```pycon
+            >>> import numpy as np
+            >>> from batcharray.computation import ArrayComputationModel
+            >>> comp_model = ArrayComputationModel()
+            >>> array = np.array([[3, 5, 0, 2, 4], [4, 7, 8, 9, 5], [7, 5, 8, 9, 0]])
+            >>> out = comp_model.argsort(array, axis=0)
+            >>> out
+            array([[0, 0, 0, 0, 2],
+                   [1, 2, 1, 1, 0],
+                   [2, 1, 2, 2, 1]])
+            >>> out = comp_model.argsort(array, axis=1)
+            >>> out
+            array([[2, 3, 0, 4, 1],
+                   [0, 4, 1, 2, 3],
+                   [4, 1, 0, 2, 3]])
 
-        ```pycon
-
-        >>> import numpy as np
-        >>> from batcharray.computation import ArrayComputationModel
-        >>> comp_model = ArrayComputationModel()
-        >>> array = np.array([[3, 5, 0, 2, 4], [4, 7, 8, 9, 5], [7, 5, 8, 9, 0]])
-        >>> out = comp_model.argsort(array, axis=0)
-        >>> out
-        array([[0, 0, 0, 0, 2],
-               [1, 2, 1, 1, 0],
-               [2, 1, 2, 2, 1]])
-        >>> out = comp_model.argsort(array, axis=1)
-        >>> out
-        array([[2, 3, 0, 4, 1],
-               [0, 4, 1, 2, 3],
-               [4, 1, 0, 2, 3]])
-
-        ```
+            ```
         """
 
     @abstractmethod
@@ -164,29 +158,27 @@ class BaseComputationModel(ABC, Generic[T]):
         Returns:
             The concatenated array.
 
-        Example usage:
+        Example:
+            ```pycon
+            >>> import numpy as np
+            >>> from batcharray.computation import ArrayComputationModel
+            >>> comp_model = ArrayComputationModel()
+            >>> arrays = [
+            ...     np.array([[0, 1, 2], [4, 5, 6]]),
+            ...     np.array([[10, 11, 12], [13, 14, 15]]),
+            ... ]
+            >>> out = comp_model.concatenate(arrays, axis=0)
+            >>> out
+            array([[ 0,  1,  2],
+                   [ 4,  5,  6],
+                   [10, 11, 12],
+                   [13, 14, 15]])
+            >>> out = comp_model.concatenate(arrays, axis=1)
+            >>> out
+            array([[ 0,  1,  2, 10, 11, 12],
+                   [ 4,  5,  6, 13, 14, 15]])
 
-        ```pycon
-
-        >>> import numpy as np
-        >>> from batcharray.computation import ArrayComputationModel
-        >>> comp_model = ArrayComputationModel()
-        >>> arrays = [
-        ...     np.array([[0, 1, 2], [4, 5, 6]]),
-        ...     np.array([[10, 11, 12], [13, 14, 15]]),
-        ... ]
-        >>> out = comp_model.concatenate(arrays, axis=0)
-        >>> out
-        array([[ 0,  1,  2],
-               [ 4,  5,  6],
-               [10, 11, 12],
-               [13, 14, 15]])
-        >>> out = comp_model.concatenate(arrays, axis=1)
-        >>> out
-        array([[ 0,  1,  2, 10, 11, 12],
-               [ 4,  5,  6, 13, 14, 15]])
-
-        ```
+            ```
         """
 
     @abstractmethod
@@ -206,25 +198,23 @@ class BaseComputationModel(ABC, Generic[T]):
         Returns:
             The maximum of the input array along the given axis.
 
-        Example usage:
+        Example:
+            ```pycon
+            >>> import numpy as np
+            >>> from batcharray.computation import ArrayComputationModel
+            >>> comp_model = ArrayComputationModel()
+            >>> array = np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]])
+            >>> out = comp_model.max(array, axis=0)
+            >>> out
+            array([8, 9])
+            >>> out = comp_model.max(array, axis=1)
+            >>> out
+            array([1, 3, 5, 7, 9])
+            >>> out = comp_model.max(array, axis=0, keepdims=True)
+            >>> out
+            array([[8, 9]])
 
-        ```pycon
-
-        >>> import numpy as np
-        >>> from batcharray.computation import ArrayComputationModel
-        >>> comp_model = ArrayComputationModel()
-        >>> array = np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]])
-        >>> out = comp_model.max(array, axis=0)
-        >>> out
-        array([8, 9])
-        >>> out = comp_model.max(array, axis=1)
-        >>> out
-        array([1, 3, 5, 7, 9])
-        >>> out = comp_model.max(array, axis=0, keepdims=True)
-        >>> out
-        array([[8, 9]])
-
-        ```
+            ```
         """
 
     @abstractmethod
@@ -247,25 +237,23 @@ class BaseComputationModel(ABC, Generic[T]):
                 data-type is ``np.float64``. Otherwise, the data-type of
                 the output is the same as that of the input.
 
-        Example usage:
+        Example:
+            ```pycon
+            >>> import numpy as np
+            >>> from batcharray.computation import ArrayComputationModel
+            >>> comp_model = ArrayComputationModel()
+            >>> array = np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]])
+            >>> out = comp_model.mean(array, axis=0)
+            >>> out
+            array([4., 5.])
+            >>> out = comp_model.mean(array, axis=1)
+            >>> out
+            array([0.5, 2.5, 4.5, 6.5, 8.5])
+            >>> out = comp_model.mean(array, axis=0, keepdims=True)
+            >>> out
+            array([[4., 5.]])
 
-        ```pycon
-
-        >>> import numpy as np
-        >>> from batcharray.computation import ArrayComputationModel
-        >>> comp_model = ArrayComputationModel()
-        >>> array = np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]])
-        >>> out = comp_model.mean(array, axis=0)
-        >>> out
-        array([4., 5.])
-        >>> out = comp_model.mean(array, axis=1)
-        >>> out
-        array([0.5, 2.5, 4.5, 6.5, 8.5])
-        >>> out = comp_model.mean(array, axis=0, keepdims=True)
-        >>> out
-        array([[4., 5.]])
-
-        ```
+            ```
         """
 
     @abstractmethod
@@ -288,25 +276,23 @@ class BaseComputationModel(ABC, Generic[T]):
                 data-type is ``np.float64``. Otherwise, the data-type of
                 the output is the same as that of the input.
 
-        Example usage:
+        Example:
+            ```pycon
+            >>> import numpy as np
+            >>> from batcharray.computation import ArrayComputationModel
+            >>> comp_model = ArrayComputationModel()
+            >>> array = np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]])
+            >>> out = comp_model.median(array, axis=0)
+            >>> out
+            array([4., 5.])
+            >>> out = comp_model.median(array, axis=1)
+            >>> out
+            array([0.5, 2.5, 4.5, 6.5, 8.5])
+            >>> out = comp_model.median(array, axis=0, keepdims=True)
+            >>> out
+            array([[4., 5.]])
 
-        ```pycon
-
-        >>> import numpy as np
-        >>> from batcharray.computation import ArrayComputationModel
-        >>> comp_model = ArrayComputationModel()
-        >>> array = np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]])
-        >>> out = comp_model.median(array, axis=0)
-        >>> out
-        array([4., 5.])
-        >>> out = comp_model.median(array, axis=1)
-        >>> out
-        array([0.5, 2.5, 4.5, 6.5, 8.5])
-        >>> out = comp_model.median(array, axis=0, keepdims=True)
-        >>> out
-        array([[4., 5.]])
-
-        ```
+            ```
         """
 
     @abstractmethod
@@ -326,25 +312,23 @@ class BaseComputationModel(ABC, Generic[T]):
         Returns:
             The minimum of the input array along the given axis.
 
-        Example usage:
+        Example:
+            ```pycon
+            >>> import numpy as np
+            >>> from batcharray.computation import ArrayComputationModel
+            >>> comp_model = ArrayComputationModel()
+            >>> array = np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]])
+            >>> out = comp_model.min(array, axis=0)
+            >>> out
+            array([0, 1])
+            >>> out = comp_model.min(array, axis=1)
+            >>> out
+            array([0, 2, 4, 6, 8])
+            >>> out = comp_model.min(array, axis=0, keepdims=True)
+            >>> out
+            array([[0, 1]])
 
-        ```pycon
-
-        >>> import numpy as np
-        >>> from batcharray.computation import ArrayComputationModel
-        >>> comp_model = ArrayComputationModel()
-        >>> array = np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]])
-        >>> out = comp_model.min(array, axis=0)
-        >>> out
-        array([0, 1])
-        >>> out = comp_model.min(array, axis=1)
-        >>> out
-        array([0, 2, 4, 6, 8])
-        >>> out = comp_model.min(array, axis=0, keepdims=True)
-        >>> out
-        array([[0, 1]])
-
-        ```
+            ```
         """
 
     @abstractmethod
@@ -367,24 +351,22 @@ class BaseComputationModel(ABC, Generic[T]):
         Returns:
             The sorted array along the given axis.
 
-        Example usage:
+        Example:
+            ```pycon
+            >>> import numpy as np
+            >>> from batcharray.computation import ArrayComputationModel
+            >>> comp_model = ArrayComputationModel()
+            >>> array = np.array([[3, 5, 0, 2, 4], [4, 7, 8, 8, 5], [8, 5, 8, 8, 0]])
+            >>> out = comp_model.sort(array, axis=0)
+            >>> out
+            array([[3, 5, 0, 2, 0],
+                   [4, 5, 8, 8, 4],
+                   [8, 7, 8, 8, 5]])
+            >>> out = comp_model.sort(array, axis=1)
+            >>> out
+            array([[0, 2, 3, 4, 5],
+                   [4, 5, 7, 8, 8],
+                   [0, 5, 8, 8, 8]])
 
-        ```pycon
-
-        >>> import numpy as np
-        >>> from batcharray.computation import ArrayComputationModel
-        >>> comp_model = ArrayComputationModel()
-        >>> array = np.array([[3, 5, 0, 2, 4], [4, 7, 8, 8, 5], [8, 5, 8, 8, 0]])
-        >>> out = comp_model.sort(array, axis=0)
-        >>> out
-        array([[3, 5, 0, 2, 0],
-               [4, 5, 8, 8, 4],
-               [8, 7, 8, 8, 5]])
-        >>> out = comp_model.sort(array, axis=1)
-        >>> out
-        array([[0, 2, 3, 4, 5],
-               [4, 5, 7, 8, 8],
-               [0, 5, 8, 8, 8]])
-
-        ```
+            ```
         """

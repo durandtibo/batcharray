@@ -21,10 +21,8 @@ T = TypeVar("T", Mapping, dict)
 class MappingApplier(BaseApplier[T]):
     r"""Define an applier for mappings/dictionaries.
 
-    Example usage:
-
+    Example:
     ```pycon
-
     >>> from batcharray.recursive import MappingApplier, AutoApplier, ApplyState
     >>> state = ApplyState(applier=AutoApplier())
     >>> applier = MappingApplier()

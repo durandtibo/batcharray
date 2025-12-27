@@ -45,8 +45,7 @@ class AutoApplier(BaseApplier[Any]):
             RuntimeError: if a applier is already registered for the
                 data type and ``exist_ok=False``.
 
-        Example usage:
-
+        Example:
         ```pycon
         >>> from batcharray.recursive import AutoApplier, SequenceApplier
         >>> AutoApplier.add_applier(list, SequenceApplier(), exist_ok=True)
@@ -75,8 +74,7 @@ class AutoApplier(BaseApplier[Any]):
         Returns:
             ``True`` if an applier is registered, otherwise ``False``.
 
-        Example usage:
-
+        Example:
         ```pycon
         >>> from batcharray.recursive import AutoApplier
         >>> AutoApplier.has_applier(list)
@@ -98,8 +96,7 @@ class AutoApplier(BaseApplier[Any]):
         Returns:
             The applier associated to the data type.
 
-        Example usage:
-
+        Example:
         ```pycon
         >>> from batcharray.recursive import AutoApplier
         >>> AutoApplier.find_applier(list)

@@ -38,21 +38,19 @@ def permute_along_batch(data: Any, permutation: np.ndarray) -> Any:
         RuntimeError: if the shape of the permutation does not match
             the batch axis of the array.
 
-    Example usage:
+    Example:
+        ```pycon
+        >>> import numpy as np
+        >>> from batcharray.nested import permute_along_batch
+        >>> data = {
+        ...     "a": np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]]),
+        ...     "b": np.array([4, 3, 2, 1, 0]),
+        ... }
+        >>> out = permute_along_batch(data, np.array([2, 1, 3, 0, 4]))
+        >>> out
+        {'a': array([[4, 5], [2, 3], [6, 7], [0, 1], [8, 9]]), 'b': array([2, 3, 1, 4, 0])}
 
-    ```pycon
-
-    >>> import numpy as np
-    >>> from batcharray.nested import permute_along_batch
-    >>> data = {
-    ...     "a": np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]]),
-    ...     "b": np.array([4, 3, 2, 1, 0]),
-    ... }
-    >>> out = permute_along_batch(data, np.array([2, 1, 3, 0, 4]))
-    >>> out
-    {'a': array([[4, 5], [2, 3], [6, 7], [0, 1], [8, 9]]), 'b': array([2, 3, 1, 4, 0])}
-
-    ```
+        ```
     """
     return recursive_apply(data, partial(array.permute_along_batch, permutation=permutation))
 
@@ -79,21 +77,19 @@ def permute_along_seq(data: Any, permutation: np.ndarray) -> Any:
         RuntimeError: if the shape of the permutation does not match
             the sequence axis of the array.
 
-    Example usage:
+    Example:
+        ```pycon
+        >>> import numpy as np
+        >>> from batcharray.nested import permute_along_seq
+        >>> data = {
+        ...     "a": np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]]),
+        ...     "b": np.array([[4, 3, 2, 1, 0]]),
+        ... }
+        >>> out = permute_along_seq(data, np.array([2, 1, 3, 0, 4]))
+        >>> out
+        {'a': array([[2, 1, 3, 0, 4], [7, 6, 8, 5, 9]]), 'b': array([[2, 3, 1, 4, 0]])}
 
-    ```pycon
-
-    >>> import numpy as np
-    >>> from batcharray.nested import permute_along_seq
-    >>> data = {
-    ...     "a": np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]]),
-    ...     "b": np.array([[4, 3, 2, 1, 0]]),
-    ... }
-    >>> out = permute_along_seq(data, np.array([2, 1, 3, 0, 4]))
-    >>> out
-    {'a': array([[2, 1, 3, 0, 4], [7, 6, 8, 5, 9]]), 'b': array([[2, 3, 1, 4, 0]])}
-
-    ```
+        ```
     """
     return recursive_apply(data, partial(array.permute_along_seq, permutation=permutation))
 
@@ -114,21 +110,19 @@ def shuffle_along_batch(data: Any, rng: np.random.Generator | None = None) -> An
         The data with shuffled arrays along the sequence axis.
             The output data has the same structure as the input data.
 
-    Example usage:
+    Example:
+        ```pycon
+        >>> import numpy as np
+        >>> from batcharray.nested import shuffle_along_batch
+        >>> data = {
+        ...     "a": np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]]),
+        ...     "b": np.array([4, 3, 2, 1, 0]),
+        ... }
+        >>> out = shuffle_along_batch(data)
+        >>> out
+        {'a': array([[...]]), 'b': array([...])}
 
-    ```pycon
-
-    >>> import numpy as np
-    >>> from batcharray.nested import shuffle_along_batch
-    >>> data = {
-    ...     "a": np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]]),
-    ...     "b": np.array([4, 3, 2, 1, 0]),
-    ... }
-    >>> out = shuffle_along_batch(data)
-    >>> out
-    {'a': array([[...]]), 'b': array([...])}
-
-    ```
+        ```
     """
     if rng is None:
         rng = np.random.default_rng()
@@ -155,21 +149,19 @@ def shuffle_along_seq(data: Any, rng: np.random.Generator | None = None) -> Any:
         The data with shuffled arrays along the sequence axis.
             The output data has the same structure as the input data.
 
-    Example usage:
+    Example:
+        ```pycon
+        >>> import numpy as np
+        >>> from batcharray.nested import shuffle_along_seq
+        >>> data = {
+        ...     "a": np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]]),
+        ...     "b": np.array([[4, 3, 2, 1, 0]]),
+        ... }
+        >>> out = shuffle_along_seq(data)
+        >>> out
+        {'a': array([[...]]), 'b': array([[...]])}
 
-    ```pycon
-
-    >>> import numpy as np
-    >>> from batcharray.nested import shuffle_along_seq
-    >>> data = {
-    ...     "a": np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]]),
-    ...     "b": np.array([[4, 3, 2, 1, 0]]),
-    ... }
-    >>> out = shuffle_along_seq(data)
-    >>> out
-    {'a': array([[...]]), 'b': array([[...]])}
-
-    ```
+        ```
     """
     if rng is None:
         rng = np.random.default_rng()
