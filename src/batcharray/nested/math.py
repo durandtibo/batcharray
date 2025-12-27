@@ -12,8 +12,9 @@ __all__ = [
 from functools import partial
 from typing import Any
 
+from coola.recursive import recursive_apply
+
 from batcharray import array as ba
-from batcharray.recursive import recursive_apply
 
 
 def cumprod_along_batch(data: Any) -> Any:

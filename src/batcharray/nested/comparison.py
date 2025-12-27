@@ -7,8 +7,9 @@ __all__ = ["argsort_along_batch", "argsort_along_seq", "sort_along_batch", "sort
 from functools import partial
 from typing import TYPE_CHECKING, Any
 
+from coola.recursive import recursive_apply
+
 from batcharray import array as ba
-from batcharray.recursive import recursive_apply
 
 if TYPE_CHECKING:
     from batcharray.types import SortKind

@@ -7,8 +7,9 @@ __all__ = ["concatenate_along_batch", "concatenate_along_seq", "tile_along_seq"]
 from functools import partial
 from typing import TYPE_CHECKING, Any
 
+from coola.recursive import recursive_apply
+
 from batcharray import array as ba
-from batcharray.recursive import recursive_apply
 
 if TYPE_CHECKING:
     from collections.abc import Hashable, Sequence

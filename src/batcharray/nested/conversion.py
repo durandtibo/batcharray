@@ -7,8 +7,7 @@ __all__ = ["to_list"]
 from typing import Any
 
 import numpy as np
-
-from batcharray.recursive import recursive_apply
+from coola.recursive import recursive_apply
 
 
 def to_list(data: Any) -> Any:

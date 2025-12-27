@@ -28,8 +28,9 @@ __all__ = [
 from functools import partial
 from typing import Any
 
+from coola.recursive import recursive_apply
+
 from batcharray import array as ba
-from batcharray.recursive import recursive_apply
 
 
 def amax_along_batch(data: Any, keepdims: bool = False) -> Any:

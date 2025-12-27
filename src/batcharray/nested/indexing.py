@@ -15,8 +15,9 @@ __all__ = [
 from functools import partial
 from typing import TYPE_CHECKING, Any, TypeVar
 
+from coola.recursive import recursive_apply
+
 from batcharray import array
-from batcharray.recursive import recursive_apply
 
 if TYPE_CHECKING:
     import numpy as np
