@@ -43,6 +43,8 @@ jobs:
           python-version: ${{ matrix.python-version }}
           install-args: '--no-optional-deps'
           package-install-args: '--upgrade'
+        env:
+          UV_NO_PROGRESS: "true"
 
       # Run unit tests to verify compatibility
       - name: Run unit tests
