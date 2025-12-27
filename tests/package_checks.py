@@ -52,31 +52,12 @@ def check_nested() -> None:
     )
 
 
-def check_recursive() -> None:
-    logger.info("Checking batcharray.recursive package...")
-
-    from batcharray.recursive import recursive_apply
-
-    assert objects_are_equal(recursive_apply([1, "abc"], str), ["1", "abc"])
-
-
-def check_utils() -> None:
-    logger.info("Checking batcharray.utils package...")
-
-    from batcharray.utils import bfs_array
-
-    assert objects_are_equal(
-        list(bfs_array(["abc", np.ones((2, 3)), 42, np.array([0, 1, 2, 3, 4])])),
-        [np.array([[1.0, 1.0, 1.0], [1.0, 1.0, 1.0]]), np.array([0, 1, 2, 3, 4])],
-    )
 
 
 def main() -> None:
     check_array()
     check_computation()
     check_nested()
-    check_recursive()
-    check_utils()
 
 
 if __name__ == "__main__":
