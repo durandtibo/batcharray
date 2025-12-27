@@ -15,6 +15,9 @@ on:
 permissions:
   contents: read
 
+env:
+  UV_NO_PROGRESS: "true"
+
 jobs:
   # Validate package can be built and installed correctly
   build:
