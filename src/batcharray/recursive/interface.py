@@ -28,10 +28,8 @@ def recursive_apply(data: Any, func: Callable) -> Any:
     Returns:
         The transformed data.
 
-     Example usage:
-
+    Example:
     ```pycon
-
     >>> from batcharray.recursive import recursive_apply
     >>> out = recursive_apply({"a": 1, "b": "abc"}, str)
     >>> out

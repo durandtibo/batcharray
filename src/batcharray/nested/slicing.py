@@ -44,23 +44,21 @@ def chunk_along_batch(
     Returns:
         The data chuncks.
 
-    Example usage:
+    Example:
+        ```pycon
+        >>> import numpy as np
+        >>> from batcharray.nested import chunk_along_batch
+        >>> data = {
+        ...     "a": np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]]),
+        ...     "b": np.array([4, 3, 2, 1, 0]),
+        ... }
+        >>> outputs = chunk_along_batch(data, chunks=3)
+        >>> outputs
+        [{'a': array([[0, 1], [2, 3]]), 'b': array([4, 3])},
+         {'a': array([[4, 5], [6, 7]]), 'b': array([2, 1])},
+         {'a': array([[8, 9]]), 'b': array([0])}]
 
-    ```pycon
-
-    >>> import numpy as np
-    >>> from batcharray.nested import chunk_along_batch
-    >>> data = {
-    ...     "a": np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]]),
-    ...     "b": np.array([4, 3, 2, 1, 0]),
-    ... }
-    >>> outputs = chunk_along_batch(data, chunks=3)
-    >>> outputs
-    [{'a': array([[0, 1], [2, 3]]), 'b': array([4, 3])},
-     {'a': array([[4, 5], [6, 7]]), 'b': array([2, 1])},
-     {'a': array([[8, 9]]), 'b': array([0])}]
-
-    ```
+        ```
     """
     keys = data.keys()
     return [
@@ -88,23 +86,21 @@ def chunk_along_seq(
     Returns:
         The data chuncks.
 
-    Example usage:
+    Example:
+        ```pycon
+        >>> import numpy as np
+        >>> from batcharray.nested import chunk_along_seq
+        >>> data = {
+        ...     "a": np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]]),
+        ...     "b": np.array([[4, 3, 2, 1, 0]]),
+        ... }
+        >>> outputs = chunk_along_seq(data, chunks=3)
+        >>> outputs
+        [{'a': array([[0, 1], [5, 6]]), 'b': array([[4, 3]])},
+         {'a': array([[2, 3], [7, 8]]), 'b': array([[2, 1]])},
+         {'a': array([[4], [9]]), 'b': array([[0]])}]
 
-    ```pycon
-
-    >>> import numpy as np
-    >>> from batcharray.nested import chunk_along_seq
-    >>> data = {
-    ...     "a": np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]]),
-    ...     "b": np.array([[4, 3, 2, 1, 0]]),
-    ... }
-    >>> outputs = chunk_along_seq(data, chunks=3)
-    >>> outputs
-    [{'a': array([[0, 1], [5, 6]]), 'b': array([[4, 3]])},
-     {'a': array([[2, 3], [7, 8]]), 'b': array([[2, 1]])},
-     {'a': array([[4], [9]]), 'b': array([[0]])}]
-
-    ```
+        ```
     """
     keys = data.keys()
     return [
@@ -131,21 +127,19 @@ def select_along_batch(data: Any, index: int) -> Any:
     Returns:
         The sliced arrays along the batch axis.
 
-    Example usage:
+    Example:
+        ```pycon
+        >>> import numpy as np
+        >>> from batcharray.nested import select_along_batch
+        >>> data = {
+        ...     "a": np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]]),
+        ...     "b": np.array([4, 3, 2, 1, 0]),
+        ... }
+        >>> out = select_along_batch(data, index=2)
+        >>> out
+        {'a': array([4, 5]), 'b': np.int64(2)}
 
-    ```pycon
-
-    >>> import numpy as np
-    >>> from batcharray.nested import select_along_batch
-    >>> data = {
-    ...     "a": np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]]),
-    ...     "b": np.array([4, 3, 2, 1, 0]),
-    ... }
-    >>> out = select_along_batch(data, index=2)
-    >>> out
-    {'a': array([4, 5]), 'b': np.int64(2)}
-
-    ```
+        ```
     """
     return recursive_apply(data, partial(ba.select_along_batch, index=index))
 
@@ -168,21 +162,19 @@ def select_along_seq(data: Any, index: int) -> Any:
     Returns:
         The sliced arrays along the sequence axis.
 
-    Example usage:
+    Example:
+        ```pycon
+        >>> import numpy as np
+        >>> from batcharray.nested import select_along_seq
+        >>> data = {
+        ...     "a": np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]]),
+        ...     "b": np.array([[4, 3, 2, 1, 0]]),
+        ... }
+        >>> out = select_along_seq(data, index=2)
+        >>> out
+        {'a': array([2, 7]), 'b': array([2])}
 
-    ```pycon
-
-    >>> import numpy as np
-    >>> from batcharray.nested import select_along_seq
-    >>> data = {
-    ...     "a": np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]]),
-    ...     "b": np.array([[4, 3, 2, 1, 0]]),
-    ... }
-    >>> out = select_along_seq(data, index=2)
-    >>> out
-    {'a': array([2, 7]), 'b': array([2])}
-
-    ```
+        ```
     """
     return recursive_apply(data, partial(ba.select_along_seq, index=index))
 
@@ -205,27 +197,25 @@ def slice_along_batch(data: Any, start: int = 0, stop: int | None = None, step: 
     Returns:
         The sliced array along the batch axis.
 
-    Example usage:
+    Example:
+        ```pycon
+        >>> import numpy as np
+        >>> from batcharray.nested import slice_along_batch
+        >>> data = {
+        ...     "a": np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]]),
+        ...     "b": np.array([4, 3, 2, 1, 0]),
+        ... }
+        >>> out = slice_along_batch(data, start=2)
+        >>> out
+        {'a': array([[4, 5], [6, 7], [8, 9]]), 'b': array([2, 1, 0])}
+        >>> out = slice_along_batch(data, stop=3)
+        >>> out
+        {'a': array([[0, 1], [2, 3], [4, 5]]), 'b': array([4, 3, 2])}
+        >>> out = slice_along_batch(data, step=2)
+        >>> out
+        {'a': array([[0, 1], [4, 5], [8, 9]]), 'b': array([4, 2, 0])}
 
-    ```pycon
-
-    >>> import numpy as np
-    >>> from batcharray.nested import slice_along_batch
-    >>> data = {
-    ...     "a": np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]]),
-    ...     "b": np.array([4, 3, 2, 1, 0]),
-    ... }
-    >>> out = slice_along_batch(data, start=2)
-    >>> out
-    {'a': array([[4, 5], [6, 7], [8, 9]]), 'b': array([2, 1, 0])}
-    >>> out = slice_along_batch(data, stop=3)
-    >>> out
-    {'a': array([[0, 1], [2, 3], [4, 5]]), 'b': array([4, 3, 2])}
-    >>> out = slice_along_batch(data, step=2)
-    >>> out
-    {'a': array([[0, 1], [4, 5], [8, 9]]), 'b': array([4, 2, 0])}
-
-    ```
+        ```
     """
     return recursive_apply(data, partial(ba.slice_along_batch, start=start, stop=stop, step=step))
 
@@ -248,27 +238,25 @@ def slice_along_seq(data: Any, start: int = 0, stop: int | None = None, step: in
     Returns:
         The sliced array along the batch axis.
 
-    Example usage:
+    Example:
+        ```pycon
+        >>> import numpy as np
+        >>> from batcharray.nested import slice_along_seq
+        >>> data = {
+        ...     "a": np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]]),
+        ...     "b": np.array([[4, 3, 2, 1, 0]]),
+        ... }
+        >>> out = slice_along_seq(data, start=2)
+        >>> out
+        {'a': array([[2, 3, 4], [7, 8, 9]]), 'b': array([[2, 1, 0]])}
+        >>> out = slice_along_seq(data, stop=3)
+        >>> out
+        {'a': array([[0, 1, 2], [5, 6, 7]]), 'b': array([[4, 3, 2]])}
+        >>> out = slice_along_seq(data, step=2)
+        >>> out
+        {'a': array([[0, 2, 4], [5, 7, 9]]), 'b': array([[4, 2, 0]])}
 
-    ```pycon
-
-    >>> import numpy as np
-    >>> from batcharray.nested import slice_along_seq
-    >>> data = {
-    ...     "a": np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]]),
-    ...     "b": np.array([[4, 3, 2, 1, 0]]),
-    ... }
-    >>> out = slice_along_seq(data, start=2)
-    >>> out
-    {'a': array([[2, 3, 4], [7, 8, 9]]), 'b': array([[2, 1, 0]])}
-    >>> out = slice_along_seq(data, stop=3)
-    >>> out
-    {'a': array([[0, 1, 2], [5, 6, 7]]), 'b': array([[4, 3, 2]])}
-    >>> out = slice_along_seq(data, step=2)
-    >>> out
-    {'a': array([[0, 2, 4], [5, 7, 9]]), 'b': array([[4, 2, 0]])}
-
-    ```
+        ```
     """
     return recursive_apply(data, partial(ba.slice_along_seq, start=start, stop=stop, step=step))
 
@@ -293,23 +281,21 @@ def split_along_batch(
     Returns:
         The data chuncks.
 
-    Example usage:
+    Example:
+        ```pycon
+        >>> import numpy as np
+        >>> from batcharray.nested import split_along_batch
+        >>> data = {
+        ...     "a": np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]]),
+        ...     "b": np.array([4, 3, 2, 1, 0]),
+        ... }
+        >>> outputs = split_along_batch(data, split_size_or_sections=2)
+        >>> outputs
+        [{'a': array([[0, 1], [2, 3]]), 'b': array([4, 3])},
+         {'a': array([[4, 5], [6, 7]]), 'b': array([2, 1])},
+         {'a': array([[8, 9]]), 'b': array([0])}]
 
-    ```pycon
-
-    >>> import numpy as np
-    >>> from batcharray.nested import split_along_batch
-    >>> data = {
-    ...     "a": np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]]),
-    ...     "b": np.array([4, 3, 2, 1, 0]),
-    ... }
-    >>> outputs = split_along_batch(data, split_size_or_sections=2)
-    >>> outputs
-    [{'a': array([[0, 1], [2, 3]]), 'b': array([4, 3])},
-     {'a': array([[4, 5], [6, 7]]), 'b': array([2, 1])},
-     {'a': array([[8, 9]]), 'b': array([0])}]
-
-    ```
+        ```
     """
     keys = data.keys()
     return [
@@ -340,23 +326,21 @@ def split_along_seq(
     Returns:
         The data chuncks.
 
-    Example usage:
+    Example:
+        ```pycon
+        >>> import numpy as np
+        >>> from batcharray.nested import split_along_seq
+        >>> data = {
+        ...     "a": np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]]),
+        ...     "b": np.array([[4, 3, 2, 1, 0]]),
+        ... }
+        >>> outputs = split_along_seq(data, split_size_or_sections=2)
+        >>> outputs
+        [{'a': array([[0, 1], [5, 6]]), 'b': array([[4, 3]])},
+         {'a': array([[2, 3], [7, 8]]), 'b': array([[2, 1]])},
+         {'a': array([[4], [9]]), 'b': array([[0]])}]
 
-    ```pycon
-
-    >>> import numpy as np
-    >>> from batcharray.nested import split_along_seq
-    >>> data = {
-    ...     "a": np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]]),
-    ...     "b": np.array([[4, 3, 2, 1, 0]]),
-    ... }
-    >>> outputs = split_along_seq(data, split_size_or_sections=2)
-    >>> outputs
-    [{'a': array([[0, 1], [5, 6]]), 'b': array([[4, 3]])},
-     {'a': array([[2, 3], [7, 8]]), 'b': array([[2, 1]])},
-     {'a': array([[4], [9]]), 'b': array([[0]])}]
-
-    ```
+        ```
     """
     keys = data.keys()
     return [

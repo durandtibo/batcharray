@@ -37,8 +37,7 @@ def recursive_apply(
     Returns:
         Transformed data with same structure as input
 
-    Example usage:
-
+    Example:
     ```pycon
     >>> from batcharray.recursive2 import recursive_apply
     >>> recursive_apply({"a": 1, "b": "abc"}, str)
@@ -66,8 +65,7 @@ def register_transformers(
         mapping: Dictionary mapping types to transformer instances
         exist_ok: If False, raises error if any type already registered
 
-    Example usage:
-
+    Example:
     ```pycon
     >>> from batcharray.recursive2 import register_transformers
     >>> from batcharray.recursive2.transformer import BaseTransformer

@@ -34,8 +34,7 @@ class MappingTransformer(BaseTransformer[Mapping[Any, Any]]):
         - Nested mappings and other containers in values are handled recursively
         - Empty mappings are preserved as empty mappings of the same type
 
-    Example usage:
-
+    Example:
     ```pycon
     >>> from batcharray.recursive2.transformer import MappingTransformer
     >>> from batcharray.recursive2 import TransformerRegistry

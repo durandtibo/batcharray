@@ -38,8 +38,7 @@ class SequenceTransformer(BaseTransformer[Sequence[Any]]):
         - String sequences (str) should typically use a different transformer
           as they are often treated as atomic values
 
-    Example usage:
-
+    Example:
     ```pycon
     >>> from batcharray.recursive2.transformer import SequenceTransformer
     >>> from batcharray.recursive2 import TransformerRegistry

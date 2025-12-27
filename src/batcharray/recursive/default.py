@@ -19,10 +19,8 @@ if TYPE_CHECKING:
 class DefaultApplier(BaseApplier[Any]):
     r"""Define the default applier.
 
-    Example usage:
-
+    Example:
     ```pycon
-
     >>> from batcharray.recursive import DefaultApplier, AutoApplier, ApplyState
     >>> state = ApplyState(applier=AutoApplier())
     >>> applier = DefaultApplier()

@@ -12,8 +12,7 @@ Main modules:
     - recursive: Tools for recursively applying functions to nested structures
     - utils: Utility functions for exploring nested structures
 
-Example usage:
-
+Example:
 ```pycon
 >>> import numpy as np
 >>> from batcharray import array, nested

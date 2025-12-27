@@ -39,8 +39,7 @@ class ConditionalTransformer(BaseTransformer[T]):
             the transformation. Should accept the data as input and return
             True to transform or False to pass through unchanged.
 
-    Example usage:
-
+    Example:
     ```pycon
     >>> from batcharray.recursive2.transformer import DefaultTransformer, ConditionalTransformer
     >>> from batcharray.recursive2 import TransformerRegistry

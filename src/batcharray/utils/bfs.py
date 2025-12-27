@@ -46,8 +46,7 @@ def bfs_array(data: Any, registry: IteratorRegistry | None = None) -> Generator[
     Yields:
         All numpy arrays found within the data structure, in breadth-first order.
 
-    Example usage:
-
+    Example:
     ```pycon
     >>> import numpy as np
     >>> from batcharray.utils.bfs import bfs_array
@@ -145,8 +144,7 @@ class IteratorRegistry:
     instances. When asked to iterate over data, it uses a queue-based breadth-first
     search to traverse the data structure level by level.
 
-    Example usage:
-
+    Example:
     ```pycon
     >>> from batcharray.utils.bfs import IteratorRegistry, IterableArrayIterator
     >>> import numpy as np
@@ -181,8 +179,7 @@ class IteratorRegistry:
             RuntimeError: if an iterator is already registered for the
                 data type and ``exist_ok=False``.
 
-        Example usage:
-
+        Example:
         ```pycon
         >>> from batcharray.utils.bfs import IteratorRegistry, IterableArrayIterator
         >>> registry = IteratorRegistry()
@@ -211,8 +208,7 @@ class IteratorRegistry:
         Raises:
             RuntimeError: if any iterator is already registered and ``exist_ok=False``.
 
-        Example usage:
-
+        Example:
         ```pycon
         >>> from batcharray.utils.bfs import IteratorRegistry, IterableArrayIterator
         >>> registry = IteratorRegistry()
@@ -232,8 +228,7 @@ class IteratorRegistry:
         Returns:
             ``True`` if an iterator is registered, otherwise ``False``.
 
-        Example usage:
-
+        Example:
         ```pycon
         >>> from batcharray.utils.bfs import IteratorRegistry
         >>> registry = IteratorRegistry()
@@ -258,8 +253,7 @@ class IteratorRegistry:
             The iterator associated with the data type, one of its parent classes,
             or the default iterator if no match is found.
 
-        Example usage:
-
+        Example:
         ```pycon
         >>> from batcharray.utils.bfs import get_default_registry
         >>> registry = get_default_registry()
@@ -295,8 +289,7 @@ class IteratorRegistry:
         Yields:
             All numpy arrays found within the data structure, in breadth-first order.
 
-        Example usage:
-
+        Example:
         ```pycon
         >>> from batcharray.utils.bfs import (
         ...     IteratorRegistry,
@@ -342,8 +335,7 @@ def get_default_registry() -> IteratorRegistry:
         The default global registry instance with pre-registered iterators
         for common types (list, dict, tuple, set, etc.).
 
-    Example usage:
-
+    Example:
     ```pycon
     >>> from batcharray.utils.bfs import get_default_registry
     >>> registry = get_default_registry()
@@ -409,8 +401,7 @@ def register_iterators(mapping: Mapping[type, BaseArrayIterator], exist_ok: bool
     Raises:
         RuntimeError: if any iterator is already registered and ``exist_ok=False``.
 
-    Example usage:
-
+    Example:
     ```pycon
     >>> from batcharray.utils.bfs import register_iterators, IterableArrayIterator
     >>> class MyCustomList(list):
