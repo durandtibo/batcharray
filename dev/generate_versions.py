@@ -22,7 +22,7 @@ def fetch_package_versions() -> dict[str, list[str]]:
         A dictionary with the versions for each package.
     """
     return {
-        "coola": list(fetch_versions("coola", lower="0.10.0")),
+        "coola": list(fetch_versions("coola", lower="0.11.0")),
         "numpy": list(fetch_latest_minor_versions("numpy", lower="1.22")),
     }
 
