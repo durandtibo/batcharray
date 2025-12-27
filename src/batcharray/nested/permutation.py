@@ -9,11 +9,11 @@ from functools import partial
 from typing import Any
 
 import numpy as np
+from coola.iterator import dfs_iterate
 from coola.recursive import recursive_apply
 
 from batcharray import array
 from batcharray.constants import BATCH_AXIS, SEQ_AXIS
-from batcharray.utils import dfs_array
 
 
 def permute_along_batch(data: Any, permutation: np.ndarray) -> Any:
@@ -126,7 +126,7 @@ def shuffle_along_batch(data: Any, rng: np.random.Generator | None = None) -> An
     """
     if rng is None:
         rng = np.random.default_rng()
-    value = next(dfs_array(data))
+    value = next(dfs_iterate(data))
     return permute_along_batch(
         data=data,
         permutation=rng.permutation(value.shape[BATCH_AXIS]),
@@ -165,7 +165,7 @@ def shuffle_along_seq(data: Any, rng: np.random.Generator | None = None) -> Any:
     """
     if rng is None:
         rng = np.random.default_rng()
-    value = next(dfs_array(data))
+    value = next(dfs_iterate(data))
     return permute_along_seq(
         data=data,
         permutation=rng.permutation(value.shape[SEQ_AXIS]),
