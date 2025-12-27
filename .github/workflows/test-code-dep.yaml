@@ -16,9 +16,6 @@ on:
 permissions:
   contents: read
 
-env:
-  UV_NO_PROGRESS: "true"
-
 jobs:
   test:
     runs-on: ${{ matrix.os }}
