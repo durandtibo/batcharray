@@ -16,10 +16,13 @@ on:
 permissions:
   contents: read
 
+env:
+  UV_NO_PROGRESS: "true"
+
 jobs:
   test:
     runs-on: ${{ matrix.os }}
-    timeout-minutes: 2
+    timeout-minutes: 5
     strategy:
       max-parallel: 8
       fail-fast: false
