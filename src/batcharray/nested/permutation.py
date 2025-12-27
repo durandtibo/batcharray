@@ -9,10 +9,10 @@ from functools import partial
 from typing import Any
 
 import numpy as np
+from coola.recursive import recursive_apply
 
 from batcharray import array
 from batcharray.constants import BATCH_AXIS, SEQ_AXIS
-from batcharray.recursive import recursive_apply
 from batcharray.utils import dfs_array
 
 

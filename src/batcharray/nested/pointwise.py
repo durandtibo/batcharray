@@ -18,8 +18,7 @@ from functools import partial
 from typing import Any
 
 import numpy as np
-
-from batcharray.recursive import recursive_apply
+from coola.recursive import recursive_apply
 
 
 def abs(data: Any) -> Any:  # noqa: A001

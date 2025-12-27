@@ -20,8 +20,7 @@ __all__ = [
 from typing import Any
 
 import numpy as np
-
-from batcharray.recursive import recursive_apply
+from coola.recursive import recursive_apply
 
 
 def arccos(data: Any) -> Any:
