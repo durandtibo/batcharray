@@ -52,8 +52,6 @@ def check_nested() -> None:
     )
 
 
-
-
 def main() -> None:
     check_array()
     check_computation()
