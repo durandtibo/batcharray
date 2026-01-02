@@ -20,10 +20,11 @@ T = TypeVar("T", bound=np.ndarray)
 
 
 class BaseComputationModel(ABC, Generic[T]):
-    r"""Base class for computation models and defines interface methods.
+    r"""Define the base class for computation models.
 
-    This class is public and should be used for other custom derived
-    computation models.
+    This class provides the interface that all computation models must
+    implement. It can be extended to create custom computation models
+    for different array types.
     """
 
     @abstractmethod

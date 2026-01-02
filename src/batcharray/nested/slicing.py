@@ -85,7 +85,7 @@ def chunk_along_seq(
         chunks: Number of chunks to return.
 
     Returns:
-        The data chuncks.
+        The data chunks.
 
     Example:
         ```pycon
@@ -196,7 +196,7 @@ def slice_along_batch(data: Any, start: int = 0, stop: int | None = None, step: 
         step: The increment between each index for slicing.
 
     Returns:
-        The sliced array along the batch axis.
+        The sliced arrays along the batch axis.
 
     Example:
         ```pycon
@@ -222,7 +222,7 @@ def slice_along_batch(data: Any, start: int = 0, stop: int | None = None, step: 
 
 
 def slice_along_seq(data: Any, start: int = 0, stop: int | None = None, step: int = 1) -> Any:
-    r"""Slice all the arrays along the batch axis.
+    r"""Slice all the arrays along the sequence axis.
 
     Note:
         This function assumes the sequence axis is the second
@@ -237,7 +237,7 @@ def slice_along_seq(data: Any, start: int = 0, stop: int | None = None, step: in
         step: The increment between each index for slicing.
 
     Returns:
-        The sliced array along the batch axis.
+        The sliced arrays along the sequence axis.
 
     Example:
         ```pycon
@@ -280,7 +280,7 @@ def split_along_batch(
             sizes for each chunk
 
     Returns:
-        The data chuncks.
+        The data chunks.
 
     Example:
         ```pycon
@@ -325,7 +325,7 @@ def split_along_seq(
             sizes for each chunk
 
     Returns:
-        The data chuncks.
+        The data chunks.
 
     Example:
         ```pycon
