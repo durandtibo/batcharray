@@ -201,7 +201,7 @@ def cosh(data: Any) -> Any:
         data: The input data. Each item must be an array .
 
     Returns:
-        The inverse cosine of the elements. The output has
+        The hyperbolic cosine of the elements. The output has
             the same structure as the input.
 
     Example:
