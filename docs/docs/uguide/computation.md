@@ -282,3 +282,104 @@ batch = ma.array(
 batch_means = computation.mean(batch, axis=1)  # Mean per sample
 sorted_batch = computation.sort(batch, axis=1)  # Sort each sample
 ```
+
+## Complete Function Reference
+
+The `computation` module provides the following functions through its interface:
+
+### Statistical Operations
+- `max(array, axis, keepdims)` - Maximum values
+- `min(array, axis, keepdims)` - Minimum values
+- `mean(array, axis, keepdims)` - Mean values
+- `median(array, axis, keepdims)` - Median values
+
+### Indexing Operations
+- `argmax(array, axis)` - Indices of maximum values
+- `argmin(array, axis)` - Indices of minimum values
+
+### Sorting Operations
+- `sort(array, axis, kind)` - Sort array
+- `argsort(array, axis, kind)` - Get sorting indices
+
+### Joining Operations
+- `concatenate(arrays, axis)` - Concatenate arrays
+
+### Available Models
+
+The following computation models are available:
+
+1. **BaseComputationModel** - Abstract base class for creating custom models
+2. **ArrayComputationModel** - For regular NumPy arrays
+3. **MaskedArrayComputationModel** - For NumPy masked arrays
+4. **AutoComputationModel** - Automatically selects appropriate model
+
+### Creating Custom Models
+
+You can extend `BaseComputationModel` to create custom computation models:
+
+```python
+from batcharray.computation import BaseComputationModel
+import numpy as np
+
+class CustomComputationModel(BaseComputationModel):
+    """Custom computation model example."""
+    
+    def max(self, array, axis=None, keepdims=False):
+        # Custom implementation
+        result = np.amax(array, axis=axis, keepdims=keepdims)
+        # Add custom logic here
+        return result
+    
+    def min(self, array, axis=None, keepdims=False):
+        return np.amin(array, axis=axis, keepdims=keepdims)
+    
+    # Implement other required methods...
+```
+
+### Registering Custom Models
+
+Register custom models with `AutoComputationModel`:
+
+```python
+from batcharray.computation import register_computation_models, AutoComputationModel
+
+# Register your custom model
+register_computation_models({
+    MyCustomArrayType: CustomComputationModel()
+})
+
+# AutoComputationModel will now use your custom model for MyCustomArrayType
+auto_model = AutoComputationModel()
+result = auto_model.max(my_custom_array, axis=0)
+```
+
+## When to Use Computation Models
+
+Use computation models when:
+
+1. **Low-level operations** - You need fine-grained control over array operations
+2. **Custom array types** - Working with specialized array types beyond NumPy arrays
+3. **Abstraction** - Building libraries that should work with multiple array backends
+4. **Testing** - Mocking array operations for unit tests
+
+For most use cases, prefer the higher-level `array` and `nested` modules which internally use computation models.
+
+## Integration with Array Module
+
+The `array` module uses computation models internally:
+
+```python
+import numpy as np
+from batcharray import array
+
+# This internally uses computation models
+batch = np.array([[1, 2, 3], [4, 5, 6]])
+max_vals = array.amax_along_batch(batch)
+
+# Equivalent low-level operation
+from batcharray.computation import AutoComputationModel
+model = AutoComputationModel()
+max_vals = model.max(batch, axis=0)
+```
+
+For detailed API documentation, see the [computation API reference](../refs/computation.md).
