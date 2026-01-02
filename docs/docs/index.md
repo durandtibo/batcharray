@@ -61,6 +61,24 @@ This library provides functions for arrays where the first axis is the batch axi
 It also provides functions for arrays representing a batch of sequences where the first axis
 is the batch axis and the second axis is the sequence axis.
 
+## Key Features
+
+- **Batch Operations**: Manipulate arrays with a dedicated batch dimension
+- **Sequence Support**: Handle time-series and sequential data efficiently
+- **Nested Structures**: Work with dictionaries and lists of arrays seamlessly
+- **Masked Arrays**: Built-in support for handling missing or invalid data
+- **Type Safety**: Computation models for different array types
+- **Zero Dependencies**: Lightweight with only NumPy as a core dependency
+
+## Quick Links
+
+- [Get Started](get_started.md) - Installation and setup
+- [Tutorials](tutorials/batches.md) - Step-by-step guides
+- [User Guide](uguide/array.md) - Detailed documentation
+- [Best Practices](best_practices.md) - Recommended patterns
+- [API Reference](refs/array.md) - Complete function reference
+- [FAQ](faq.md) - Common questions
+
 ## Motivation
 
 Let's imagine you have a batch which is represented by a dictionary with three arrays, and you want
@@ -101,6 +119,36 @@ function `split_along_batch`:
 ```
 
 Please check the documentation to see all the implemented functions.
+
+## Documentation Structure
+
+### For Beginners
+
+- **[Get Started](get_started.md)** - Install and set up batcharray
+- **[Working with Batches Tutorial](tutorials/batches.md)** - Learn basic batch operations
+- **[FAQ](faq.md)** - Common questions and answers
+
+### For Users
+
+- **[Working with Sequences Tutorial](tutorials/sequences.md)** - Handle time-series data
+- **[Advanced Nested Operations Tutorial](tutorials/advanced_nested.md)** - Master complex structures
+- **[User Guide: Array Operations](uguide/array.md)** - Complete guide to array functions
+- **[User Guide: Nested Structures](uguide/nested.md)** - Working with nested data
+- **[User Guide: Computation Models](uguide/computation.md)** - Low-level abstractions
+
+### For Advanced Users
+
+- **[Best Practices](best_practices.md)** - Recommended patterns and anti-patterns
+- **[Performance Tips](performance.md)** - Optimize your code for speed and memory
+- **[Migration Guide](migration.md)** - Migrate from NumPy or other libraries
+
+### API Reference
+
+- **[array module](refs/array.md)** - Single array operations
+- **[nested module](refs/nested.md)** - Nested structure operations
+- **[computation module](refs/computation.md)** - Computation models
+- **[constants module](refs/constants.md)** - Package constants
+- **[types module](refs/types.md)** - Type definitions
 
 ## API stability
 

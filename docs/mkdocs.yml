@@ -33,6 +33,8 @@ nav:
       - Nested Structures: uguide/nested.md
       - Computation Models: uguide/computation.md
   - Best Practices: best_practices.md
+  - Performance Tips: performance.md
+  - Migration Guide: migration.md
   - FAQ: faq.md
   - API Reference:
       - array: refs/array.md
