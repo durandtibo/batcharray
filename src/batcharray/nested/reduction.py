@@ -334,9 +334,7 @@ def max_along_batch(data: Any, keepdims: bool = False) -> Any:
         keepdims: Whether the output array has dim retained or not.
 
     Returns:
-        The first array will be populated with the maximum values and
-             the second array, which must have dtype long, with their
-             indices in the batch dimension.
+        The maximum of all elements along the batch dimension.
 
     Example:
         ```pycon
@@ -371,9 +369,7 @@ def max_along_seq(data: Any, keepdims: bool = False) -> Any:
         keepdims: Whether the output array has dim retained or not.
 
     Returns:
-        The first array will be populated with the maximum values and
-            the second array, which must have dtype long, with their
-            indices in the sequence dimension.
+        The maximum of all elements along the sequence dimension.
 
     Example:
         ```pycon
@@ -435,16 +431,15 @@ def mean_along_seq(data: Any, keepdims: bool = False) -> Any:
 
     Note:
         This function assumes the sequence dimension is the second
-            dimension.
+            dimension of the arrays. All the arrays should have the
+            same sequence size.
 
     Args:
         data: The input data. Each item must be a array.
         keepdims: Whether the output array has dim retained or not.
 
-    Note:
-        This function assumes the sequence dimension is the second
-            dimension of the arrays. All the arrays should have the
-            same sequence size.
+    Returns:
+        The mean of all elements along the sequence dimension.
 
     Example:
         ```pycon
@@ -479,9 +474,10 @@ def median_along_batch(data: Any, keepdims: bool = False) -> Any:
         keepdims: Whether the output array has dim retained or not.
 
     Returns:
-        The first array will be populated with the median values and
-            the second array, which must have dtype long, with their
-            indices in the batch dimension.
+        A new array holding the result. If the input contains integers
+            or floats smaller than ``np.float64``, then the output
+            data-type is ``np.float64``. Otherwise, the data-type of
+            the output is the same as that of the input.
 
     Example:
         ```pycon
@@ -516,9 +512,10 @@ def median_along_seq(data: Any, keepdims: bool = False) -> Any:
         keepdims: Whether the output array has dim retained or not.
 
     Returns:
-        The first array will be populated with the median values and
-            the second array, which must have dtype long, with their
-            indices in the sequence dimension.
+        A new array holding the result. If the input contains integers
+            or floats smaller than ``np.float64``, then the output
+            data-type is ``np.float64``. Otherwise, the data-type of
+            the output is the same as that of the input.
 
     Example:
         ```pycon
@@ -553,9 +550,7 @@ def min_along_batch(data: Any, keepdims: bool = False) -> Any:
         keepdims: Whether the output array has dim retained or not.
 
     Returns:
-        The first array will be populated with the minimum values and
-            the second array, which must have dtype long, with their
-            indices in the batch dimension.
+        The minimum of all elements along the batch dimension.
 
     Example:
         ```pycon
@@ -590,9 +585,7 @@ def min_along_seq(data: Any, keepdims: bool = False) -> Any:
         keepdims: Whether the output array has dim retained or not.
 
     Returns:
-        The first array will be populated with the minimum values and
-            the second array, which must have dtype long, with their
-            indices in the sequence dimension.
+        The minimum of all elements along the sequence dimension.
 
     Example:
         ```pycon

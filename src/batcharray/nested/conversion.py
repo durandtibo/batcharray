@@ -18,7 +18,7 @@ def to_list(data: Any) -> Any:
         data: The input data. Each item must be a ``numpy.ndarray``.
 
     Returns:
-        A nested data structure with `lists instead of
+        A nested data structure with lists instead of
             ``numpy.ndarray``s. The output data has the same structure
             as the input.
 

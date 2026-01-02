@@ -124,7 +124,7 @@ def masked_select_along_seq(array: np.ndarray, mask: np.ndarray) -> np.ndarray:
     sequence axis according to the boolean mask ``mask``.
 
     Note:
-        This function assumes the batch axis is the first axis.
+        This function assumes the sequence axis is the second axis.
 
     Args:
         array: The input array.

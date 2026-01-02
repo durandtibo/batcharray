@@ -20,10 +20,11 @@ T = TypeVar("T", bound=np.ndarray)
 
 
 class BaseComputationModel(ABC, Generic[T]):
-    r"""Base class for computation models and defines interface methods.
+    r"""Define the base class for computation models.
 
-    This class is public and should be used for other custom derived
-    computation models.
+    This class provides the interface that all computation models must
+    implement. It can be extended to create custom computation models
+    for different array types.
     """
 
     @abstractmethod
@@ -109,9 +110,8 @@ class BaseComputationModel(ABC, Generic[T]):
 
         Args:
             arr: The input array.
-            axis: Axis along which the minimum values are computed.
-                The default (``None``) is to compute the minimum along
-                a flattened version of the array.
+            axis: Axis along which to sort. The default (``None``) is
+                to sort along a flattened version of the array.
             kind: Sorting algorithm. The default is `quicksort`.
                 Note that both `stable` and `mergesort` use timsort
                 under the covers and, in general, the actual
@@ -333,14 +333,13 @@ class BaseComputationModel(ABC, Generic[T]):
 
     @abstractmethod
     def sort(self, arr: T, axis: int | None = None, *, kind: SortKind | None = None) -> T:
-        r"""Sort the elements of the input array along the batch axis in
+        r"""Sort the elements of the input array along the given axis in
         ascending order by value.
 
         Args:
             arr: The input array.
-            axis: Axis along which the minimum values are computed.
-                The default (``None``) is to compute the minimum along
-                a flattened version of the array.
+            axis: Axis along which to sort. The default (``None``) is
+                to sort along a flattened version of the array.
             kind: Sorting algorithm. The default is `quicksort`.
                 Note that both `stable` and `mergesort` use timsort
                 under the covers and, in general, the actual
