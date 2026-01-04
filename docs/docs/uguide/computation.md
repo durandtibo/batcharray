@@ -318,38 +318,98 @@ The following computation models are available:
 You can extend `BaseComputationModel` to create custom computation models:
 
 ```python
+from typing import Sequence
+
+from numpy.typing import DTypeLike
 from batcharray.computation import BaseComputationModel
 import numpy as np
+
+
+from batcharray.types import SortKind
+
+
+class MyCustomArrayType(np.ndarray): ...
 
 
 class CustomComputationModel(BaseComputationModel):
     """Custom computation model example."""
 
-    def max(self, array, axis=None, keepdims=False):
+    def max(
+        self, arr: MyCustomArrayType, axis: int | None = None, *, keepdims: bool = False
+    ):
         # Custom implementation
-        result = np.amax(array, axis=axis, keepdims=keepdims)
+        result = np.amax(arr, axis=axis, keepdims=keepdims)
         # Add custom logic here
         return result
 
-    def min(self, array, axis=None, keepdims=False):
-        return np.amin(array, axis=axis, keepdims=keepdims)
+    def min(
+        self, arr: MyCustomArrayType, axis: int | None = None, *, keepdims: bool = False
+    ):
+        pass
 
-    # Implement other required methods...
+    def argmin(
+        self, arr: MyCustomArrayType, axis: int | None = None, *, keepdims: bool = False
+    ) -> MyCustomArrayType:
+        raise NotImplementedError
+
+    def argsort(
+        self,
+        arr: MyCustomArrayType,
+        axis: int | None = None,
+        *,
+        kind: SortKind | None = None
+    ) -> MyCustomArrayType:
+        raise NotImplementedError
+
+    def concatenate(
+        self,
+        arrays: Sequence[MyCustomArrayType],
+        axis: int | None = None,
+        *,
+        dtype: DTypeLike = None
+    ) -> MyCustomArrayType:
+        raise NotImplementedError
+
+    def mean(
+        self, arr: MyCustomArrayType, axis: int | None = None, *, keepdims: bool = False
+    ) -> MyCustomArrayType:
+        raise NotImplementedError
+
+    def median(
+        self, arr: MyCustomArrayType, axis: int | None = None, *, keepdims: bool = False
+    ) -> MyCustomArrayType:
+        raise NotImplementedError
+
+    def sort(
+        self,
+        arr: MyCustomArrayType,
+        axis: int | None = None,
+        *,
+        kind: SortKind | None = None
+    ) -> MyCustomArrayType:
+        raise NotImplementedError
+
+    def argmax(
+        self, arr: MyCustomArrayType, axis: int | None = None, *, keepdims: bool = False
+    ) -> MyCustomArrayType:
+        raise NotImplementedError
 ```
 
 ### Registering Custom Models
 
 Register custom models with `AutoComputationModel`:
 
-```python
-from batcharray.computation import register_computation_models, AutoComputationModel
+```python continuation
+import numpy as np
+from batcharray.computation import AutoComputationModel
+
 
 # Register your custom model
-register_computation_models({MyCustomArrayType: CustomComputationModel()})
+AutoComputationModel.add_computation_model(MyCustomArrayType, CustomComputationModel())
 
 # AutoComputationModel will now use your custom model for MyCustomArrayType
 auto_model = AutoComputationModel()
-result = auto_model.max(my_custom_array, axis=0)
+result = auto_model.max(MyCustomArrayType([1, 2, 3]), axis=0)
 ```
 
 ## When to Use Computation Models

@@ -72,7 +72,6 @@ data = {
 
 # Absolute values
 abs_data = nested.abs(data)
-print(abs_data)
 # {
 #     'values': array([[2., 3.],
 #                      [1., 4.]]),
@@ -87,8 +86,7 @@ exp_data = nested.exp(data)
 log_data = nested.log(nested.abs(data))
 
 # Clipping
-clipped_data = nested.clip(data, min=-1.0, max=1.0)
-print(clipped_data)
+clipped_data = nested.clip(data, a_min=-1.0, a_max=1.0)
 # {
 #     'values': array([[-1.,  1.],
 #                      [ 1., -1.]]),
@@ -103,8 +101,9 @@ print(clipped_data)
 import numpy as np
 from batcharray import nested
 
+# Use positive values to avoid log(0) errors
 data = {
-    "x": np.array([[0.0, 1.0], [2.0, 3.0]]),
+    "x": np.array([[0.1, 1.0], [2.0, 3.0]]),
     "y": np.array([[0.5, 1.5], [2.5, 3.5]]),
 }
 
@@ -118,13 +117,13 @@ exp2_result = nested.exp2(data)
 expm1_result = nested.expm1(data)
 
 # Natural logarithm
-log_result = nested.log(nested.abs(data))
+log_result = nested.log(data)
 
 # Base-2 logarithm
-log2_result = nested.log2(nested.abs(data))
+log2_result = nested.log2(data)
 
 # Base-10 logarithm
-log10_result = nested.log10(nested.abs(data))
+log10_result = nested.log10(data)
 
 # log(1 + x) (more accurate for small values)
 log1p_result = nested.log1p(data)
@@ -144,7 +143,6 @@ angles = {
 
 # Sine
 sin_result = nested.sin(angles)
-print(sin_result["theta"])
 # [[0.        0.70710678]
 #  [1.        0.        ]]
 
@@ -159,20 +157,33 @@ sinh_result = nested.sinh(angles)
 cosh_result = nested.cosh(angles)
 tanh_result = nested.tanh(angles)
 
-# Inverse trigonometric functions
-values = {
+# Inverse trigonometric functions (arcsin, arccos require values in [-1, 1])
+values_trig = {
     "x": np.array([[0.0, 0.5], [0.7, 1.0]]),
     "y": np.array([[0.0, 0.3], [0.6, 0.9]]),
 }
 
-arcsin_result = nested.arcsin(values)
-arccos_result = nested.arccos(values)
-arctan_result = nested.arctan(values)
+arcsin_result = nested.arcsin(values_trig)
+arccos_result = nested.arccos(values_trig)
+arctan_result = nested.arctan(values_trig)
 
 # Inverse hyperbolic functions
-arcsinh_result = nested.arcsinh(values)
-arccosh_result = nested.arccosh(values)  # Requires values >= 1
-arctanh_result = nested.arctanh(values)  # Requires -1 < values < 1
+# arcsinh works for all values
+arcsinh_result = nested.arcsinh(values_trig)
+
+# arccosh requires values >= 1
+values_cosh = {
+    "x": np.array([[1.0, 1.5], [2.0, 3.0]]),
+    "y": np.array([[1.0, 1.2], [1.8, 2.5]]),
+}
+arccosh_result = nested.arccosh(values_cosh)
+
+# arctanh requires -1 < values < 1 (strictly between, not including -1 and 1)
+values_tanh = {
+    "x": np.array([[0.0, 0.5], [0.7, 0.9]]),
+    "y": np.array([[0.0, 0.3], [0.6, 0.8]]),
+}
+arctanh_result = nested.arctanh(values_tanh)
 ```
 
 ## Advanced Indexing and Selection
@@ -194,7 +205,6 @@ data = {
 # Select high-scoring items (scores > 0.5)
 mask = data["scores"] > 0.5
 filtered = nested.masked_select_along_batch(data, mask=mask)
-print(filtered)
 # {
 #     'features': array([[3, 4],
 #                        [7, 8]]),
@@ -214,7 +224,6 @@ data = {"A": np.array([[1, 2], [3, 4], [5, 6]]), "B": np.array([10, 20, 30])}
 # Select in custom order
 indices = np.array([2, 0, 2, 1])  # Can repeat indices
 reordered = nested.index_select_along_batch(data, indices=indices)
-print(reordered)
 # {
 #     'A': array([[5, 6],
 #                 [1, 2],
@@ -236,7 +245,6 @@ data = {"values": np.array([[5, 2], [1, 4], [3, 6]]), "labels": np.array([0, 1, 
 
 # Get sort indices
 sort_indices = nested.argsort_along_batch(data["values"])
-print(sort_indices)
 # [[1 0]   # For column 0: indices that would sort [5,1,3] -> [1,3,5]
 #  [2 1]   # For column 1: indices that would sort [2,4,6] -> [2,4,6]
 #  [0 2]]
@@ -261,7 +269,6 @@ data = {
 
 # Mean across batches
 mean_scores = nested.mean_along_batch(data)
-print(mean_scores)
 # {
 #     'train_scores': array([0.75      , 0.87666667]),
 #     'val_scores': array([0.67666667, 0.77666667])
@@ -296,7 +303,6 @@ data = {
 
 # Indices of maximum values
 argmax_data = nested.argmax_along_batch(data)
-print(argmax_data)
 # {
 #     'scores': array([2, 0]),    # Max scores: col 0 at idx 2, col 1 at idx 0
 #     'metrics': array([1, 2])    # Max metrics: col 0 at idx 1, col 1 at idx 2
@@ -321,7 +327,6 @@ sequences = {
 
 # Mean over sequence dimension
 mean_over_time = nested.mean_along_seq(sequences)
-print(mean_over_time)
 # {
 #     'inputs': array([[ 3.,  4.],    # Mean of [[1,2], [3,4], [5,6]]
 #                      [ 9., 10.]]),  # Mean of [[7,8], [9,10], [11,12]]
@@ -351,7 +356,6 @@ data = {
 
 # Cumulative sum along batches (running totals)
 cumsum_batch = nested.cumsum_along_batch(data)
-print(cumsum_batch)
 # {
 #     'sales': array([[10, 20],
 #                     [25, 45],   # 10+15, 20+25
@@ -375,7 +379,6 @@ sequences = {"values": np.array([[[1, 2], [3, 4], [5, 6]], [[2, 3], [4, 5], [6, 
 
 # Cumulative sum over time
 cumsum_seq = nested.cumsum_along_seq(sequences)
-print(cumsum_seq)
 # {
 #     'values': array([[[ 1,  2],
 #                       [ 4,  6],   # 1+3, 2+4
@@ -418,7 +421,6 @@ batch3 = {
 
 # Concatenate multiple batches
 combined = nested.concatenate_along_batch([batch1, batch2, batch3])
-print(combined)
 # {
 #     'features': array([[1, 2],
 #                        [3, 4],
@@ -442,8 +444,7 @@ seq2 = {"tokens": np.array([[[9, 10]], [[11, 12]]])}
 
 # Concatenate along sequence dimension
 combined_seq = nested.concatenate_along_seq([seq1, seq2])
-print(combined_seq["tokens"].shape)  # (2, 3, 2)
-# Sequences are now longer
+# (2, 3, 2)
 ```
 
 ### Tiling
@@ -459,8 +460,6 @@ sequences = {
 
 # Repeat sequence 4 times
 tiled = nested.tile_along_seq(sequences, reps=4)
-print(tiled["pattern"].shape)  # (2, 4, 2)
-print(tiled["mask"].shape)  # (2, 4)
 ```
 
 ## Shuffling and Permutations
@@ -482,7 +481,6 @@ data = {
 
 # Shuffle all arrays with same permutation
 shuffled = nested.shuffle_along_batch(data)
-print(shuffled)
 # All arrays shuffled identically to maintain alignment
 ```
 
@@ -497,7 +495,6 @@ data = {"X": np.array([[1, 2], [3, 4], [5, 6]]), "y": np.array([0, 1, 0])}
 # Apply specific permutation
 perm = np.array([2, 0, 1])  # Reverse order
 permuted = nested.permute_along_batch(data, permutation=perm)
-print(permuted)
 # {
 #     'X': array([[5, 6],
 #                 [1, 2],
@@ -532,7 +529,6 @@ data = {
 
 # Sort along batch dimension
 sorted_data = nested.sort_along_batch(data)
-print(sorted_data)
 # {
 #     'scores': array([[1, 2],
 #                      [3, 4],
@@ -560,7 +556,6 @@ data = {
 
 # Convert to native Python lists
 python_data = nested.to_list(data)
-print(python_data)
 # {
 #     'features': [[1, 2], [3, 4]],
 #     'labels': [0, 1],
@@ -568,49 +563,9 @@ print(python_data)
 #         'values': [10.0, 20.0]
 #     }
 # }
-
-print(type(python_data["features"]))  # <class 'list'>
-print(type(python_data["features"][0]))  # <class 'list'>
 ```
 
-## Complex Real-World Examples
-
-### Data Pipeline
-
-```python
-import numpy as np
-from batcharray import nested
-
-
-# Simulate a data pipeline
-def create_batch(size):
-    return {
-        "images": np.random.randn(size, 28, 28),
-        "labels": np.random.randint(0, 10, size),
-        "metadata": {"ids": np.arange(size), "weights": np.random.rand(size)},
-    }
-
-
-# Create batches
-train_batch = create_batch(100)
-val_batch = create_batch(20)
-
-# Shuffle training data
-train_batch = nested.shuffle_along_batch(train_batch)
-
-# Split training into mini-batches
-mini_batches = nested.split_along_batch(train_batch, split_size_or_sections=10)
-print(f"Number of mini-batches: {len(mini_batches)}")
-
-# Process each mini-batch
-for i, mini_batch in enumerate(mini_batches):
-    # Normalize images (apply math to nested structure)
-    mini_batch["images"] = (mini_batch["images"] - mini_batch["images"].mean()) / (
-        mini_batch["images"].std() + 1e-8
-    )
-
-    print(f"Mini-batch {i}: {mini_batch['images'].shape[0]} samples")
-```
+## Complex Examples
 
 ### Time-Series Processing
 
@@ -630,7 +585,7 @@ window = nested.slice_along_seq(sequences, start=20, stop=80)
 
 # Compute statistics over time
 summary = nested.mean_along_seq(window)
-print(f"Summary shape: {summary['sensor_1'].shape}")  # (10, 5)
+# (10, 5)
 
 # Normalize
 normalized = {

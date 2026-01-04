@@ -1,114 +1,112 @@
 # Nested Data Structures
 
-The `batcharray.nested` module provides functions to manipulate nested data structures containing
-NumPy arrays.
-This is particularly useful when working with complex data like dictionaries or lists of arrays that
-represent batches or sequences.
+The `batcharray.nested` module provides functions to manipulate nested data structures containing NumPy arrays. This is particularly useful when working with complex data like dictionaries or lists of arrays that represent batches or sequences.
 
 ## Overview
 
-When working with machine learning or data processing pipelines, you often have data organized in
-nested structures:
+When working with machine learning or data processing pipelines, you often have data organized in nested structures:
 
 - Dictionaries with multiple arrays (e.g., features, labels, metadata)
 - Lists or tuples of arrays
 - Combinations of both
 
-The `nested` module allows you to apply batch or sequence operations to all arrays in these
-structures simultaneously.
+The `nested` module allows you to apply batch or sequence operations to all arrays in these structures simultaneously.
 
 ## Working with Dictionaries
 
 ### Basic Operations
 
-```pycon
->>> import numpy as np
->>> from batcharray import nested
->>> # Create a batch as a dictionary
->>> batch = {
-...     "features": np.array([[1, 2], [3, 4], [5, 6], [7, 8], [9, 10]]),
-...     "labels": np.array([0, 1, 0, 1, 0]),
-...     "weights": np.array([1.0, 2.0, 1.5, 2.5, 1.0]),
-... }
->>> # Slice all arrays in the batch
->>> sliced = nested.slice_along_batch(batch, stop=3)
->>> sliced
-{'features': array([[1, 2], [3, 4], [5, 6]]),
- 'labels': array([0, 1, 0]),
- 'weights': array([1. , 2. , 1.5])}
->>> # Split into multiple batches
->>> batches = nested.split_along_batch(batch, split_size_or_sections=2)
->>> batches
-[{'features': array([[1, 2], [3, 4]]), 'labels': array([0, 1]), 'weights': array([1., 2.])},
- {'features': array([[5, 6], [7, 8]]), 'labels': array([0, 1]), 'weights': array([1.5, 2.5])},
- {'features': array([[ 9, 10]]), 'labels': array([0]), 'weights': array([1.])}]
+```python
+import numpy as np
+from batcharray import nested
 
+# Create a batch as a dictionary
+batch = {
+    "features": np.array([[1, 2], [3, 4], [5, 6], [7, 8], [9, 10]]),
+    "labels": np.array([0, 1, 0, 1, 0]),
+    "weights": np.array([1.0, 2.0, 1.5, 2.5, 1.0]),
+}
+
+# Slice all arrays in the batch
+sliced = nested.slice_along_batch(batch, stop=3)
+# Result: {
+#     "features": [[1, 2], [3, 4], [5, 6]],
+#     "labels": [0, 1, 0],
+#     "weights": [1.0, 2.0, 1.5]
+# }
+
+# Split into multiple batches
+batches = nested.split_along_batch(batch, split_size_or_sections=2)
+# Returns list of 3 dictionaries, each with 2, 2, and 1 items
 ```
 
 ### Indexing and Selection
 
-```pycon
->>> import numpy as np
->>> from batcharray import nested
->>> batch = {
-...     "data": np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]]),
-...     "mask": np.array([True, False, True]),
-... }
->>> # Select specific indices
->>> indices = np.array([0, 2])
->>> selected = nested.index_select_along_batch(batch, indices=indices)
->>> selected
-{'data': array([[1, 2, 3], [7, 8, 9]]), 'mask': array([ True,  True])}
->>> # Select using boolean mask
->>> mask = np.array([True, False, True])
->>> masked = nested.masked_select_along_batch(batch, mask=mask)
->>> masked
-{'data': array([[1, 2, 3], [7, 8, 9]]), 'mask': array([ True,  True])}
+```python
+import numpy as np
+from batcharray import nested
 
+batch = {
+    "data": np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]]),
+    "mask": np.array([True, False, True]),
+}
+
+# Select specific indices
+indices = np.array([0, 2])
+selected = nested.index_select_along_batch(batch, indices=indices)
+# Result: {
+#     "data": [[1, 2, 3], [7, 8, 9]],
+#     "mask": [True, True]
+# }
+
+# Select using boolean mask
+mask = np.array([True, False, True])
+masked = nested.masked_select_along_batch(batch, mask=mask)
 ```
 
 ### Combining and Concatenating
 
-```pycon
->>> import numpy as np
->>> from batcharray import nested
->>> batch1 = {"x": np.array([[1, 2], [3, 4]]), "y": np.array([0, 1])}
->>> batch2 = {"x": np.array([[5, 6], [7, 8]]), "y": np.array([1, 0])}
->>> # Concatenate batches
->>> combined = nested.concatenate_along_batch([batch1, batch2])
->>> combined
-{'x': array([[1, 2], [3, 4], [5, 6], [7, 8]]), 'y': array([0, 1, 1, 0])}
+```python
+import numpy as np
+from batcharray import nested
 
+batch1 = {"x": np.array([[1, 2], [3, 4]]), "y": np.array([0, 1])}
+
+batch2 = {"x": np.array([[5, 6], [7, 8]]), "y": np.array([1, 0])}
+
+# Concatenate batches
+combined = nested.concatenate_along_batch([batch1, batch2])
+# Result: {
+#     "x": [[1, 2], [3, 4], [5, 6], [7, 8]],
+#     "y": [0, 1, 1, 0]
+# }
 ```
 
 ## Sequence Operations
 
 Just like with arrays, you can perform sequence operations on nested structures:
 
-```pycon
->>> import numpy as np
->>> from batcharray import nested
->>> sequences = {
-...     "inputs": np.array(
-...         [
-...             [[1, 2], [3, 4], [5, 6]],  # Sequence 1
-...             [[7, 8], [9, 10], [11, 12]],  # Sequence 2
-...         ]
-...     ),
-...     "targets": np.array([[[0], [1], [0]], [[1], [1], [0]]]),
-... }
->>> # Slice sequences
->>> sliced = nested.slice_along_seq(sequences, start=1)
->>> sliced
-{'inputs': array([[[ 3,  4], [ 5,  6]], [[ 9, 10], [11, 12]]]),
- 'targets': array([[[1], [0]], [[1], [0]]])}
->>> # Chunk sequences
->>> chunks = nested.chunk_along_seq(sequences, chunks=3)
->>> chunks
-[{'inputs': array([[[1, 2]], [[7, 8]]]), 'targets': array([[[0]], [[1]]])},
- {'inputs': array([[[ 3,  4]], [[ 9, 10]]]), 'targets': array([[[1]], [[1]]])},
- {'inputs': array([[[ 5,  6]], [[11, 12]]]), 'targets': array([[[0]], [[0]]])}]
+```python
+import numpy as np
+from batcharray import nested
 
+sequences = {
+    "inputs": np.array(
+        [
+            [[1, 2], [3, 4], [5, 6]],  # Sequence 1
+            [[7, 8], [9, 10], [11, 12]],  # Sequence 2
+        ]
+    ),
+    "targets": np.array([[[0], [1], [0]], [[1], [1], [0]]]),
+}
+
+# Slice sequences
+sliced = nested.slice_along_seq(sequences, start=1)
+# Takes timesteps 1 and 2 from both arrays
+
+# Chunk sequences
+chunks = nested.chunk_along_seq(sequences, chunks=3)
+# Splits each sequence into 3 parts
 ```
 
 ## Reductions and Statistics
@@ -144,7 +142,7 @@ import numpy as np
 from batcharray import nested
 
 data = {
-    "angles": np.array([[0, np.pi / 2], [np.pi, 3 * np.pi / 2]]),
+    "angles": np.array([[0.1, np.pi / 2], [np.pi, 3 * np.pi / 2]]),
     "values": np.array([[1, -2], [3, -4]]),
 }
 
@@ -155,12 +153,12 @@ cosines = nested.cos(data["angles"])
 # Apply other math functions
 absolute = nested.abs(data)
 # Result: {
-#     "angles": [[0, π/2], [π, 3π/2]],
+#     "angles": [[0.1, π/2], [π, 3π/2]],
 #     "values": [[1, 2], [3, 4]]  # Absolute values
 # }
 
 exponential = nested.exp(data)
-logarithm = nested.log1p(nested.abs(data))
+logarithm = nested.log(nested.abs(data))
 clipped = nested.clip(data, -2, 2)
 ```
 
@@ -261,24 +259,21 @@ augmented = nested.shuffle_along_batch(batch)
 mini_batches = nested.split_along_batch(augmented, split_size_or_sections=4)
 ```
 
-## Complete Function Reference
+## Function Reference
 
 The `nested` module provides all operations from the `array` module, but for nested structures.
-Here's a complete list organized by category:
+Here's a non comprehensive list organized by category:
 
 ### Comparison and Sorting
-
 - `argsort_along_batch()` - Get sorting indices (batch)
 - `argsort_along_seq()` - Get sorting indices (sequence)
 - `sort_along_batch()` - Sort nested arrays (batch)
 - `sort_along_seq()` - Sort nested arrays (sequence)
 
 ### Conversion
-
 - `to_list()` - Convert arrays to native Python lists
 
 ### Indexing and Selection
-
 - `index_select_along_batch()` - Select using indices (batch)
 - `index_select_along_seq()` - Select using indices (sequence)
 - `masked_select_along_batch()` - Select using mask (batch)
@@ -287,27 +282,23 @@ Here's a complete list organized by category:
 - `take_along_seq()` - Take elements using index array (sequence)
 
 ### Joining Operations
-
 - `concatenate_along_batch()` - Concatenate nested structures (batch)
 - `concatenate_along_seq()` - Concatenate nested structures (sequence)
 - `tile_along_seq()` - Tile nested arrays along sequence
 
 ### Mathematical Operations
-
 - `cumprod_along_batch()` - Cumulative product (batch)
 - `cumprod_along_seq()` - Cumulative product (sequence)
 - `cumsum_along_batch()` - Cumulative sum (batch)
 - `cumsum_along_seq()` - Cumulative sum (sequence)
 
 ### Permutation and Shuffling
-
 - `permute_along_batch()` - Apply permutation (batch)
 - `permute_along_seq()` - Apply permutation (sequence)
 - `shuffle_along_batch()` - Random shuffle (batch)
 - `shuffle_along_seq()` - Random shuffle (sequence)
 
 ### Pointwise Operations
-
 - `abs()` - Absolute value
 - `clip()` - Clip values to range
 - `exp()` - Exponential (base e)
@@ -319,7 +310,6 @@ Here's a complete list organized by category:
 - `log10()` - Base-10 logarithm
 
 ### Reduction Operations
-
 - `amax_along_batch()` / `max_along_batch()` - Maximum (batch)
 - `amax_along_seq()` / `max_along_seq()` - Maximum (sequence)
 - `amin_along_batch()` / `min_along_batch()` - Minimum (batch)
@@ -338,7 +328,6 @@ Here's a complete list organized by category:
 - `sum_along_seq()` - Sum (sequence)
 
 ### Slicing Operations
-
 - `chunk_along_batch()` - Split into chunks (batch)
 - `chunk_along_seq()` - Split into chunks (sequence)
 - `select_along_batch()` - Select single index (batch)
@@ -349,7 +338,6 @@ Here's a complete list organized by category:
 - `split_along_seq()` - Split into sections (sequence)
 
 ### Trigonometric Functions
-
 - `sin()` - Sine
 - `cos()` - Cosine
 - `tan()` - Tangent

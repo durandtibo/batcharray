@@ -29,36 +29,38 @@ batch = np.array(
         [13.0, 14.0, 15.0],
     ]
 )
-
-print(f"Batch shape: {batch.shape}")  # (5, 3)
-print(f"Number of samples: {batch.shape[0]}")
-print(f"Features per sample: {batch.shape[1]}")
 ```
 
 ### Slicing Batches
 
 You can extract a subset of samples from a batch:
 
-```python
-from batcharray import array
+```python continuation
+# Create a batch of 5 samples, each with 3 features
+batch = np.array(
+    [
+        [1.0, 2.0, 3.0],
+        [4.0, 5.0, 6.0],
+        [7.0, 8.0, 9.0],
+        [10.0, 11.0, 12.0],
+        [13.0, 14.0, 15.0],
+    ]
+)
 
 # Get first 3 samples
 first_three = array.slice_along_batch(batch, stop=3)
-print(first_three)
 # [[1. 2. 3.]
 #  [4. 5. 6.]
 #  [7. 8. 9.]]
 
 # Get samples 2-4 (indices 1, 2, 3)
 middle_samples = array.slice_along_batch(batch, start=1, stop=4)
-print(middle_samples)
 # [[ 4.  5.  6.]
 #  [ 7.  8.  9.]
 #  [10. 11. 12.]]
 
 # Get last 2 samples
 last_two = array.slice_along_batch(batch, start=3)
-print(last_two)
 # [[10. 11. 12.]
 #  [13. 14. 15.]]
 ```
@@ -67,13 +69,10 @@ print(last_two)
 
 Use `index_select_along_batch` to select specific samples by index:
 
-```python
-from batcharray import array
-
+```python continuation
 # Select samples at indices 0, 2, and 4
 indices = np.array([0, 2, 4])
 selected = array.index_select_along_batch(batch, indices=indices)
-print(selected)
 # [[ 1.  2.  3.]
 #  [ 7.  8.  9.]
 #  [13. 14. 15.]]
@@ -83,23 +82,18 @@ print(selected)
 
 Split a batch into multiple smaller batches:
 
-```python
-from batcharray import array
-
+```python continuation
 # Split into batches of size 2
 chunks = array.chunk_along_batch(batch, chunks=3)
-print(f"Number of chunks: {len(chunks)}")
-for i, chunk in enumerate(chunks):
-    print(f"Chunk {i} shape: {chunk.shape}")
-# Chunk 0 shape: (2, 3)
-# Chunk 1 shape: (2, 3)
-# Chunk 2 shape: (1, 3)
+# [array([[1., 2., 3.], [4., 5., 6.]]),
+#  array([[ 7.,  8.,  9.], [10., 11., 12.]]),
+#  array([[13., 14., 15.]])]
 
 # Split at specific sizes
 splits = array.split_along_batch(batch, split_size_or_sections=[2, 2, 1])
-print(f"Number of splits: {len(splits)}")
-for i, split in enumerate(splits):
-    print(f"Split {i} shape: {split.shape}")
+# [array([[1., 2., 3.], [4., 5., 6.]]),
+#  array([[ 7.,  8.,  9.], [10., 11., 12.]]),
+#  array([[13., 14., 15.]])]
 ```
 
 ## Working with Nested Batches
@@ -128,7 +122,6 @@ batch = {
 
 # Slice all arrays together
 train_batch = nested.slice_along_batch(batch, stop=2)
-print(train_batch)
 # {
 #     'features': array([[1., 2., 3.],
 #                        [4., 5., 6.]]),
@@ -139,8 +132,6 @@ print(train_batch)
 # Split into train/validation
 splits = nested.split_along_batch(batch, split_size_or_sections=[2, 1])
 train, val = splits[0], splits[1]
-print(f"Train samples: {train['features'].shape[0]}")
-print(f"Val samples: {val['features'].shape[0]}")
 ```
 
 ### Maintaining Consistency
@@ -172,15 +163,15 @@ data = np.array([[1.0, 2.0, 3.0], [4.0, 5.0, 6.0], [7.0, 8.0, 9.0]])
 
 # Mean across samples (for each feature)
 mean_features = array.mean_along_batch(data)
-print(mean_features)  # [4. 5. 6.]
+# [4. 5. 6.]
 
 # Maximum value for each feature
 max_features = array.amax_along_batch(data)
-print(max_features)  # [7. 8. 9.]
+# [7. 8. 9.]
 
 # Sum across samples
 sum_features = array.sum_along_batch(data)
-print(sum_features)  # [12. 15. 18.]
+# [12. 15. 18.]
 ```
 
 ### Finding Extremes
@@ -193,11 +184,11 @@ scores = np.array([[0.2, 0.5, 0.3], [0.1, 0.8, 0.1], [0.6, 0.2, 0.2]])
 
 # Index of maximum value for each feature
 max_indices = array.argmax_along_batch(scores)
-print(max_indices)  # [2, 1, 0]
+# [2, 1, 0]
 
 # Actual maximum values
 max_values = array.amax_along_batch(scores)
-print(max_values)  # [0.6, 0.8, 0.3]
+# [0.6, 0.8, 0.3]
 ```
 
 ## Sorting and Ordering
@@ -213,14 +204,12 @@ data = np.array([[5, 2], [1, 4], [3, 6]])
 
 # Sort along batch dimension
 sorted_data = array.sort_along_batch(data)
-print(sorted_data)
 # [[1 2]
 #  [3 4]
 #  [5 6]]
 
 # Get sorting indices
 sort_indices = array.argsort_along_batch(data)
-print(sort_indices)
 # [[1 0]
 #  [2 1]
 #  [0 2]]
@@ -236,7 +225,6 @@ data = np.array([[1, 2], [3, 4], [5, 6]])
 
 # Random shuffle
 shuffled = array.shuffle_along_batch(data)
-print(shuffled)
 # Order is randomized, e.g.:
 # [[5 6]
 #  [1 2]
@@ -256,7 +244,6 @@ batch2 = np.array([[5, 6], [7, 8]])
 
 # Combine batches
 combined = array.concatenate_along_batch([batch1, batch2])
-print(combined)
 # [[1 2]
 #  [3 4]
 #  [5 6]
@@ -274,7 +261,6 @@ batch1 = {"features": np.array([[1, 2], [3, 4]]), "labels": np.array([0, 1])}
 batch2 = {"features": np.array([[5, 6]]), "labels": np.array([0])}
 
 combined = nested.concatenate_along_batch([batch1, batch2])
-print(combined)
 # {
 #     'features': array([[1, 2],
 #                        [3, 4],
@@ -304,11 +290,13 @@ data = ma.array(
 
 # Compute mean (ignoring masked values)
 mean_vals = array.mean_along_batch(data)
-print(mean_vals)  # [2.5, 5.0, 4.5]
+# [2.5, 5.0, 4.5]
 
 # Sort (masked values handled appropriately)
 sorted_data = array.sort_along_batch(data)
-print(sorted_data)
+# [[1.0 5.0 3.0]
+#  [4.0 8.0 9.0]
+#  [-- -- --]]
 ```
 
 ## Next Steps
@@ -336,9 +324,6 @@ dataset = {
 train_size = int(0.8 * 1000)
 train_data = nested.slice_along_batch(dataset, stop=train_size)
 test_data = nested.slice_along_batch(dataset, start=train_size)
-
-print(f"Train samples: {train_data['X'].shape[0]}")  # 800
-print(f"Test samples: {test_data['X'].shape[0]}")  # 200
 ```
 
 ### Mini-batch Processing
@@ -358,11 +343,6 @@ for i in range(num_batches):
     start = i * batch_size
     stop = min((i + 1) * batch_size, 1000)
     mini_batch = nested.slice_along_batch(dataset, start=start, stop=stop)
-
-    # Process mini_batch
-    print(
-        f"Processing batch {i + 1}/{num_batches} with {mini_batch['X'].shape[0]} samples"
-    )
 ```
 
 ### Data Augmentation
