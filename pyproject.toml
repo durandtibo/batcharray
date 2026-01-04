@@ -63,6 +63,7 @@ dev = [
     "pyright >=1.1.407,<2.0",
     "pytest >=9.0,<10.0",
     "pytest-cov >=7.0,<8.0",
+    "pytest-markdown-docs >=0.9,<1.0",
     "pytest-timeout >=2.4,<3.0",
     "ruff >=0.14,<1.0",
     "xdoctest >=1.3,<2.0",
@@ -99,10 +100,11 @@ exclude_lines = [
 
 [tool.pytest]
 minversion = "9.0"
-testpaths = ["tests/"]
+pythonpath = ["src"]
+testpaths = ["tests/", "docs/", "README.md"]
 log_format = "%(asctime)s - %(levelname)s - %(name)s - %(message)s"
 log_level = "DEBUG"
-addopts = ["--color", "yes", "--durations", "10", "-rf"]
+addopts = ["--color", "yes", "--durations", "10", "-rf", "--markdown-docs"]
 # Configuration of the short test summary info
 # https://docs.pytest.org/en/stable/usage.html#detailed-summary-report
 
