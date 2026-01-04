@@ -142,7 +142,7 @@ import numpy as np
 from batcharray import nested
 
 data = {
-    "angles": np.array([[0, np.pi / 2], [np.pi, 3 * np.pi / 2]]),
+    "angles": np.array([[0.1, np.pi / 2], [np.pi, 3 * np.pi / 2]]),
     "values": np.array([[1, -2], [3, -4]]),
 }
 
@@ -153,12 +153,12 @@ cosines = nested.cos(data["angles"])
 # Apply other math functions
 absolute = nested.abs(data)
 # Result: {
-#     "angles": [[0, π/2], [π, 3π/2]],
+#     "angles": [[0.1, π/2], [π, 3π/2]],
 #     "values": [[1, 2], [3, 4]]  # Absolute values
 # }
 
 exponential = nested.exp(data)
-logarithm = nested.log1p(nested.abs(data))
+logarithm = nested.log(nested.abs(data))
 clipped = nested.clip(data, -2, 2)
 ```
 
@@ -258,3 +258,97 @@ augmented = nested.shuffle_along_batch(batch)
 # Split into mini-batches
 mini_batches = nested.split_along_batch(augmented, split_size_or_sections=4)
 ```
+
+## Function Reference
+
+The `nested` module provides all operations from the `array` module, but for nested structures.
+Here's a non comprehensive list organized by category:
+
+### Comparison and Sorting
+- `argsort_along_batch()` - Get sorting indices (batch)
+- `argsort_along_seq()` - Get sorting indices (sequence)
+- `sort_along_batch()` - Sort nested arrays (batch)
+- `sort_along_seq()` - Sort nested arrays (sequence)
+
+### Conversion
+- `to_list()` - Convert arrays to native Python lists
+
+### Indexing and Selection
+- `index_select_along_batch()` - Select using indices (batch)
+- `index_select_along_seq()` - Select using indices (sequence)
+- `masked_select_along_batch()` - Select using mask (batch)
+- `masked_select_along_seq()` - Select using mask (sequence)
+- `take_along_batch()` - Take elements using index array (batch)
+- `take_along_seq()` - Take elements using index array (sequence)
+
+### Joining Operations
+- `concatenate_along_batch()` - Concatenate nested structures (batch)
+- `concatenate_along_seq()` - Concatenate nested structures (sequence)
+- `tile_along_seq()` - Tile nested arrays along sequence
+
+### Mathematical Operations
+- `cumprod_along_batch()` - Cumulative product (batch)
+- `cumprod_along_seq()` - Cumulative product (sequence)
+- `cumsum_along_batch()` - Cumulative sum (batch)
+- `cumsum_along_seq()` - Cumulative sum (sequence)
+
+### Permutation and Shuffling
+- `permute_along_batch()` - Apply permutation (batch)
+- `permute_along_seq()` - Apply permutation (sequence)
+- `shuffle_along_batch()` - Random shuffle (batch)
+- `shuffle_along_seq()` - Random shuffle (sequence)
+
+### Pointwise Operations
+- `abs()` - Absolute value
+- `clip()` - Clip values to range
+- `exp()` - Exponential (base e)
+- `exp2()` - Exponential (base 2)
+- `expm1()` - exp(x) - 1
+- `log()` - Natural logarithm
+- `log1p()` - log(1 + x)
+- `log2()` - Base-2 logarithm
+- `log10()` - Base-10 logarithm
+
+### Reduction Operations
+- `amax_along_batch()` / `max_along_batch()` - Maximum (batch)
+- `amax_along_seq()` / `max_along_seq()` - Maximum (sequence)
+- `amin_along_batch()` / `min_along_batch()` - Minimum (batch)
+- `amin_along_seq()` / `min_along_seq()` - Minimum (sequence)
+- `argmax_along_batch()` - Indices of maximum (batch)
+- `argmax_along_seq()` - Indices of maximum (sequence)
+- `argmin_along_batch()` - Indices of minimum (batch)
+- `argmin_along_seq()` - Indices of minimum (sequence)
+- `mean_along_batch()` - Mean (batch)
+- `mean_along_seq()` - Mean (sequence)
+- `median_along_batch()` - Median (batch)
+- `median_along_seq()` - Median (sequence)
+- `prod_along_batch()` - Product (batch)
+- `prod_along_seq()` - Product (sequence)
+- `sum_along_batch()` - Sum (batch)
+- `sum_along_seq()` - Sum (sequence)
+
+### Slicing Operations
+- `chunk_along_batch()` - Split into chunks (batch)
+- `chunk_along_seq()` - Split into chunks (sequence)
+- `select_along_batch()` - Select single index (batch)
+- `select_along_seq()` - Select single index (sequence)
+- `slice_along_batch()` - Slice range (batch)
+- `slice_along_seq()` - Slice range (sequence)
+- `split_along_batch()` - Split into sections (batch)
+- `split_along_seq()` - Split into sections (sequence)
+
+### Trigonometric Functions
+- `sin()` - Sine
+- `cos()` - Cosine
+- `tan()` - Tangent
+- `arcsin()` - Inverse sine
+- `arccos()` - Inverse cosine
+- `arctan()` - Inverse tangent
+- `sinh()` - Hyperbolic sine
+- `cosh()` - Hyperbolic cosine
+- `tanh()` - Hyperbolic tangent
+- `arcsinh()` - Inverse hyperbolic sine
+- `arccosh()` - Inverse hyperbolic cosine
+- `arctanh()` - Inverse hyperbolic tangent
+
+For detailed API documentation, see the [nested API reference](../refs/nested.md).

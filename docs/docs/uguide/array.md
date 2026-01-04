@@ -11,7 +11,8 @@ The `batcharray.array` module provides functions to manipulate NumPy arrays repr
 
 ## Batch Operations
 
-Batch operations work along the first axis (batch dimension) of arrays. All functions that operate on the batch dimension have the suffix `_along_batch`.
+Batch operations work along the first axis (batch dimension) of arrays.
+All functions that operate on the batch dimension have the suffix `_along_batch`.
 
 ### Slicing and Indexing
 
@@ -155,3 +156,68 @@ data = ma.array(
 mean = array.mean_along_batch(data)
 sorted_data = array.sort_along_batch(data)
 ```
+
+## Complete Function Reference
+
+The `array` module provides the following categories of functions:
+
+### Comparison and Sorting
+- `argsort_along_batch()` - Get indices that would sort along batch
+- `argsort_along_seq()` - Get indices that would sort along sequence
+- `sort_along_batch()` - Sort along batch dimension
+- `sort_along_seq()` - Sort along sequence dimension
+
+### Indexing and Selection
+- `index_select_along_batch()` - Select using integer indices (batch)
+- `index_select_along_seq()` - Select using integer indices (sequence)
+- `masked_select_along_batch()` - Select using boolean mask (batch)
+- `masked_select_along_seq()` - Select using boolean mask (sequence)
+- `take_along_batch()` - Take elements using index array (batch)
+- `take_along_seq()` - Take elements using index array (sequence)
+
+### Joining and Combining
+- `concatenate_along_batch()` - Concatenate arrays along batch
+- `concatenate_along_seq()` - Concatenate arrays along sequence
+- `tile_along_seq()` - Repeat array along sequence dimension
+
+### Mathematical Operations
+- `cumprod_along_batch()` - Cumulative product along batch
+- `cumprod_along_seq()` - Cumulative product along sequence
+- `cumsum_along_batch()` - Cumulative sum along batch
+- `cumsum_along_seq()` - Cumulative sum along sequence
+
+### Permutation and Shuffling
+- `permute_along_batch()` - Apply permutation to batch
+- `permute_along_seq()` - Apply permutation to sequence
+- `shuffle_along_batch()` - Random shuffle along batch
+- `shuffle_along_seq()` - Random shuffle along sequence
+
+### Reduction Operations
+- `amax_along_batch()` / `max_along_batch()` - Maximum along batch
+- `amax_along_seq()` / `max_along_seq()` - Maximum along sequence
+- `amin_along_batch()` / `min_along_batch()` - Minimum along batch
+- `amin_along_seq()` / `min_along_seq()` - Minimum along sequence
+- `argmax_along_batch()` - Indices of maximum along batch
+- `argmax_along_seq()` - Indices of maximum along sequence
+- `argmin_along_batch()` - Indices of minimum along batch
+- `argmin_along_seq()` - Indices of minimum along sequence
+- `mean_along_batch()` - Mean along batch
+- `mean_along_seq()` - Mean along sequence
+- `median_along_batch()` - Median along batch
+- `median_along_seq()` - Median along sequence
+- `prod_along_batch()` - Product along batch
+- `prod_along_seq()` - Product along sequence
+- `sum_along_batch()` - Sum along batch
+- `sum_along_seq()` - Sum along sequence
+
+### Slicing Operations
+- `chunk_along_batch()` - Split into equal chunks (batch)
+- `chunk_along_seq()` - Split into equal chunks (sequence)
+- `select_along_batch()` - Select single index (batch)
+- `select_along_seq()` - Select single index (sequence)
+- `slice_along_batch()` - Slice range of indices (batch)
+- `slice_along_seq()` - Slice range of indices (sequence)
+- `split_along_batch()` - Split into specified sections (batch)
+- `split_along_seq()` - Split into specified sections (sequence)
+
+For detailed API documentation of each function, see the [array API reference](../refs/array.md).

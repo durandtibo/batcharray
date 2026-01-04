@@ -24,15 +24,21 @@ theme:
 nav:
   - Home: index.md
   - Get Started: get_started.md
+  - Tutorials:
+      - Working with Batches: tutorials/batches.md
+      - Working with Sequences: tutorials/sequences.md
+      - Advanced Nested Operations: tutorials/nested.md
   - User Guide:
       - Array Operations: uguide/array.md
       - Nested Structures: uguide/nested.md
       - Computation Models: uguide/computation.md
   - FAQ: faq.md
-  - Reference:
+  - API Reference:
       - array: refs/array.md
       - computation: refs/computation.md
       - nested: refs/nested.md
+      - constants: refs/constants.md
+      - types: refs/types.md
   - GitHub: https://github.com/durandtibo/batcharray
 
 repo_url: https://github.com/durandtibo/batcharray
