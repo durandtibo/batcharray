@@ -22,7 +22,7 @@ We actively welcome your pull requests.
 4. If you've changed APIs, update the documentation.
 5. Ensure the test suite passes. You can use the following command to run the tests:
    ```shell
-   make unit-test-cov
+   invoke unit-test --cov
    ```
 6. Make sure your code lints. The following commands can help you to format the code:
    ```shell
@@ -33,12 +33,8 @@ We actively welcome your pull requests.
 
 ### Prerequisites
 
-This project uses [`uv`](https://docs.astral.sh/uv/) for dependency management. Install it first:
-
-```shell
-# On macOS and Linux
-curl -LsSf https://astral.sh/uv/install.sh | sh
-```
+This project uses [`uv`](https://docs.astral.sh/uv/) for dependency management.
+Please refer to the [uv installation documentation](https://docs.astral.sh/uv/getting-started/installation/) to install it.
 
 ### Setting up the development environment
 
@@ -51,7 +47,7 @@ curl -LsSf https://astral.sh/uv/install.sh | sh
 2. Set up the virtual environment and install dependencies:
    ```shell
    make setup-venv
-   source .venv/bin/activate  # On Unix/macOS
+   source .venv/bin/activate
    ```
 
 3. Install pre-commit hooks:
@@ -59,15 +55,15 @@ curl -LsSf https://astral.sh/uv/install.sh | sh
    pre-commit install
    ```
 
-### Available Make commands
+### Available invoke commands
 
-- `make install` - Install core dependencies
-- `make install-all` - Install all dependencies including docs
-- `make lint` - Check code with ruff
-- `make format` - Check code formatting with black
-- `make unit-test` - Run unit tests
-- `make unit-test-cov` - Run unit tests with coverage
-- `make doctest-src` - Run doctests in source code
+- `inv install --no-optional-deps` - Install only core dependencies
+- `inv install --docs-deps` - Install all dependencies including docs
+- `inv check-lint` - Check code with ruff
+- `inv check-format` - Check code formatting with black
+- `inv unit-test` - Run unit tests
+- `inv unit-test --cov` - Run unit tests with coverage
+- `inv doctest-src` - Run doctests in source code
 
 ## Issues
 

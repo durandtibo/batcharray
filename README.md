@@ -153,7 +153,7 @@ a [virtual environment](https://packaging.python.org/guides/installing-using-pip
 `batcharray` can be installed from pip using the following command:
 
 ```shell
-pip install batcharray
+uv pip install batcharray
 ```
 
 To make the package as slim as possible, only the minimal packages required to use `batcharray` are
@@ -161,7 +161,7 @@ installed.
 To include all the dependencies, you can use the following command:
 
 ```shell
-pip install batcharray[all]
+uv pip install batcharray[all]
 ```
 
 Please check the [get started page](https://durandtibo.github.io/batcharray/get_started) to see how
@@ -181,7 +181,7 @@ The following is the corresponding `batcharray` versions and tested dependencies
 
 ## Contributing
 
-Please check the instructions in [CONTRIBUTING.md](.github/CONTRIBUTING.md).
+Please check the instructions in [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## Suggestions and Communication
 
