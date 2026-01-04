@@ -27,19 +27,15 @@ on the batch dimension have the suffix `_along_batch`.
 >>> # Slice the batch
 >>> sliced = array.slice_along_batch(batch, start=1, stop=3)
 >>> sliced
-array([[4, 5, 6],
-       [7, 8, 9]])
+array([[4, 5, 6], [7, 8, 9]])
 >>> # Select specific indices
 >>> selected = array.index_select_along_batch(batch, indices=np.array([0, 2]))
 >>> selected
-array([[1, 2, 3],
-       [7, 8, 9]])
+array([[1, 2, 3], [7, 8, 9]])
 >>> # Split into chunks
 >>> chunks = array.chunk_along_batch(batch, chunks=2)
 >>> chunks
-[array([[1, 2, 3],
-        [4, 5, 6]]), array([[ 7,  8,  9],
-        [10, 11, 12]])]
+[array([[1, 2, 3], [4, 5, 6]]), array([[ 7,  8,  9], [10, 11, 12]])]
 
 ```
 
@@ -71,15 +67,11 @@ array([ 9., 12.])
 >>> # Sort along batch
 >>> sorted_batch = array.sort_along_batch(batch)
 >>> sorted_batch
-array([[1, 2],
-       [3, 4],
-       [5, 6]])
+array([[1, 2], [3, 4], [5, 6]])
 >>> # Get sort indices
 >>> indices = array.argsort_along_batch(batch)
 >>> indices
-array([[1, 0],
-       [2, 1],
-       [0, 2]])
+array([[1, 0], [2, 1], [0, 2]])
 >>> # Shuffle batch randomly
 >>> shuffled = array.shuffle_along_batch(batch)
 
@@ -105,10 +97,8 @@ sequences have the suffix `_along_seq`.
 >>> # Slice sequences
 >>> sliced = array.slice_along_seq(sequences, start=1, stop=3)
 >>> sliced
-array([[[ 4,  5,  6],
-        [ 7,  8,  9]],
-       [[16, 17, 18],
-        [19, 20, 21]]])
+array([[[ 4,  5,  6], [ 7,  8,  9]],
+       [[16, 17, 18], [19, 20, 21]]])
 >>> # Tile sequences
 >>> tiled = array.tile_along_seq(sequences, reps=2)
 >>> tiled
@@ -131,13 +121,10 @@ array([[[ 1,  2,  3],
 >>> # Split sequences
 >>> chunks = array.split_along_seq(sequences, split_size_or_sections=2)
 >>> chunks
-[array([[[ 1,  2,  3],
-        [ 4,  5,  6]],
-       [[13, 14, 15],
-        [16, 17, 18]]]), array([[[ 7,  8,  9],
-        [10, 11, 12]],
-       [[19, 20, 21],
-        [22, 23, 24]]])]
+[array([[[ 1,  2,  3], [ 4,  5,  6]],
+       [[13, 14, 15], [16, 17, 18]]]),
+ array([[[ 7,  8,  9], [10, 11, 12]],
+       [[19, 20, 21], [22, 23, 24]]])]
 
 ```
 
@@ -152,17 +139,12 @@ array([[[ 1,  2,  3],
 >>> # Compute mean for each batch across sequence
 >>> mean_seq = array.mean_along_seq(sequences)
 >>> mean_seq
-array([[ 3.,  4.],
-       [ 9., 10.]])
+array([[ 3.,  4.], [ 9., 10.]])
 >>> # Cumulative sum along sequences
 >>> cumsum = array.cumsum_along_seq(sequences)
 >>> cumsum
-array([[[ 1.,  2.],
-        [ 4.,  6.],
-        [ 9., 12.]],
-       [[ 7.,  8.],
-        [16., 18.],
-        [27., 30.]]])
+array([[[ 1.,  2.], [ 4.,  6.], [ 9., 12.]],
+       [[ 7.,  8.], [16., 18.], [27., 30.]]])
 
 ```
 
@@ -173,7 +155,6 @@ You can chain operations for complex transformations:
 ```pycon
 >>> import numpy as np
 >>> from batcharray import array
-
 >>> # Create batch of sequences
 >>> data = np.array(
 ...     [
