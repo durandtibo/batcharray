@@ -46,10 +46,8 @@ Please refer to the [uv installation documentation](https://docs.astral.sh/uv/ge
 
 2. Set up the virtual environment and install dependencies:
    ```shell
-   uv venv --python 3.13
+   make setup-venv
    source .venv/bin/activate
-   uv pip install "invoke>=2.2.0"
-   invoke install --docs-deps
    ```
 
 3. Install pre-commit hooks:
