@@ -57,13 +57,13 @@ Please refer to the [uv installation documentation](https://docs.astral.sh/uv/ge
 
 ### Available invoke commands
 
-- `invoke install --no-optional-deps` - Install core dependencies
-- `invoke install --docs-deps` - Install all dependencies including docs
-- `invoke check-lint` - Check code with ruff
-- `invoke check-format` - Check code formatting with black
-- `invoke unit-test` - Run unit tests
-- `invoke unit-test --cov` - Run unit tests with coverage
-- `invoke doctest-src` - Run doctests in source code
+- `inv install --no-optional-deps` - Install only core dependencies
+- `inv install --docs-deps` - Install all dependencies including docs
+- `inv check-lint` - Check code with ruff
+- `inv check-format` - Check code formatting with black
+- `inv unit-test` - Run unit tests
+- `inv unit-test --cov` - Run unit tests with coverage
+- `inv doctest-src` - Run doctests in source code
 
 ## Issues
 
