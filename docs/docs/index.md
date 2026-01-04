@@ -130,7 +130,7 @@ Please check the documentation to see all the implemented functions.
 ### For Users
 
 - **[Working with Sequences Tutorial](tutorials/sequences.md)** - Handle time-series data
-- **[Advanced Nested Operations Tutorial](tutorials/advanced_nested.md)** - Master complex structures
+- **[Advanced Nested Operations Tutorial](tutorials/nested.md)** - Master complex structures
 - **[User Guide: Array Operations](uguide/array.md)** - Complete guide to array functions
 - **[User Guide: Nested Structures](uguide/nested.md)** - Working with nested data
 - **[User Guide: Computation Models](uguide/computation.md)** - Low-level abstractions

@@ -27,7 +27,7 @@ nav:
   - Tutorials:
       - Working with Batches: tutorials/batches.md
       - Working with Sequences: tutorials/sequences.md
-      - Advanced Nested Operations: tutorials/advanced_nested.md
+      - Advanced Nested Operations: tutorials/nested.md
   - User Guide:
       - Array Operations: uguide/array.md
       - Nested Structures: uguide/nested.md

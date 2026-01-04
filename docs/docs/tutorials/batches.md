@@ -4,7 +4,10 @@ This tutorial will guide you through the basics of working with batches of data 
 
 ## Introduction
 
-In machine learning and data processing, we often work with batches of data - collections of samples processed together. `batcharray` provides convenient utilities to manipulate these batches, whether they're single arrays or complex nested structures.
+In machine learning and data processing, we often work with batches of data - collections of samples
+processed together.
+`batcharray` provides convenient utilities to manipulate these batches, whether they're single
+arrays or complex nested structures.
 
 ## Basic Batch Operations
 
@@ -101,7 +104,8 @@ for i, split in enumerate(splits):
 
 ## Working with Nested Batches
 
-Real-world data often comes in nested structures - dictionaries with multiple arrays, lists of arrays, etc.
+Real-world data often comes in nested structures - dictionaries with multiple arrays, lists of
+arrays, etc.
 
 ### Dictionary Batches
 
@@ -310,7 +314,7 @@ print(sorted_data)
 ## Next Steps
 
 - Learn about [sequence operations](sequences.md) for time-series data
-- Explore [advanced nested operations](advanced_nested.md)
+- Explore [advanced nested operations](nested.md)
 - See [computation models](../uguide/computation.md) for low-level operations
 - Check the [FAQ](../faq.md) for common questions
 
@@ -357,7 +361,7 @@ for i in range(num_batches):
 
     # Process mini_batch
     print(
-        f"Processing batch {i+1}/{num_batches} with {mini_batch['X'].shape[0]} samples"
+        f"Processing batch {i + 1}/{num_batches} with {mini_batch['X'].shape[0]} samples"
     )
 ```
 

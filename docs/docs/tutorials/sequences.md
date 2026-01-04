@@ -5,12 +5,14 @@ This tutorial covers how to work with sequences (time-series data) using `batcha
 ## Introduction
 
 Sequences are ordered collections of data points, commonly found in:
-- Time-series data (stock prices, sensor readings)
+
+- Time-series data (sensor readings)
 - Natural language processing (sentences, documents)
 - Video processing (frames over time)
 - Audio processing (audio samples)
 
 In `batcharray`, sequences have two important dimensions:
+
 - **Batch dimension** (axis 0): Different sequences
 - **Sequence dimension** (axis 1): Time steps within each sequence
 
@@ -393,6 +395,6 @@ print(f"Sum: {sum_rep.shape}")  # (2, 3)
 ## Next Steps
 
 - Learn about [batch operations](batches.md) for working with collections
-- Explore [nested structures](advanced_nested.md) for complex data
+- Explore [nested structures](nested.md) for complex data
 - See the [array reference](../refs/array.md) for all available functions
 - Check out the [FAQ](../faq.md) for common questions

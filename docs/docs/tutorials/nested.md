@@ -1,10 +1,12 @@
 # Tutorial: Advanced Nested Operations
 
-This tutorial covers advanced techniques for working with complex nested data structures in `batcharray`.
+This tutorial covers advanced techniques for working with complex nested data structures in
+`batcharray`.
 
 ## Introduction
 
 Real-world data is often organized in complex nested structures:
+
 - Multiple related arrays in dictionaries
 - Lists or tuples of arrays
 - Deeply nested combinations of both
