@@ -9,7 +9,7 @@ only-include = ["src"]
 
 [project]
 name = "batcharray"
-version = "0.2.1a0"
+version = "0.3.0"
 description = "Functions to manipulate NumPy arrays"
 readme = "README.md"
 authors = [
