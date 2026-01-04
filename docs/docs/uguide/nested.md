@@ -351,13 +351,3 @@ The `nested` module provides all operations from the `array` module, but for nes
 - `arctanh()` - Inverse hyperbolic tangent
 
 For detailed API documentation, see the [nested API reference](../refs/nested.md).
-
-## Tips and Best Practices
-
-- Always use nested operations when working with multiple related arrays to maintain consistency
-- Nested operations work recursively, so they handle deeply nested structures automatically
-- Mathematical operations (`abs`, `exp`, `log`, etc.) are applied element-wise to all arrays
-- Trigonometric functions work with arrays containing angles in radians
-- Use `to_list()` when you need to convert NumPy arrays to native Python for serialization
-
-For more examples and patterns, see the [Advanced Nested Operations Tutorial](../tutorials/advanced_nested.md).
