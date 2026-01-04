@@ -158,7 +158,7 @@ absolute = nested.abs(data)
 # }
 
 exponential = nested.exp(data)
-logarithm = nested.log(nested.abs(data))
+logarithm = nested.log1p(nested.abs(data))
 clipped = nested.clip(data, -2, 2)
 ```
 

@@ -244,12 +244,11 @@ def all_test(c: Context, cov: bool = False) -> None:
         # Run all tests with coverage reports
         invoke all-test --cov
     """
-    logger.info("🧪 Running all tests (unit and integration)...")
+    logger.info("🧪 Running all tests...")
     cmd = ["python -m pytest --xdoctest --timeout 10"]
     if cov:
         cmd.append(f"--cov-report html --cov-report xml --cov-report term --cov={NAME}")
         logger.info("📊 Coverage reports will be generated")
-    cmd.append(f"{TESTS}")
     c.run(" ".join(cmd), pty=True)
     logger.info("✅ All tests complete")
 
