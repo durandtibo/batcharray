@@ -32,7 +32,6 @@ nav:
       - Array Operations: uguide/array.md
       - Nested Structures: uguide/nested.md
       - Computation Models: uguide/computation.md
-  - FAQ: faq.md
   - API Reference:
       - array: refs/array.md
       - computation: refs/computation.md
