@@ -21,27 +21,15 @@ Nested structures are hierarchical data organizations containing NumPy arrays:
 import numpy as np
 
 # Simple dictionary
-simple_nested = {
-    "features": np.array([[1, 2], [3, 4]]),
-    "labels": np.array([0, 1])
-}
+simple_nested = {"features": np.array([[1, 2], [3, 4]]), "labels": np.array([0, 1])}
 
 # List of arrays
-list_nested = [
-    np.array([[1, 2], [3, 4]]),
-    np.array([[5, 6], [7, 8]])
-]
+list_nested = [np.array([[1, 2], [3, 4]]), np.array([[5, 6], [7, 8]])]
 
 # Complex nesting
 complex_nested = {
-    "train": {
-        "inputs": np.array([[1, 2], [3, 4]]),
-        "targets": np.array([0, 1])
-    },
-    "metadata": {
-        "weights": np.array([1.0, 0.8]),
-        "ids": np.array(["a", "b"])
-    }
+    "train": {"inputs": np.array([[1, 2], [3, 4]]), "targets": np.array([0, 1])},
+    "metadata": {"weights": np.array([1.0, 0.8]), "ids": np.array(["a", "b"])},
 }
 ```
 
@@ -54,10 +42,7 @@ import numpy as np
 from batcharray import nested
 
 # Without nested operations - INCONSISTENT!
-data = {
-    "features": np.array([[1, 2], [3, 4], [5, 6]]),
-    "labels": np.array([0, 1, 0])
-}
+data = {"features": np.array([[1, 2], [3, 4], [5, 6]]), "labels": np.array([0, 1, 0])}
 
 # Manually slicing - easy to make mistakes
 sliced_features = data["features"][:2]
@@ -80,7 +65,7 @@ from batcharray import nested
 
 data = {
     "values": np.array([[-2.0, 3.0], [1.0, -4.0]]),
-    "scores": np.array([[0.5, -0.5], [0.2, -0.8]])
+    "scores": np.array([[0.5, -0.5], [0.2, -0.8]]),
 }
 
 # Absolute values
@@ -118,7 +103,7 @@ from batcharray import nested
 
 data = {
     "x": np.array([[0.0, 1.0], [2.0, 3.0]]),
-    "y": np.array([[0.5, 1.5], [2.5, 3.5]])
+    "y": np.array([[0.5, 1.5], [2.5, 3.5]]),
 }
 
 # Standard exponential
@@ -151,8 +136,8 @@ from batcharray import nested
 
 # Angles in radians
 angles = {
-    "theta": np.array([[0.0, np.pi/4], [np.pi/2, np.pi]]),
-    "phi": np.array([[0.0, np.pi/6], [np.pi/3, np.pi/2]])
+    "theta": np.array([[0.0, np.pi / 4], [np.pi / 2, np.pi]]),
+    "phi": np.array([[0.0, np.pi / 6], [np.pi / 3, np.pi / 2]]),
 }
 
 # Sine
@@ -175,7 +160,7 @@ tanh_result = nested.tanh(angles)
 # Inverse trigonometric functions
 values = {
     "x": np.array([[0.0, 0.5], [0.7, 1.0]]),
-    "y": np.array([[0.0, 0.3], [0.6, 0.9]])
+    "y": np.array([[0.0, 0.3], [0.6, 0.9]]),
 }
 
 arcsin_result = nested.arcsin(values)
@@ -201,7 +186,7 @@ from batcharray import nested
 data = {
     "features": np.array([[1, 2], [3, 4], [5, 6], [7, 8]]),
     "scores": np.array([0.1, 0.9, 0.3, 0.8]),
-    "ids": np.array([10, 20, 30, 40])
+    "ids": np.array([10, 20, 30, 40]),
 }
 
 # Select high-scoring items (scores > 0.5)
@@ -222,10 +207,7 @@ print(filtered)
 import numpy as np
 from batcharray import nested
 
-data = {
-    "A": np.array([[1, 2], [3, 4], [5, 6]]),
-    "B": np.array([10, 20, 30])
-}
+data = {"A": np.array([[1, 2], [3, 4], [5, 6]]), "B": np.array([10, 20, 30])}
 
 # Select in custom order
 indices = np.array([2, 0, 2, 1])  # Can repeat indices
@@ -248,10 +230,7 @@ Select elements using indices array (useful after sorting):
 import numpy as np
 from batcharray import nested
 
-data = {
-    "values": np.array([[5, 2], [1, 4], [3, 6]]),
-    "labels": np.array([0, 1, 0])
-}
+data = {"values": np.array([[5, 2], [1, 4], [3, 6]]), "labels": np.array([0, 1, 0])}
 
 # Get sort indices
 sort_indices = nested.argsort_along_batch(data["values"])
@@ -275,7 +254,7 @@ from batcharray import nested
 
 data = {
     "train_scores": np.array([[0.8, 0.9], [0.7, 0.85], [0.75, 0.88]]),
-    "val_scores": np.array([[0.7, 0.8], [0.65, 0.75], [0.68, 0.78]])
+    "val_scores": np.array([[0.7, 0.8], [0.65, 0.75], [0.68, 0.78]]),
 }
 
 # Mean across batches
@@ -310,7 +289,7 @@ from batcharray import nested
 
 data = {
     "scores": np.array([[0.2, 0.8], [0.5, 0.6], [0.9, 0.3]]),
-    "metrics": np.array([[1.0, 2.0], [1.5, 1.8], [0.8, 2.2]])
+    "metrics": np.array([[1.0, 2.0], [1.5, 1.8], [0.8, 2.2]]),
 }
 
 # Indices of maximum values
@@ -332,14 +311,10 @@ import numpy as np
 from batcharray import nested
 
 sequences = {
-    "inputs": np.array([
-        [[1, 2], [3, 4], [5, 6]],
-        [[7, 8], [9, 10], [11, 12]]
-    ]),
-    "outputs": np.array([
-        [[0.1, 0.2], [0.3, 0.4], [0.5, 0.6]],
-        [[0.7, 0.8], [0.9, 1.0], [1.1, 1.2]]
-    ])
+    "inputs": np.array([[[1, 2], [3, 4], [5, 6]], [[7, 8], [9, 10], [11, 12]]]),
+    "outputs": np.array(
+        [[[0.1, 0.2], [0.3, 0.4], [0.5, 0.6]], [[0.7, 0.8], [0.9, 1.0], [1.1, 1.2]]]
+    ),
 }
 
 # Mean over sequence dimension
@@ -369,7 +344,7 @@ from batcharray import nested
 
 data = {
     "sales": np.array([[10, 20], [15, 25], [12, 18]]),
-    "costs": np.array([[5, 10], [8, 12], [6, 9]])
+    "costs": np.array([[5, 10], [8, 12], [6, 9]]),
 }
 
 # Cumulative sum along batches (running totals)
@@ -394,12 +369,7 @@ cumprod_batch = nested.cumprod_along_batch(data)
 import numpy as np
 from batcharray import nested
 
-sequences = {
-    "values": np.array([
-        [[1, 2], [3, 4], [5, 6]],
-        [[2, 3], [4, 5], [6, 7]]
-    ])
-}
+sequences = {"values": np.array([[[1, 2], [3, 4], [5, 6]], [[2, 3], [4, 5], [6, 7]]])}
 
 # Cumulative sum over time
 cumsum_seq = nested.cumsum_along_seq(sequences)
@@ -429,19 +399,19 @@ from batcharray import nested
 batch1 = {
     "features": np.array([[1, 2], [3, 4]]),
     "labels": np.array([0, 1]),
-    "weights": np.array([1.0, 0.8])
+    "weights": np.array([1.0, 0.8]),
 }
 
 batch2 = {
     "features": np.array([[5, 6]]),
     "labels": np.array([0]),
-    "weights": np.array([1.2])
+    "weights": np.array([1.2]),
 }
 
 batch3 = {
     "features": np.array([[7, 8], [9, 10]]),
     "labels": np.array([1, 0]),
-    "weights": np.array([0.9, 1.1])
+    "weights": np.array([0.9, 1.1]),
 }
 
 # Concatenate multiple batches
@@ -464,13 +434,9 @@ print(combined)
 import numpy as np
 from batcharray import nested
 
-seq1 = {
-    "tokens": np.array([[[1, 2], [3, 4]], [[5, 6], [7, 8]]])
-}
+seq1 = {"tokens": np.array([[[1, 2], [3, 4]], [[5, 6], [7, 8]]])}
 
-seq2 = {
-    "tokens": np.array([[[9, 10]], [[11, 12]]])
-}
+seq2 = {"tokens": np.array([[[9, 10]], [[11, 12]]])}
 
 # Concatenate along sequence dimension
 combined_seq = nested.concatenate_along_seq([seq1, seq2])
@@ -486,13 +452,13 @@ from batcharray import nested
 
 sequences = {
     "pattern": np.array([[[1, 2]], [[3, 4]]]),
-    "mask": np.array([[True], [False]])
+    "mask": np.array([[True], [False]]),
 }
 
 # Repeat sequence 4 times
 tiled = nested.tile_along_seq(sequences, reps=4)
 print(tiled["pattern"].shape)  # (2, 4, 2)
-print(tiled["mask"].shape)     # (2, 4)
+print(tiled["mask"].shape)  # (2, 4)
 ```
 
 ## Shuffling and Permutations
@@ -509,7 +475,7 @@ np.random.seed(42)
 data = {
     "features": np.array([[1, 2], [3, 4], [5, 6], [7, 8]]),
     "labels": np.array([0, 1, 0, 1]),
-    "ids": np.array(["a", "b", "c", "d"])
+    "ids": np.array(["a", "b", "c", "d"]),
 }
 
 # Shuffle all arrays with same permutation
@@ -524,10 +490,7 @@ print(shuffled)
 import numpy as np
 from batcharray import nested
 
-data = {
-    "X": np.array([[1, 2], [3, 4], [5, 6]]),
-    "y": np.array([0, 1, 0])
-}
+data = {"X": np.array([[1, 2], [3, 4], [5, 6]]), "y": np.array([0, 1, 0])}
 
 # Apply specific permutation
 perm = np.array([2, 0, 1])  # Reverse order
@@ -547,12 +510,7 @@ print(permuted)
 import numpy as np
 from batcharray import nested
 
-sequences = {
-    "frames": np.array([
-        [[1], [2], [3], [4]],
-        [[5], [6], [7], [8]]
-    ])
-}
+sequences = {"frames": np.array([[[1], [2], [3], [4]], [[5], [6], [7], [8]]])}
 
 # Shuffle time steps (useful for certain augmentations)
 shuffled_seq = nested.shuffle_along_seq(sequences)
@@ -567,7 +525,7 @@ from batcharray import nested
 
 data = {
     "scores": np.array([[5, 2], [1, 4], [3, 6]]),
-    "names": np.array([["e", "b"], ["a", "d"], ["c", "f"]])
+    "names": np.array([["e", "b"], ["a", "d"], ["c", "f"]]),
 }
 
 # Sort along batch dimension
@@ -595,9 +553,7 @@ from batcharray import nested
 data = {
     "features": np.array([[1, 2], [3, 4]]),
     "labels": np.array([0, 1]),
-    "nested": {
-        "values": np.array([10.0, 20.0])
-    }
+    "nested": {"values": np.array([10.0, 20.0])},
 }
 
 # Convert to native Python lists
@@ -623,16 +579,15 @@ print(type(python_data["features"][0]))  # <class 'list'>
 import numpy as np
 from batcharray import nested
 
+
 # Simulate a data pipeline
 def create_batch(size):
     return {
         "images": np.random.randn(size, 28, 28),
         "labels": np.random.randint(0, 10, size),
-        "metadata": {
-            "ids": np.arange(size),
-            "weights": np.random.rand(size)
-        }
+        "metadata": {"ids": np.arange(size), "weights": np.random.rand(size)},
     }
+
 
 # Create batches
 train_batch = create_batch(100)
@@ -648,8 +603,10 @@ print(f"Number of mini-batches: {len(mini_batches)}")
 # Process each mini-batch
 for i, mini_batch in enumerate(mini_batches):
     # Normalize images (apply math to nested structure)
-    mini_batch["images"] = (mini_batch["images"] - mini_batch["images"].mean()) / (mini_batch["images"].std() + 1e-8)
-    
+    mini_batch["images"] = (mini_batch["images"] - mini_batch["images"].mean()) / (
+        mini_batch["images"].std() + 1e-8
+    )
+
     print(f"Mini-batch {i}: {mini_batch['images'].shape[0]} samples")
 ```
 
@@ -663,7 +620,7 @@ from batcharray import nested
 sequences = {
     "sensor_1": np.random.randn(10, 100, 5),  # 10 sequences, 100 steps
     "sensor_2": np.random.randn(10, 100, 3),
-    "labels": np.random.randint(0, 2, (10, 100))
+    "labels": np.random.randint(0, 2, (10, 100)),
 }
 
 # Slice to analysis window
@@ -675,9 +632,11 @@ print(f"Summary shape: {summary['sensor_1'].shape}")  # (10, 5)
 
 # Normalize
 normalized = {
-    "sensor_1": (window["sensor_1"] - summary["sensor_1"][:, None, :]) / (window["sensor_1"].std(axis=1, keepdims=True) + 1e-8),
-    "sensor_2": (window["sensor_2"] - summary["sensor_2"][:, None, :]) / (window["sensor_2"].std(axis=1, keepdims=True) + 1e-8),
-    "labels": window["labels"]
+    "sensor_1": (window["sensor_1"] - summary["sensor_1"][:, None, :])
+    / (window["sensor_1"].std(axis=1, keepdims=True) + 1e-8),
+    "sensor_2": (window["sensor_2"] - summary["sensor_2"][:, None, :])
+    / (window["sensor_2"].std(axis=1, keepdims=True) + 1e-8),
+    "labels": window["labels"],
 }
 ```
 

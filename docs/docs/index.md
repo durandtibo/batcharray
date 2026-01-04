@@ -75,7 +75,6 @@ is the batch axis and the second axis is the sequence axis.
 - [Get Started](get_started.md) - Installation and setup
 - [Tutorials](tutorials/batches.md) - Step-by-step guides
 - [User Guide](uguide/array.md) - Detailed documentation
-- [Best Practices](best_practices.md) - Recommended patterns
 - [API Reference](refs/array.md) - Complete function reference
 - [FAQ](faq.md) - Common questions
 
@@ -135,12 +134,6 @@ Please check the documentation to see all the implemented functions.
 - **[User Guide: Array Operations](uguide/array.md)** - Complete guide to array functions
 - **[User Guide: Nested Structures](uguide/nested.md)** - Working with nested data
 - **[User Guide: Computation Models](uguide/computation.md)** - Low-level abstractions
-
-### For Advanced Users
-
-- **[Best Practices](best_practices.md)** - Recommended patterns and anti-patterns
-- **[Performance Tips](performance.md)** - Optimize your code for speed and memory
-- **[Migration Guide](migration.md)** - Migrate from NumPy or other libraries
 
 ### API Reference
 

@@ -321,18 +321,19 @@ You can extend `BaseComputationModel` to create custom computation models:
 from batcharray.computation import BaseComputationModel
 import numpy as np
 
+
 class CustomComputationModel(BaseComputationModel):
     """Custom computation model example."""
-    
+
     def max(self, array, axis=None, keepdims=False):
         # Custom implementation
         result = np.amax(array, axis=axis, keepdims=keepdims)
         # Add custom logic here
         return result
-    
+
     def min(self, array, axis=None, keepdims=False):
         return np.amin(array, axis=axis, keepdims=keepdims)
-    
+
     # Implement other required methods...
 ```
 
@@ -344,9 +345,7 @@ Register custom models with `AutoComputationModel`:
 from batcharray.computation import register_computation_models, AutoComputationModel
 
 # Register your custom model
-register_computation_models({
-    MyCustomArrayType: CustomComputationModel()
-})
+register_computation_models({MyCustomArrayType: CustomComputationModel()})
 
 # AutoComputationModel will now use your custom model for MyCustomArrayType
 auto_model = AutoComputationModel()
@@ -378,6 +377,7 @@ max_vals = array.amax_along_batch(batch)
 
 # Equivalent low-level operation
 from batcharray.computation import AutoComputationModel
+
 model = AutoComputationModel()
 max_vals = model.max(batch, axis=0)
 ```

@@ -23,30 +23,21 @@ import numpy as np
 from batcharray import array
 
 # Create a batch of 3 sequences, each with 4 time steps and 2 features
-sequences = np.array([
-    # Sequence 1
-    [[1.0, 2.0],   # t=0
-     [3.0, 4.0],   # t=1
-     [5.0, 6.0],   # t=2
-     [7.0, 8.0]],  # t=3
-    
-    # Sequence 2
-    [[9.0, 10.0],
-     [11.0, 12.0],
-     [13.0, 14.0],
-     [15.0, 16.0]],
-    
-    # Sequence 3
-    [[17.0, 18.0],
-     [19.0, 20.0],
-     [21.0, 22.0],
-     [23.0, 24.0]]
-])
+sequences = np.array(
+    [
+        # Sequence 1
+        [[1.0, 2.0], [3.0, 4.0], [5.0, 6.0], [7.0, 8.0]],  # t=0  # t=1  # t=2  # t=3
+        # Sequence 2
+        [[9.0, 10.0], [11.0, 12.0], [13.0, 14.0], [15.0, 16.0]],
+        # Sequence 3
+        [[17.0, 18.0], [19.0, 20.0], [21.0, 22.0], [23.0, 24.0]],
+    ]
+)
 
 print(f"Shape: {sequences.shape}")  # (3, 4, 2)
-print(f"Batch size: {sequences.shape[0]}")       # 3
+print(f"Batch size: {sequences.shape[0]}")  # 3
 print(f"Sequence length: {sequences.shape[1]}")  # 4
-print(f"Features: {sequences.shape[2]}")         # 2
+print(f"Features: {sequences.shape[2]}")  # 2
 ```
 
 ### Slicing Sequences
@@ -115,10 +106,9 @@ for i, split in enumerate(splits):
 import numpy as np
 from batcharray import array
 
-sequences = np.array([
-    [[1.0, 2.0], [3.0, 4.0], [5.0, 6.0]],
-    [[7.0, 8.0], [9.0, 10.0], [11.0, 12.0]]
-])
+sequences = np.array(
+    [[[1.0, 2.0], [3.0, 4.0], [5.0, 6.0]], [[7.0, 8.0], [9.0, 10.0], [11.0, 12.0]]]
+)
 # Shape: (2, 3, 2) - 2 sequences, 3 time steps, 2 features
 
 # Mean over time for each sequence
@@ -147,10 +137,9 @@ print(sum_over_time)
 import numpy as np
 from batcharray import array
 
-sequences = np.array([
-    [[0.1, 0.2], [0.5, 0.3], [0.2, 0.8]],
-    [[0.3, 0.4], [0.1, 0.9], [0.7, 0.2]]
-])
+sequences = np.array(
+    [[[0.1, 0.2], [0.5, 0.3], [0.2, 0.8]], [[0.3, 0.4], [0.1, 0.9], [0.7, 0.2]]]
+)
 
 # Find time step with maximum value for each feature
 max_indices = array.argmax_along_seq(sequences)
@@ -173,10 +162,7 @@ Cumulative operations are particularly useful for sequences:
 import numpy as np
 from batcharray import array
 
-sequences = np.array([
-    [[1, 2], [3, 4], [5, 6]],
-    [[7, 8], [9, 10], [11, 12]]
-])
+sequences = np.array([[[1, 2], [3, 4], [5, 6]], [[7, 8], [9, 10], [11, 12]]])
 
 # Cumulative sum over time
 cumsum = array.cumsum_along_seq(sequences)
@@ -211,25 +197,16 @@ from batcharray import nested
 
 # Batch of sequences with inputs and targets
 sequences = {
-    "inputs": np.array([
-        [[1, 2], [3, 4], [5, 6]],
-        [[7, 8], [9, 10], [11, 12]]
-    ]),
-    "targets": np.array([
-        [[0], [1], [0]],
-        [[1], [1], [0]]
-    ]),
-    "masks": np.array([
-        [True, True, False],
-        [True, True, True]
-    ])
+    "inputs": np.array([[[1, 2], [3, 4], [5, 6]], [[7, 8], [9, 10], [11, 12]]]),
+    "targets": np.array([[[0], [1], [0]], [[1], [1], [0]]]),
+    "masks": np.array([[True, True, False], [True, True, True]]),
 }
 
 # Slice all sequences to first 2 time steps
 sliced = nested.slice_along_seq(sequences, stop=2)
-print(sliced["inputs"].shape)   # (2, 2, 2)
+print(sliced["inputs"].shape)  # (2, 2, 2)
 print(sliced["targets"].shape)  # (2, 2, 1)
-print(sliced["masks"].shape)    # (2, 2)
+print(sliced["masks"].shape)  # (2, 2)
 ```
 
 ## Sorting Sequences
@@ -240,10 +217,7 @@ print(sliced["masks"].shape)    # (2, 2)
 import numpy as np
 from batcharray import array
 
-sequences = np.array([
-    [[5, 2], [1, 4], [3, 6]],
-    [[8, 7], [9, 5], [6, 8]]
-])
+sequences = np.array([[[5, 2], [1, 4], [3, 6]], [[8, 7], [9, 5], [6, 8]]])
 
 # Sort along sequence dimension
 sorted_seq = array.sort_along_seq(sequences)
@@ -263,10 +237,7 @@ print(sorted_seq)
 import numpy as np
 from batcharray import array
 
-sequences = np.array([
-    [[1, 2], [3, 4]],
-    [[5, 6], [7, 8]]
-])
+sequences = np.array([[[1, 2], [3, 4]], [[5, 6], [7, 8]]])
 # Shape: (2, 2, 2)
 
 # Repeat sequence 3 times
@@ -294,8 +265,7 @@ sequences = np.random.randn(10, 20, 5)
 
 # Select specific sequences (batch operation)
 selected_sequences = array.index_select_along_batch(
-    sequences,
-    indices=np.array([0, 2, 4, 6, 8])
+    sequences, indices=np.array([0, 2, 4, 6, 8])
 )
 print(selected_sequences.shape)  # (5, 20, 5)
 
@@ -321,15 +291,15 @@ from batcharray import array
 # Actual lengths: [4, 3, 2]
 sequences = ma.array(
     [
-        [[1, 2], [3, 4], [5, 6], [7, 8]],   # Full sequence
+        [[1, 2], [3, 4], [5, 6], [7, 8]],  # Full sequence
         [[9, 10], [11, 12], [13, 14], [0, 0]],  # Length 3 (last padded)
-        [[15, 16], [17, 18], [0, 0], [0, 0]]    # Length 2 (last 2 padded)
+        [[15, 16], [17, 18], [0, 0], [0, 0]],  # Length 2 (last 2 padded)
     ],
     mask=[
         [[0, 0], [0, 0], [0, 0], [0, 0]],
         [[0, 0], [0, 0], [0, 0], [1, 1]],
-        [[0, 0], [0, 0], [1, 1], [1, 1]]
-    ]
+        [[0, 0], [0, 0], [1, 1], [1, 1]],
+    ],
 )
 
 # Compute mean (automatically handles variable lengths)
@@ -374,7 +344,7 @@ from batcharray import nested
 # Truncate all sequences to same length
 sequences = {
     "text": np.random.randint(0, 1000, (32, 50)),  # 32 sequences, max 50 tokens
-    "labels": np.random.randint(0, 2, (32,))
+    "labels": np.random.randint(0, 2, (32,)),
 }
 
 # Truncate to 30 tokens
@@ -396,7 +366,7 @@ history = np.random.randn(100, 24, 5)  # 24 hours of history
 input_window = array.slice_along_seq(history, stop=18)
 target_window = array.slice_along_seq(history, start=18)
 
-print(f"Input shape: {input_window.shape}")    # (100, 18, 5)
+print(f"Input shape: {input_window.shape}")  # (100, 18, 5)
 print(f"Target shape: {target_window.shape}")  # (100, 6, 5)
 ```
 
@@ -406,19 +376,18 @@ print(f"Target shape: {target_window.shape}")  # (100, 6, 5)
 import numpy as np
 from batcharray import array
 
-sequences = np.array([
-    [[1, 2, 3], [4, 5, 6], [7, 8, 9]],
-    [[10, 11, 12], [13, 14, 15], [16, 17, 18]]
-])
+sequences = np.array(
+    [[[1, 2, 3], [4, 5, 6], [7, 8, 9]], [[10, 11, 12], [13, 14, 15], [16, 17, 18]]]
+)
 
 # Different aggregations over time
-mean_rep = array.mean_along_seq(sequences)      # Average over time
-max_rep = array.amax_along_seq(sequences)       # Max pooling over time
-sum_rep = array.sum_along_seq(sequences)        # Sum over time
+mean_rep = array.mean_along_seq(sequences)  # Average over time
+max_rep = array.amax_along_seq(sequences)  # Max pooling over time
+sum_rep = array.sum_along_seq(sequences)  # Sum over time
 
 print(f"Mean: {mean_rep.shape}")  # (2, 3) - one per sequence
-print(f"Max: {max_rep.shape}")    # (2, 3)
-print(f"Sum: {sum_rep.shape}")    # (2, 3)
+print(f"Max: {max_rep.shape}")  # (2, 3)
+print(f"Sum: {sum_rep.shape}")  # (2, 3)
 ```
 
 ## Next Steps

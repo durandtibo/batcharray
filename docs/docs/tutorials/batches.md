@@ -17,13 +17,15 @@ import numpy as np
 from batcharray import array
 
 # Create a batch of 5 samples, each with 3 features
-batch = np.array([
-    [1.0, 2.0, 3.0],
-    [4.0, 5.0, 6.0],
-    [7.0, 8.0, 9.0],
-    [10.0, 11.0, 12.0],
-    [13.0, 14.0, 15.0]
-])
+batch = np.array(
+    [
+        [1.0, 2.0, 3.0],
+        [4.0, 5.0, 6.0],
+        [7.0, 8.0, 9.0],
+        [10.0, 11.0, 12.0],
+        [13.0, 14.0, 15.0],
+    ]
+)
 
 print(f"Batch shape: {batch.shape}")  # (5, 3)
 print(f"Number of samples: {batch.shape[0]}")
@@ -109,13 +111,15 @@ from batcharray import nested
 
 # Create a batch as a dictionary
 batch = {
-    "features": np.array([
-        [1.0, 2.0, 3.0],
-        [4.0, 5.0, 6.0],
-        [7.0, 8.0, 9.0],
-    ]),
+    "features": np.array(
+        [
+            [1.0, 2.0, 3.0],
+            [4.0, 5.0, 6.0],
+            [7.0, 8.0, 9.0],
+        ]
+    ),
     "labels": np.array([0, 1, 0]),
-    "weights": np.array([1.0, 0.8, 1.2])
+    "weights": np.array([1.0, 0.8, 1.2]),
 }
 
 # Slice all arrays together
@@ -144,10 +148,7 @@ import numpy as np
 from batcharray import nested
 
 # Shuffle while keeping features and labels aligned
-batch = {
-    "features": np.array([[1, 2], [3, 4], [5, 6]]),
-    "labels": np.array([0, 1, 0])
-}
+batch = {"features": np.array([[1, 2], [3, 4], [5, 6]]), "labels": np.array([0, 1, 0])}
 
 shuffled = nested.shuffle_along_batch(batch)
 # Features and labels are shuffled with the same permutation
@@ -163,11 +164,7 @@ Compute statistics across samples in a batch:
 import numpy as np
 from batcharray import array
 
-data = np.array([
-    [1.0, 2.0, 3.0],
-    [4.0, 5.0, 6.0],
-    [7.0, 8.0, 9.0]
-])
+data = np.array([[1.0, 2.0, 3.0], [4.0, 5.0, 6.0], [7.0, 8.0, 9.0]])
 
 # Mean across samples (for each feature)
 mean_features = array.mean_along_batch(data)
@@ -188,11 +185,7 @@ print(sum_features)  # [12. 15. 18.]
 import numpy as np
 from batcharray import array
 
-scores = np.array([
-    [0.2, 0.5, 0.3],
-    [0.1, 0.8, 0.1],
-    [0.6, 0.2, 0.2]
-])
+scores = np.array([[0.2, 0.5, 0.3], [0.1, 0.8, 0.1], [0.6, 0.2, 0.2]])
 
 # Index of maximum value for each feature
 max_indices = array.argmax_along_batch(scores)
@@ -212,11 +205,7 @@ import numpy as np
 from batcharray import array
 
 # Unsorted batch
-data = np.array([
-    [5, 2],
-    [1, 4],
-    [3, 6]
-])
+data = np.array([[5, 2], [1, 4], [3, 6]])
 
 # Sort along batch dimension
 sorted_data = array.sort_along_batch(data)
@@ -276,15 +265,9 @@ print(combined)
 import numpy as np
 from batcharray import nested
 
-batch1 = {
-    "features": np.array([[1, 2], [3, 4]]),
-    "labels": np.array([0, 1])
-}
+batch1 = {"features": np.array([[1, 2], [3, 4]]), "labels": np.array([0, 1])}
 
-batch2 = {
-    "features": np.array([[5, 6]]),
-    "labels": np.array([0])
-}
+batch2 = {"features": np.array([[5, 6]]), "labels": np.array([0])}
 
 combined = nested.concatenate_along_batch([batch1, batch2])
 print(combined)
@@ -307,12 +290,12 @@ from batcharray import array
 
 # Create data with missing values (marked as masked)
 data = ma.array(
-    [[1.0, 2.0, 3.0],
-     [4.0, 5.0, 6.0],
-     [7.0, 8.0, 9.0]],
-    mask=[[False, True, False],   # 2nd value missing
-          [False, False, True],   # 3rd value missing
-          [True, False, False]]   # 1st value missing
+    [[1.0, 2.0, 3.0], [4.0, 5.0, 6.0], [7.0, 8.0, 9.0]],
+    mask=[
+        [False, True, False],  # 2nd value missing
+        [False, False, True],  # 3rd value missing
+        [True, False, False],
+    ],  # 1st value missing
 )
 
 # Compute mean (ignoring masked values)
@@ -342,7 +325,7 @@ from batcharray import nested
 # Full dataset
 dataset = {
     "X": np.random.randn(1000, 784),  # MNIST-like
-    "y": np.random.randint(0, 10, 1000)
+    "y": np.random.randint(0, 10, 1000),
 }
 
 # 80/20 split
@@ -351,7 +334,7 @@ train_data = nested.slice_along_batch(dataset, stop=train_size)
 test_data = nested.slice_along_batch(dataset, start=train_size)
 
 print(f"Train samples: {train_data['X'].shape[0]}")  # 800
-print(f"Test samples: {test_data['X'].shape[0]}")    # 200
+print(f"Test samples: {test_data['X'].shape[0]}")  # 200
 ```
 
 ### Mini-batch Processing
@@ -361,10 +344,7 @@ import numpy as np
 from batcharray import nested
 
 # Large dataset
-dataset = {
-    "X": np.random.randn(1000, 10),
-    "y": np.random.randint(0, 2, 1000)
-}
+dataset = {"X": np.random.randn(1000, 10), "y": np.random.randint(0, 2, 1000)}
 
 # Process in mini-batches
 batch_size = 32
@@ -374,9 +354,11 @@ for i in range(num_batches):
     start = i * batch_size
     stop = min((i + 1) * batch_size, 1000)
     mini_batch = nested.slice_along_batch(dataset, start=start, stop=stop)
-    
+
     # Process mini_batch
-    print(f"Processing batch {i+1}/{num_batches} with {mini_batch['X'].shape[0]} samples")
+    print(
+        f"Processing batch {i+1}/{num_batches} with {mini_batch['X'].shape[0]} samples"
+    )
 ```
 
 ### Data Augmentation
@@ -385,10 +367,7 @@ for i in range(num_batches):
 import numpy as np
 from batcharray import nested
 
-batch = {
-    "images": np.random.randn(32, 28, 28),
-    "labels": np.random.randint(0, 10, 32)
-}
+batch = {"images": np.random.randn(32, 28, 28), "labels": np.random.randint(0, 10, 32)}
 
 # Shuffle for augmentation
 augmented = nested.shuffle_along_batch(batch)
