@@ -601,5 +601,4 @@ normalized = {
 
 - Review the [nested API reference](../refs/nested.md) for all available functions
 - Learn about [computation models](../uguide/computation.md) for low-level operations
-- Check the [FAQ](../faq.md) for common questions and solutions
 - See [batch operations tutorial](batches.md) for simpler cases
