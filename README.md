@@ -129,14 +129,6 @@ Please check the documentation to see all the implemented functions.
     - Automatic selection of appropriate implementation based on array type
     - Support for regular arrays and masked arrays
     - Extensible for custom array types
-- `recursive`: Tools for recursively applying functions to nested structures
-    - Traverse complex hierarchies of dicts, lists, and tuples
-    - Apply transformations to specific types
-    - Customizable traversal strategies
-- `utils`: Utility functions for exploring nested structures
-    - Breadth-first search (BFS) for wide structures
-    - Depth-first search (DFS) for deep structures
-    - Helpful for debugging and validation
 
 ## Documentation
 

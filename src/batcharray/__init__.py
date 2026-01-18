@@ -9,8 +9,6 @@ Main modules:
     - array: Functions to manipulate single arrays with batch/sequence dimensions
     - nested: Functions to manipulate nested structures (dicts, lists) of arrays
     - computation: Computation models for abstracting array operations
-    - recursive: Tools for recursively applying functions to nested structures
-    - utils: Utility functions for exploring nested structures
 
 Example:
 ```pycon

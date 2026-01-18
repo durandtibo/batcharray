@@ -1,24 +1,24 @@
 # Home
 
 <p align="center">
-    <a href="https://github.com/durandtibo/batcharray/actions">
-        <img alt="CI" src="https://github.com/durandtibo/batcharray/workflows/CI/badge.svg">
+    <a href="https://github.com/durandtibo/batcharray/actions/workflows/ci.yaml">
+        <img alt="CI" src="https://github.com/durandtibo/batcharray/actions/workflows/ci.yaml/badge.svg">
     </a>
-    <a href="https://github.com/durandtibo/batcharray/actions">
-        <img alt="Nightly Tests" src="https://github.com/durandtibo/batcharray/workflows/Nightly%20Tests/badge.svg">
+    <a href="https://github.com/durandtibo/batcharray/actions/workflows/nightly-tests.yaml">
+        <img alt="Nightly Tests" src="https://github.com/durandtibo/batcharray/actions/workflows/nightly-tests.yaml/badge.svg">
     </a>
-    <a href="https://github.com/durandtibo/batcharray/actions">
-        <img alt="Nightly Package Tests" src="https://github.com/durandtibo/batcharray/workflows/Nightly%20Package%20Tests/badge.svg">
+    <a href="https://github.com/durandtibo/batcharray/actions/workflows/nightly-package.yaml">
+        <img alt="Nightly Package Tests" src="https://github.com/durandtibo/batcharray/actions/workflows/nightly-package.yaml/badge.svg">
     </a>
     <a href="https://codecov.io/gh/durandtibo/batcharray">
         <img alt="Codecov" src="https://codecov.io/gh/durandtibo/batcharray/branch/main/graph/badge.svg">
     </a>
     <br/>
     <a href="https://durandtibo.github.io/batcharray/">
-        <img alt="Documentation" src="https://github.com/durandtibo/batcharray/workflows/Documentation%20(stable)/badge.svg">
+        <img alt="Documentation" src="https://github.com/durandtibo/batcharray/actions/workflows/docs.yaml/badge.svg">
     </a>
-    <a href="https://durandtibo.github.io/batcharray/">
-        <img alt="Documentation" src="https://github.com/durandtibo/batcharray/workflows/Documentation%20(unstable)/badge.svg">
+    <a href="https://durandtibo.github.io/batcharray/dev/">
+        <img alt="Documentation" src="https://github.com/durandtibo/batcharray/actions/workflows/docs-dev.yaml/badge.svg">
     </a>
     <br/>
     <a href="https://github.com/psf/black">
@@ -76,7 +76,6 @@ is the batch axis and the second axis is the sequence axis.
 - [Tutorials](tutorials/batches.md) - Step-by-step guides
 - [User Guide](uguide/array.md) - Detailed documentation
 - [API Reference](refs/array.md) - Complete function reference
-- [FAQ](faq.md) - Common questions
 
 ## Motivation
 
@@ -125,7 +124,6 @@ Please check the documentation to see all the implemented functions.
 
 - **[Get Started](get_started.md)** - Install and set up batcharray
 - **[Working with Batches Tutorial](tutorials/batches.md)** - Learn basic batch operations
-- **[FAQ](faq.md)** - Common questions and answers
 
 ### For Users
 
