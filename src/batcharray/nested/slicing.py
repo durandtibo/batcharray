@@ -43,7 +43,7 @@ def chunk_along_batch(
         chunks: Number of chunks to return.
 
     Returns:
-        The data chuncks.
+        The data chunks.
 
     Example:
         ```pycon

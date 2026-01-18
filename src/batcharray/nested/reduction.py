@@ -42,7 +42,7 @@ def amax_along_batch(data: Any, keepdims: bool = False) -> Any:
             same batch size.
 
     Args:
-        data: The input data. Each item must be a array.
+        data: The input data. Each item must be an array.
         keepdims: Whether the output array has dim retained or not.
 
     Returns:
@@ -77,7 +77,7 @@ def amax_along_seq(data: Any, keepdims: bool = False) -> Any:
             same sequence size.
 
     Args:
-        data: The input data. Each item must be a array.
+        data: The input data. Each item must be an array.
         keepdims: Whether the output array has dim retained or not.
 
     Returns:
@@ -112,7 +112,7 @@ def amin_along_batch(data: Any, keepdims: bool = False) -> Any:
             same batch size.
 
     Args:
-        data: The input data. Each item must be a array.
+        data: The input data. Each item must be an array.
         keepdims: Whether the output array has dim retained or not.
 
     Returns:
@@ -147,7 +147,7 @@ def amin_along_seq(data: Any, keepdims: bool = False) -> Any:
             same sequence size.
 
     Args:
-        data: The input data. Each item must be a array.
+        data: The input data. Each item must be an array.
         keepdims: Whether the output array has dim retained or not.
 
     Returns:
@@ -183,7 +183,7 @@ def argmax_along_batch(data: Any, keepdims: bool = False) -> Any:
             same batch size.
 
     Args:
-        data: The input data. Each item must be a array.
+        data: The input data. Each item must be an array.
         keepdims: Whether the output array has dim retained or not.
 
     Returns:
@@ -220,7 +220,7 @@ def argmax_along_seq(data: Any, keepdims: bool = False) -> Any:
             same sequence size.
 
     Args:
-        data: The input data. Each item must be a array.
+        data: The input data. Each item must be an array.
         keepdims: Whether the output array has dim retained or not.
 
     Returns:
@@ -257,7 +257,7 @@ def argmin_along_batch(data: Any, keepdims: bool = False) -> Any:
             same batch size.
 
     Args:
-        data: The input data. Each item must be a array.
+        data: The input data. Each item must be an array.
         keepdims: Whether the output array has dim retained or not.
 
     Returns:
@@ -294,7 +294,7 @@ def argmin_along_seq(data: Any, keepdims: bool = False) -> Any:
             same sequence size.
 
     Args:
-        data: The input data. Each item must be a array.
+        data: The input data. Each item must be an array.
         keepdims: Whether the output array has dim retained or not.
 
     Returns:
@@ -330,7 +330,7 @@ def max_along_batch(data: Any, keepdims: bool = False) -> Any:
             same batch size.
 
     Args:
-        data: The input data. Each item must be a array.
+        data: The input data. Each item must be an array.
         keepdims: Whether the output array has dim retained or not.
 
     Returns:
@@ -365,7 +365,7 @@ def max_along_seq(data: Any, keepdims: bool = False) -> Any:
             same sequence size.
 
     Args:
-        data: The input data. Each item must be a array.
+        data: The input data. Each item must be an array.
         keepdims: Whether the output array has dim retained or not.
 
     Returns:
@@ -400,7 +400,7 @@ def mean_along_batch(data: Any, keepdims: bool = False) -> Any:
             same batch size.
 
     Args:
-        data: The input data. Each item must be a array.
+        data: The input data. Each item must be an array.
         keepdims: Whether the output array has dim retained or not.
 
     Returns:
@@ -435,7 +435,7 @@ def mean_along_seq(data: Any, keepdims: bool = False) -> Any:
             same sequence size.
 
     Args:
-        data: The input data. Each item must be a array.
+        data: The input data. Each item must be an array.
         keepdims: Whether the output array has dim retained or not.
 
     Returns:
@@ -470,7 +470,7 @@ def median_along_batch(data: Any, keepdims: bool = False) -> Any:
             same batch size.
 
     Args:
-        data: The input data. Each item must be a array.
+        data: The input data. Each item must be an array.
         keepdims: Whether the output array has dim retained or not.
 
     Returns:
@@ -508,7 +508,7 @@ def median_along_seq(data: Any, keepdims: bool = False) -> Any:
             same sequence size.
 
     Args:
-        data: The input data. Each item must be a array.
+        data: The input data. Each item must be an array.
         keepdims: Whether the output array has dim retained or not.
 
     Returns:
@@ -546,7 +546,7 @@ def min_along_batch(data: Any, keepdims: bool = False) -> Any:
             same batch size.
 
     Args:
-        data: The input data. Each item must be a array.
+        data: The input data. Each item must be an array.
         keepdims: Whether the output array has dim retained or not.
 
     Returns:
@@ -581,7 +581,7 @@ def min_along_seq(data: Any, keepdims: bool = False) -> Any:
             same sequence size.
 
     Args:
-        data: The input data. Each item must be a array.
+        data: The input data. Each item must be an array.
         keepdims: Whether the output array has dim retained or not.
 
     Returns:
@@ -616,7 +616,7 @@ def prod_along_batch(data: Any, keepdims: bool = False) -> Any:
             same batch size.
 
     Args:
-        data: The input data. Each item must be a array.
+        data: The input data. Each item must be an array.
         keepdims: Whether the output array has dim retained or not.
 
     Returns:
@@ -651,7 +651,7 @@ def prod_along_seq(data: Any, keepdims: bool = False) -> Any:
             same sequence size.
 
     Args:
-        data: The input data. Each item must be a array.
+        data: The input data. Each item must be an array.
         keepdims: Whether the output array has dim retained or not.
 
     Returns:
@@ -686,7 +686,7 @@ def sum_along_batch(data: Any, keepdims: bool = False) -> Any:
             same batch size.
 
     Args:
-        data: The input data. Each item must be a array.
+        data: The input data. Each item must be an array.
         keepdims: Whether the output array has dim retained or not.
 
     Returns:
@@ -721,7 +721,7 @@ def sum_along_seq(data: Any, keepdims: bool = False) -> Any:
             same sequence size.
 
     Args:
-        data: The input data. Each item must be a array.
+        data: The input data. Each item must be an array.
         keepdims: Whether the output array has dim retained or not.
 
     Returns:
