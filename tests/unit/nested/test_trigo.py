@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-from collections.abc import Callable
 from typing import TYPE_CHECKING
 
 import numpy as np
@@ -10,6 +9,8 @@ from coola import objects_are_allclose
 from batcharray import nested
 
 if TYPE_CHECKING:
+    from collections.abc import Callable
+
     from numpy.typing import DTypeLike
 
 DTYPES = [np.float32, np.float64, np.int64]
