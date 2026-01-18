@@ -25,7 +25,7 @@ def argsort_along_batch(data: Any, kind: SortKind | None = None) -> Any:
             same batch size.
 
     Args:
-        data: The input data. Each item must be an array .
+        data: The input data. Each item must be an array.
         kind: Sorting algorithm. The default is `quicksort`.
             Note that both `stable` and `mergesort` use timsort
             under the covers and, in general, the actual
@@ -63,7 +63,7 @@ def argsort_along_seq(data: Any, kind: SortKind | None = None) -> Any:
             same sequence size.
 
     Args:
-        data: The input data. Each item must be an array .
+        data: The input data. Each item must be an array.
         kind: Sorting algorithm. The default is `quicksort`.
             Note that both `stable` and `mergesort` use timsort
             under the covers and, in general, the actual
@@ -101,7 +101,7 @@ def sort_along_batch(data: Any, kind: SortKind | None = None) -> Any:
             same batch size.
 
     Args:
-        data: The input data. Each item must be an array .
+        data: The input data. Each item must be an array.
         kind: Sorting algorithm. The default is `quicksort`.
             Note that both `stable` and `mergesort` use timsort
             under the covers and, in general, the actual
@@ -140,7 +140,7 @@ def sort_along_seq(data: Any, kind: SortKind | None = None) -> Any:
             same sequence size.
 
     Args:
-        data: The input data. Each item must be an array .
+        data: The input data. Each item must be an array.
         kind: Sorting algorithm. The default is `quicksort`.
             Note that both `stable` and `mergesort` use timsort
             under the covers and, in general, the actual
