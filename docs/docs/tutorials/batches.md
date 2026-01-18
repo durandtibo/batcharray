@@ -304,7 +304,6 @@ sorted_data = array.sort_along_batch(data)
 - Learn about [sequence operations](sequences.md) for time-series data
 - Explore [advanced nested operations](nested.md)
 - See [computation models](../uguide/computation.md) for low-level operations
-- Check the [FAQ](../faq.md) for common questions
 
 ## Common Patterns
 

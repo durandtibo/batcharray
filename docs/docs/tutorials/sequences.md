@@ -371,4 +371,3 @@ sum_rep = array.sum_along_seq(sequences)  # Sum over time
 - Learn about [batch operations](batches.md) for working with collections
 - Explore [nested structures](nested.md) for complex data
 - See the [array reference](../refs/array.md) for all available functions
-- Check out the [FAQ](../faq.md) for common questions
