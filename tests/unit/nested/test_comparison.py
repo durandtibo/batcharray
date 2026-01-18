@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from typing import TYPE_CHECKING
+
 import numpy as np
 import pytest
 from coola import objects_are_equal
@@ -10,7 +12,10 @@ from batcharray.nested import (
     sort_along_batch,
     sort_along_seq,
 )
-from batcharray.types import SORT_KINDS, SortKind
+from batcharray.types import SORT_KINDS
+
+if TYPE_CHECKING:
+    from batcharray.types import SortKind
 
 #########################################
 #     Tests for argsort_along_batch     #

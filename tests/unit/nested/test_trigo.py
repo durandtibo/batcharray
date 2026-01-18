@@ -1,11 +1,16 @@
+from __future__ import annotations
+
 from collections.abc import Callable
+from typing import TYPE_CHECKING
 
 import numpy as np
 import pytest
 from coola import objects_are_allclose
-from numpy.typing import DTypeLike
 
 from batcharray import nested
+
+if TYPE_CHECKING:
+    from numpy.typing import DTypeLike
 
 DTYPES = [np.float32, np.float64, np.int64]
 POINTWISE_FUNCTIONS = [
