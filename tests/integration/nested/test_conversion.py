@@ -4,7 +4,7 @@ from typing import TYPE_CHECKING, Any
 
 import numpy as np
 import pytest
-from coola import objects_are_equal
+from coola.equality import objects_are_equal
 from coola.recursive import BaseTransformer, TransformerRegistry, get_default_registry
 
 from batcharray.nested import to_list

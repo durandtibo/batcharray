@@ -4,7 +4,7 @@ from typing import TYPE_CHECKING
 
 import numpy as np
 import pytest
-from coola import objects_are_allclose
+from coola.equality import objects_are_allclose
 
 from batcharray import nested
 

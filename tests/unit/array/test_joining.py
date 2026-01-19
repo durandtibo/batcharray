@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import numpy as np
 import pytest
-from coola import objects_are_equal
+from coola.equality import objects_are_equal
 
 from batcharray.array import (
     concatenate_along_batch,

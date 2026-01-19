@@ -8,7 +8,7 @@ __all__ = ["AutoComputationModel", "register_computation_models"]
 from typing import TYPE_CHECKING, ClassVar, TypeVar
 
 import numpy as np
-from coola.utils import repr_indent, repr_mapping, str_indent, str_mapping
+from coola.utils.format import repr_indent, repr_mapping, str_indent, str_mapping
 
 from batcharray.computation.base import BaseComputationModel
 
