@@ -3,7 +3,7 @@ from __future__ import annotations
 import logging
 
 import numpy as np
-from coola import objects_are_equal
+from coola.equality import objects_are_equal
 
 logger: logging.Logger = logging.getLogger(__name__)
 
