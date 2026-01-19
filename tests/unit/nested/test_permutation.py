@@ -5,7 +5,7 @@ from unittest.mock import Mock
 
 import numpy as np
 import pytest
-from coola import objects_are_equal
+from coola.equality import objects_are_equal
 
 from batcharray.nested import (
     permute_along_batch,
