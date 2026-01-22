@@ -403,7 +403,6 @@ Register custom models with `AutoComputationModel`:
 import numpy as np
 from batcharray.computation import AutoComputationModel
 
-
 # Register your custom model
 AutoComputationModel.add_computation_model(MyCustomArrayType, CustomComputationModel())
 
