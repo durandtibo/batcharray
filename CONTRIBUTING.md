@@ -39,12 +39,14 @@ Please refer to the [uv installation documentation](https://docs.astral.sh/uv/ge
 ### Setting up the development environment
 
 1. Clone your fork:
+
    ```shell
    git clone git@github.com:YOUR_USERNAME/batcharray.git
    cd batcharray
    ```
 
 2. Set up the virtual environment and install dependencies:
+
    ```shell
    make setup-venv
    source .venv/bin/activate

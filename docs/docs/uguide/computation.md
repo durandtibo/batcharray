@@ -283,20 +283,24 @@ sorted_batch = computation.sort(batch, axis=1)  # Sort each sample
 The `computation` module provides the following functions through its interface:
 
 ### Statistical Operations
+
 - `max(array, axis, keepdims)` - Maximum values
 - `min(array, axis, keepdims)` - Minimum values
 - `mean(array, axis, keepdims)` - Mean values
 - `median(array, axis, keepdims)` - Median values
 
 ### Indexing Operations
+
 - `argmax(array, axis)` - Indices of maximum values
 - `argmin(array, axis)` - Indices of minimum values
 
 ### Sorting Operations
+
 - `sort(array, axis, kind)` - Sort array
 - `argsort(array, axis, kind)` - Get sorting indices
 
 ### Joining Operations
+
 - `concatenate(arrays, axis)` - Concatenate arrays
 
 ### Available Models

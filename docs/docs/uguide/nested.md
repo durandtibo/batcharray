@@ -265,15 +265,18 @@ The `nested` module provides all operations from the `array` module, but for nes
 Here's a non comprehensive list organized by category:
 
 ### Comparison and Sorting
+
 - `argsort_along_batch()` - Get sorting indices (batch)
 - `argsort_along_seq()` - Get sorting indices (sequence)
 - `sort_along_batch()` - Sort nested arrays (batch)
 - `sort_along_seq()` - Sort nested arrays (sequence)
 
 ### Conversion
+
 - `to_list()` - Convert arrays to native Python lists
 
 ### Indexing and Selection
+
 - `index_select_along_batch()` - Select using indices (batch)
 - `index_select_along_seq()` - Select using indices (sequence)
 - `masked_select_along_batch()` - Select using mask (batch)
@@ -282,23 +285,27 @@ Here's a non comprehensive list organized by category:
 - `take_along_seq()` - Take elements using index array (sequence)
 
 ### Joining Operations
+
 - `concatenate_along_batch()` - Concatenate nested structures (batch)
 - `concatenate_along_seq()` - Concatenate nested structures (sequence)
 - `tile_along_seq()` - Tile nested arrays along sequence
 
 ### Mathematical Operations
+
 - `cumprod_along_batch()` - Cumulative product (batch)
 - `cumprod_along_seq()` - Cumulative product (sequence)
 - `cumsum_along_batch()` - Cumulative sum (batch)
 - `cumsum_along_seq()` - Cumulative sum (sequence)
 
 ### Permutation and Shuffling
+
 - `permute_along_batch()` - Apply permutation (batch)
 - `permute_along_seq()` - Apply permutation (sequence)
 - `shuffle_along_batch()` - Random shuffle (batch)
 - `shuffle_along_seq()` - Random shuffle (sequence)
 
 ### Pointwise Operations
+
 - `abs()` - Absolute value
 - `clip()` - Clip values to range
 - `exp()` - Exponential (base e)
@@ -310,6 +317,7 @@ Here's a non comprehensive list organized by category:
 - `log10()` - Base-10 logarithm
 
 ### Reduction Operations
+
 - `amax_along_batch()` / `max_along_batch()` - Maximum (batch)
 - `amax_along_seq()` / `max_along_seq()` - Maximum (sequence)
 - `amin_along_batch()` / `min_along_batch()` - Minimum (batch)
@@ -328,6 +336,7 @@ Here's a non comprehensive list organized by category:
 - `sum_along_seq()` - Sum (sequence)
 
 ### Slicing Operations
+
 - `chunk_along_batch()` - Split into chunks (batch)
 - `chunk_along_seq()` - Split into chunks (sequence)
 - `select_along_batch()` - Select single index (batch)
@@ -338,6 +347,7 @@ Here's a non comprehensive list organized by category:
 - `split_along_seq()` - Split into sections (sequence)
 
 ### Trigonometric Functions
+
 - `sin()` - Sine
 - `cos()` - Cosine
 - `tan()` - Tangent
