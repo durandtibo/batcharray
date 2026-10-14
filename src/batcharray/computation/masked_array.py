@@ -19,11 +19,14 @@ if TYPE_CHECKING:
     from batcharray.types import SortKind
 
 
-class MaskedArrayComputationModel(BaseComputationModel[np.ma.MaskedArray]):  # noqa: PLW1641
+class MaskedArrayComputationModel(BaseComputationModel[np.ma.MaskedArray]):
     r"""Implement a computation model for ``numpy.ma.MaskedArray``s."""
 
     def __eq__(self, other: object) -> bool:
         return isinstance(other, self.__class__)
+
+    def __hash__(self) -> int:
+        return hash(self.__class__)
 
     def __repr__(self) -> str:
         return f"{self.__class__.__qualname__}()"
