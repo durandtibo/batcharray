@@ -44,7 +44,7 @@ dependencies = [
 [package.dev-dependencies]
 dev = [
     { name = "coverage", extra = ["toml"] },
-    { name = "docformatter", extra = ["tomli"], marker = "python_full_version < '3.14'" },
+    { name = "docformatter" },
     { name = "feu", extra = ["all"] },
     { name = "invoke" },
     { name = "invoke-tasklib" },
@@ -75,15 +75,15 @@ requires-dist = [
 
 [package.metadata.requires-dev]
 dev = [
-    { name = "coverage", extras = ["toml"], specifier = ">=7.11,<8.0" },
-    { name = "docformatter", extras = ["tomli"], marker = "python_full_version < '3.14'", specifier = ">=1.7,<2.0" },
+    { name = "coverage", extras = ["toml"], specifier = ">=7.15,<8.0" },
+    { name = "docformatter", specifier = ">=1.7.8,<2.0" },
     { name = "feu", extras = ["all"], specifier = ">=0.8.4,<1.0" },
     { name = "invoke", specifier = ">=3.0,<4.0" },
     { name = "invoke-tasklib", specifier = ">=0.0.8,<1.0" },
-    { name = "pre-commit", specifier = ">=4.5,<5.0" },
-    { name = "pygments", specifier = ">=2.19,<3.0" },
-    { name = "pytest", specifier = ">=9.0,<10.0" },
-    { name = "pytest-cov", specifier = ">=7.0,<8.0" },
+    { name = "pre-commit", specifier = ">=4.6,<5.0" },
+    { name = "pygments", specifier = ">=2.20,<3.0" },
+    { name = "pytest", specifier = ">=9.1,<10.0" },
+    { name = "pytest-cov", specifier = ">=7.1,<8.0" },
     { name = "pytest-markdown-docs", specifier = ">=0.9,<1.0" },
     { name = "pytest-timeout", specifier = ">=2.4,<3.0" },
     { name = "ruff", specifier = ">=0.16,<1.0" },
@@ -91,8 +91,8 @@ dev = [
     { name = "xdoctest", specifier = ">=1.3,<2.0" },
 ]
 docs = [
-    { name = "mike", specifier = ">=2.1,<3.0" },
-    { name = "mkdocs-include-markdown-plugin", specifier = ">=7.2,<8.0" },
+    { name = "mike", specifier = ">=2.2,<3.0" },
+    { name = "mkdocs-include-markdown-plugin", specifier = ">=7.3,<8.0" },
     { name = "mkdocs-material", specifier = ">=9.7,<10.0" },
     { name = "mkdocstrings", extras = ["python"], specifier = ">=1.0,<2.0" },
 ]
@@ -466,11 +466,6 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/6a/e1/f6fb315205e0a8f62ddbd52029b3d39cb5bada768af317193460f0454f6b/docformatter-1.7.8.tar.gz", hash = "sha256:6589b62a8f38c62c4c8c84cb1afa296af007c88c959e4c9d25c74c1f933c4dbf", size = 37754, upload-time = "2026-04-28T20:34:49.39Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/09/9b/9d2f60e967243aa0d1c6366f4f5feb0740393b5da7dbc66802034afc6331/docformatter-1.7.8-py3-none-any.whl", hash = "sha256:8e518948bacb8d8df5d5f625060e214a200f0a908d8e6797c9ebbdd2cdd17467", size = 59445, upload-time = "2026-04-28T20:34:50.393Z" },
-]
-
-[package.optional-dependencies]
-tomli = [
-    { name = "tomli", marker = "python_full_version < '3.11' or python_full_version >= '3.14'" },
 ]
 
 [[package]]

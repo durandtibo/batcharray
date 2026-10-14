@@ -136,15 +136,11 @@ from batcharray.computation import BaseComputationModel, register_computation_mo
 class CustomArrayComputationModel(BaseComputationModel):
     """Custom computation model for special array types."""
 
-    def max(
-        self, array: np.ndarray, axis: int | None = None, keepdims: bool = False
-    ) -> np.ndarray:
+    def max(self, array: np.ndarray, axis: int | None = None, keepdims: bool = False) -> np.ndarray:
         # Custom max implementation
         return np.amax(array, axis=axis, keepdims=keepdims)
 
-    def min(
-        self, array: np.ndarray, axis: int | None = None, keepdims: bool = False
-    ) -> np.ndarray:
+    def min(self, array: np.ndarray, axis: int | None = None, keepdims: bool = False) -> np.ndarray:
         # Custom min implementation
         return np.amin(array, axis=axis, keepdims=keepdims)
 
@@ -237,9 +233,7 @@ import numpy.ma as ma
 from batcharray import array, computation
 
 # Create masked array batch
-batch = ma.array(
-    [[1, 2, 3], [4, 5, 6], [7, 8, 9]], mask=[[0, 1, 0], [1, 0, 1], [0, 0, 0]]
-)
+batch = ma.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]], mask=[[0, 1, 0], [1, 0, 1], [0, 0, 0]])
 
 # Use array operations (they use computation models internally)
 sliced = array.slice_along_batch(batch, stop=2)
@@ -275,7 +269,8 @@ from batcharray import computation, array
 
 # Batch with some missing values
 batch = ma.array(
-    np.random.randn(100, 50), mask=np.random.random((100, 50)) < 0.1  # 10% missing
+    np.random.randn(100, 50),
+    mask=np.random.random((100, 50)) < 0.1,  # 10% missing
 )
 
 # Process batch
@@ -334,17 +329,13 @@ class MyCustomArrayType(np.ndarray): ...
 class CustomComputationModel(BaseComputationModel):
     """Custom computation model example."""
 
-    def max(
-        self, arr: MyCustomArrayType, axis: int | None = None, *, keepdims: bool = False
-    ):
+    def max(self, arr: MyCustomArrayType, axis: int | None = None, *, keepdims: bool = False):
         # Custom implementation
         result = np.amax(arr, axis=axis, keepdims=keepdims)
         # Add custom logic here
         return result
 
-    def min(
-        self, arr: MyCustomArrayType, axis: int | None = None, *, keepdims: bool = False
-    ):
+    def min(self, arr: MyCustomArrayType, axis: int | None = None, *, keepdims: bool = False):
         pass
 
     def argmin(
@@ -353,11 +344,7 @@ class CustomComputationModel(BaseComputationModel):
         raise NotImplementedError
 
     def argsort(
-        self,
-        arr: MyCustomArrayType,
-        axis: int | None = None,
-        *,
-        kind: SortKind | None = None
+        self, arr: MyCustomArrayType, axis: int | None = None, *, kind: SortKind | None = None
     ) -> MyCustomArrayType:
         raise NotImplementedError
 
@@ -366,7 +353,7 @@ class CustomComputationModel(BaseComputationModel):
         arrays: Sequence[MyCustomArrayType],
         axis: int | None = None,
         *,
-        dtype: DTypeLike = None
+        dtype: DTypeLike = None,
     ) -> MyCustomArrayType:
         raise NotImplementedError
 
@@ -381,11 +368,7 @@ class CustomComputationModel(BaseComputationModel):
         raise NotImplementedError
 
     def sort(
-        self,
-        arr: MyCustomArrayType,
-        axis: int | None = None,
-        *,
-        kind: SortKind | None = None
+        self, arr: MyCustomArrayType, axis: int | None = None, *, kind: SortKind | None = None
     ) -> MyCustomArrayType:
         raise NotImplementedError
 

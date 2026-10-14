@@ -148,9 +148,7 @@ import numpy.ma as ma
 from batcharray import array
 
 # Create masked array
-data = ma.array(
-    [[1, 2, 3], [4, 5, 6], [7, 8, 9]], mask=[[0, 0, 1], [0, 1, 0], [1, 0, 0]]
-)
+data = ma.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]], mask=[[0, 0, 1], [0, 1, 0], [1, 0, 0]])
 
 # Operations work with masked values
 mean = array.mean_along_batch(data)
