@@ -2,7 +2,12 @@ r"""Contain some functions to permute data in arrays."""
 
 from __future__ import annotations
 
-__all__ = ["permute_along_batch", "permute_along_seq", "shuffle_along_batch", "shuffle_along_seq"]
+__all__ = [
+    "permute_along_batch",
+    "permute_along_seq",
+    "shuffle_along_batch",
+    "shuffle_along_seq",
+]
 
 
 from functools import partial

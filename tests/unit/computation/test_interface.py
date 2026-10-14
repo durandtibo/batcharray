@@ -50,7 +50,9 @@ def test_argmax_axis_none(dtype: DTypeLike) -> None:
 def test_argmax_keepdims_true(dtype: DTypeLike) -> None:
     assert objects_are_equal(
         cmpt.argmax(
-            np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]], dtype=dtype), axis=0, keepdims=True
+            np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]], dtype=dtype),
+            axis=0,
+            keepdims=True,
         ),
         np.array([[4, 4]]),
     )
@@ -63,7 +65,13 @@ def test_argmax_masked_array(dtype: DTypeLike) -> None:
             np.ma.masked_array(
                 data=np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]], dtype=dtype),
                 mask=np.array(
-                    [[False, False], [False, False], [True, False], [False, False], [True, False]]
+                    [
+                        [False, False],
+                        [False, False],
+                        [True, False],
+                        [False, False],
+                        [True, False],
+                    ]
                 ),
             ),
             axis=0,
@@ -105,7 +113,9 @@ def test_argmin_axis_none(dtype: DTypeLike) -> None:
 def test_argmin_keepdims_true(dtype: DTypeLike) -> None:
     assert objects_are_equal(
         cmpt.argmin(
-            np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]], dtype=dtype), axis=0, keepdims=True
+            np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]], dtype=dtype),
+            axis=0,
+            keepdims=True,
         ),
         np.array([[0, 0]]),
     )
@@ -118,7 +128,13 @@ def test_argmin_masked_array(dtype: DTypeLike) -> None:
             np.ma.masked_array(
                 data=np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]], dtype=dtype),
                 mask=np.array(
-                    [[True, False], [False, False], [True, False], [False, False], [False, False]]
+                    [
+                        [True, False],
+                        [False, False],
+                        [True, False],
+                        [False, False],
+                        [False, False],
+                    ]
                 ),
             ),
             axis=0,
@@ -136,7 +152,8 @@ def test_argmin_masked_array(dtype: DTypeLike) -> None:
 def test_argsort_axis_0(dtype: DTypeLike) -> None:
     assert objects_are_equal(
         cmpt.argsort(
-            np.array([[1, 14, 4, 13, 6], [3, 0, 10, 5, 11], [2, 8, 7, 12, 9]], dtype=dtype), axis=0
+            np.array([[1, 14, 4, 13, 6], [3, 0, 10, 5, 11], [2, 8, 7, 12, 9]], dtype=dtype),
+            axis=0,
         ),
         np.array([[0, 1, 0, 1, 0], [2, 2, 2, 2, 2], [1, 0, 1, 0, 1]]),
     )
@@ -158,7 +175,8 @@ def test_argsort_axis_0_stable(dtype: DTypeLike) -> None:
 def test_argsort_axis_1(dtype: DTypeLike) -> None:
     assert objects_are_equal(
         cmpt.argsort(
-            np.array([[1, 14, 4, 13, 6], [3, 0, 10, 5, 11], [2, 8, 7, 12, 9]], dtype=dtype), axis=1
+            np.array([[1, 14, 4, 13, 6], [3, 0, 10, 5, 11], [2, 8, 7, 12, 9]], dtype=dtype),
+            axis=1,
         ),
         np.array([[0, 2, 4, 3, 1], [1, 0, 3, 2, 4], [0, 2, 1, 4, 3]]),
     )
@@ -201,7 +219,9 @@ def test_argsort_axis_none_stable(dtype: DTypeLike) -> None:
 def test_argsort_kind(kind: SortKind) -> None:
     assert objects_are_equal(
         cmpt.argsort(
-            np.array([[3, 5, 0, 2, 4], [4, 7, 8, 8, 5], [8, 4, 1, 3, 0]]), axis=0, kind=kind
+            np.array([[3, 5, 0, 2, 4], [4, 7, 8, 8, 5], [8, 4, 1, 3, 0]]),
+            axis=0,
+            kind=kind,
         ),
         np.array([[0, 2, 0, 0, 2], [1, 0, 2, 2, 0], [2, 1, 1, 1, 1]]),
     )
@@ -234,7 +254,8 @@ def test_auto_array_computation_model_argsort_masked_array(dtype: DTypeLike) -> 
 
 def test_concatenate_array_axis_0() -> None:
     out = cmpt.concatenate(
-        [np.array([[0, 1, 2], [4, 5, 6]]), np.array([[10, 11, 12], [13, 14, 15]])], axis=0
+        [np.array([[0, 1, 2], [4, 5, 6]]), np.array([[10, 11, 12], [13, 14, 15]])],
+        axis=0,
     )
     assert objects_are_equal(out, np.array([[0, 1, 2], [4, 5, 6], [10, 11, 12], [13, 14, 15]]))
 
@@ -299,7 +320,9 @@ def test_max_axis_none(dtype: DTypeLike) -> None:
 def test_max_keepdims_true(dtype: DTypeLike) -> None:
     assert objects_are_equal(
         cmpt.max(
-            np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]], dtype=dtype), axis=0, keepdims=True
+            np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]], dtype=dtype),
+            axis=0,
+            keepdims=True,
         ),
         np.array([[8, 9]], dtype=dtype),
     )
@@ -312,7 +335,13 @@ def test_max_masked_array(dtype: DTypeLike) -> None:
             np.ma.masked_array(
                 data=np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]], dtype=dtype),
                 mask=np.array(
-                    [[False, False], [False, False], [True, False], [False, False], [True, False]]
+                    [
+                        [False, False],
+                        [False, False],
+                        [True, False],
+                        [False, False],
+                        [True, False],
+                    ]
                 ),
             ),
             axis=0,
@@ -354,7 +383,9 @@ def test_mean_axis_none(dtype: DTypeLike) -> None:
 def test_mean_keepdims_true(dtype: DTypeLike) -> None:
     assert objects_are_equal(
         cmpt.mean(
-            np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]], dtype=dtype), axis=0, keepdims=True
+            np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]], dtype=dtype),
+            axis=0,
+            keepdims=True,
         ),
         np.array([[4.0, 5.0]]),
     )
@@ -367,7 +398,13 @@ def test_mean_masked_array(dtype: DTypeLike) -> None:
             np.ma.masked_array(
                 data=np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]], dtype=dtype),
                 mask=np.array(
-                    [[False, False], [False, False], [True, False], [False, False], [True, False]]
+                    [
+                        [False, False],
+                        [False, False],
+                        [True, False],
+                        [False, False],
+                        [True, False],
+                    ]
                 ),
             ),
             axis=0,
@@ -409,7 +446,9 @@ def test_median_axis_none(dtype: DTypeLike) -> None:
 def test_median_keepdims_true(dtype: DTypeLike) -> None:
     assert objects_are_equal(
         cmpt.median(
-            np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]], dtype=dtype), axis=0, keepdims=True
+            np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]], dtype=dtype),
+            axis=0,
+            keepdims=True,
         ),
         np.array([[4.0, 5.0]]),
     )
@@ -422,7 +461,13 @@ def test_median_masked_array(dtype: DTypeLike) -> None:
             np.ma.masked_array(
                 data=np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]], dtype=dtype),
                 mask=np.array(
-                    [[False, False], [False, False], [True, False], [False, False], [True, False]]
+                    [
+                        [False, False],
+                        [False, False],
+                        [True, False],
+                        [False, False],
+                        [True, False],
+                    ]
                 ),
             ),
             axis=0,
@@ -461,7 +506,9 @@ def test_min_axis_none(dtype: DTypeLike) -> None:
 def test_min_keepdims_true(dtype: DTypeLike) -> None:
     assert objects_are_equal(
         cmpt.min(
-            np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]], dtype=dtype), axis=0, keepdims=True
+            np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]], dtype=dtype),
+            axis=0,
+            keepdims=True,
         ),
         np.array([[0, 1]], dtype=dtype),
     )
@@ -474,7 +521,13 @@ def test_min_masked_array(dtype: DTypeLike) -> None:
             np.ma.masked_array(
                 data=np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]], dtype=dtype),
                 mask=np.array(
-                    [[True, False], [False, False], [True, False], [False, False], [False, False]]
+                    [
+                        [True, False],
+                        [False, False],
+                        [True, False],
+                        [False, False],
+                        [False, False],
+                    ]
                 ),
             ),
             axis=0,
@@ -492,7 +545,8 @@ def test_min_masked_array(dtype: DTypeLike) -> None:
 def test_sort_axis_0(dtype: DTypeLike) -> None:
     assert objects_are_equal(
         cmpt.sort(
-            np.array([[3, 5, 0, 2, 4], [4, 7, 8, 8, 5], [8, 5, 8, 8, 0]], dtype=dtype), axis=0
+            np.array([[3, 5, 0, 2, 4], [4, 7, 8, 8, 5], [8, 5, 8, 8, 0]], dtype=dtype),
+            axis=0,
         ),
         np.array([[3, 5, 0, 2, 0], [4, 5, 8, 8, 4], [8, 7, 8, 8, 5]], dtype=dtype),
     )
@@ -502,7 +556,8 @@ def test_sort_axis_0(dtype: DTypeLike) -> None:
 def test_sort_axis_1(dtype: DTypeLike) -> None:
     assert objects_are_equal(
         cmpt.sort(
-            np.array([[3, 5, 0, 2, 4], [4, 7, 8, 8, 5], [8, 5, 8, 8, 0]], dtype=dtype), axis=1
+            np.array([[3, 5, 0, 2, 4], [4, 7, 8, 8, 5], [8, 5, 8, 8, 0]], dtype=dtype),
+            axis=1,
         ),
         np.array([[0, 2, 3, 4, 5], [4, 5, 7, 8, 8], [0, 5, 8, 8, 8]], dtype=dtype),
     )
@@ -519,7 +574,11 @@ def test_sort_axis_none(dtype: DTypeLike) -> None:
 @pytest.mark.parametrize("kind", SORT_KINDS)
 def test_sort_kind(kind: SortKind) -> None:
     assert objects_are_equal(
-        cmpt.sort(np.array([[3, 5, 0, 2, 4], [4, 7, 8, 8, 5], [8, 5, 8, 8, 0]]), axis=0, kind=kind),
+        cmpt.sort(
+            np.array([[3, 5, 0, 2, 4], [4, 7, 8, 8, 5], [8, 5, 8, 8, 0]]),
+            axis=0,
+            kind=kind,
+        ),
         np.array([[3, 5, 0, 2, 0], [4, 5, 8, 8, 4], [8, 7, 8, 8, 5]]),
     )
 

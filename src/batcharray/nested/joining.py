@@ -61,7 +61,9 @@ def concatenate_along_batch(
     return type(item)({key: ba.concatenate_along_batch([d[key] for d in data]) for key in item})
 
 
-def concatenate_along_seq(data: Sequence[dict[Hashable, np.ndarray]]) -> dict[Hashable, np.ndarray]:
+def concatenate_along_seq(
+    data: Sequence[dict[Hashable, np.ndarray]],
+) -> dict[Hashable, np.ndarray]:
     r"""Concatenate the given arrays in the sequence axis.
 
     All arrays must either have the same data type and shape (except

@@ -47,7 +47,13 @@ def test_masked_array_computation_model_argmax_axis_0(dtype: DTypeLike) -> None:
             np.ma.masked_array(
                 data=np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]], dtype=dtype),
                 mask=np.array(
-                    [[False, False], [False, False], [True, False], [False, False], [True, False]]
+                    [
+                        [False, False],
+                        [False, False],
+                        [True, False],
+                        [False, False],
+                        [True, False],
+                    ]
                 ),
             ),
             axis=0,
@@ -63,7 +69,10 @@ def test_masked_array_computation_model_argmax_axis_1(dtype: DTypeLike) -> None:
             np.ma.masked_array(
                 data=np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]], dtype=dtype),
                 mask=np.array(
-                    [[False, False, False, False, False], [False, False, True, False, True]]
+                    [
+                        [False, False, False, False, False],
+                        [False, False, True, False, True],
+                    ]
                 ),
             ),
             axis=1,
@@ -79,7 +88,10 @@ def test_masked_array_computation_model_argmax_axis_none(dtype: DTypeLike) -> No
             np.ma.masked_array(
                 data=np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]], dtype=dtype),
                 mask=np.array(
-                    [[False, False, False, False, False], [False, False, True, False, True]]
+                    [
+                        [False, False, False, False, False],
+                        [False, False, True, False, True],
+                    ]
                 ),
             )
         ),
@@ -94,7 +106,13 @@ def test_masked_array_computation_model_argmax_keepdims_true(dtype: DTypeLike) -
             np.ma.masked_array(
                 data=np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]], dtype=dtype),
                 mask=np.array(
-                    [[False, False], [False, False], [True, False], [False, False], [True, False]]
+                    [
+                        [False, False],
+                        [False, False],
+                        [True, False],
+                        [False, False],
+                        [True, False],
+                    ]
                 ),
             ),
             axis=0,
@@ -116,7 +134,13 @@ def test_masked_array_computation_model_argmin_axis_0(dtype: DTypeLike) -> None:
             np.ma.masked_array(
                 data=np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]], dtype=dtype),
                 mask=np.array(
-                    [[True, False], [False, False], [True, False], [False, False], [False, False]]
+                    [
+                        [True, False],
+                        [False, False],
+                        [True, False],
+                        [False, False],
+                        [False, False],
+                    ]
                 ),
             ),
             axis=0,
@@ -132,7 +156,10 @@ def test_masked_array_computation_model_argmin_axis_1(dtype: DTypeLike) -> None:
             np.ma.masked_array(
                 data=np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]], dtype=dtype),
                 mask=np.array(
-                    [[True, False, True, False, False], [False, False, False, False, False]]
+                    [
+                        [True, False, True, False, False],
+                        [False, False, False, False, False],
+                    ]
                 ),
             ),
             axis=1,
@@ -148,7 +175,10 @@ def test_masked_array_computation_model_argmin_axis_none(dtype: DTypeLike) -> No
             np.ma.masked_array(
                 data=np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]], dtype=dtype),
                 mask=np.array(
-                    [[True, False, True, False, False], [False, False, False, False, False]]
+                    [
+                        [True, False, True, False, False],
+                        [False, False, False, False, False],
+                    ]
                 ),
             )
         ),
@@ -163,7 +193,13 @@ def test_masked_array_computation_model_argmin_keepdims_true(dtype: DTypeLike) -
             np.ma.masked_array(
                 data=np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]], dtype=dtype),
                 mask=np.array(
-                    [[True, False], [False, False], [True, False], [False, False], [False, False]]
+                    [
+                        [True, False],
+                        [False, False],
+                        [True, False],
+                        [False, False],
+                        [False, False],
+                    ]
                 ),
             ),
             axis=0,
@@ -184,7 +220,8 @@ def test_masked_array_computation_model_argsort_axis_0(dtype: DTypeLike) -> None
         MaskedArrayComputationModel().argsort(
             np.ma.masked_array(
                 data=np.array(
-                    [[1, 14, 4, 13, 6], [3, 0, 10, 5, 11], [2, 8, 7, 12, 9]], dtype=dtype
+                    [[1, 14, 4, 13, 6], [3, 0, 10, 5, 11], [2, 8, 7, 12, 9]],
+                    dtype=dtype,
                 ),
                 mask=np.array(
                     [
@@ -227,7 +264,8 @@ def test_masked_array_computation_model_argsort_axis_1(dtype: DTypeLike) -> None
         MaskedArrayComputationModel().argsort(
             np.ma.masked_array(
                 data=np.array(
-                    [[1, 14, 4, 13, 6], [3, 0, 10, 5, 11], [2, 8, 7, 12, 9]], dtype=dtype
+                    [[1, 14, 4, 13, 6], [3, 0, 10, 5, 11], [2, 8, 7, 12, 9]],
+                    dtype=dtype,
                 ),
                 mask=np.array(
                     [
@@ -270,7 +308,8 @@ def test_masked_array_computation_model_argsort_axis_none(dtype: DTypeLike) -> N
         MaskedArrayComputationModel().argsort(
             np.ma.masked_array(
                 data=np.array(
-                    [[1, 14, 4, 13, 6], [3, 0, 10, 5, 11], [2, 8, 7, 12, 9]], dtype=dtype
+                    [[1, 14, 4, 13, 6], [3, 0, 10, 5, 11], [2, 8, 7, 12, 9]],
+                    dtype=dtype,
                 ),
                 mask=np.array(
                     [
@@ -286,7 +325,9 @@ def test_masked_array_computation_model_argsort_axis_none(dtype: DTypeLike) -> N
 
 
 @pytest.mark.parametrize("dtype", DTYPES)
-def test_masked_array_computation_model_argsort_axis_none_stable(dtype: DTypeLike) -> None:
+def test_masked_array_computation_model_argsort_axis_none_stable(
+    dtype: DTypeLike,
+) -> None:
     assert objects_are_equal(
         MaskedArrayComputationModel().argsort(
             np.ma.masked_array(
@@ -584,7 +625,13 @@ def test_masked_array_computation_model_max_axis_0(dtype: DTypeLike) -> None:
             np.ma.masked_array(
                 data=np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]], dtype=dtype),
                 mask=np.array(
-                    [[False, False], [False, False], [True, False], [False, False], [True, False]]
+                    [
+                        [False, False],
+                        [False, False],
+                        [True, False],
+                        [False, False],
+                        [True, False],
+                    ]
                 ),
             ),
             axis=0,
@@ -600,7 +647,10 @@ def test_masked_array_computation_model_max_axis_1(dtype: DTypeLike) -> None:
             np.ma.masked_array(
                 data=np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]], dtype=dtype),
                 mask=np.array(
-                    [[False, False, False, False, False], [False, False, True, False, True]]
+                    [
+                        [False, False, False, False, False],
+                        [False, False, True, False, True],
+                    ]
                 ),
             ),
             axis=1,
@@ -616,7 +666,10 @@ def test_masked_array_computation_model_max_axis_none(dtype: DTypeLike) -> None:
             np.ma.masked_array(
                 data=np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]], dtype=dtype),
                 mask=np.array(
-                    [[False, False, False, False, False], [False, False, True, False, True]]
+                    [
+                        [False, False, False, False, False],
+                        [False, False, True, False, True],
+                    ]
                 ),
             )
         )
@@ -631,7 +684,13 @@ def test_masked_array_computation_model_max_keepdims_true(dtype: DTypeLike) -> N
             np.ma.masked_array(
                 data=np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]], dtype=dtype),
                 mask=np.array(
-                    [[False, False], [False, False], [True, False], [False, False], [True, False]]
+                    [
+                        [False, False],
+                        [False, False],
+                        [True, False],
+                        [False, False],
+                        [True, False],
+                    ]
                 ),
             ),
             axis=0,
@@ -653,7 +712,13 @@ def test_masked_array_computation_model_mean_axis_0(dtype: DTypeLike) -> None:
             np.ma.masked_array(
                 data=np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]], dtype=dtype),
                 mask=np.array(
-                    [[False, False], [False, False], [True, False], [False, False], [True, False]]
+                    [
+                        [False, False],
+                        [False, False],
+                        [True, False],
+                        [False, False],
+                        [True, False],
+                    ]
                 ),
             ),
             axis=0,
@@ -669,7 +734,10 @@ def test_masked_array_computation_model_mean_axis_1(dtype: DTypeLike) -> None:
             np.ma.masked_array(
                 data=np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]], dtype=dtype),
                 mask=np.array(
-                    [[False, False, False, False, False], [False, False, True, False, True]]
+                    [
+                        [False, False, False, False, False],
+                        [False, False, True, False, True],
+                    ]
                 ),
             ),
             axis=1,
@@ -687,7 +755,10 @@ def test_masked_array_computation_model_mean_axis_none(dtype: DTypeLike) -> None
             np.ma.masked_array(
                 data=np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]], dtype=dtype),
                 mask=np.array(
-                    [[False, False, False, False, False], [False, False, True, False, True]]
+                    [
+                        [False, False, False, False, False],
+                        [False, False, True, False, True],
+                    ]
                 ),
             )
         ),
@@ -702,7 +773,13 @@ def test_masked_array_computation_model_mean_keepdims_true(dtype: DTypeLike) -> 
             np.ma.masked_array(
                 data=np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]], dtype=dtype),
                 mask=np.array(
-                    [[False, False], [False, False], [True, False], [False, False], [True, False]]
+                    [
+                        [False, False],
+                        [False, False],
+                        [True, False],
+                        [False, False],
+                        [True, False],
+                    ]
                 ),
             ),
             axis=0,
@@ -726,7 +803,13 @@ def test_masked_array_computation_model_median_axis_0(dtype: DTypeLike) -> None:
             np.ma.masked_array(
                 data=np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]], dtype=dtype),
                 mask=np.array(
-                    [[False, False], [False, False], [True, False], [False, False], [True, False]]
+                    [
+                        [False, False],
+                        [False, False],
+                        [True, False],
+                        [False, False],
+                        [True, False],
+                    ]
                 ),
             ),
             axis=0,
@@ -742,7 +825,10 @@ def test_masked_array_computation_model_median_axis_1(dtype: DTypeLike) -> None:
             np.ma.masked_array(
                 data=np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]], dtype=dtype),
                 mask=np.array(
-                    [[False, False, False, False, False], [False, False, True, False, True]]
+                    [
+                        [False, False, False, False, False],
+                        [False, False, True, False, True],
+                    ]
                 ),
             ),
             axis=1,
@@ -758,7 +844,10 @@ def test_masked_array_computation_model_median_axis_none(dtype: DTypeLike) -> No
             np.ma.masked_array(
                 data=np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]], dtype=dtype),
                 mask=np.array(
-                    [[False, False, False, False, False], [False, False, True, False, True]]
+                    [
+                        [False, False, False, False, False],
+                        [False, False, True, False, True],
+                    ]
                 ),
             )
         ),
@@ -773,7 +862,13 @@ def test_masked_array_computation_model_median_keepdims_true(dtype: DTypeLike) -
             np.ma.masked_array(
                 data=np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]], dtype=dtype),
                 mask=np.array(
-                    [[False, False], [False, False], [True, False], [False, False], [True, False]]
+                    [
+                        [False, False],
+                        [False, False],
+                        [True, False],
+                        [False, False],
+                        [True, False],
+                    ]
                 ),
             ),
             axis=0,
@@ -795,7 +890,13 @@ def test_masked_array_computation_model_min_axis_0(dtype: DTypeLike) -> None:
             np.ma.masked_array(
                 data=np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]], dtype=dtype),
                 mask=np.array(
-                    [[True, False], [False, False], [True, False], [False, False], [False, False]]
+                    [
+                        [True, False],
+                        [False, False],
+                        [True, False],
+                        [False, False],
+                        [False, False],
+                    ]
                 ),
             ),
             axis=0,
@@ -811,7 +912,10 @@ def test_masked_array_computation_model_min_axis_1(dtype: DTypeLike) -> None:
             np.ma.masked_array(
                 data=np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]], dtype=dtype),
                 mask=np.array(
-                    [[False, False, False, False, False], [True, False, False, True, False]]
+                    [
+                        [False, False, False, False, False],
+                        [True, False, False, True, False],
+                    ]
                 ),
             ),
             axis=1,
@@ -827,7 +931,10 @@ def test_masked_array_computation_model_min_axis_none(dtype: DTypeLike) -> None:
             np.ma.masked_array(
                 data=np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]], dtype=dtype),
                 mask=np.array(
-                    [[False, False, False, False, False], [True, False, False, True, False]]
+                    [
+                        [False, False, False, False, False],
+                        [True, False, False, True, False],
+                    ]
                 ),
             )
         )
@@ -842,7 +949,13 @@ def test_masked_array_computation_model_min_keepdims_true(dtype: DTypeLike) -> N
             np.ma.masked_array(
                 data=np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]], dtype=dtype),
                 mask=np.array(
-                    [[True, False], [False, False], [True, False], [False, False], [False, False]]
+                    [
+                        [True, False],
+                        [False, False],
+                        [True, False],
+                        [False, False],
+                        [False, False],
+                    ]
                 ),
             ),
             axis=0,

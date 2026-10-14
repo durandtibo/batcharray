@@ -41,7 +41,8 @@ def test_permute_along_batch_incorrect_shape() -> None:
         match=r"permutation shape \(.*\) is not compatible with array shape \(.*\)",
     ):
         permute_along_batch(
-            np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]]), np.array([4, 3, 2, 1, 0, 2, 0])
+            np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]]),
+            np.array([4, 3, 2, 1, 0, 2, 0]),
         )
 
 
@@ -51,7 +52,13 @@ def test_permute_along_batch_masked_array() -> None:
             np.ma.masked_array(
                 data=np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]]),
                 mask=np.array(
-                    [[False, False], [False, False], [True, False], [False, False], [True, False]]
+                    [
+                        [False, False],
+                        [False, False],
+                        [True, False],
+                        [False, False],
+                        [True, False],
+                    ]
                 ),
             ),
             np.array([4, 3, 2, 1, 0]),
@@ -59,7 +66,13 @@ def test_permute_along_batch_masked_array() -> None:
         np.ma.masked_array(
             data=np.array([[8, 9], [6, 7], [4, 5], [2, 3], [0, 1]]),
             mask=np.array(
-                [[True, False], [False, False], [True, False], [False, False], [False, False]]
+                [
+                    [True, False],
+                    [False, False],
+                    [True, False],
+                    [False, False],
+                    [False, False],
+                ]
             ),
         ),
     )
@@ -74,7 +87,8 @@ def test_permute_along_batch_masked_array() -> None:
 def test_permute_along_seq(dtype: DTypeLike) -> None:
     assert objects_are_equal(
         permute_along_seq(
-            np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]]), np.array([4, 3, 2, 1, 0], dtype=dtype)
+            np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]]),
+            np.array([4, 3, 2, 1, 0], dtype=dtype),
         ),
         np.array([[4, 3, 2, 1, 0], [9, 8, 7, 6, 5]]),
     )
@@ -86,7 +100,8 @@ def test_permute_along_seq_incorrect_shape() -> None:
         match=r"permutation shape \(.*\) is not compatible with array shape \(.*\)",
     ):
         permute_along_seq(
-            np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]]), np.array([4, 3, 2, 1, 0, 2, 0])
+            np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]]),
+            np.array([4, 3, 2, 1, 0, 2, 0]),
         )
 
 
@@ -96,7 +111,10 @@ def test_permute_along_seq_masked_array() -> None:
             np.ma.masked_array(
                 data=np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]]),
                 mask=np.array(
-                    [[False, False, True, False, True], [False, False, False, False, False]]
+                    [
+                        [False, False, True, False, True],
+                        [False, False, False, False, False],
+                    ]
                 ),
             ),
             np.array([4, 3, 2, 1, 0]),
@@ -159,7 +177,10 @@ def test_shuffle_along_seq() -> None:
 
 
 def test_shuffle_along_seq_mock_rng() -> None:
-    rng = Mock(spec=np.random.Generator, permutation=Mock(return_value=np.array([2, 4, 1, 3, 0])))
+    rng = Mock(
+        spec=np.random.Generator,
+        permutation=Mock(return_value=np.array([2, 4, 1, 3, 0])),
+    )
     assert objects_are_equal(
         shuffle_along_seq(np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]]), rng),
         np.array([[2, 4, 1, 3, 0], [7, 9, 6, 8, 5]]),

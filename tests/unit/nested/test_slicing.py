@@ -45,14 +45,16 @@ def test_chunk_along_batch_chunks_3() -> None:
                 "a": np.array([[0, 1], [2, 3]]),
                 "b": np.array([4, 3]),
                 "masked": np.ma.masked_array(
-                    data=np.array([[0, 1], [2, 3]]), mask=np.array([[False, False], [False, False]])
+                    data=np.array([[0, 1], [2, 3]]),
+                    mask=np.array([[False, False], [False, False]]),
                 ),
             },
             {
                 "a": np.array([[4, 5], [6, 7]]),
                 "b": np.array([2, 1]),
                 "masked": np.ma.masked_array(
-                    data=np.array([[4, 5], [6, 7]]), mask=np.array([[False, True], [False, False]])
+                    data=np.array([[4, 5], [6, 7]]),
+                    mask=np.array([[False, True], [False, False]]),
                 ),
             },
             {
@@ -99,7 +101,10 @@ def test_chunk_along_seq_chunks_3() -> None:
                 "masked": np.ma.masked_array(
                     data=np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]]),
                     mask=np.array(
-                        [[False, False, False, False, False], [False, False, True, False, True]]
+                        [
+                            [False, False, False, False, False],
+                            [False, False, True, False, True],
+                        ]
                     ),
                 ),
             },
@@ -110,14 +115,16 @@ def test_chunk_along_seq_chunks_3() -> None:
                 "a": np.array([[0, 1], [5, 6]]),
                 "b": np.array([[4, 3]]),
                 "masked": np.ma.masked_array(
-                    data=np.array([[0, 1], [5, 6]]), mask=np.array([[False, False], [False, False]])
+                    data=np.array([[0, 1], [5, 6]]),
+                    mask=np.array([[False, False], [False, False]]),
                 ),
             },
             {
                 "a": np.array([[2, 3], [7, 8]]),
                 "b": np.array([[2, 1]]),
                 "masked": np.ma.masked_array(
-                    data=np.array([[2, 3], [7, 8]]), mask=np.array([[False, False], [True, False]])
+                    data=np.array([[2, 3], [7, 8]]),
+                    mask=np.array([[False, False], [True, False]]),
                 ),
             },
             {
@@ -244,7 +251,10 @@ def test_select_along_seq_nested() -> None:
                 "nested": np.ma.masked_array(
                     data=np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]]),
                     mask=np.array(
-                        [[False, False, False, False, False], [False, False, True, False, True]]
+                        [
+                            [False, False, False, False, False],
+                            [False, False, True, False, True],
+                        ]
                     ),
                 ),
             },
@@ -545,7 +555,10 @@ def test_slice_along_seq_dict_start_1_stop_4_step_2() -> None:
                 "masked": np.ma.masked_array(
                     data=np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]]),
                     mask=np.array(
-                        [[False, False, False, False, False], [False, False, True, False, True]]
+                        [
+                            [False, False, False, False, False],
+                            [False, False, True, False, True],
+                        ]
                     ),
                 ),
             },
@@ -557,7 +570,8 @@ def test_slice_along_seq_dict_start_1_stop_4_step_2() -> None:
             "a": np.array([[1, 3], [8, 6]]),
             "b": np.array([[3, 1]]),
             "masked": np.ma.masked_array(
-                data=np.array([[1, 3], [6, 8]]), mask=np.array([[False, False], [False, False]])
+                data=np.array([[1, 3], [6, 8]]),
+                mask=np.array([[False, False], [False, False]]),
             ),
         },
     )
@@ -613,14 +627,16 @@ def test_split_along_batch_split_size_2() -> None:
                 "a": np.array([[0, 1], [2, 3]]),
                 "b": np.array([4, 3]),
                 "masked": np.ma.masked_array(
-                    data=np.array([[0, 1], [2, 3]]), mask=np.array([[False, False], [False, False]])
+                    data=np.array([[0, 1], [2, 3]]),
+                    mask=np.array([[False, False], [False, False]]),
                 ),
             },
             {
                 "a": np.array([[4, 5], [6, 7]]),
                 "b": np.array([2, 1]),
                 "masked": np.ma.masked_array(
-                    data=np.array([[4, 5], [6, 7]]), mask=np.array([[False, True], [False, False]])
+                    data=np.array([[4, 5], [6, 7]]),
+                    mask=np.array([[False, True], [False, False]]),
                 ),
             },
             {
@@ -684,7 +700,10 @@ def test_split_along_seq_split_size_2() -> None:
                 "masked": np.ma.masked_array(
                     data=np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]]),
                     mask=np.array(
-                        [[False, False, False, False, False], [False, False, True, False, True]]
+                        [
+                            [False, False, False, False, False],
+                            [False, False, True, False, True],
+                        ]
                     ),
                 ),
             },
@@ -695,14 +714,16 @@ def test_split_along_seq_split_size_2() -> None:
                 "a": np.array([[0, 1], [5, 6]]),
                 "b": np.array([[4, 3]]),
                 "masked": np.ma.masked_array(
-                    data=np.array([[0, 1], [5, 6]]), mask=np.array([[False, False], [False, False]])
+                    data=np.array([[0, 1], [5, 6]]),
+                    mask=np.array([[False, False], [False, False]]),
                 ),
             },
             {
                 "a": np.array([[2, 3], [7, 8]]),
                 "b": np.array([[2, 1]]),
                 "masked": np.ma.masked_array(
-                    data=np.array([[2, 3], [7, 8]]), mask=np.array([[False, False], [True, False]])
+                    data=np.array([[2, 3], [7, 8]]),
+                    mask=np.array([[False, False], [True, False]]),
                 ),
             },
             {

@@ -15,7 +15,8 @@ def check_array() -> None:
 
     assert objects_are_equal(
         take_along_batch(
-            np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]]), np.array([4, 3, 2, 1, 0])
+            np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]]),
+            np.array([4, 3, 2, 1, 0]),
         ),
         np.array([[8, 9], [6, 7], [4, 5], [2, 3], [0, 1]]),
     )

@@ -1,6 +1,9 @@
 [build-system]
-requires = ["hatchling >= 1.27", "hatchling-autoextras-hook>=0.1.2"]
+requires = ["hatchling >= 1.32", "hatchling-autoextras-hook>=0.1.3"]
 build-backend = "hatchling.build"
+
+[tool.hatch.build]
+sources = ["src"]
 
 [tool.hatch.build.targets.sdist]
 only-include = ["src"]
@@ -22,6 +25,7 @@ keywords = [
     "array",
 ]
 license = "BSD-3-Clause"
+license-files = ["LICENSE"]
 
 classifiers = [
     "Development Status :: 4 - Beta",
@@ -30,6 +34,7 @@ classifiers = [
     "Intended Audience :: Science/Research",
     "License :: OSI Approved :: BSD License",
     "Operating System :: POSIX :: Linux",
+    "Operating System :: MacOS",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
@@ -53,19 +58,19 @@ dependencies = [
 
 [dependency-groups]
 dev = [
-    "black >=26.1",
     "coverage[toml] >=7.11,<8.0",
     "docformatter[tomli] >=1.7,<2.0 ; python_version < '3.14'",
-    "feu[all] >=0.6.0,<1.0",
-    "invoke>=2.2.0,<4.0",
+    "feu[all] >=0.8.4,<1.0",
+    "invoke>=3.0,<4.0",
+    "invoke-tasklib>=0.0.8,<1.0",
     "pre-commit >=4.5,<5.0",
     "pygments >=2.19,<3.0",
-    "pyright >=1.1.407,<2.0",
     "pytest >=9.0,<10.0",
     "pytest-cov >=7.0,<8.0",
     "pytest-markdown-docs >=0.9,<1.0",
     "pytest-timeout >=2.4,<3.0",
-    "ruff >=0.14,<1.0",
+    "ruff >=0.16,<1.0",
+    "ty >=0.0.86,<1.0",
     "xdoctest >=1.3,<2.0",
 ]
 
@@ -77,12 +82,17 @@ docs = [
 ]
 
 [project.urls]
-homepage = "https://github.com/durandtibo/batcharray"
-repository = "https://github.com/durandtibo/batcharray"
-documentation = "https://durandtibo.github.io/batcharray/"
+Homepage = "https://github.com/durandtibo/batcharray"
+Repository = "https://github.com/durandtibo/batcharray"
+Documentation = "https://durandtibo.github.io/batcharray/"
+Changelog = "https://github.com/durandtibo/batcharray/releases"
+Issues = "https://github.com/durandtibo/batcharray/issues"
 
 [tool.uv.pip]
 torch-backend = "auto"
+
+[tool.codespell]
+skip = "*.lock,./.git,./htmlcov,./docs/site,coverage.xml"
 
 [tool.coverage.paths]
 source = ["src", "*/site-packages"]
@@ -95,10 +105,12 @@ source = ["batcharray"]
 show_missing = true
 exclude_lines = [
     "pragma: no cover",
-    "if TYPE_CHECKING:"
+    "if TYPE_CHECKING:",
+    "^\\s*\\.\\.\\.$",
+    "\\)( -> .+)?: \\.\\.\\.$",
 ]
 
-[tool.pytest]
+[tool.pytest.ini_options]
 minversion = "9.0"
 pythonpath = ["src"]
 testpaths = ["tests/", "docs/", "README.md"]
@@ -107,17 +119,6 @@ log_level = "DEBUG"
 addopts = ["--color", "yes", "--durations", "10", "-rf", "--markdown-docs"]
 # Configuration of the short test summary info
 # https://docs.pytest.org/en/stable/usage.html#detailed-summary-report
-
-[tool.black]
-line-length = 100
-target-version = ["py310", "py311", "py312", "py313", "py314"]
-include = '\.pyi?$'
-
-[tool.pylint.FORMAT]
-max-line-length = 100
-
-[tool.isort]
-profile = "black"
 
 [tool.docformatter]
 recursive = true
@@ -142,6 +143,7 @@ lint.select = [
     "F", # pyflakes
     "FA", # flake8-future-annotations
     "FURB", # refurb
+    "I", # isort
     "ICN", # flake8-import-conventions
     "INP", # flake8-no-pep420
     "ISC", # flake8-implicit-str-concat
@@ -163,7 +165,7 @@ lint.select = [
     "S", # flake8-bandit
     "SIM", # flake8-simplify
     "T20", # flake8-print
-    "TCH", # flake8-type-checking
+    "TC", # flake8-type-checking
     "TD", # flake8-todos
     "TID", # flake8-tidy-imports
     "TRY", # tryceratops
@@ -173,7 +175,7 @@ lint.select = [
 lint.ignore = [
     "A003", # Class attribute `{name}` is shadowing a python builtin
     "ANN401", # Dynamically typed expressions (typing.Any) are disallowed.
-    "B905", # `zip()` without an explicit strict= parameter set. The `strict=` argument was added in Python 3.10
+    "B905", # `zip()` without an explicit strict= parameter set.
     "E501", # Line lengths are recommended to be no greater than 79 characters.
     "W505", # Doc line too long
     "PLR0913", # Too many arguments in function definition (8 > 5)
@@ -203,6 +205,7 @@ lint.fixable = [
     "F", # pyflakes
     "FA", # flake8-future-annotations
     "FURB", # refurb
+    "I", # isort
     "ICN", # flake8-import-conventions
     "INP", # flake8-no-pep420
     "ISC", # flake8-implicit-str-concat
@@ -224,7 +227,7 @@ lint.fixable = [
     "S", # flake8-bandit
     "SIM", # flake8-simplify
     "T20", # flake8-print
-    "TCH", # flake8-type-checking
+    "TC", # flake8-type-checking
     "TD", # flake8-todos
     "TID", # flake8-tidy-imports
     "TRY", # tryceratops
@@ -280,10 +283,13 @@ convention = "google"
 max-doc-length = 72
 
 [tool.ruff.lint.isort]
-force-sort-within-sections = true
+force-sort-within-sections = false
 combine-as-imports = true
 known-first-party = ["src"]
 
 [tool.ruff.lint.flake8-import-conventions]
 [tool.ruff.lint.flake8-import-conventions.aliases]
 numpy = "np"
+
+[tool.ty.src]
+include = ["src"]

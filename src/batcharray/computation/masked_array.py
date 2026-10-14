@@ -19,7 +19,7 @@ if TYPE_CHECKING:
     from batcharray.types import SortKind
 
 
-class MaskedArrayComputationModel(BaseComputationModel[np.ma.MaskedArray]):  # noqa: PLW1641
+class MaskedArrayComputationModel(BaseComputationModel[np.ma.MaskedArray]):
     r"""Implement a computation model for ``numpy.ma.MaskedArray``s."""
 
     def __eq__(self, other: object) -> bool:
@@ -39,7 +39,11 @@ class MaskedArrayComputationModel(BaseComputationModel[np.ma.MaskedArray]):  # n
         return arr.argmin(axis=axis, keepdims=keepdims)
 
     def argsort(
-        self, arr: np.ma.MaskedArray, axis: int | None = None, *, kind: SortKind | None = None
+        self,
+        arr: np.ma.MaskedArray,
+        axis: int | None = None,
+        *,
+        kind: SortKind | None = None,
     ) -> np.ma.MaskedArray:
         return np.ma.argsort(arr, axis=axis, kind=kind)
 
@@ -76,6 +80,10 @@ class MaskedArrayComputationModel(BaseComputationModel[np.ma.MaskedArray]):  # n
         return np.ma.min(arr, axis=axis, keepdims=keepdims)
 
     def sort(
-        self, arr: np.ma.MaskedArray, axis: int | None = None, *, kind: SortKind | None = None
+        self,
+        arr: np.ma.MaskedArray,
+        axis: int | None = None,
+        *,
+        kind: SortKind | None = None,
     ) -> np.ma.MaskedArray:
         return np.ma.sort(arr, axis=axis, kind=kind)

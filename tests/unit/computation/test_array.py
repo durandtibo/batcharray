@@ -72,7 +72,9 @@ def test_array_computation_model_argmax_axis_none(dtype: DTypeLike) -> None:
 def test_array_computation_model_argmax_keepdims_true(dtype: DTypeLike) -> None:
     assert objects_are_equal(
         ArrayComputationModel().argmax(
-            np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]], dtype=dtype), axis=0, keepdims=True
+            np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]], dtype=dtype),
+            axis=0,
+            keepdims=True,
         ),
         np.array([[4, 4]]),
     )
@@ -115,7 +117,9 @@ def test_array_computation_model_argmin_axis_none(dtype: DTypeLike) -> None:
 def test_array_computation_model_argmin_keepdims_true(dtype: DTypeLike) -> None:
     assert objects_are_equal(
         ArrayComputationModel().argmin(
-            np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]], dtype=dtype), axis=0, keepdims=True
+            np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]], dtype=dtype),
+            axis=0,
+            keepdims=True,
         ),
         np.array([[0, 0]]),
     )
@@ -130,7 +134,8 @@ def test_array_computation_model_argmin_keepdims_true(dtype: DTypeLike) -> None:
 def test_array_computation_model_argsort_axis_0(dtype: DTypeLike) -> None:
     assert objects_are_equal(
         ArrayComputationModel().argsort(
-            np.array([[1, 14, 4, 13, 6], [3, 0, 10, 5, 11], [2, 8, 7, 12, 9]], dtype=dtype), axis=0
+            np.array([[1, 14, 4, 13, 6], [3, 0, 10, 5, 11], [2, 8, 7, 12, 9]], dtype=dtype),
+            axis=0,
         ),
         np.array([[0, 1, 0, 1, 0], [2, 2, 2, 2, 2], [1, 0, 1, 0, 1]]),
     )
@@ -152,7 +157,8 @@ def test_array_computation_model_argsort_axis_0_stable(dtype: DTypeLike) -> None
 def test_array_computation_model_argsort_axis_1(dtype: DTypeLike) -> None:
     assert objects_are_equal(
         ArrayComputationModel().argsort(
-            np.array([[1, 14, 4, 13, 6], [3, 0, 10, 5, 11], [2, 8, 7, 12, 9]], dtype=dtype), axis=1
+            np.array([[1, 14, 4, 13, 6], [3, 0, 10, 5, 11], [2, 8, 7, 12, 9]], dtype=dtype),
+            axis=1,
         ),
         np.array([[0, 2, 4, 3, 1], [1, 0, 3, 2, 4], [0, 2, 1, 4, 3]]),
     )
@@ -195,7 +201,9 @@ def test_array_computation_model_argsort_axis_none_stable(dtype: DTypeLike) -> N
 def test_array_computation_model_argsort_kind(kind: SortKind) -> None:
     assert objects_are_equal(
         ArrayComputationModel().argsort(
-            np.array([[3, 5, 0, 2, 4], [4, 7, 8, 8, 5], [8, 4, 1, 3, 0]]), axis=0, kind=kind
+            np.array([[3, 5, 0, 2, 4], [4, 7, 8, 8, 5], [8, 4, 1, 3, 0]]),
+            axis=0,
+            kind=kind,
         ),
         np.array([[0, 2, 0, 0, 2], [1, 0, 2, 2, 0], [2, 1, 1, 1, 1]]),
     )
@@ -223,7 +231,9 @@ def test_array_computation_model_argsort_kind(kind: SortKind) -> None:
         ],
     ],
 )
-def test_array_computation_model_concatenate_axis_0(arrays: Sequence[np.ndarray]) -> None:
+def test_array_computation_model_concatenate_axis_0(
+    arrays: Sequence[np.ndarray],
+) -> None:
     out = ArrayComputationModel().concatenate(arrays, axis=0)
     assert objects_are_equal(out, np.array([[0, 1, 2], [4, 5, 6], [10, 11, 12], [13, 14, 15]]))
 
@@ -245,7 +255,9 @@ def test_array_computation_model_concatenate_axis_0(arrays: Sequence[np.ndarray]
         ],
     ],
 )
-def test_array_computation_model_concatenate_axis_1(arrays: Sequence[np.ndarray]) -> None:
+def test_array_computation_model_concatenate_axis_1(
+    arrays: Sequence[np.ndarray],
+) -> None:
     out = ArrayComputationModel().concatenate(arrays, axis=1)
     assert objects_are_equal(out, np.array([[0, 1, 2, 10, 11, 12], [4, 5, 6, 13, 14, 15]]))
 
@@ -267,7 +279,9 @@ def test_array_computation_model_concatenate_axis_1(arrays: Sequence[np.ndarray]
         ],
     ],
 )
-def test_array_computation_model_concatenate_axis_none(arrays: Sequence[np.ndarray]) -> None:
+def test_array_computation_model_concatenate_axis_none(
+    arrays: Sequence[np.ndarray],
+) -> None:
     out = ArrayComputationModel().concatenate(arrays)
     assert objects_are_equal(out, np.array([0, 1, 2, 4, 5, 6, 10, 11, 12, 13, 14, 15]))
 
@@ -324,7 +338,9 @@ def test_array_computation_model_max_axis_none(dtype: DTypeLike) -> None:
 def test_array_computation_model_max_keepdims_true(dtype: DTypeLike) -> None:
     assert objects_are_equal(
         ArrayComputationModel().max(
-            np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]], dtype=dtype), axis=0, keepdims=True
+            np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]], dtype=dtype),
+            axis=0,
+            keepdims=True,
         ),
         np.array([[8, 9]], dtype=dtype),
     )
@@ -367,7 +383,9 @@ def test_array_computation_model_mean_axis_none(dtype: DTypeLike) -> None:
 def test_array_computation_model_mean_keepdims_true(dtype: DTypeLike) -> None:
     assert objects_are_equal(
         ArrayComputationModel().mean(
-            np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]], dtype=dtype), axis=0, keepdims=True
+            np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]], dtype=dtype),
+            axis=0,
+            keepdims=True,
         ),
         np.array([[4.0, 5.0]]),
     )
@@ -410,7 +428,9 @@ def test_array_computation_model_median_axis_none(dtype: DTypeLike) -> None:
 def test_array_computation_model_median_keepdims_true(dtype: DTypeLike) -> None:
     assert objects_are_equal(
         ArrayComputationModel().median(
-            np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]], dtype=dtype), axis=0, keepdims=True
+            np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]], dtype=dtype),
+            axis=0,
+            keepdims=True,
         ),
         np.array([[4.0, 5.0]]),
     )
@@ -452,7 +472,9 @@ def test_array_computation_model_min_axis_none(dtype: DTypeLike) -> None:
 def test_array_computation_model_min_keepdims_true(dtype: DTypeLike) -> None:
     assert objects_are_equal(
         ArrayComputationModel().min(
-            np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]], dtype=dtype), axis=0, keepdims=True
+            np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]], dtype=dtype),
+            axis=0,
+            keepdims=True,
         ),
         np.array([[0, 1]], dtype=dtype),
     )
@@ -467,7 +489,8 @@ def test_array_computation_model_min_keepdims_true(dtype: DTypeLike) -> None:
 def test_array_computation_model_sort_axis_0(dtype: DTypeLike) -> None:
     assert objects_are_equal(
         ArrayComputationModel().sort(
-            np.array([[3, 5, 0, 2, 4], [4, 7, 8, 8, 5], [8, 5, 8, 8, 0]], dtype=dtype), axis=0
+            np.array([[3, 5, 0, 2, 4], [4, 7, 8, 8, 5], [8, 5, 8, 8, 0]], dtype=dtype),
+            axis=0,
         ),
         np.array([[3, 5, 0, 2, 0], [4, 5, 8, 8, 4], [8, 7, 8, 8, 5]], dtype=dtype),
     )
@@ -477,7 +500,8 @@ def test_array_computation_model_sort_axis_0(dtype: DTypeLike) -> None:
 def test_array_computation_model_sort_axis_1(dtype: DTypeLike) -> None:
     assert objects_are_equal(
         ArrayComputationModel().sort(
-            np.array([[3, 5, 0, 2, 4], [4, 7, 8, 8, 5], [8, 5, 8, 8, 0]], dtype=dtype), axis=1
+            np.array([[3, 5, 0, 2, 4], [4, 7, 8, 8, 5], [8, 5, 8, 8, 0]], dtype=dtype),
+            axis=1,
         ),
         np.array([[0, 2, 3, 4, 5], [4, 5, 7, 8, 8], [0, 5, 8, 8, 8]], dtype=dtype),
     )
@@ -497,7 +521,9 @@ def test_array_computation_model_sort_axis_none(dtype: DTypeLike) -> None:
 def test_array_computation_model_sort_kind(kind: SortKind) -> None:
     assert objects_are_equal(
         ArrayComputationModel().sort(
-            np.array([[3, 5, 0, 2, 4], [4, 7, 8, 8, 5], [8, 5, 8, 8, 0]]), axis=0, kind=kind
+            np.array([[3, 5, 0, 2, 4], [4, 7, 8, 8, 5], [8, 5, 8, 8, 0]]),
+            axis=0,
+            kind=kind,
         ),
         np.array([[3, 5, 0, 2, 0], [4, 5, 8, 8, 4], [8, 7, 8, 8, 5]]),
     )
