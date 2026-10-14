@@ -1,0 +1,38 @@
+# Dependency compatibility testing workflow.
+# Tests the package with different versions of optional dependencies.
+# Ensures compatibility across supported dependency version ranges.
+
+name: Dependency Compatibility (Source)
+on:
+  workflow_call:
+    inputs:
+      test-matrix:
+        description: "JSON test matrix from get-test-matrix.yaml, loaded once by the caller"
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  # Load the version bounds from dev/config/package_versions.json, kept up to
+  # date by bot-generate-package-versions.yaml.
+  get-versions:
+    uses: ./.github/workflows/lib-get-package-versions.yaml
+
+  # batcharray has no optional dependencies: test its required dependencies.
+  coola:
+    needs: get-versions
+    uses: ./.github/workflows/ci-test-code-dep.yaml
+    with:
+      package-name: coola
+      package-versions: ${{ toJson(fromJson(needs.get-versions.outputs.package_versions).coola) }}
+      test-matrix: ${{ inputs.test-matrix }}
+
+  numpy:
+    needs: get-versions
+    uses: ./.github/workflows/ci-test-code-dep.yaml
+    with:
+      package-name: numpy
+      package-versions: ${{ toJson(fromJson(needs.get-versions.outputs.package_versions).numpy) }}
+      test-matrix: ${{ inputs.test-matrix }}
