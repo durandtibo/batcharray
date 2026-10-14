@@ -27,6 +27,10 @@ def test_array_computation_model_eq_false() -> None:
     assert ArrayComputationModel() != "ArrayComputationModel"
 
 
+def test_array_computation_model_hash() -> None:
+    assert hash(ArrayComputationModel()) == hash(ArrayComputationModel())
+
+
 def test_array_computation_model_repr() -> None:
     assert repr(ArrayComputationModel()).startswith("ArrayComputationModel(")
 

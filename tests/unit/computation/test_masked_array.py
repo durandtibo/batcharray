@@ -27,6 +27,10 @@ def test_masked_array_computation_model_eq_false() -> None:
     assert MaskedArrayComputationModel() != "MaskedArrayComputationModel"
 
 
+def test_masked_array_computation_model_hash() -> None:
+    assert hash(MaskedArrayComputationModel()) == hash(MaskedArrayComputationModel())
+
+
 def test_masked_array_computation_model_repr() -> None:
     assert repr(MaskedArrayComputationModel()).startswith("MaskedArrayComputationModel(")
 
