@@ -14,7 +14,7 @@ if TYPE_CHECKING:
 
 
 @pytest.fixture(autouse=True)
-def _reset_default_registry() -> Generator[None, None, None]:
+def _reset_default_registry() -> Generator[None]:
     """Reset the registry before and after each test."""
     if hasattr(get_default_registry, "_registry"):
         del get_default_registry._registry
