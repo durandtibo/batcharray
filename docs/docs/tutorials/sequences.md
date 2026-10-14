@@ -128,9 +128,7 @@ sum_over_time = array.sum_along_seq(sequences)
 import numpy as np
 from batcharray import array
 
-sequences = np.array(
-    [[[0.1, 0.2], [0.5, 0.3], [0.2, 0.8]], [[0.3, 0.4], [0.1, 0.9], [0.7, 0.2]]]
-)
+sequences = np.array([[[0.1, 0.2], [0.5, 0.3], [0.2, 0.8]], [[0.3, 0.4], [0.1, 0.9], [0.7, 0.2]]])
 
 # Find time step with maximum value for each feature
 max_indices = array.argmax_along_seq(sequences)
@@ -250,9 +248,7 @@ from batcharray import array
 sequences = np.random.randn(10, 20, 5)
 
 # Select specific sequences (batch operation)
-selected_sequences = array.index_select_along_batch(
-    sequences, indices=np.array([0, 2, 4, 6, 8])
-)
+selected_sequences = array.index_select_along_batch(sequences, indices=np.array([0, 2, 4, 6, 8]))
 # Shape: (5, 20, 5)
 
 # Then slice time window (sequence operation)
