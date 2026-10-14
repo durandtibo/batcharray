@@ -1,5 +1,5 @@
 site_name: batcharray
-site_url: 'https://durandtibo.github.io/batcharray/'
+site_url: "https://durandtibo.github.io/batcharray/"
 theme:
   name: material
   features:
@@ -65,7 +65,7 @@ plugins:
       default_handler: python
       handlers:
         python:
-          paths: [ ../src ]
+          paths: [../src]
           options:
             allow_inspection: true
             docstring_style: google

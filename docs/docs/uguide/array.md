@@ -160,12 +160,14 @@ sorted_data = array.sort_along_batch(data)
 The `array` module provides the following categories of functions:
 
 ### Comparison and Sorting
+
 - `argsort_along_batch()` - Get indices that would sort along batch
 - `argsort_along_seq()` - Get indices that would sort along sequence
 - `sort_along_batch()` - Sort along batch dimension
 - `sort_along_seq()` - Sort along sequence dimension
 
 ### Indexing and Selection
+
 - `index_select_along_batch()` - Select using integer indices (batch)
 - `index_select_along_seq()` - Select using integer indices (sequence)
 - `masked_select_along_batch()` - Select using boolean mask (batch)
@@ -174,23 +176,27 @@ The `array` module provides the following categories of functions:
 - `take_along_seq()` - Take elements using index array (sequence)
 
 ### Joining and Combining
+
 - `concatenate_along_batch()` - Concatenate arrays along batch
 - `concatenate_along_seq()` - Concatenate arrays along sequence
 - `tile_along_seq()` - Repeat array along sequence dimension
 
 ### Mathematical Operations
+
 - `cumprod_along_batch()` - Cumulative product along batch
 - `cumprod_along_seq()` - Cumulative product along sequence
 - `cumsum_along_batch()` - Cumulative sum along batch
 - `cumsum_along_seq()` - Cumulative sum along sequence
 
 ### Permutation and Shuffling
+
 - `permute_along_batch()` - Apply permutation to batch
 - `permute_along_seq()` - Apply permutation to sequence
 - `shuffle_along_batch()` - Random shuffle along batch
 - `shuffle_along_seq()` - Random shuffle along sequence
 
 ### Reduction Operations
+
 - `amax_along_batch()` / `max_along_batch()` - Maximum along batch
 - `amax_along_seq()` / `max_along_seq()` - Maximum along sequence
 - `amin_along_batch()` / `min_along_batch()` - Minimum along batch
@@ -209,6 +215,7 @@ The `array` module provides the following categories of functions:
 - `sum_along_seq()` - Sum along sequence
 
 ### Slicing Operations
+
 - `chunk_along_batch()` - Split into equal chunks (batch)
 - `chunk_along_seq()` - Split into equal chunks (sequence)
 - `select_along_batch()` - Select single index (batch)

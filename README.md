@@ -115,20 +115,20 @@ Please check the documentation to see all the implemented functions.
 `batcharray` provides several modules for different use cases:
 
 - `array`: Functions to manipulate single NumPy arrays with batch and sequence dimensions
-    - Slicing, indexing, and selection operations
-    - Statistical reductions (mean, max, min, etc.)
-    - Sorting and permutation operations
-    - Cumulative operations (cumsum, cumprod)
-    - Support for both regular and masked arrays
+  - Slicing, indexing, and selection operations
+  - Statistical reductions (mean, max, min, etc.)
+  - Sorting and permutation operations
+  - Cumulative operations (cumsum, cumprod)
+  - Support for both regular and masked arrays
 - `nested`: Functions to manipulate nested data structures (dicts, lists) containing arrays
-    - Apply operations to all arrays in a structure simultaneously
-    - Maintain relationships between related arrays
-    - Mathematical operations (abs, exp, log, trigonometric functions)
-    - All operations from `array` module, but for nested structures
+  - Apply operations to all arrays in a structure simultaneously
+  - Maintain relationships between related arrays
+  - Mathematical operations (abs, exp, log, trigonometric functions)
+  - All operations from `array` module, but for nested structures
 - `computation`: Computation models for abstracting array operations
-    - Automatic selection of appropriate implementation based on array type
-    - Support for regular arrays and masked arrays
-    - Extensible for custom array types
+  - Automatic selection of appropriate implementation based on array type
+  - Support for regular arrays and masked arrays
+  - Extensible for custom array types
 
 ## Documentation
 
@@ -161,7 +161,7 @@ to install only some specific dependencies or other alternatives to install the 
 The following is the corresponding `batcharray` versions and tested dependencies.
 
 | `batcharray` | `coola`        | `numpy`       | `python`       |
-|--------------|----------------|---------------|----------------|
+| ------------ | -------------- | ------------- | -------------- |
 | `main`       | `>=1.0,<2.0`   | `>=1.22,<3.0` | `>=3.11`       |
 | `0.3.0`      | `>=0.11,<1.0`  | `>=1.22,<3.0` | `>=3.10`       |
 | `0.2.0`      | `>=0.9.1,<1.0` | `>=1.22,<3.0` | `>=3.10,<3.15` |
