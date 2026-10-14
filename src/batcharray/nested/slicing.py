@@ -63,8 +63,10 @@ def chunk_along_batch(
     """
     keys = data.keys()
     return [
-        dict(zip(keys, values))
-        for values in zip(*[ba.chunk_along_batch(array, chunks) for array in data.values()])
+        dict(zip(keys, values, strict=True))
+        for values in zip(
+            *[ba.chunk_along_batch(array, chunks) for array in data.values()], strict=True
+        )
     ]
 
 
@@ -105,8 +107,10 @@ def chunk_along_seq(
     """
     keys = data.keys()
     return [
-        dict(zip(keys, values))
-        for values in zip(*[ba.chunk_along_seq(array, chunks) for array in data.values()])
+        dict(zip(keys, values, strict=True))
+        for values in zip(
+            *[ba.chunk_along_seq(array, chunks) for array in data.values()], strict=True
+        )
     ]
 
 
@@ -300,9 +304,10 @@ def split_along_batch(
     """
     keys = data.keys()
     return [
-        dict(zip(keys, values))
+        dict(zip(keys, values, strict=True))
         for values in zip(
-            *[ba.split_along_batch(array, split_size_or_sections) for array in data.values()]
+            *[ba.split_along_batch(array, split_size_or_sections) for array in data.values()],
+            strict=True,
         )
     ]
 
@@ -345,8 +350,9 @@ def split_along_seq(
     """
     keys = data.keys()
     return [
-        dict(zip(keys, values))
+        dict(zip(keys, values, strict=True))
         for values in zip(
-            *[ba.split_along_seq(array, split_size_or_sections) for array in data.values()]
+            *[ba.split_along_seq(array, split_size_or_sections) for array in data.values()],
+            strict=True,
         )
     ]
