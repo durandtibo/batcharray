@@ -9,7 +9,6 @@ __all__ = [
     "cumsum_along_seq",
 ]
 
-from functools import partial
 from typing import Any
 
 from coola.recursive import recursive_apply
@@ -48,7 +47,7 @@ def cumprod_along_batch(data: Any) -> Any:
 
         ```
     """
-    return recursive_apply(data, partial(ba.cumprod_along_batch))
+    return recursive_apply(data, ba.cumprod_along_batch)
 
 
 def cumprod_along_seq(data: Any) -> Any:
@@ -82,7 +81,7 @@ def cumprod_along_seq(data: Any) -> Any:
 
         ```
     """
-    return recursive_apply(data, partial(ba.cumprod_along_seq))
+    return recursive_apply(data, ba.cumprod_along_seq)
 
 
 def cumsum_along_batch(data: Any) -> Any:
@@ -116,7 +115,7 @@ def cumsum_along_batch(data: Any) -> Any:
 
         ```
     """
-    return recursive_apply(data, partial(ba.cumsum_along_batch))
+    return recursive_apply(data, ba.cumsum_along_batch)
 
 
 def cumsum_along_seq(data: Any) -> Any:
@@ -150,4 +149,4 @@ def cumsum_along_seq(data: Any) -> Any:
 
         ```
     """
-    return recursive_apply(data, partial(ba.cumsum_along_seq))
+    return recursive_apply(data, ba.cumsum_along_seq)
