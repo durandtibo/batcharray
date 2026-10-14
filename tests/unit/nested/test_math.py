@@ -54,7 +54,13 @@ def test_cumprod_along_batch_dict(dtype: DTypeLike) -> None:
             "a": np.ma.masked_array(
                 data=np.array([[1, 2], [3, 8], [15, 8], [105, 64], [105, 640]], dtype=dtype),
                 mask=np.array(
-                    [[False, False], [False, False], [False, True], [False, False], [True, False]]
+                    [
+                        [False, False],
+                        [False, False],
+                        [False, True],
+                        [False, False],
+                        [True, False],
+                    ]
                 ),
             ),
             "b": np.array([4, 12, 24, 24, 0]),
@@ -83,7 +89,10 @@ def test_cumprod_along_seq_dict(dtype: DTypeLike) -> None:
                 "a": np.ma.masked_array(
                     data=np.array([[1, 2, 3, 4, 5], [6, 7, 8, 9, 10]], dtype=dtype),
                     mask=np.array(
-                        [[False, False, False, False, True], [False, False, True, False, False]]
+                        [
+                            [False, False, False, False, True],
+                            [False, False, True, False, False],
+                        ]
                     ),
                 ),
                 "b": np.array([[4, 3, 2, 1, 0]]),
@@ -93,7 +102,10 @@ def test_cumprod_along_seq_dict(dtype: DTypeLike) -> None:
             "a": np.ma.masked_array(
                 data=np.array([[1, 2, 6, 24, 24], [6, 42, 42, 378, 3780]], dtype=dtype),
                 mask=np.array(
-                    [[False, False, False, False, True], [False, False, True, False, False]]
+                    [
+                        [False, False, False, False, True],
+                        [False, False, True, False, False],
+                    ]
                 ),
             ),
             "b": np.array([[4, 12, 24, 24, 0]]),
@@ -138,7 +150,13 @@ def test_cumsum_along_batch_dict(dtype: DTypeLike) -> None:
             "a": np.ma.masked_array(
                 data=np.array([[0, 1], [2, 4], [6, 4], [12, 11], [12, 20]], dtype=dtype),
                 mask=np.array(
-                    [[False, False], [False, False], [False, True], [False, False], [True, False]]
+                    [
+                        [False, False],
+                        [False, False],
+                        [False, True],
+                        [False, False],
+                        [True, False],
+                    ]
                 ),
             ),
             "b": np.array([4, 7, 9, 10, 10]),
@@ -167,7 +185,10 @@ def test_cumsum_along_seq_dict(dtype: DTypeLike) -> None:
                 "a": np.ma.masked_array(
                     data=np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]], dtype=dtype),
                     mask=np.array(
-                        [[False, False, False, False, True], [False, False, True, False, False]]
+                        [
+                            [False, False, False, False, True],
+                            [False, False, True, False, False],
+                        ]
                     ),
                 ),
                 "b": np.array([[4, 3, 2, 1, 0]]),
@@ -177,7 +198,10 @@ def test_cumsum_along_seq_dict(dtype: DTypeLike) -> None:
             "a": np.ma.masked_array(
                 data=np.array([[0, 1, 3, 6, 6], [5, 11, 11, 19, 28]], dtype=dtype),
                 mask=np.array(
-                    [[False, False, False, False, True], [False, False, True, False, False]]
+                    [
+                        [False, False, False, False, True],
+                        [False, False, True, False, False],
+                    ]
                 ),
             ),
             "b": np.array([[4, 7, 9, 10, 10]]),

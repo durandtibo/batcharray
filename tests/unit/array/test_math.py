@@ -38,14 +38,26 @@ def test_cumprod_along_batch_masked_array() -> None:
             np.ma.masked_array(
                 data=np.array([[1, 2], [3, 4], [5, 6], [7, 8], [9, 10]]),
                 mask=np.array(
-                    [[False, False], [False, False], [False, True], [False, False], [True, False]]
+                    [
+                        [False, False],
+                        [False, False],
+                        [False, True],
+                        [False, False],
+                        [True, False],
+                    ]
                 ),
             )
         ),
         np.ma.masked_array(
             data=np.array([[1, 2], [3, 8], [15, 8], [105, 64], [105, 640]]),
             mask=np.array(
-                [[False, False], [False, False], [False, True], [False, False], [True, False]]
+                [
+                    [False, False],
+                    [False, False],
+                    [False, True],
+                    [False, False],
+                    [True, False],
+                ]
             ),
         ),
     )
@@ -70,7 +82,10 @@ def test_cumprod_along_seq_masked_array() -> None:
             np.ma.masked_array(
                 data=np.array([[1, 2, 3, 4, 5], [6, 7, 8, 9, 10]]),
                 mask=np.array(
-                    [[False, False, False, False, True], [False, False, True, False, False]]
+                    [
+                        [False, False, False, False, True],
+                        [False, False, True, False, False],
+                    ]
                 ),
             )
         ),
@@ -100,14 +115,26 @@ def test_cumsum_along_batch_masked_array() -> None:
             np.ma.masked_array(
                 data=np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]]),
                 mask=np.array(
-                    [[False, False], [False, False], [False, True], [False, False], [True, False]]
+                    [
+                        [False, False],
+                        [False, False],
+                        [False, True],
+                        [False, False],
+                        [True, False],
+                    ]
                 ),
             )
         ),
         np.ma.masked_array(
             data=np.array([[0, 1], [2, 4], [6, 4], [12, 11], [12, 20]]),
             mask=np.array(
-                [[False, False], [False, False], [False, True], [False, False], [True, False]]
+                [
+                    [False, False],
+                    [False, False],
+                    [False, True],
+                    [False, False],
+                    [True, False],
+                ]
             ),
         ),
     )
@@ -132,7 +159,10 @@ def test_cumsum_along_seq_masked_array() -> None:
             np.ma.masked_array(
                 data=np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]]),
                 mask=np.array(
-                    [[False, False, False, False, True], [False, False, True, False, False]]
+                    [
+                        [False, False, False, False, True],
+                        [False, False, True, False, False],
+                    ]
                 ),
             )
         ),

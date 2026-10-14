@@ -2,7 +2,17 @@ r"""Contain public functions."""
 
 from __future__ import annotations
 
-__all__ = ["argmax", "argmin", "argsort", "concatenate", "max", "mean", "median", "min", "sort"]
+__all__ = [
+    "argmax",
+    "argmin",
+    "argsort",
+    "concatenate",
+    "max",
+    "mean",
+    "median",
+    "min",
+    "sort",
+]
 
 from typing import TYPE_CHECKING, TypeVar
 

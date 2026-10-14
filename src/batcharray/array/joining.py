@@ -11,7 +11,9 @@ from batcharray import computation as cmpt
 from batcharray.constants import BATCH_AXIS, SEQ_AXIS
 
 
-def concatenate_along_batch(arrays: list[np.ndarray] | tuple[np.ndarray, ...]) -> np.ndarray:
+def concatenate_along_batch(
+    arrays: list[np.ndarray] | tuple[np.ndarray, ...],
+) -> np.ndarray:
     r"""Concatenate the given arrays in the batch axis.
 
     All arrays must either have the same data type and shape (except
@@ -47,7 +49,9 @@ def concatenate_along_batch(arrays: list[np.ndarray] | tuple[np.ndarray, ...]) -
     return cmpt.concatenate(arrays, axis=BATCH_AXIS)
 
 
-def concatenate_along_seq(arrays: list[np.ndarray] | tuple[np.ndarray, ...]) -> np.ndarray:
+def concatenate_along_seq(
+    arrays: list[np.ndarray] | tuple[np.ndarray, ...],
+) -> np.ndarray:
     r"""Concatenate the given arrays in the sequence axis.
 
     All arrays must either have the same data type and shape (except

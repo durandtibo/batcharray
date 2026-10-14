@@ -50,7 +50,8 @@ def test_amax_along_batch_array(dtype: DTypeLike) -> None:
 def test_amax_along_batch_array_keepdims_true(dtype: DTypeLike) -> None:
     assert objects_are_equal(
         amax_along_batch(
-            np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]], dtype=dtype), keepdims=True
+            np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]], dtype=dtype),
+            keepdims=True,
         ),
         np.array([[8, 9]], dtype=dtype),
     )
@@ -174,7 +175,8 @@ def test_amin_along_batch_array(dtype: DTypeLike) -> None:
 def test_amin_along_batch_array_keepdims_true(dtype: DTypeLike) -> None:
     assert objects_are_equal(
         amin_along_batch(
-            np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]], dtype=dtype), keepdims=True
+            np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]], dtype=dtype),
+            keepdims=True,
         ),
         np.array([[0, 1]], dtype=dtype),
     )
@@ -298,7 +300,8 @@ def test_argmax_along_batch_array(dtype: DTypeLike) -> None:
 def test_argmax_along_batch_array_keepdims_true(dtype: DTypeLike) -> None:
     assert objects_are_equal(
         argmax_along_batch(
-            np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]], dtype=dtype), keepdims=True
+            np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]], dtype=dtype),
+            keepdims=True,
         ),
         np.array([[4, 4]]),
     )
@@ -422,7 +425,8 @@ def test_argmin_along_batch_array(dtype: DTypeLike) -> None:
 def test_argmin_along_batch_array_keepdims_true(dtype: DTypeLike) -> None:
     assert objects_are_equal(
         argmin_along_batch(
-            np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]], dtype=dtype), keepdims=True
+            np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]], dtype=dtype),
+            keepdims=True,
         ),
         np.array([[0, 0]]),
     )
@@ -546,7 +550,8 @@ def test_max_along_batch_array(dtype: DTypeLike) -> None:
 def test_max_along_batch_array_keepdims_true(dtype: DTypeLike) -> None:
     assert objects_are_equal(
         max_along_batch(
-            np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]], dtype=dtype), keepdims=True
+            np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]], dtype=dtype),
+            keepdims=True,
         ),
         np.array([[8, 9]], dtype=dtype),
     )
@@ -690,7 +695,8 @@ def test_mean_along_batch_array(dtype: DTypeLike) -> None:
 def test_mean_along_batch_array_keepdims_true(dtype: DTypeLike) -> None:
     assert objects_are_equal(
         mean_along_batch(
-            np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]], dtype=dtype), keepdims=True
+            np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]], dtype=dtype),
+            keepdims=True,
         ),
         np.array([[4.0, 5.0]]),
     )
@@ -818,7 +824,8 @@ def test_median_along_batch_array(dtype: DTypeLike) -> None:
 def test_median_along_batch_array_keepdims_true(dtype: DTypeLike) -> None:
     assert objects_are_equal(
         median_along_batch(
-            np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]], dtype=dtype), keepdims=True
+            np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]], dtype=dtype),
+            keepdims=True,
         ),
         np.array([[4.0, 5.0]]),
     )
@@ -952,7 +959,8 @@ def test_min_along_batch_array(dtype: DTypeLike) -> None:
 def test_min_along_batch_array_keepdims_true(dtype: DTypeLike) -> None:
     assert objects_are_equal(
         min_along_batch(
-            np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]], dtype=dtype), keepdims=True
+            np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]], dtype=dtype),
+            keepdims=True,
         ),
         np.array([[0, 1]], dtype=dtype),
     )
@@ -1096,7 +1104,8 @@ def test_prod_along_batch_array(dtype: DTypeLike) -> None:
 def test_prod_along_batch_array_keepdims_true(dtype: DTypeLike) -> None:
     assert objects_are_equal(
         prod_along_batch(
-            np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]], dtype=dtype), keepdims=True
+            np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]], dtype=dtype),
+            keepdims=True,
         ),
         np.array([[0, 945]], dtype=dtype),
     )
@@ -1228,7 +1237,8 @@ def test_sum_along_batch_array(dtype: DTypeLike) -> None:
 def test_sum_along_batch_array_keepdims_true(dtype: DTypeLike) -> None:
     assert objects_are_equal(
         sum_along_batch(
-            np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]], dtype=dtype), keepdims=True
+            np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]], dtype=dtype),
+            keepdims=True,
         ),
         np.array([[20, 25]], dtype=dtype),
     )

@@ -47,7 +47,8 @@ def test_auto_computation_model_add_computation_model_exist_ok_false() -> None:
     assert len(AutoComputationModel.registry) == 0
     AutoComputationModel.add_computation_model(np.ndarray, ArrayComputationModel())
     with pytest.raises(
-        RuntimeError, match=r"A computation model .* is already registered for the array type"
+        RuntimeError,
+        match=r"A computation model .* is already registered for the array type",
     ):
         AutoComputationModel.add_computation_model(np.ndarray, ArrayComputationModel())
 
@@ -138,7 +139,9 @@ def test_auto_computation_argmax_axis_none(dtype: DTypeLike) -> None:
 def test_auto_computation_argmax_keepdims_true(dtype: DTypeLike) -> None:
     assert objects_are_equal(
         AutoComputationModel().argmax(
-            np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]], dtype=dtype), axis=0, keepdims=True
+            np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]], dtype=dtype),
+            axis=0,
+            keepdims=True,
         ),
         np.array([[4, 4]]),
     )
@@ -151,7 +154,13 @@ def test_auto_computation_argmax_masked_array(dtype: DTypeLike) -> None:
             np.ma.masked_array(
                 data=np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]], dtype=dtype),
                 mask=np.array(
-                    [[False, False], [False, False], [True, False], [False, False], [True, False]]
+                    [
+                        [False, False],
+                        [False, False],
+                        [True, False],
+                        [False, False],
+                        [True, False],
+                    ]
                 ),
             ),
             axis=0,
@@ -197,7 +206,9 @@ def test_auto_computation_argmin_axis_none(dtype: DTypeLike) -> None:
 def test_auto_computation_argmin_keepdims_true(dtype: DTypeLike) -> None:
     assert objects_are_equal(
         AutoComputationModel().argmin(
-            np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]], dtype=dtype), axis=0, keepdims=True
+            np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]], dtype=dtype),
+            axis=0,
+            keepdims=True,
         ),
         np.array([[0, 0]]),
     )
@@ -210,7 +221,13 @@ def test_auto_computation_argmin_masked_array(dtype: DTypeLike) -> None:
             np.ma.masked_array(
                 data=np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]], dtype=dtype),
                 mask=np.array(
-                    [[True, False], [False, False], [True, False], [False, False], [False, False]]
+                    [
+                        [True, False],
+                        [False, False],
+                        [True, False],
+                        [False, False],
+                        [False, False],
+                    ]
                 ),
             ),
             axis=0,
@@ -228,7 +245,8 @@ def test_auto_computation_argmin_masked_array(dtype: DTypeLike) -> None:
 def test_auto_computation_model_argsort_axis_0(dtype: DTypeLike) -> None:
     assert objects_are_equal(
         AutoComputationModel().argsort(
-            np.array([[1, 14, 4, 13, 6], [3, 0, 10, 5, 11], [2, 8, 7, 12, 9]], dtype=dtype), axis=0
+            np.array([[1, 14, 4, 13, 6], [3, 0, 10, 5, 11], [2, 8, 7, 12, 9]], dtype=dtype),
+            axis=0,
         ),
         np.array([[0, 1, 0, 1, 0], [2, 2, 2, 2, 2], [1, 0, 1, 0, 1]]),
     )
@@ -250,7 +268,8 @@ def test_auto_computation_model_argsort_axis_0_stable(dtype: DTypeLike) -> None:
 def test_auto_computation_model_argsort_axis_1(dtype: DTypeLike) -> None:
     assert objects_are_equal(
         AutoComputationModel().argsort(
-            np.array([[1, 14, 4, 13, 6], [3, 0, 10, 5, 11], [2, 8, 7, 12, 9]], dtype=dtype), axis=1
+            np.array([[1, 14, 4, 13, 6], [3, 0, 10, 5, 11], [2, 8, 7, 12, 9]], dtype=dtype),
+            axis=1,
         ),
         np.array([[0, 2, 4, 3, 1], [1, 0, 3, 2, 4], [0, 2, 1, 4, 3]]),
     )
@@ -293,7 +312,9 @@ def test_auto_computation_model_argsort_axis_none_stable(dtype: DTypeLike) -> No
 def test_auto_computation_model_argsort_kind(kind: SortKind) -> None:
     assert objects_are_equal(
         AutoComputationModel().argsort(
-            np.array([[3, 5, 0, 2, 4], [4, 7, 8, 8, 5], [8, 4, 1, 3, 0]]), axis=0, kind=kind
+            np.array([[3, 5, 0, 2, 4], [4, 7, 8, 8, 5], [8, 4, 1, 3, 0]]),
+            axis=0,
+            kind=kind,
         ),
         np.array([[0, 2, 0, 0, 2], [1, 0, 2, 2, 0], [2, 1, 1, 1, 1]]),
     )
@@ -355,7 +376,9 @@ def test_auto_computation_max_axis_none(dtype: DTypeLike) -> None:
 def test_auto_computation_max_keepdims_true(dtype: DTypeLike) -> None:
     assert objects_are_equal(
         AutoComputationModel().max(
-            np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]], dtype=dtype), axis=0, keepdims=True
+            np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]], dtype=dtype),
+            axis=0,
+            keepdims=True,
         ),
         np.array([[8, 9]], dtype=dtype),
     )
@@ -368,7 +391,13 @@ def test_auto_computation_max_masked_array(dtype: DTypeLike) -> None:
             np.ma.masked_array(
                 data=np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]], dtype=dtype),
                 mask=np.array(
-                    [[False, False], [False, False], [True, False], [False, False], [True, False]]
+                    [
+                        [False, False],
+                        [False, False],
+                        [True, False],
+                        [False, False],
+                        [True, False],
+                    ]
                 ),
             ),
             axis=0,
@@ -414,7 +443,9 @@ def test_auto_computation_mean_axis_none(dtype: DTypeLike) -> None:
 def test_auto_computation_mean_keepdims_true(dtype: DTypeLike) -> None:
     assert objects_are_equal(
         AutoComputationModel().mean(
-            np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]], dtype=dtype), axis=0, keepdims=True
+            np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]], dtype=dtype),
+            axis=0,
+            keepdims=True,
         ),
         np.array([[4.0, 5.0]]),
     )
@@ -427,7 +458,13 @@ def test_auto_computation_mean_masked_array(dtype: DTypeLike) -> None:
             np.ma.masked_array(
                 data=np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]], dtype=dtype),
                 mask=np.array(
-                    [[False, False], [False, False], [True, False], [False, False], [True, False]]
+                    [
+                        [False, False],
+                        [False, False],
+                        [True, False],
+                        [False, False],
+                        [True, False],
+                    ]
                 ),
             ),
             axis=0,
@@ -473,7 +510,9 @@ def test_auto_computation_median_axis_none(dtype: DTypeLike) -> None:
 def test_auto_computation_median_keepdims_true(dtype: DTypeLike) -> None:
     assert objects_are_equal(
         AutoComputationModel().median(
-            np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]], dtype=dtype), axis=0, keepdims=True
+            np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]], dtype=dtype),
+            axis=0,
+            keepdims=True,
         ),
         np.array([[4.0, 5.0]]),
     )
@@ -486,7 +525,13 @@ def test_auto_computation_median_masked_array(dtype: DTypeLike) -> None:
             np.ma.masked_array(
                 data=np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]], dtype=dtype),
                 mask=np.array(
-                    [[False, False], [False, False], [True, False], [False, False], [True, False]]
+                    [
+                        [False, False],
+                        [False, False],
+                        [True, False],
+                        [False, False],
+                        [True, False],
+                    ]
                 ),
             ),
             axis=0,
@@ -531,7 +576,9 @@ def test_auto_computation_min_axis_none(dtype: DTypeLike) -> None:
 def test_auto_computation_min_keepdims_true(dtype: DTypeLike) -> None:
     assert objects_are_equal(
         AutoComputationModel().min(
-            np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]], dtype=dtype), axis=0, keepdims=True
+            np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]], dtype=dtype),
+            axis=0,
+            keepdims=True,
         ),
         np.array([[0, 1]], dtype=dtype),
     )
@@ -544,7 +591,13 @@ def test_auto_computation_min_masked_array(dtype: DTypeLike) -> None:
             np.ma.masked_array(
                 data=np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]], dtype=dtype),
                 mask=np.array(
-                    [[True, False], [False, False], [True, False], [False, False], [False, False]]
+                    [
+                        [True, False],
+                        [False, False],
+                        [True, False],
+                        [False, False],
+                        [False, False],
+                    ]
                 ),
             ),
             axis=0,
@@ -562,7 +615,8 @@ def test_auto_computation_min_masked_array(dtype: DTypeLike) -> None:
 def test_auto_computation_model_sort_axis_0(dtype: DTypeLike) -> None:
     assert objects_are_equal(
         AutoComputationModel().sort(
-            np.array([[3, 5, 0, 2, 4], [4, 7, 8, 8, 5], [8, 5, 8, 8, 0]], dtype=dtype), axis=0
+            np.array([[3, 5, 0, 2, 4], [4, 7, 8, 8, 5], [8, 5, 8, 8, 0]], dtype=dtype),
+            axis=0,
         ),
         np.array([[3, 5, 0, 2, 0], [4, 5, 8, 8, 4], [8, 7, 8, 8, 5]], dtype=dtype),
     )
@@ -572,7 +626,8 @@ def test_auto_computation_model_sort_axis_0(dtype: DTypeLike) -> None:
 def test_auto_computation_model_sort_axis_1(dtype: DTypeLike) -> None:
     assert objects_are_equal(
         AutoComputationModel().sort(
-            np.array([[3, 5, 0, 2, 4], [4, 7, 8, 8, 5], [8, 5, 8, 8, 0]], dtype=dtype), axis=1
+            np.array([[3, 5, 0, 2, 4], [4, 7, 8, 8, 5], [8, 5, 8, 8, 0]], dtype=dtype),
+            axis=1,
         ),
         np.array([[0, 2, 3, 4, 5], [4, 5, 7, 8, 8], [0, 5, 8, 8, 8]], dtype=dtype),
     )
@@ -592,7 +647,9 @@ def test_auto_computation_model_sort_axis_none(dtype: DTypeLike) -> None:
 def test_auto_computation_model_sort_kind(kind: SortKind) -> None:
     assert objects_are_equal(
         AutoComputationModel().sort(
-            np.array([[3, 5, 0, 2, 4], [4, 7, 8, 8, 5], [8, 5, 8, 8, 0]]), axis=0, kind=kind
+            np.array([[3, 5, 0, 2, 4], [4, 7, 8, 8, 5], [8, 5, 8, 8, 0]]),
+            axis=0,
+            kind=kind,
         ),
         np.array([[3, 5, 0, 2, 0], [4, 5, 8, 8, 4], [8, 7, 8, 8, 5]]),
     )

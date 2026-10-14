@@ -53,7 +53,8 @@ def test_amax_along_batch(dtype: DTypeLike) -> None:
 def test_amax_along_batch_keepdims_true(dtype: DTypeLike) -> None:
     assert objects_are_equal(
         amax_along_batch(
-            np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]], dtype=dtype), keepdims=True
+            np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]], dtype=dtype),
+            keepdims=True,
         ),
         np.array([[8, 9]], dtype=dtype),
     )
@@ -65,7 +66,13 @@ def test_amax_along_batch_masked_array() -> None:
             np.ma.masked_array(
                 data=np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]]),
                 mask=np.array(
-                    [[False, False], [False, False], [True, False], [False, False], [True, False]]
+                    [
+                        [False, False],
+                        [False, False],
+                        [True, False],
+                        [False, False],
+                        [True, False],
+                    ]
                 ),
             )
         ),
@@ -100,7 +107,10 @@ def test_amax_along_seq_masked_array() -> None:
             np.ma.masked_array(
                 data=np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]]),
                 mask=np.array(
-                    [[False, False, True, False, True], [False, False, False, False, False]]
+                    [
+                        [False, False, True, False, True],
+                        [False, False, False, False, False],
+                    ]
                 ),
             )
         ),
@@ -125,7 +135,8 @@ def test_amin_along_batch(dtype: DTypeLike) -> None:
 def test_amin_along_batch_keepdims_true(dtype: DTypeLike) -> None:
     assert objects_are_equal(
         amin_along_batch(
-            np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]], dtype=dtype), keepdims=True
+            np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]], dtype=dtype),
+            keepdims=True,
         ),
         np.array([[0, 1]], dtype=dtype),
     )
@@ -137,7 +148,13 @@ def test_amin_along_batch_masked_array() -> None:
             np.ma.masked_array(
                 data=np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]]),
                 mask=np.array(
-                    [[False, True], [False, False], [True, False], [False, False], [True, False]]
+                    [
+                        [False, True],
+                        [False, False],
+                        [True, False],
+                        [False, False],
+                        [True, False],
+                    ]
                 ),
             )
         ),
@@ -172,7 +189,10 @@ def test_amin_along_seq_masked_array() -> None:
             np.ma.masked_array(
                 data=np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]]),
                 mask=np.array(
-                    [[True, False, True, False, False], [False, False, False, False, False]]
+                    [
+                        [True, False, True, False, False],
+                        [False, False, False, False, False],
+                    ]
                 ),
             )
         ),
@@ -197,7 +217,8 @@ def test_argmax_along_batch(dtype: DTypeLike) -> None:
 def test_argmax_along_batch_keepdims_true(dtype: DTypeLike) -> None:
     assert objects_are_equal(
         argmax_along_batch(
-            np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]], dtype=dtype), keepdims=True
+            np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]], dtype=dtype),
+            keepdims=True,
         ),
         np.array([[4, 4]]),
     )
@@ -209,7 +230,13 @@ def test_argmax_along_batch_masked_array() -> None:
             np.ma.masked_array(
                 data=np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]]),
                 mask=np.array(
-                    [[False, False], [False, False], [True, False], [False, False], [True, False]]
+                    [
+                        [False, False],
+                        [False, False],
+                        [True, False],
+                        [False, False],
+                        [True, False],
+                    ]
                 ),
             )
         ),
@@ -244,7 +271,10 @@ def test_argmax_along_seq_masked_array() -> None:
             np.ma.masked_array(
                 data=np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]]),
                 mask=np.array(
-                    [[False, False, True, False, True], [False, False, False, False, False]]
+                    [
+                        [False, False, True, False, True],
+                        [False, False, False, False, False],
+                    ]
                 ),
             )
         ),
@@ -269,7 +299,8 @@ def test_argmin_along_batch(dtype: DTypeLike) -> None:
 def test_argmin_along_batch_keepdims_true(dtype: DTypeLike) -> None:
     assert objects_are_equal(
         argmin_along_batch(
-            np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]], dtype=dtype), keepdims=True
+            np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]], dtype=dtype),
+            keepdims=True,
         ),
         np.array([[0, 0]]),
     )
@@ -281,7 +312,13 @@ def test_argmin_along_batch_masked_array() -> None:
             np.ma.masked_array(
                 data=np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]]),
                 mask=np.array(
-                    [[False, False], [False, False], [True, False], [False, False], [True, False]]
+                    [
+                        [False, False],
+                        [False, False],
+                        [True, False],
+                        [False, False],
+                        [True, False],
+                    ]
                 ),
             )
         ),
@@ -316,7 +353,10 @@ def test_argmin_along_seq_masked_array() -> None:
             np.ma.masked_array(
                 data=np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]]),
                 mask=np.array(
-                    [[True, False, True, False, False], [False, False, False, False, False]]
+                    [
+                        [True, False, True, False, False],
+                        [False, False, False, False, False],
+                    ]
                 ),
             )
         ),
@@ -341,7 +381,8 @@ def test_max_along_batch(dtype: DTypeLike) -> None:
 def test_max_along_batch_keepdims_true(dtype: DTypeLike) -> None:
     assert objects_are_equal(
         max_along_batch(
-            np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]], dtype=dtype), keepdims=True
+            np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]], dtype=dtype),
+            keepdims=True,
         ),
         np.array([[8, 9]], dtype=dtype),
     )
@@ -353,7 +394,13 @@ def test_max_along_batch_masked_array() -> None:
             np.ma.masked_array(
                 data=np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]]),
                 mask=np.array(
-                    [[False, False], [False, False], [True, False], [False, False], [True, False]]
+                    [
+                        [False, False],
+                        [False, False],
+                        [True, False],
+                        [False, False],
+                        [True, False],
+                    ]
                 ),
             )
         ),
@@ -388,7 +435,10 @@ def test_max_along_seq_masked_array() -> None:
             np.ma.masked_array(
                 data=np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]]),
                 mask=np.array(
-                    [[False, False, True, False, True], [False, False, False, False, False]]
+                    [
+                        [False, False, True, False, True],
+                        [False, False, False, False, False],
+                    ]
                 ),
             )
         ),
@@ -413,7 +463,8 @@ def test_mean_along_batch(dtype: DTypeLike) -> None:
 def test_mean_along_batch_keepdims_true(dtype: DTypeLike) -> None:
     assert objects_are_equal(
         mean_along_batch(
-            np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]], dtype=dtype), keepdims=True
+            np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]], dtype=dtype),
+            keepdims=True,
         ),
         np.array([[4.0, 5.0]], dtype=dtype),
     )
@@ -425,7 +476,13 @@ def test_mean_along_batch_masked_array() -> None:
             np.ma.masked_array(
                 data=np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]]),
                 mask=np.array(
-                    [[False, False], [True, False], [True, False], [False, False], [True, False]]
+                    [
+                        [False, False],
+                        [True, False],
+                        [True, False],
+                        [False, False],
+                        [True, False],
+                    ]
                 ),
             )
         ),
@@ -460,7 +517,10 @@ def test_mean_along_seq_masked_array() -> None:
             np.ma.masked_array(
                 data=np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]]),
                 mask=np.array(
-                    [[False, False, True, False, True], [False, False, False, False, False]]
+                    [
+                        [False, False, True, False, True],
+                        [False, False, False, False, False],
+                    ]
                 ),
             )
         ),
@@ -487,7 +547,8 @@ def test_median_along_batch(dtype: DTypeLike) -> None:
 def test_median_along_batch_keepdims_true(dtype: DTypeLike) -> None:
     assert objects_are_equal(
         median_along_batch(
-            np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]], dtype=dtype), keepdims=True
+            np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]], dtype=dtype),
+            keepdims=True,
         ),
         np.array([[4.0, 5.0]]),
     )
@@ -499,7 +560,13 @@ def test_median_along_batch_masked_array() -> None:
             np.ma.masked_array(
                 data=np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]]),
                 mask=np.array(
-                    [[False, False], [False, False], [True, False], [False, False], [True, False]]
+                    [
+                        [False, False],
+                        [False, False],
+                        [True, False],
+                        [False, False],
+                        [True, False],
+                    ]
                 ),
             )
         ),
@@ -534,7 +601,10 @@ def test_median_along_seq_masked_array() -> None:
             np.ma.masked_array(
                 data=np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]]),
                 mask=np.array(
-                    [[False, False, True, False, True], [False, False, False, False, False]]
+                    [
+                        [False, False, True, False, True],
+                        [False, False, False, False, False],
+                    ]
                 ),
             )
         ),
@@ -559,7 +629,8 @@ def test_min_along_batch(dtype: DTypeLike) -> None:
 def test_min_along_batch_keepdims_true(dtype: DTypeLike) -> None:
     assert objects_are_equal(
         min_along_batch(
-            np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]], dtype=dtype), keepdims=True
+            np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]], dtype=dtype),
+            keepdims=True,
         ),
         np.array([[0, 1]], dtype=dtype),
     )
@@ -571,7 +642,13 @@ def test_min_along_batch_masked_array() -> None:
             np.ma.masked_array(
                 data=np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]]),
                 mask=np.array(
-                    [[False, False], [False, False], [True, False], [False, False], [True, False]]
+                    [
+                        [False, False],
+                        [False, False],
+                        [True, False],
+                        [False, False],
+                        [True, False],
+                    ]
                 ),
             )
         ),
@@ -606,7 +683,10 @@ def test_min_along_seq_masked_array() -> None:
             np.ma.masked_array(
                 data=np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]]),
                 mask=np.array(
-                    [[True, False, True, False, False], [False, False, False, False, False]]
+                    [
+                        [True, False, True, False, False],
+                        [False, False, False, False, False],
+                    ]
                 ),
             )
         ),
@@ -631,7 +711,8 @@ def test_prod_along_batch(dtype: DTypeLike) -> None:
 def test_prod_along_batch_keepdims_true(dtype: DTypeLike) -> None:
     assert objects_are_equal(
         prod_along_batch(
-            np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]], dtype=dtype), keepdims=True
+            np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]], dtype=dtype),
+            keepdims=True,
         ),
         np.array([[0, 945]], dtype=dtype),
     )
@@ -643,7 +724,13 @@ def test_prod_along_batch_masked_array() -> None:
             np.ma.masked_array(
                 data=np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]]),
                 mask=np.array(
-                    [[True, False], [False, False], [True, False], [False, False], [False, False]]
+                    [
+                        [True, False],
+                        [False, False],
+                        [True, False],
+                        [False, False],
+                        [False, False],
+                    ]
                 ),
             )
         ),
@@ -678,7 +765,10 @@ def test_prod_along_seq_masked_array() -> None:
             np.ma.masked_array(
                 data=np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]]),
                 mask=np.array(
-                    [[True, False, False, True, False], [False, False, False, False, False]]
+                    [
+                        [True, False, False, True, False],
+                        [False, False, False, False, False],
+                    ]
                 ),
             )
         ),
@@ -703,7 +793,8 @@ def test_sum_along_batch(dtype: DTypeLike) -> None:
 def test_sum_along_batch_keepdims_true(dtype: DTypeLike) -> None:
     assert objects_are_equal(
         sum_along_batch(
-            np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]], dtype=dtype), keepdims=True
+            np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]], dtype=dtype),
+            keepdims=True,
         ),
         np.array([[20, 25]], dtype=dtype),
     )
@@ -715,7 +806,13 @@ def test_sum_along_batch_masked_array() -> None:
             np.ma.masked_array(
                 data=np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]]),
                 mask=np.array(
-                    [[False, False], [False, False], [True, False], [False, False], [True, False]]
+                    [
+                        [False, False],
+                        [False, False],
+                        [True, False],
+                        [False, False],
+                        [True, False],
+                    ]
                 ),
             )
         ),
@@ -750,7 +847,10 @@ def test_sum_along_seq_masked_array() -> None:
             np.ma.masked_array(
                 data=np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]]),
                 mask=np.array(
-                    [[False, False, True, False, True], [False, False, False, False, False]]
+                    [
+                        [False, False, True, False, True],
+                        [False, False, False, False, False],
+                    ]
                 ),
             )
         ),

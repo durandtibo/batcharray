@@ -44,7 +44,11 @@ class ArrayComputationModel(BaseComputationModel[np.ndarray]):  # noqa: PLW1641
         return np.argsort(arr, axis=axis, kind=kind)
 
     def concatenate(
-        self, arrays: Sequence[np.ndarray], axis: int | None = None, *, dtype: DTypeLike = None
+        self,
+        arrays: Sequence[np.ndarray],
+        axis: int | None = None,
+        *,
+        dtype: DTypeLike = None,
     ) -> np.ndarray:
         return np.concatenate(arrays, axis=axis, dtype=dtype)
 

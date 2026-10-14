@@ -68,7 +68,8 @@ def test_index_select_along_batch_dict(dtype: DTypeLike) -> None:
 def test_index_select_along_seq_array(dtype: DTypeLike) -> None:
     assert objects_are_equal(
         index_select_along_seq(
-            np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]]), np.array([4, 3, 2, 1, 0], dtype=dtype)
+            np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]]),
+            np.array([4, 3, 2, 1, 0], dtype=dtype),
         ),
         np.array([[4, 3, 2, 1, 0], [9, 8, 7, 6, 5]]),
     )
@@ -213,7 +214,8 @@ def test_take_along_batch_dict(dtype: DTypeLike) -> None:
 def test_take_along_seq_array(dtype: DTypeLike) -> None:
     assert objects_are_equal(
         take_along_seq(
-            np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]]), np.array([4, 3, 2, 1, 0], dtype=dtype)
+            np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]]),
+            np.array([4, 3, 2, 1, 0], dtype=dtype),
         ),
         np.array([[4, 3, 2, 1, 0], [9, 8, 7, 6, 5]]),
     )

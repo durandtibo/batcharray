@@ -32,7 +32,9 @@ from batcharray.array import (
         ],
     ],
 )
-def test_concatenate_along_batch(arrays: list[np.ndarray] | tuple[np.ndarray, ...]) -> None:
+def test_concatenate_along_batch(
+    arrays: list[np.ndarray] | tuple[np.ndarray, ...],
+) -> None:
     assert objects_are_equal(
         concatenate_along_batch(arrays),
         np.array([[0, 1, 2], [4, 5, 6], [10, 11, 12], [13, 14, 15]]),
@@ -89,7 +91,9 @@ def test_concatenate_along_batch_masked_array() -> None:
         ],
     ],
 )
-def test_concatenate_along_seq(arrays: list[np.ndarray] | tuple[np.ndarray, ...]) -> None:
+def test_concatenate_along_seq(
+    arrays: list[np.ndarray] | tuple[np.ndarray, ...],
+) -> None:
     assert objects_are_equal(
         concatenate_along_seq(arrays),
         np.array([[0, 1, 2, 10, 11, 12], [4, 5, 6, 13, 14, 15]]),
@@ -161,7 +165,18 @@ def test_tile_along_seq_reps_3d() -> None:
         ),
         np.array(
             [
-                [[0, 1], [2, 3], [4, 5], [6, 7], [8, 9], [0, 1], [2, 3], [4, 5], [6, 7], [8, 9]],
+                [
+                    [0, 1],
+                    [2, 3],
+                    [4, 5],
+                    [6, 7],
+                    [8, 9],
+                    [0, 1],
+                    [2, 3],
+                    [4, 5],
+                    [6, 7],
+                    [8, 9],
+                ],
                 [
                     [10, 11],
                     [12, 13],
@@ -185,7 +200,10 @@ def test_tile_along_seq_masked_array() -> None:
             np.ma.masked_array(
                 data=np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]]),
                 mask=np.array(
-                    [[False, False, False, False, True], [False, False, True, False, False]]
+                    [
+                        [False, False, False, False, True],
+                        [False, False, True, False, False],
+                    ]
                 ),
             ),
             reps=2,
@@ -194,8 +212,30 @@ def test_tile_along_seq_masked_array() -> None:
             data=np.array([[0, 1, 2, 3, 4, 0, 1, 2, 3, 4], [5, 6, 7, 8, 9, 5, 6, 7, 8, 9]]),
             mask=np.array(
                 [
-                    [False, False, False, False, True, False, False, False, False, True],
-                    [False, False, True, False, False, False, False, True, False, False],
+                    [
+                        False,
+                        False,
+                        False,
+                        False,
+                        True,
+                        False,
+                        False,
+                        False,
+                        False,
+                        True,
+                    ],
+                    [
+                        False,
+                        False,
+                        True,
+                        False,
+                        False,
+                        False,
+                        False,
+                        True,
+                        False,
+                        False,
+                    ],
                 ]
             ),
         ),

@@ -238,7 +238,10 @@ def test_tile_along_seq_array_reps_3d() -> None:
 def test_tile_along_seq_dict_reps_0() -> None:
     assert objects_are_equal(
         tile_along_seq(
-            {"a": np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]]), "b": np.array([[4, 3, 2, 1, 0]])},
+            {
+                "a": np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]]),
+                "b": np.array([[4, 3, 2, 1, 0]]),
+            },
             reps=0,
         ),
         {"a": np.zeros((2, 0), dtype=np.int64), "b": np.zeros((1, 0), dtype=np.int64)},
@@ -248,7 +251,10 @@ def test_tile_along_seq_dict_reps_0() -> None:
 def test_tile_along_seq_dict_reps_1() -> None:
     assert objects_are_equal(
         tile_along_seq(
-            {"a": np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]]), "b": np.array([[4, 3, 2, 1, 0]])},
+            {
+                "a": np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]]),
+                "b": np.array([[4, 3, 2, 1, 0]]),
+            },
             reps=1,
         ),
         {
@@ -261,7 +267,10 @@ def test_tile_along_seq_dict_reps_1() -> None:
 def test_tile_along_seq_dict_reps_2() -> None:
     assert objects_are_equal(
         tile_along_seq(
-            {"a": np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]]), "b": np.array([[4, 3, 2, 1, 0]])},
+            {
+                "a": np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]]),
+                "b": np.array([[4, 3, 2, 1, 0]]),
+            },
             reps=2,
         ),
         {
@@ -337,7 +346,20 @@ def test_tile_along_seq_dict_nested() -> None:
             "b": np.ma.masked_array(
                 data=np.array([[4, 3, 2, 1, 0, 4, 3, 2, 1, 0]]),
                 mask=np.array(
-                    [[False, False, False, True, False, False, False, False, True, False]]
+                    [
+                        [
+                            False,
+                            False,
+                            False,
+                            True,
+                            False,
+                            False,
+                            False,
+                            False,
+                            True,
+                            False,
+                        ]
+                    ]
                 ),
             ),
             "list": [np.array([[5, 6, 7, 8, 9, 5, 6, 7, 8, 9]])],

@@ -65,13 +65,20 @@ def test_index_select_along_batch_masked_array() -> None:
             np.ma.masked_array(
                 data=np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]]),
                 mask=np.array(
-                    [[False, False], [False, False], [True, False], [False, False], [True, False]]
+                    [
+                        [False, False],
+                        [False, False],
+                        [True, False],
+                        [False, False],
+                        [True, False],
+                    ]
                 ),
             ),
             indices=np.array([2, 4]),
         ),
         np.ma.masked_array(
-            data=np.array([[4, 5], [8, 9]]), mask=np.array([[True, False], [True, False]])
+            data=np.array([[4, 5], [8, 9]]),
+            mask=np.array([[True, False], [True, False]]),
         ),
     )
 
@@ -86,7 +93,8 @@ def test_index_select_along_batch_masked_array() -> None:
 def test_index_select_along_seq_2(dtype: DTypeLike, indices: np.ndarray) -> None:
     assert objects_are_equal(
         index_select_along_seq(
-            np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]]), indices=indices.astype(dtype=dtype)
+            np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]]),
+            indices=indices.astype(dtype=dtype),
         ),
         np.array([[2, 4], [7, 9]]),
     )
@@ -117,7 +125,8 @@ def test_index_select_along_seq_7(dtype: DTypeLike) -> None:
 def test_index_select_along_seq_per_batch_indices() -> None:
     assert objects_are_equal(
         index_select_along_seq(
-            np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]]), indices=np.array([[2, 4], [1, 3]])
+            np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]]),
+            indices=np.array([[2, 4], [1, 3]]),
         ),
         np.array([[2, 4], [6, 8]]),
     )
@@ -144,13 +153,17 @@ def test_index_select_along_seq_masked_array_1d() -> None:
             np.ma.masked_array(
                 data=np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]]),
                 mask=np.array(
-                    [[False, False, True, False, True], [False, False, False, False, False]]
+                    [
+                        [False, False, True, False, True],
+                        [False, False, False, False, False],
+                    ]
                 ),
             ),
             indices=np.array([2, 4]),
         ),
         np.ma.masked_array(
-            data=np.array([[2, 4], [7, 9]]), mask=np.array([[True, True], [False, False]])
+            data=np.array([[2, 4], [7, 9]]),
+            mask=np.array([[True, True], [False, False]]),
         ),
     )
 
@@ -161,13 +174,17 @@ def test_index_select_along_seq_masked_array_2d() -> None:
             np.ma.masked_array(
                 data=np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]]),
                 mask=np.array(
-                    [[False, False, True, False, True], [False, False, False, False, False]]
+                    [
+                        [False, False, True, False, True],
+                        [False, False, False, False, False],
+                    ]
                 ),
             ),
             indices=np.array([[2, 4], [1, 3]]),
         ),
         np.ma.masked_array(
-            data=np.array([[2, 4], [6, 8]]), mask=np.array([[True, True], [False, False]])
+            data=np.array([[2, 4], [6, 8]]),
+            mask=np.array([[True, True], [False, False]]),
         ),
     )
 
@@ -193,7 +210,13 @@ def test_masked_select_along_batch_masked_array() -> None:
             np.ma.masked_array(
                 data=np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]]),
                 mask=np.array(
-                    [[False, False], [False, False], [True, False], [False, False], [True, False]]
+                    [
+                        [False, False],
+                        [False, False],
+                        [True, False],
+                        [False, False],
+                        [True, False],
+                    ]
                 ),
             ),
             mask=np.array([False, False, True, False, True]),
@@ -225,13 +248,17 @@ def test_masked_select_along_seq_masked_array() -> None:
             np.ma.masked_array(
                 data=np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]]),
                 mask=np.array(
-                    [[False, False, True, False, True], [False, False, False, False, False]]
+                    [
+                        [False, False, True, False, True],
+                        [False, False, False, False, False],
+                    ]
                 ),
             ),
             mask=np.array([False, False, True, False, True]),
         ),
         np.ma.masked_array(
-            data=np.array([[2, 4], [7, 9]]), mask=np.array([[True, True], [False, False]])
+            data=np.array([[2, 4], [7, 9]]),
+            mask=np.array([[True, True], [False, False]]),
         ),
     )
 
@@ -280,13 +307,20 @@ def test_take_along_batch_masked_array() -> None:
             np.ma.masked_array(
                 data=np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]]),
                 mask=np.array(
-                    [[False, False], [False, False], [True, False], [False, False], [True, False]]
+                    [
+                        [False, False],
+                        [False, False],
+                        [True, False],
+                        [False, False],
+                        [True, False],
+                    ]
                 ),
             ),
             indices=np.array([2, 4]),
         ),
         np.ma.masked_array(
-            data=np.array([[4, 5], [8, 9]]), mask=np.array([[True, False], [True, False]])
+            data=np.array([[4, 5], [8, 9]]),
+            mask=np.array([[True, False], [True, False]]),
         ),
     )
 
@@ -301,7 +335,8 @@ def test_take_along_batch_masked_array() -> None:
 def test_take_along_seq_2(dtype: DTypeLike, indices: np.ndarray) -> None:
     assert objects_are_equal(
         take_along_seq(
-            np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]]), indices=indices.astype(dtype=dtype)
+            np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]]),
+            indices=indices.astype(dtype=dtype),
         ),
         np.array([[2, 4], [7, 9]]),
     )
@@ -332,7 +367,8 @@ def test_take_along_seq_7(dtype: DTypeLike) -> None:
 def test_take_along_seq_per_batch_indices() -> None:
     assert objects_are_equal(
         take_along_seq(
-            np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]]), indices=np.array([[2, 4], [1, 3]])
+            np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]]),
+            indices=np.array([[2, 4], [1, 3]]),
         ),
         np.array([[2, 4], [6, 8]]),
     )
@@ -359,13 +395,17 @@ def test_take_along_seq_masked_array_1d() -> None:
             np.ma.masked_array(
                 data=np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]]),
                 mask=np.array(
-                    [[False, False, True, False, True], [False, False, False, False, False]]
+                    [
+                        [False, False, True, False, True],
+                        [False, False, False, False, False],
+                    ]
                 ),
             ),
             indices=np.array([2, 4]),
         ),
         np.ma.masked_array(
-            data=np.array([[2, 4], [7, 9]]), mask=np.array([[True, True], [False, False]])
+            data=np.array([[2, 4], [7, 9]]),
+            mask=np.array([[True, True], [False, False]]),
         ),
     )
 
@@ -376,12 +416,16 @@ def test_take_along_seq_masked_array_2d() -> None:
             np.ma.masked_array(
                 data=np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]]),
                 mask=np.array(
-                    [[False, False, True, False, True], [False, False, False, False, False]]
+                    [
+                        [False, False, True, False, True],
+                        [False, False, False, False, False],
+                    ]
                 ),
             ),
             indices=np.array([[2, 4], [1, 3]]),
         ),
         np.ma.masked_array(
-            data=np.array([[2, 4], [6, 8]]), mask=np.array([[True, True], [False, False]])
+            data=np.array([[2, 4], [6, 8]]),
+            mask=np.array([[True, True], [False, False]]),
         ),
     )
