@@ -5,7 +5,7 @@ from __future__ import annotations
 __all__ = ["ArrayComputationModel"]
 
 
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, cast
 
 import numpy as np
 
@@ -31,12 +31,12 @@ class ArrayComputationModel(BaseComputationModel[np.ndarray]):  # noqa: PLW1641
     def argmax(
         self, arr: np.ndarray, axis: int | None = None, *, keepdims: bool = False
     ) -> np.ndarray:
-        return arr.argmax(axis=axis, keepdims=keepdims)
+        return cast("np.ndarray", np.argmax(arr, axis=axis, keepdims=keepdims))
 
     def argmin(
         self, arr: np.ndarray, axis: int | None = None, *, keepdims: bool = False
     ) -> np.ndarray:
-        return arr.argmin(axis=axis, keepdims=keepdims)
+        return cast("np.ndarray", np.argmin(arr, axis=axis, keepdims=keepdims))
 
     def argsort(
         self, arr: np.ndarray, axis: int | None = None, *, kind: SortKind | None = None
@@ -48,7 +48,7 @@ class ArrayComputationModel(BaseComputationModel[np.ndarray]):  # noqa: PLW1641
         arrays: Sequence[np.ndarray],
         axis: int | None = None,
         *,
-        dtype: DTypeLike = None,
+        dtype: DTypeLike | None = None,
     ) -> np.ndarray:
         return np.concatenate(arrays, axis=axis, dtype=dtype)
 
