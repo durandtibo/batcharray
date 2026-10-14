@@ -5,7 +5,7 @@ from __future__ import annotations
 __all__ = ["MaskedArrayComputationModel"]
 
 
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, cast
 
 import numpy as np
 
@@ -31,12 +31,12 @@ class MaskedArrayComputationModel(BaseComputationModel[np.ma.MaskedArray]):
     def argmax(
         self, arr: np.ma.MaskedArray, axis: int | None = None, *, keepdims: bool = False
     ) -> np.ndarray:
-        return arr.argmax(axis=axis, keepdims=keepdims)
+        return cast("np.ndarray", np.ma.argmax(arr, axis=axis, keepdims=keepdims))
 
     def argmin(
         self, arr: np.ma.MaskedArray, axis: int | None = None, *, keepdims: bool = False
     ) -> np.ndarray:
-        return arr.argmin(axis=axis, keepdims=keepdims)
+        return cast("np.ndarray", np.ma.argmin(arr, axis=axis, keepdims=keepdims))
 
     def argsort(
         self,
@@ -52,7 +52,7 @@ class MaskedArrayComputationModel(BaseComputationModel[np.ma.MaskedArray]):
         arrays: Sequence[np.ma.MaskedArray],
         axis: int | None = None,
         *,
-        dtype: DTypeLike = None,
+        dtype: DTypeLike | None = None,
     ) -> np.ma.MaskedArray:
         out = np.ma.concatenate(arrays, axis=axis)
         if dtype:
@@ -86,4 +86,4 @@ class MaskedArrayComputationModel(BaseComputationModel[np.ma.MaskedArray]):
         *,
         kind: SortKind | None = None,
     ) -> np.ma.MaskedArray:
-        return np.ma.sort(arr, axis=axis, kind=kind)
+        return cast("np.ma.MaskedArray", np.ma.sort(arr, axis=axis, kind=kind))

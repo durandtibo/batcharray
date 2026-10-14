@@ -5,7 +5,7 @@ from __future__ import annotations
 
 __all__ = ["AutoComputationModel", "register_computation_models"]
 
-from typing import TYPE_CHECKING, ClassVar, TypeVar
+from typing import TYPE_CHECKING, Any, ClassVar, TypeVar
 
 import numpy as np
 from coola.utils.format import repr_indent, repr_mapping, str_indent, str_mapping
@@ -45,7 +45,7 @@ class AutoComputationModel(BaseComputationModel[T]):
         ```
     """
 
-    registry: ClassVar[dict[type, BaseComputationModel[T]]] = {}
+    registry: ClassVar[dict[type, BaseComputationModel[Any]]] = {}
 
     def __repr__(self) -> str:
         return f"{self.__class__.__qualname__}(\n  {repr_indent(repr_mapping(self.registry))}\n)"
@@ -147,19 +147,19 @@ class AutoComputationModel(BaseComputationModel[T]):
         msg = f"Incorrect array type: {array_type}"
         raise TypeError(msg)
 
-    def argmax(self, arr: T, axis: int | None = None, *, keepdims: bool = False) -> T:
+    def argmax(self, arr: T, axis: int | None = None, *, keepdims: bool = False) -> np.ndarray:
         return self.find_computation_model(type(arr)).argmax(arr=arr, axis=axis, keepdims=keepdims)
 
-    def argmin(self, arr: T, axis: int | None = None, *, keepdims: bool = False) -> T:
+    def argmin(self, arr: T, axis: int | None = None, *, keepdims: bool = False) -> np.ndarray:
         return self.find_computation_model(type(arr)).argmin(arr=arr, axis=axis, keepdims=keepdims)
 
     def argsort(
-        self, arr: np.ndarray, axis: int | None = None, *, kind: SortKind | None = None
+        self, arr: T, axis: int | None = None, *, kind: SortKind | None = None
     ) -> np.ndarray:
         return self.find_computation_model(type(arr)).argsort(arr, axis=axis, kind=kind)
 
     def concatenate(
-        self, arrays: Sequence[T], axis: int | None = None, *, dtype: DTypeLike = None
+        self, arrays: Sequence[T], axis: int | None = None, *, dtype: DTypeLike | None = None
     ) -> T:
         return self.find_computation_model(type(arrays[0])).concatenate(
             arrays=arrays, axis=axis, dtype=dtype

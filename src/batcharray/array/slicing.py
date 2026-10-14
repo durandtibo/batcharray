@@ -253,12 +253,10 @@ def split_along_batch(
         ```
     """
     if isinstance(split_size_or_sections, int):
-        split_size_or_sections = tuple(
-            range(split_size_or_sections, array.shape[0], split_size_or_sections)
-        )
+        indices = tuple(range(split_size_or_sections, array.shape[0], split_size_or_sections))
     else:
-        split_size_or_sections = np.cumsum(split_size_or_sections)[:-1]
-    return np.array_split(array, split_size_or_sections, axis=BATCH_AXIS)
+        indices = np.cumsum(split_size_or_sections)[:-1]
+    return np.array_split(array, indices, axis=BATCH_AXIS)
 
 
 def split_along_seq(
@@ -292,9 +290,7 @@ def split_along_seq(
         ```
     """
     if isinstance(split_size_or_sections, int):
-        split_size_or_sections = tuple(
-            range(split_size_or_sections, array.shape[1], split_size_or_sections)
-        )
+        indices = tuple(range(split_size_or_sections, array.shape[1], split_size_or_sections))
     else:
-        split_size_or_sections = np.cumsum(split_size_or_sections)[:-1]
-    return np.array_split(array, split_size_or_sections, axis=SEQ_AXIS)
+        indices = np.cumsum(split_size_or_sections)[:-1]
+    return np.array_split(array, indices, axis=SEQ_AXIS)

@@ -34,7 +34,7 @@ T = TypeVar("T", bound=np.ndarray)
 _comp_model = AutoComputationModel()
 
 
-def argmax(arr: T, axis: int | None = None, *, keepdims: bool = False) -> T:
+def argmax(arr: T, axis: int | None = None, *, keepdims: bool = False) -> np.ndarray:
     r"""Return the array of indices of the maximum values along the given
     axis.
 
@@ -72,7 +72,7 @@ def argmax(arr: T, axis: int | None = None, *, keepdims: bool = False) -> T:
     return _comp_model.argmax(arr=arr, axis=axis, keepdims=keepdims)
 
 
-def argmin(arr: T, axis: int | None = None, *, keepdims: bool = False) -> T:
+def argmin(arr: T, axis: int | None = None, *, keepdims: bool = False) -> np.ndarray:
     r"""Return the array of indices of the minimum values along the given
     axis.
 
@@ -110,7 +110,7 @@ def argmin(arr: T, axis: int | None = None, *, keepdims: bool = False) -> T:
     return _comp_model.argmin(arr=arr, axis=axis, keepdims=keepdims)
 
 
-def argsort(arr: T, axis: int | None = None, *, kind: SortKind | None = None) -> T:
+def argsort(arr: T, axis: int | None = None, *, kind: SortKind | None = None) -> np.ndarray:
     r"""Return the indices that sort an array along the given axis in
     ascending order by value.
 
@@ -150,7 +150,9 @@ def argsort(arr: T, axis: int | None = None, *, kind: SortKind | None = None) ->
     return _comp_model.argsort(arr=arr, axis=axis, kind=kind)
 
 
-def concatenate(arrays: Sequence[T], axis: int | None = None, *, dtype: DTypeLike = None) -> T:
+def concatenate(
+    arrays: Sequence[T], axis: int | None = None, *, dtype: DTypeLike | None = None
+) -> T:
     r"""Concatenate a sequence of arrays along an existing axis.
 
     Args:

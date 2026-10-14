@@ -28,7 +28,7 @@ class BaseComputationModel(ABC, Generic[T]):
     """
 
     @abstractmethod
-    def argmax(self, arr: T, axis: int | None = None, *, keepdims: bool = False) -> T:
+    def argmax(self, arr: T, axis: int | None = None, *, keepdims: bool = False) -> np.ndarray:
         r"""Return the array of indices of the maximum values along the
         given axis.
 
@@ -66,7 +66,7 @@ class BaseComputationModel(ABC, Generic[T]):
         """
 
     @abstractmethod
-    def argmin(self, arr: T, axis: int | None = None, *, keepdims: bool = False) -> T:
+    def argmin(self, arr: T, axis: int | None = None, *, keepdims: bool = False) -> np.ndarray:
         r"""Return the array of indices of the minimum values along the
         given axis.
 
@@ -104,7 +104,9 @@ class BaseComputationModel(ABC, Generic[T]):
         """
 
     @abstractmethod
-    def argsort(self, arr: T, axis: int | None = None, *, kind: SortKind | None = None) -> T:
+    def argsort(
+        self, arr: T, axis: int | None = None, *, kind: SortKind | None = None
+    ) -> np.ndarray:
         r"""Return the indices that sort an array along the given axis in
         ascending order by value.
 
@@ -144,7 +146,7 @@ class BaseComputationModel(ABC, Generic[T]):
 
     @abstractmethod
     def concatenate(
-        self, arrays: Sequence[T], axis: int | None = None, *, dtype: DTypeLike = None
+        self, arrays: Sequence[T], axis: int | None = None, *, dtype: DTypeLike | None = None
     ) -> T:
         r"""Concatenate a sequence of arrays along an existing axis.
 
