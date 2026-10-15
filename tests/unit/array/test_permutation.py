@@ -8,6 +8,8 @@ import pytest
 from coola.equality import objects_are_equal
 
 from batcharray.array import (
+    flip_along_batch,
+    flip_along_seq,
     permute_along_batch,
     permute_along_seq,
     shuffle_along_batch,
@@ -17,6 +19,7 @@ from batcharray.array import (
 if TYPE_CHECKING:
     from numpy.typing import DTypeLike
 
+DTYPES = [np.int64, np.float64]
 INDEX_DTYPES = [np.int32, np.int64, np.uint32]
 
 #########################################
@@ -217,3 +220,34 @@ def test_shuffle_along_seq_1d_raises() -> None:
 def test_permute_along_seq_1d_raises() -> None:
     with pytest.raises(ValueError, match="at least 2 dimensions"):
         permute_along_seq(np.arange(3), np.arange(3))
+
+
+######################################
+#     Tests for flip_along_batch     #
+######################################
+
+
+@pytest.mark.parametrize("dtype", DTYPES)
+def test_flip_along_batch(dtype: DTypeLike) -> None:
+    assert objects_are_equal(
+        flip_along_batch(np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]], dtype=dtype)),
+        np.array([[8, 9], [6, 7], [4, 5], [2, 3], [0, 1]], dtype=dtype),
+    )
+
+
+####################################
+#     Tests for flip_along_seq     #
+####################################
+
+
+@pytest.mark.parametrize("dtype", DTYPES)
+def test_flip_along_seq(dtype: DTypeLike) -> None:
+    assert objects_are_equal(
+        flip_along_seq(np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]], dtype=dtype)),
+        np.array([[4, 3, 2, 1, 0], [9, 8, 7, 6, 5]], dtype=dtype),
+    )
+
+
+def test_flip_along_seq_1d_raises() -> None:
+    with pytest.raises(ValueError, match="at least 2 dimensions"):
+        flip_along_seq(np.arange(3))
