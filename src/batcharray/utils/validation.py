@@ -3,11 +3,11 @@ r"""Contain reusable input validation functions."""
 from __future__ import annotations
 
 __all__ = [
-    "check_first_array",
-    "check_flat_dict_of_arrays",
-    "check_min_ndim",
-    "check_same_keys",
-    "check_split_sections",
+    "validate_first_array",
+    "validate_flat_dict_of_arrays",
+    "validate_min_ndim",
+    "validate_same_keys",
+    "validate_split_sections",
 ]
 
 from typing import TYPE_CHECKING, Any
@@ -19,7 +19,7 @@ if TYPE_CHECKING:
     from collections.abc import Hashable, Sequence
 
 
-def check_first_array(data: Any) -> np.ndarray:
+def validate_first_array(data: Any) -> np.ndarray:
     r"""Check that the first item of the data is an array and return it.
 
     Args:
@@ -35,8 +35,8 @@ def check_first_array(data: Any) -> np.ndarray:
     Example:
         ```pycon
         >>> import numpy as np
-        >>> from batcharray.utils.validation import check_first_array
-        >>> check_first_array({"a": np.ones((2, 3)), "b": np.zeros(2)}).shape
+        >>> from batcharray.utils.validation import validate_first_array
+        >>> validate_first_array({"a": np.ones((2, 3)), "b": np.zeros(2)}).shape
         (2, 3)
 
         ```
@@ -48,7 +48,7 @@ def check_first_array(data: Any) -> np.ndarray:
     return value
 
 
-def check_flat_dict_of_arrays(data: Any) -> None:
+def validate_flat_dict_of_arrays(data: Any) -> None:
     r"""Check that the data is a flat dictionary of arrays.
 
     Args:
@@ -61,8 +61,8 @@ def check_flat_dict_of_arrays(data: Any) -> None:
     Example:
         ```pycon
         >>> import numpy as np
-        >>> from batcharray.utils.validation import check_flat_dict_of_arrays
-        >>> check_flat_dict_of_arrays({"a": np.ones((2, 3))})
+        >>> from batcharray.utils.validation import validate_flat_dict_of_arrays
+        >>> validate_flat_dict_of_arrays({"a": np.ones((2, 3))})
 
         ```
     """
@@ -71,7 +71,7 @@ def check_flat_dict_of_arrays(data: Any) -> None:
         raise TypeError(msg)
 
 
-def check_min_ndim(array: np.ndarray, min_ndim: int = 2) -> None:
+def validate_min_ndim(array: np.ndarray, min_ndim: int = 2) -> None:
     r"""Check that the array has at least the given number of dimensions.
 
     Args:
@@ -84,8 +84,8 @@ def check_min_ndim(array: np.ndarray, min_ndim: int = 2) -> None:
     Example:
         ```pycon
         >>> import numpy as np
-        >>> from batcharray.utils.validation import check_min_ndim
-        >>> check_min_ndim(np.ones((2, 3)))
+        >>> from batcharray.utils.validation import validate_min_ndim
+        >>> validate_min_ndim(np.ones((2, 3)))
 
         ```
     """
@@ -97,7 +97,7 @@ def check_min_ndim(array: np.ndarray, min_ndim: int = 2) -> None:
         raise ValueError(msg)
 
 
-def check_same_keys(data: Sequence[dict[Hashable, Any]]) -> None:
+def validate_same_keys(data: Sequence[dict[Hashable, Any]]) -> None:
     r"""Check that all the dictionaries have the same keys.
 
     Args:
@@ -108,8 +108,8 @@ def check_same_keys(data: Sequence[dict[Hashable, Any]]) -> None:
 
     Example:
         ```pycon
-        >>> from batcharray.utils.validation import check_same_keys
-        >>> check_same_keys([{"a": 1, "b": 2}, {"b": 3, "a": 4}])
+        >>> from batcharray.utils.validation import validate_same_keys
+        >>> validate_same_keys([{"a": 1, "b": 2}, {"b": 3, "a": 4}])
 
         ```
     """
@@ -125,7 +125,7 @@ def check_same_keys(data: Sequence[dict[Hashable, Any]]) -> None:
             raise ValueError(msg)
 
 
-def check_split_sections(size: int, split_size_or_sections: int | Sequence[int]) -> None:
+def validate_split_sections(size: int, split_size_or_sections: int | Sequence[int]) -> None:
     r"""Check that the split size or sections are valid for an axis.
 
     Args:
@@ -139,9 +139,9 @@ def check_split_sections(size: int, split_size_or_sections: int | Sequence[int])
 
     Example:
         ```pycon
-        >>> from batcharray.utils.validation import check_split_sections
-        >>> check_split_sections(5, 2)
-        >>> check_split_sections(5, [2, 3])
+        >>> from batcharray.utils.validation import validate_split_sections
+        >>> validate_split_sections(5, 2)
+        >>> validate_split_sections(5, [2, 3])
 
         ```
     """
