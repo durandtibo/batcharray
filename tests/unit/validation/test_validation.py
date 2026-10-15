@@ -3,7 +3,7 @@ from __future__ import annotations
 import numpy as np
 import pytest
 
-from batcharray.utils.validation import (
+from batcharray.validation import (
     validate_first_array,
     validate_flat_dict_of_arrays,
     validate_min_ndim,

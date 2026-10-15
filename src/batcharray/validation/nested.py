@@ -1,13 +1,11 @@
-r"""Contain reusable input validation functions."""
+r"""Contain input validation functions for nested data."""
 
 from __future__ import annotations
 
 __all__ = [
     "validate_first_array",
     "validate_flat_dict_of_arrays",
-    "validate_min_ndim",
     "validate_same_keys",
-    "validate_split_sections",
 ]
 
 from typing import TYPE_CHECKING, Any
@@ -35,7 +33,7 @@ def validate_first_array(data: Any) -> np.ndarray:
     Example:
         ```pycon
         >>> import numpy as np
-        >>> from batcharray.utils.validation import validate_first_array
+        >>> from batcharray.validation import validate_first_array
         >>> validate_first_array({"a": np.ones((2, 3)), "b": np.zeros(2)}).shape
         (2, 3)
 
@@ -61,7 +59,7 @@ def validate_flat_dict_of_arrays(data: Any) -> None:
     Example:
         ```pycon
         >>> import numpy as np
-        >>> from batcharray.utils.validation import validate_flat_dict_of_arrays
+        >>> from batcharray.validation import validate_flat_dict_of_arrays
         >>> validate_flat_dict_of_arrays({"a": np.ones((2, 3))})
 
         ```
@@ -69,32 +67,6 @@ def validate_flat_dict_of_arrays(data: Any) -> None:
     if not isinstance(data, dict) or not all(isinstance(v, np.ndarray) for v in data.values()):
         msg = "Expected a flat dictionary of arrays (nested structures are not supported)"
         raise TypeError(msg)
-
-
-def validate_min_ndim(array: np.ndarray, min_ndim: int = 2) -> None:
-    r"""Check that the array has at least the given number of dimensions.
-
-    Args:
-        array: The array to check.
-        min_ndim: The minimum number of dimensions.
-
-    Raises:
-        ValueError: if the array has fewer than ``min_ndim`` dimensions.
-
-    Example:
-        ```pycon
-        >>> import numpy as np
-        >>> from batcharray.utils.validation import validate_min_ndim
-        >>> validate_min_ndim(np.ones((2, 3)))
-
-        ```
-    """
-    if array.ndim < min_ndim:
-        msg = (
-            f"array must have at least {min_ndim} dimensions (batch and sequence), "
-            f"but got {array.ndim}"
-        )
-        raise ValueError(msg)
 
 
 def validate_same_keys(data: Sequence[dict[Hashable, Any]]) -> None:
@@ -108,7 +80,7 @@ def validate_same_keys(data: Sequence[dict[Hashable, Any]]) -> None:
 
     Example:
         ```pycon
-        >>> from batcharray.utils.validation import validate_same_keys
+        >>> from batcharray.validation import validate_same_keys
         >>> validate_same_keys([{"a": 1, "b": 2}, {"b": 3, "a": 4}])
 
         ```
@@ -123,37 +95,3 @@ def validate_same_keys(data: Sequence[dict[Hashable, Any]]) -> None:
                 f"and item {i} has {sorted(item.keys(), key=str)}"
             )
             raise ValueError(msg)
-
-
-def validate_split_sections(size: int, split_size_or_sections: int | Sequence[int]) -> None:
-    r"""Check that the split size or sections are valid for an axis.
-
-    Args:
-        size: The size of the axis to split.
-        split_size_or_sections: The size of a single chunk, or the
-            sizes of each chunk.
-
-    Raises:
-        ValueError: if the split size is not positive, or if the
-            sections are negative or do not sum to ``size``.
-
-    Example:
-        ```pycon
-        >>> from batcharray.utils.validation import validate_split_sections
-        >>> validate_split_sections(5, 2)
-        >>> validate_split_sections(5, [2, 3])
-
-        ```
-    """
-    if isinstance(split_size_or_sections, int):
-        if split_size_or_sections <= 0:
-            msg = f"split size must be positive, but got {split_size_or_sections}"
-            raise ValueError(msg)
-        return
-    sections = np.asarray(split_size_or_sections, dtype=int)
-    if (sections < 0).any() or sections.sum() != size:
-        msg = (
-            f"split sections {list(split_size_or_sections)} must be non-negative and sum "
-            f"to the axis size ({size})"
-        )
-        raise ValueError(msg)

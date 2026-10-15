@@ -1,0 +1,3 @@
+# Validation
+
+::: batcharray.validation

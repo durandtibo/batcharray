@@ -10,7 +10,7 @@ from typing import TYPE_CHECKING, Any
 from coola.recursive import recursive_apply
 
 from batcharray import array as ba
-from batcharray.utils.validation import validate_same_keys
+from batcharray.validation import validate_same_keys
 
 if TYPE_CHECKING:
     from collections.abc import Hashable, Sequence

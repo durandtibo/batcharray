@@ -1,3 +1,0 @@
-# Utils
-
-::: batcharray.utils.validation
