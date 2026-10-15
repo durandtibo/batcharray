@@ -14,6 +14,7 @@ from batcharray.computation import (
     MaskedArrayComputationModel,
 )
 from batcharray.types import SORT_KINDS
+from tests.unit.helpers import MyArray, MyMaskedArray
 
 if TYPE_CHECKING:
     from numpy.typing import DTypeLike
@@ -695,14 +696,10 @@ def test_auto_computation_model_find_computation_model_missing_lists_registered(
 
 
 def test_auto_computation_model_find_computation_model_subclass() -> None:
-    class MyArray(np.ndarray): ...
-
     assert AutoComputationModel.find_computation_model(MyArray) == ArrayComputationModel()
 
 
 def test_auto_computation_model_find_computation_model_masked_array_subclass() -> None:
-    class MyMaskedArray(np.ma.MaskedArray): ...
-
     assert (
         AutoComputationModel.find_computation_model(MyMaskedArray) == MaskedArrayComputationModel()
     )
