@@ -28,12 +28,28 @@ For more information, see https://durandtibo.github.io/batcharray/
 
 from __future__ import annotations
 
-__all__ = ["__version__"]
+__all__ = ["__version__", "array", "computation", "nested"]
 
+from importlib import import_module
 from importlib.metadata import PackageNotFoundError, version
+from typing import TYPE_CHECKING, Any
+
+if TYPE_CHECKING:
+    from batcharray import array, computation, nested
 
 try:
     __version__ = version(__name__)
 except PackageNotFoundError:  # pragma: no cover
     # Package is not installed, fallback if needed
     __version__ = "0.0.0"
+
+_SUBPACKAGES = frozenset({"array", "computation", "nested"})
+
+
+def __getattr__(name: str) -> Any:
+    # Lazily import the subpackages so `import batcharray` stays cheap but
+    # `batcharray.array` / `batcharray.nested` work without an explicit import.
+    if name in _SUBPACKAGES:
+        return import_module(f"{__name__}.{name}")
+    msg = f"module {__name__!r} has no attribute {name!r}"
+    raise AttributeError(msg)

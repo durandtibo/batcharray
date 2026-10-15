@@ -10,7 +10,7 @@ tighten behavior.
 ## Suggested starting order
 
 #7.
-#1 dropped, #2 done, #3 not a bug, #4, #5 and #6 and #7 partly done.
+#1 dropped, #2 done, #3 not a bug, #4, #5 and #6 and #7 partly done, #9 done.
 
 ## 1. Repeated `_along_batch` / `_along_seq` pairs (dropped)
 
@@ -88,10 +88,11 @@ structure; worth a dedicated change once `ty` handles recursive aliases well.
 `abs` is defined with `# noqa: A001`. `from batcharray.nested import *` would
 shadow the builtin; document it or keep it namespace-only.
 
-## 9. `__init__.py`
-
-Only `__version__` is exported. Lazily importing subpackages would make
-`batcharray.array.slice_along_batch` work after a single `import batcharray`.
+## 9. `__init__.py` (done)
+`array`, `computation` and `nested` are now lazily imported through a module
+`__getattr__` (PEP 562), so `import batcharray; batcharray.array...` works while
+`import batcharray` stays cheap. They are listed in `__all__` and imported under
+`TYPE_CHECKING` for type checkers. Tests in `tests/unit/test_init.py`.
 
 ## 10. Performance and tests
 
