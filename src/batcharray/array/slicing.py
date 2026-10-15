@@ -44,7 +44,10 @@ def chunk_along_batch(array: np.ndarray, chunks: int) -> list[np.ndarray]:
 
     Args:
         array: The array to split.
-        chunks: Number of chunks to return.
+        chunks: Number of chunks to return. The split follows
+            ``np.array_split`` (like ``torch.tensor_split``), not
+            ``torch.chunk``: sizes may differ by one, and exactly
+            ``chunks`` chunks are returned.
 
     Returns:
         The array chunks.
@@ -74,7 +77,10 @@ def chunk_along_seq(array: np.ndarray, chunks: int) -> list[np.ndarray]:
 
     Args:
         array: The array to split.
-        chunks: Number of chunks to return.
+        chunks: Number of chunks to return. The split follows
+            ``np.array_split`` (like ``torch.tensor_split``), not
+            ``torch.chunk``: sizes may differ by one, and exactly
+            ``chunks`` chunks are returned.
 
     Returns:
         The array chunks.

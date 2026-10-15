@@ -41,7 +41,10 @@ def chunk_along_batch(
 
     Args:
         data: The input data. Each item must be an array.
-        chunks: Number of chunks to return.
+        chunks: Number of chunks to return. The split follows
+            ``np.array_split`` (like ``torch.tensor_split``), not
+            ``torch.chunk``: sizes may differ by one, and exactly
+            ``chunks`` chunks are returned.
 
     Returns:
         The data chunks.
@@ -86,7 +89,10 @@ def chunk_along_seq(
 
     Args:
         data: The input data. Each item must be an array.
-        chunks: Number of chunks to return.
+        chunks: Number of chunks to return. The split follows
+            ``np.array_split`` (like ``torch.tensor_split``), not
+            ``torch.chunk``: sizes may differ by one, and exactly
+            ``chunks`` chunks are returned.
 
     Returns:
         The data chunks.
