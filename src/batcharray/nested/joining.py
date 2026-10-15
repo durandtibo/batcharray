@@ -15,10 +15,13 @@ if TYPE_CHECKING:
     from collections.abc import Hashable, Sequence
 
     import numpy as np
+    from numpy.typing import DTypeLike
 
 
 def concatenate_along_batch(
     data: Sequence[dict[Hashable, np.ndarray]],
+    *,
+    dtype: DTypeLike | None = None,
 ) -> dict[Hashable, np.ndarray]:
     r"""Concatenate the given arrays in the batch axis.
 
@@ -33,6 +36,8 @@ def concatenate_along_batch(
     Args:
         data: The input data to concatenate. The dictionaries must have
             the same keys.
+        dtype: If provided, the destination array will have this
+            data type.
 
     Returns:
         The concatenated arrays along the batch axis.
@@ -58,11 +63,15 @@ def concatenate_along_batch(
     if not data:
         return {}
     item = data[0]
-    return type(item)({key: ba.concatenate_along_batch([d[key] for d in data]) for key in item})
+    return type(item)(
+        {key: ba.concatenate_along_batch([d[key] for d in data], dtype=dtype) for key in item}
+    )
 
 
 def concatenate_along_seq(
     data: Sequence[dict[Hashable, np.ndarray]],
+    *,
+    dtype: DTypeLike | None = None,
 ) -> dict[Hashable, np.ndarray]:
     r"""Concatenate the given arrays in the sequence axis.
 
@@ -77,6 +86,8 @@ def concatenate_along_seq(
     Args:
         data: The input data to concatenate. The dictionaries must have
             the same keys.
+        dtype: If provided, the destination array will have this
+            data type.
 
     Returns:
         The concatenated arrays along the sequence axis.
@@ -102,7 +113,9 @@ def concatenate_along_seq(
     if not data:
         return {}
     item = data[0]
-    return type(item)({key: ba.concatenate_along_seq([d[key] for d in data]) for key in item})
+    return type(item)(
+        {key: ba.concatenate_along_seq([d[key] for d in data], dtype=dtype) for key in item}
+    )
 
 
 def tile_along_seq(data: Any, reps: int) -> Any:

@@ -5,14 +5,21 @@ from __future__ import annotations
 __all__ = ["concatenate_along_batch", "concatenate_along_seq", "tile_along_seq"]
 
 
+from typing import TYPE_CHECKING
+
 import numpy as np
 
 from batcharray import computation as cmpt
 from batcharray.constants import BATCH_AXIS, SEQ_AXIS
 
+if TYPE_CHECKING:
+    from numpy.typing import DTypeLike
+
 
 def concatenate_along_batch(
     arrays: list[np.ndarray] | tuple[np.ndarray, ...],
+    *,
+    dtype: DTypeLike | None = None,
 ) -> np.ndarray:
     r"""Concatenate the given arrays in the batch axis.
 
@@ -25,6 +32,8 @@ def concatenate_along_batch(
 
     Args:
         arrays: The arrays to concatenate.
+        dtype: If provided, the destination array will have this
+            data type.
 
     Returns:
         The concatenated arrays along the batch axis.
@@ -46,11 +55,13 @@ def concatenate_along_batch(
 
         ```
     """
-    return cmpt.concatenate(arrays, axis=BATCH_AXIS)
+    return cmpt.concatenate(arrays, axis=BATCH_AXIS, dtype=dtype)
 
 
 def concatenate_along_seq(
     arrays: list[np.ndarray] | tuple[np.ndarray, ...],
+    *,
+    dtype: DTypeLike | None = None,
 ) -> np.ndarray:
     r"""Concatenate the given arrays in the sequence axis.
 
@@ -63,6 +74,8 @@ def concatenate_along_seq(
 
     Args:
         arrays: The arrays to concatenate.
+        dtype: If provided, the destination array will have this
+            data type.
 
     Returns:
         The concatenated arrays along the sequence axis.
@@ -82,7 +95,7 @@ def concatenate_along_seq(
 
         ```
     """
-    return cmpt.concatenate(arrays, axis=SEQ_AXIS)
+    return cmpt.concatenate(arrays, axis=SEQ_AXIS, dtype=dtype)
 
 
 def tile_along_seq(array: np.ndarray, reps: int) -> np.ndarray:

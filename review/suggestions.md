@@ -10,7 +10,7 @@ tighten behavior.
 ## Suggested starting order
 
 #7.
-#1 dropped, #2 done, #3 not a bug, #4 partly done.
+#1 dropped, #2 done, #3 not a bug, #4 and #5 partly done.
 
 ## 1. Repeated `_along_batch` / `_along_seq` pairs (dropped)
 
@@ -52,12 +52,14 @@ Not done:
   raising there would be a behavior change.
 - The mutable global registry / `# pragma: no cover` guard is unchanged.
 
-## 5. API parity gaps
+## 5. API parity gaps (partly done)
+Done: `concatenate_along_batch` / `concatenate_along_seq` (both `array` and
+`nested`) now accept a keyword-only `dtype`, forwarded to `cmpt.concatenate`.
 
-- `computation/interface.py` has `mean`, `median`, `max`, `min` but no `sum`,
-  `std`, `var`.
-- `concatenate` accepts `dtype`; check whether the `*_along_*` wrappers in
-  `array/joining.py` expose it.
+Not done: adding `sum`, `std`, `var` to the computation models. As with #3,
+`np.sum`/`np.std`/`np.var` already work on `MaskedArray` through the array's own
+methods, so this is an API-surface choice, not a bug; it would touch the base
+class, both models, `AutoComputationModel`, the interface and their tests.
 
 ## 6. Input validation in `nested`
 
