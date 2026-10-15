@@ -10,7 +10,7 @@ tighten behavior.
 ## Suggested starting order
 
 #7.
-#1 dropped, #2 done, #3 not a bug, #4, #5 and #6 and #7 partly done, #9 done.
+#1 dropped, #2 done, #3 not a bug, #4, #5 and #6 and #7 partly done, #9 and #10 done.
 
 ## 1. Repeated `_along_batch` / `_along_seq` pairs (dropped)
 
@@ -94,10 +94,12 @@ shadow the builtin; document it or keep it namespace-only.
 `import batcharray` stays cheap. They are listed in `__all__` and imported under
 `TYPE_CHECKING` for type checkers. Tests in `tests/unit/test_init.py`.
 
-## 10. Performance and tests
-
-- Confirm `nested` permutation/indexing generate the random permutation/index
-  once and reuse it across arrays; add a test, since it is easy to get wrong
-  with `recursive_apply`.
-- Add property-based tests (hypothesis) for batch/seq axis equivalence:
-  `fn_along_batch(x) == fn(x, axis=0)`.
+## 10. Performance and tests (done)
+- Checked `nested.shuffle_along_*`: the permutation is drawn once from the first
+  array and reused for every array. Added tests that shuffle several arrays
+  (including a nested dict) and assert they stay aligned.
+- Added axis-equivalence tests: every `array` `*_along_batch` / `*_along_seq`
+  reduction equals the NumPy function with `axis=0` / `axis=1`, with and
+  without `keepdims`, over several random inputs.
+- Used seeded NumPy randomness instead of `hypothesis`, which is not a
+  dependency; adding it would be a separate decision.

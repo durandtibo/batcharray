@@ -419,3 +419,28 @@ def test_shuffle_along_seq_multiple_shuffle() -> None:
     assert not objects_are_equal(
         shuffle_along_seq(data, generator), shuffle_along_seq(data, generator)
     )
+
+
+#####################################################
+#     Tests for consistency across the arrays      #
+#####################################################
+
+
+def test_shuffle_along_batch_same_permutation_for_all_arrays() -> None:
+    ids = np.arange(20)
+    # Each array stores the original row id, so they stay aligned only if the
+    # same permutation is applied to every array.
+    data = {"a": np.stack([ids, ids], axis=1), "b": {"c": ids.copy()}}
+    out = shuffle_along_batch(data, rng=np.random.default_rng(42))
+    assert not np.array_equal(out["b"]["c"], ids)
+    assert np.array_equal(out["a"][:, 0], out["b"]["c"])
+    assert np.array_equal(out["a"][:, 1], out["b"]["c"])
+
+
+def test_shuffle_along_seq_same_permutation_for_all_arrays() -> None:
+    ids = np.arange(20)
+    data = {"a": np.stack([ids, ids]), "b": {"c": ids[None, :].copy()}}
+    out = shuffle_along_seq(data, rng=np.random.default_rng(42))
+    assert not np.array_equal(out["b"]["c"][0], ids)
+    assert np.array_equal(out["a"][0], out["b"]["c"][0])
+    assert np.array_equal(out["a"][1], out["b"]["c"][0])

@@ -856,3 +856,40 @@ def test_sum_along_seq_masked_array() -> None:
         ),
         np.ma.masked_array(data=np.array([4, 35]), mask=np.array([[False], [False]])),
     )
+
+
+#############################################
+#     Tests for axis equivalence            #
+#############################################
+
+AXIS_EQUIVALENCES = [
+    ("amax", np.amax),
+    ("amin", np.amin),
+    ("argmax", np.argmax),
+    ("argmin", np.argmin),
+    ("max", np.max),
+    ("mean", np.mean),
+    ("median", np.median),
+    ("min", np.min),
+    ("prod", np.prod),
+    ("sum", np.sum),
+]
+
+
+@pytest.mark.parametrize(("name", "reference"), AXIS_EQUIVALENCES)
+@pytest.mark.parametrize("keepdims", [True, False])
+@pytest.mark.parametrize("seed", range(3))
+def test_along_batch_and_seq_match_numpy_axis(
+    name: str, reference: object, keepdims: bool, seed: int
+) -> None:
+    import batcharray.array as ba
+
+    x = np.random.default_rng(seed).integers(1, 5, size=(4, 5, 3)).astype(np.float64)
+    assert np.array_equal(
+        getattr(ba, f"{name}_along_batch")(x, keepdims=keepdims),
+        reference(x, axis=0, keepdims=keepdims),
+    )
+    assert np.array_equal(
+        getattr(ba, f"{name}_along_seq")(x, keepdims=keepdims),
+        reference(x, axis=1, keepdims=keepdims),
+    )
