@@ -1159,7 +1159,7 @@ def test_masked_array_computation_model_prod_axis_none(dtype: DTypeLike) -> None
                 ),
             )
         ),
-        np.int64(0.0),
+        dtype(int(0.0)),
     )
 
 
@@ -1318,7 +1318,7 @@ def test_masked_array_computation_model_sum_axis_none(dtype: DTypeLike) -> None:
                 ),
             )
         ),
-        np.int64(21.0),
+        dtype(int(21.0)),
     )
 
 

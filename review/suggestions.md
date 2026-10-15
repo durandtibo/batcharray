@@ -1,24 +1,19 @@
 # Review of `src/batcharray`
 
 Scope: every module in `src/batcharray` was read (code, not each doctest), and
-the behaviors below were checked by running small probes. Tests, docs and CI
-were only skimmed (file layout). The test suite and type checker were not run.
+the behaviors below were checked by running small probes. The unit tests,
+doctests and `ruff` pass. The type checker was not run.
 
 The package is small, consistent and well documented (typed signatures,
-doctests, `__all__` everywhere, lazy submodule imports). Items from the previous
-review that are done, dropped or not bugs were removed. Findings are ordered by
-value.
+doctests, `__all__` everywhere, lazy submodule imports). Findings are ordered
+by value. Each section says what was done and what was deliberately left.
 
 ## 1. Bugs and sharp edges (fixed)
-
-All verified issues from the previous pass are fixed, with tests:
 
 - `tile_along_seq`, `shuffle_along_seq` and `permute_along_seq` raise a clear
   `ValueError` on arrays with fewer than 2 dimensions.
 - `split_along_*` validate the split size / sections (positive int, or
   non-negative sections summing to the axis size) and raise `ValueError`.
-- `nested.chunk_*` / `nested.split_*` raise a `TypeError` for anything but a
-  flat dict of arrays instead of a confusing `AttributeError`.
 - `nested.concatenate_*` raise a `ValueError` when the dicts have different
   keys instead of dropping keys or raising `KeyError`.
 - `nested.shuffle_*` raise a `ValueError` for empty data or a non-array first
@@ -28,71 +23,77 @@ All verified issues from the previous pass are fixed, with tests:
   itself (even without `dtype`), so it is not fixable here.
 - `permute_*` raise `ValueError` instead of `RuntimeError` on a shape mismatch
   (a breaking change; note it in the changelog).
+- `nested.chunk_*`, `nested.split_*` and `nested.concatenate_*` now support
+  nested structures (dicts, lists, tuples of arrays), through the private
+  helpers in `nested/_structure.py`. Non-array leaves raise a `TypeError`,
+  mismatched keys / sequence lengths a `ValueError`. The now unused
+  `validate_flat_dict_of_arrays` was removed.
 
-Still open from this group: supporting nested structures in `nested.chunk_*` /
-`nested.split_*` / `nested.concatenate_*`; they now fail clearly instead.
+## 2. API consistency (done)
 
-## 2. API consistency
+- `keepdims` is keyword-only in all the new reductions. In the existing
+  `array`/`nested` reductions it is now keyword-only too, with a deprecation
+  period: passing it positionally still works but emits a `DeprecationWarning`
+  (`batcharray/_deprecation.py`). Remove the shim in a later release.
+- `amax_*`/`amin_*` go through the computation models like `max_*`/`min_*`
+  (verified equal by `tests/unit/test_api_consistency.py`).
+- `index_select_*` is documented as an alias of `take_*`, and the accepted
+  `indices` shapes are documented (1-D for the batch axis, 1-D or 2-D for the
+  sequence axis).
+- `chunk_*` documents that it follows `np.array_split` semantics.
+- `nested.clip` passes the bounds positionally to `np.clip`, so it no longer
+  depends on the `a_min`/`a_max` keyword spelling (renamed in NumPy 2.1). The
+  public parameter names are unchanged.
 
-- `keepdims` is a positional parameter in `array`/`nested` reductions but
-  keyword-only in the computation layer. Making it keyword-only in the public
-  functions avoids `f(x, True)` misuse (breaking; do it with a deprecation).
-- `amax_*`/`amin_*` are behaviorally equal to `max_*`/`min_*` but go through
-  NumPy directly while `max_*`/`min_*` go through the computation models.
-  Either document them as aliases or route them identically.
-- `index_select_*` is a plain alias of `take_*` (same signature), and
-  `take_along_seq` accepts 1-D or 2-D indices while `take_along_batch` takes
-  any shape (a 2-D index silently yields an extra dimension). Document accepted
-  index shapes.
-- `chunk_*` uses `np.array_split` (uneven sizes, like `torch.tensor_split`),
-  not `torch.chunk` semantics, which the name suggests. State it in the
-  docstring.
-- `nested.clip` uses the `a_min`/`a_max` keywords; NumPy 2.1 renamed them to
-  `min`/`max`. It works today (no warning raised in the probe), but the
-  parameter names are tied to the legacy spelling.
+## 3. Features (done)
 
-## 3. Features worth considering
-
-- Computation models: `sum`, `std`, `var`, `prod`. `np.sum`/`np.std`/`np.var`
-  already work on `MaskedArray` through the array's own methods, so this is an
-  API-surface choice, not a bug; it touches the base class, both models,
-  `AutoComputationModel`, the interface and tests.
-- Reductions and pointwise ops that users of batch/sequence data commonly want:
-  `std`/`var`, `any`/`all`, `sqrt`, `square`, `floor`/`ceil`/`round`, `sign`,
-  `isnan`, and `flip_along_*`/`repeat_along_*`.
-- An opt-in batch-size consistency check for `nested` (a default check would
-  reject valid calls, e.g. `sum` on arrays with different batch sizes).
+- Computation models: `sum`, `prod`, `std` and `var` (with `ddof`) on the base
+  class, both models, `AutoComputationModel` and the `computation` interface.
+  This adds abstract methods, so third-party `BaseComputationModel` subclasses
+  must implement them (breaking). `array.mean/sum/prod/std/var_*` now go
+  through the models.
+- New reductions: `std_*`, `var_*`, `any_*`, `all_*` (`array` and `nested`).
+- New pointwise functions (`nested`): `sqrt`, `square`, `floor`, `ceil`,
+  `round`, `sign`, `isnan`.
+- New `flip_along_*` and `repeat_along_*` (`array` and `nested`).
+- Opt-in batch-size checks: `validation.validate_same_batch_size` and
+  `validate_same_seq_size`. `nested` does not call them by default, because a
+  default check would reject valid calls (e.g. `sum` on arrays with different
+  batch sizes).
 
 ## 4. `AutoComputationModel` (`computation/auto.py`)
 
-- Mixed `ndarray`/`MaskedArray` inputs to `concatenate` pick the model from the
-  first element. Document this, or raise on mixed types.
+- Mixed `ndarray`/`MaskedArray` inputs to `concatenate` pick the model from
+  the first element. This is documented: a masked array first keeps the masks,
+  but a plain array first silently drops the masks of the following masked
+  arrays. Raising on mixed types was not chosen, to avoid a breaking change.
 - The registry is a mutable class-level dict that tests mutate with
   `patch.dict`; a lookup cache would go stale. The exact-type fast path already
-  covers most of the benefit. Leave as is.
-- `register_computation_models` guards with `# pragma: no cover`; the guard
-  could be tested by clearing the registry in a test.
+  covers most of the benefit. Left as is.
+- The `register_computation_models` guard is tested by clearing the registry,
+  and its `# pragma: no cover` was removed.
 
 ## 5. Typing
 
-- The `nested` API is typed with `Any`. A recursive `NestedArray` alias would
-  change ~60 signatures and needs per-function TypeVars to preserve structure;
-  worth doing once `ty` handles recursive aliases well.
-- `nested/indexing.py` defines an unused `T = TypeVar("T")`; remove it.
-- `computation.max`/`min` and `nested.abs` shadow builtins (`# noqa: A001`/
-  `A004`). `from batcharray.nested import *` would shadow `abs`; document it or
-  keep these namespace-only.
+- `nested/indexing.py`: the unused `T = TypeVar("T")` was removed.
+- `computation.max`/`min`/`sum` and `nested.abs`/`round` shadow builtins
+  (`# noqa: A001`/`A004`). This is documented in the `nested` and
+  `computation` module docstrings: use them through the namespace and avoid
+  `import *`.
+- Not done: the `nested` API is typed with `Any`. A recursive `NestedArray`
+  alias would change ~60 signatures and needs per-function TypeVars to
+  preserve structure. Worth doing once `ty` handles recursive aliases well.
 
-## 6. Repository hygiene
+## 6. Repository hygiene (nothing to change)
 
-- `coverage.xml` and `htmlcov/` are git-ignored; keep them out of any
-  sdist/docs build.
-- CI already tests several numpy versions (`ci-test-deps.yaml`); just confirm
-  the matrix includes the declared minimum, `numpy>=1.22`.
+- `coverage.xml` and `htmlcov/` are git-ignored and the sdist only includes
+  `src` (`only-include = ["src"]`), so they cannot leak into a build.
+- The CI dependency matrix comes from `dev/config/package_versions.json` and
+  starts at numpy `1.22.4`, which matches the declared `numpy>=1.22`.
 
-## 7. Docstring duplication (optional)
+## 7. Docstring duplication (not done)
 
 Each operation exists in four variants (`array`/`nested` x batch/seq). The
 bodies are one-line delegations, so a shared helper would not help; the
-duplication is in docstrings/doctests. Only revisit if maintaining them becomes
-costly.
+duplication is in docstrings/doctests. Only revisit if maintaining them
+becomes costly.
