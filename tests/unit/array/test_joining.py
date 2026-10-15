@@ -246,3 +246,8 @@ def test_tile_along_seq_masked_array() -> None:
 def test_concatenate_dtype(fn: object) -> None:
     out = fn([np.ones((2, 3), dtype=np.int64), np.ones((2, 3), dtype=np.int64)], dtype=np.float32)
     assert out.dtype == np.float32
+
+
+def test_tile_along_seq_1d_raises() -> None:
+    with pytest.raises(ValueError, match="at least 2 dimensions"):
+        tile_along_seq(np.arange(3), reps=2)

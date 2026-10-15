@@ -21,6 +21,15 @@ from batcharray import array
 from batcharray.constants import BATCH_AXIS, SEQ_AXIS
 
 
+def _first_array(data: Any) -> np.ndarray:
+    r"""Return the first array of the data."""
+    value = next(dfs_iterate(data), None)
+    if not isinstance(value, np.ndarray):
+        msg = "Expected data with at least one array, but the first item is not an array"
+        raise ValueError(msg)  # noqa: TRY004
+    return value
+
+
 def permute_along_batch(data: Any, permutation: np.ndarray) -> Any:
     r"""Permute all the arrays along the batch axis.
 
@@ -40,7 +49,7 @@ def permute_along_batch(data: Any, permutation: np.ndarray) -> Any:
             The output data has the same structure as the input data.
 
     Raises:
-        RuntimeError: if the shape of the permutation does not match
+        ValueError: if the shape of the permutation does not match
             the batch axis of the array.
 
     Example:
@@ -79,7 +88,7 @@ def permute_along_seq(data: Any, permutation: np.ndarray) -> Any:
             The output data has the same structure as the input data.
 
     Raises:
-        RuntimeError: if the shape of the permutation does not match
+        ValueError: if the shape of the permutation does not match
             the sequence axis of the array.
 
     Example:
@@ -131,7 +140,7 @@ def shuffle_along_batch(data: Any, rng: np.random.Generator | None = None) -> An
     """
     if rng is None:
         rng = np.random.default_rng()
-    value = next(dfs_iterate(data))
+    value = _first_array(data)
     return permute_along_batch(
         data=data,
         permutation=rng.permutation(value.shape[BATCH_AXIS]),
@@ -170,7 +179,7 @@ def shuffle_along_seq(data: Any, rng: np.random.Generator | None = None) -> Any:
     """
     if rng is None:
         rng = np.random.default_rng()
-    value = next(dfs_iterate(data))
+    value = _first_array(data)
     return permute_along_seq(
         data=data,
         permutation=rng.permutation(value.shape[SEQ_AXIS]),

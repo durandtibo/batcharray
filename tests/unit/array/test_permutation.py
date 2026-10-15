@@ -37,7 +37,7 @@ def test_permute_along_batch(dtype: DTypeLike) -> None:
 
 def test_permute_along_batch_incorrect_shape() -> None:
     with pytest.raises(
-        RuntimeError,
+        ValueError,
         match=r"permutation shape \(.*\) is not compatible with array shape \(.*\)",
     ):
         permute_along_batch(
@@ -96,7 +96,7 @@ def test_permute_along_seq(dtype: DTypeLike) -> None:
 
 def test_permute_along_seq_incorrect_shape() -> None:
     with pytest.raises(
-        RuntimeError,
+        ValueError,
         match=r"permutation shape \(.*\) is not compatible with array shape \(.*\)",
     ):
         permute_along_seq(
@@ -207,3 +207,13 @@ def test_shuffle_along_seq_multiple_shuffle() -> None:
     array = np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]])
     rng = np.random.default_rng(1)
     assert not objects_are_equal(shuffle_along_seq(array, rng), shuffle_along_seq(array, rng))
+
+
+def test_shuffle_along_seq_1d_raises() -> None:
+    with pytest.raises(ValueError, match="at least 2 dimensions"):
+        shuffle_along_seq(np.arange(3))
+
+
+def test_permute_along_seq_1d_raises() -> None:
+    with pytest.raises(ValueError, match="at least 2 dimensions"):
+        permute_along_seq(np.arange(3), np.arange(3))

@@ -18,6 +18,18 @@ if TYPE_CHECKING:
     from numpy.typing import DTypeLike
 
 
+def _check_same_keys(data: Sequence[dict[Hashable, np.ndarray]]) -> None:
+    r"""Check that all the dictionaries have the same keys."""
+    keys = data[0].keys()
+    for i, item in enumerate(data[1:], start=1):
+        if item.keys() != keys:
+            msg = (
+                f"All dictionaries must have the same keys, but item 0 has {sorted(keys, key=str)} "
+                f"and item {i} has {sorted(item.keys(), key=str)}"
+            )
+            raise ValueError(msg)
+
+
 def concatenate_along_batch(
     data: Sequence[dict[Hashable, np.ndarray]],
     *,
@@ -62,6 +74,7 @@ def concatenate_along_batch(
     """
     if not data:
         return {}
+    _check_same_keys(data)
     item = data[0]
     return type(item)(
         {key: ba.concatenate_along_batch([d[key] for d in data], dtype=dtype) for key in item}
@@ -112,6 +125,7 @@ def concatenate_along_seq(
     """
     if not data:
         return {}
+    _check_same_keys(data)
     item = data[0]
     return type(item)(
         {key: ba.concatenate_along_seq([d[key] for d in data], dtype=dtype) for key in item}

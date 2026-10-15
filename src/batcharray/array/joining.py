@@ -127,6 +127,9 @@ def tile_along_seq(array: np.ndarray, reps: int) -> np.ndarray:
 
         ```
     """
+    if array.ndim < 2:
+        msg = f"array must have at least 2 dimensions (batch and sequence), but got {array.ndim}"
+        raise ValueError(msg)
     repeats = [1] * array.ndim
     repeats[1] = reps
     return np.tile(array, repeats)

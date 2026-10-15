@@ -58,8 +58,8 @@ class MaskedArrayComputationModel(BaseComputationModel[np.ma.MaskedArray]):
         dtype: DTypeLike | None = None,
     ) -> np.ma.MaskedArray:
         out = np.ma.concatenate(arrays, axis=axis)
-        if dtype:
-            out = np.ma.masked_array(data=out.data.astype(dtype), mask=out.mask)
+        if dtype is not None:
+            out = cast("np.ma.MaskedArray", out.astype(dtype))
         return out
 
     def max(

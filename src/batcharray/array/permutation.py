@@ -33,7 +33,7 @@ def permute_along_batch(array: np.ndarray, permutation: np.ndarray) -> np.ndarra
         The array with permuted data along the batch axis.
 
     Raises:
-        RuntimeError: if the shape of the permutation does not match
+        ValueError: if the shape of the permutation does not match
             the batch axis of the array.
 
     Example:
@@ -56,7 +56,7 @@ def permute_along_batch(array: np.ndarray, permutation: np.ndarray) -> np.ndarra
             f"permutation shape ({permutation.shape}) is not compatible with array shape "
             f"({array.shape})"
         )
-        raise RuntimeError(msg)
+        raise ValueError(msg)
     return take_along_batch(array, indices=permutation)
 
 
@@ -77,7 +77,7 @@ def permute_along_seq(array: np.ndarray, permutation: np.ndarray) -> np.ndarray:
         The array with permuted data along the sequence axis.
 
     Raises:
-        RuntimeError: if the shape of the permutation does not match
+        ValueError: if the shape of the permutation does not match
             the sequence axis of the array.
 
     Example:
@@ -92,12 +92,15 @@ def permute_along_seq(array: np.ndarray, permutation: np.ndarray) -> np.ndarray:
 
         ```
     """
+    if array.ndim < 2:
+        msg = f"array must have at least 2 dimensions (batch and sequence), but got {array.ndim}"
+        raise ValueError(msg)
     if permutation.shape[0] != array.shape[1]:
         msg = (
             f"permutation shape ({permutation.shape}) is not compatible with array shape "
             f"({array.shape})"
         )
-        raise RuntimeError(msg)
+        raise ValueError(msg)
     return take_along_seq(array, indices=permutation)
 
 
@@ -161,6 +164,9 @@ def shuffle_along_seq(array: np.ndarray, rng: np.random.Generator | None = None)
     """
     if rng is None:
         rng = np.random.default_rng()
+    if array.ndim < 2:
+        msg = f"array must have at least 2 dimensions (batch and sequence), but got {array.ndim}"
+        raise ValueError(msg)
     return permute_along_seq(
         array=array,
         permutation=rng.permutation(array.shape[SEQ_AXIS]),
