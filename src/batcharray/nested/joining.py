@@ -71,7 +71,7 @@ def concatenate_along_batch(
     if not data:
         return {}
     return concatenate_structures(
-        data, lambda arrays: ba.concatenate_along_batch(arrays, dtype=dtype)
+        data, lambda arrays: ba.concatenate_along_batch(list(arrays), dtype=dtype)
     )
 
 
@@ -122,7 +122,7 @@ def concatenate_along_seq(
     if not data:
         return {}
     return concatenate_structures(
-        data, lambda arrays: ba.concatenate_along_seq(arrays, dtype=dtype)
+        data, lambda arrays: ba.concatenate_along_seq(list(arrays), dtype=dtype)
     )
 
 

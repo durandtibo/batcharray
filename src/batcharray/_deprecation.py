@@ -6,7 +6,7 @@ __all__ = ["keepdims_keyword_only"]
 
 import warnings
 from functools import wraps
-from typing import TYPE_CHECKING, Any, TypeVar
+from typing import TYPE_CHECKING, Any, TypeVar, cast
 
 if TYPE_CHECKING:
     from collections.abc import Callable
@@ -27,17 +27,16 @@ def keepdims_keyword_only(func: F) -> F:
     Returns:
         The decorated function.
     """
+    name = getattr(func, "__name__", "function")
 
     @wraps(func)
     def wrapper(data: Any, *args: Any, **kwargs: Any) -> Any:
         if args:
             if len(args) > 1 or "keepdims" in kwargs:
-                msg = (
-                    f"{func.__name__}() takes 1 positional argument but {len(args) + 1} were given"
-                )
+                msg = f"{name}() takes 1 positional argument but {len(args) + 1} were given"
                 raise TypeError(msg)
             warnings.warn(
-                f"Passing `keepdims` as a positional argument to {func.__name__}() is deprecated "
+                f"Passing `keepdims` as a positional argument to {name}() is deprecated "
                 "and will be removed in a future release. Use `keepdims=...` instead.",
                 DeprecationWarning,
                 stacklevel=2,
@@ -45,4 +44,4 @@ def keepdims_keyword_only(func: F) -> F:
             kwargs["keepdims"] = args[0]
         return func(data, **kwargs)
 
-    return wrapper  # type: ignore[return-value]
+    return cast("F", wrapper)
