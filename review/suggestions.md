@@ -10,7 +10,7 @@ tighten behavior.
 ## Suggested starting order
 
 #7.
-#1 dropped, #2 done, #3 not a bug, #4 and #5 partly done.
+#1 dropped, #2 done, #3 not a bug, #4, #5 and #6 partly done.
 
 ## 1. Repeated `_along_batch` / `_along_seq` pairs (dropped)
 
@@ -61,12 +61,15 @@ Not done: adding `sum`, `std`, `var` to the computation models. As with #3,
 methods, so this is an API-surface choice, not a bug; it would touch the base
 class, both models, `AutoComputationModel`, the interface and their tests.
 
-## 6. Input validation in `nested`
+## 6. Input validation in `nested` (partly done)
+Done: `to_list` docstring now says non-array items are returned unchanged
+(matching the implementation); added a test.
 
-- Docs say all arrays must share the batch size, but nothing checks it;
-  mismatches fail deep in NumPy. Add an opt-in/default batch-size check helper.
-- `to_list` docs say each item must be an `ndarray`, but non-arrays pass
-  through unchanged. Fix the docstring or the behavior.
+Not done: a batch-size check. Checked behavior on `{"a": (3, 2), "b": (5,)}`:
+`sum`, `cumsum` and `slice_along_batch` work fine per array, so a default check
+would reject currently valid calls. Index-based ops (`permute`, `take`) already
+fail with understandable `RuntimeError`/`IndexError` messages. If wanted, add an
+opt-in helper rather than a default check.
 
 ## 7. Types
 

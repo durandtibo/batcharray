@@ -58,3 +58,7 @@ def test_to_list_nested() -> None:
             "int": 42,
         },
     )
+
+
+def test_to_list_non_array_items_unchanged() -> None:
+    assert to_list({"a": np.array([1, 2]), "b": 3, "c": "x"}) == {"a": [1, 2], "b": 3, "c": "x"}
