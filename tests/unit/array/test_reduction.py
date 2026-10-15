@@ -945,11 +945,14 @@ def test_std_along_batch_masked_array() -> None:
             np.ma.masked_array(
                 data=np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]]),
                 mask=np.array(
-                    [[False, False], [False, False], [False, True], [True, True], [True, True]]
+                    [[False, False], [False, False], [False, False], [False, True], [True, True]]
                 ),
             )
         ),
-        np.ma.masked_array(data=np.array([1.632993161855452, 1.0]), mask=np.array([False, False])),
+        np.ma.masked_array(
+            data=np.array([2.23606797749979, 1.632993161855452]),
+            mask=np.array([False, False]),
+        ),
     )
 
 
@@ -993,11 +996,14 @@ def test_std_along_seq_masked_array() -> None:
             np.ma.masked_array(
                 data=np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]]),
                 mask=np.array(
-                    [[False, False, False, False, False], [True, True, True, True, True]]
+                    [[False, False, False, False, False], [False, False, True, True, True]]
                 ),
             )
         ),
-        np.ma.masked_array(data=np.array([1.4142135623730951, 0.0]), mask=np.array([False, False])),
+        np.ma.masked_array(
+            data=np.array([1.4142135623730951, 0.5]),
+            mask=np.array([False, False]),
+        ),
     )
 
 
@@ -1043,11 +1049,13 @@ def test_var_along_batch_masked_array() -> None:
             np.ma.masked_array(
                 data=np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]]),
                 mask=np.array(
-                    [[False, False], [False, False], [False, True], [True, True], [True, True]]
+                    [[False, False], [False, False], [False, False], [False, True], [True, True]]
                 ),
             )
         ),
-        np.ma.masked_array(data=np.array([2.6666666666666665, 1.0]), mask=np.array([False, False])),
+        np.ma.masked_array(
+            data=np.array([5.0, 2.6666666666666665]),
+        ),
     )
 
 
@@ -1091,11 +1099,13 @@ def test_var_along_seq_masked_array() -> None:
             np.ma.masked_array(
                 data=np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]]),
                 mask=np.array(
-                    [[False, False, False, False, False], [True, True, True, True, True]]
+                    [[False, False, False, False, False], [False, False, True, True, True]]
                 ),
             )
         ),
-        np.ma.masked_array(data=np.array([2.0, 0.0]), mask=np.array([False, False])),
+        np.ma.masked_array(
+            data=np.array([2.0, 0.25]),
+        ),
     )
 
 
