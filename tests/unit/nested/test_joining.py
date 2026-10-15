@@ -13,7 +13,7 @@ from batcharray.nested import (
 )
 
 if TYPE_CHECKING:
-    from collections.abc import Hashable, Sequence
+    from collections.abc import Callable, Hashable, Sequence
 
 #############################################
 #     Tests for concatenate_along_batch     #
@@ -371,3 +371,16 @@ def test_tile_along_seq_dict_nested() -> None:
 def test_concatenate_dtype(fn: object) -> None:
     data = [{"a": np.ones((2, 3), dtype=np.int64)}, {"a": np.ones((2, 3), dtype=np.int64)}]
     assert fn(data, dtype=np.float32)["a"].dtype == np.float32
+
+
+@pytest.mark.parametrize("func", [concatenate_along_batch, concatenate_along_seq])
+@pytest.mark.parametrize(
+    "data",
+    [
+        [{"a": np.zeros((2, 2))}, {"a": np.zeros((2, 2)), "b": np.zeros((2, 2))}],
+        [{"a": np.zeros((2, 2)), "b": np.zeros((2, 2))}, {"a": np.zeros((2, 2))}],
+    ],
+)
+def test_concatenate_different_keys_raises(func: Callable, data: list) -> None:
+    with pytest.raises(ValueError, match="same keys"):
+        func(data)

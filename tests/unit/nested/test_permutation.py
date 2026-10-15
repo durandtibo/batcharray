@@ -16,6 +16,8 @@ from batcharray.nested import (
 from tests.unit.array.test_permutation import INDEX_DTYPES
 
 if TYPE_CHECKING:
+    from collections.abc import Callable
+
     from numpy.typing import DTypeLike
 
 #########################################
@@ -95,7 +97,7 @@ def test_permute_along_batch_nested() -> None:
 
 def test_permute_along_batch_incorrect_shape() -> None:
     with pytest.raises(
-        RuntimeError,
+        ValueError,
         match=r"permutation shape \(.*\) is not compatible with array shape \(.*\)",
     ):
         permute_along_batch(
@@ -178,7 +180,7 @@ def test_permute_along_seq_nested() -> None:
 
 def test_permute_along_seq_incorrect_shape() -> None:
     with pytest.raises(
-        RuntimeError,
+        ValueError,
         match=r"permutation shape \(.*\) is not compatible with array shape \(.*\)",
     ):
         permute_along_seq(
@@ -444,3 +446,10 @@ def test_shuffle_along_seq_same_permutation_for_all_arrays() -> None:
     assert not np.array_equal(out["b"]["c"][0], ids)
     assert np.array_equal(out["a"][0], out["b"]["c"][0])
     assert np.array_equal(out["a"][1], out["b"]["c"][0])
+
+
+@pytest.mark.parametrize("func", [shuffle_along_batch, shuffle_along_seq])
+@pytest.mark.parametrize("data", [{}, {"a": 1}])
+def test_shuffle_invalid_data_raises(func: Callable, data: object) -> None:
+    with pytest.raises(ValueError, match="at least one array"):
+        func(data)

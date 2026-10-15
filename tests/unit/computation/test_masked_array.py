@@ -1102,3 +1102,10 @@ def test_masked_array_computation_model_sort_kind(kind: SortKind) -> None:
             ),
         ),
     )
+
+
+def test_masked_array_computation_model_concatenate_dtype_keeps_mask() -> None:
+    arr = np.ma.masked_array(data=np.arange(4), mask=[0, 1, 0, 0], fill_value=-1)
+    out = MaskedArrayComputationModel().concatenate([arr, arr], dtype=np.float32)
+    assert out.dtype == np.float32
+    assert out.mask.sum() == 2

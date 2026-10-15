@@ -1,6 +1,9 @@
 from __future__ import annotations
 
+from typing import TYPE_CHECKING
+
 import numpy as np
+import pytest
 from coola.equality import objects_are_equal
 
 from batcharray.array import (
@@ -17,6 +20,9 @@ from batcharray.array import (
 #######################################
 #     Tests for chunk_along_batch     #
 #######################################
+
+if TYPE_CHECKING:
+    from collections.abc import Callable
 
 
 def test_chunk_along_batch_chunks_3() -> None:
@@ -500,3 +506,10 @@ def test_split_along_seq_masked_array() -> None:
             np.ma.masked_array(data=np.array([[4], [9]]), mask=np.array([[False], [True]])),
         ],
     )
+
+
+@pytest.mark.parametrize("func", [split_along_batch, split_along_seq])
+@pytest.mark.parametrize("sections", [[1, 1], [3, 3], [-1, 6], 0])
+def test_split_invalid_sections_raises(func: Callable, sections: int | list[int]) -> None:
+    with pytest.raises(ValueError, match="split"):
+        func(np.zeros((4, 4)), sections)

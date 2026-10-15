@@ -1,6 +1,9 @@
 from __future__ import annotations
 
+from typing import TYPE_CHECKING
+
 import numpy as np
+import pytest
 from coola.equality import objects_are_equal
 
 from batcharray.nested import (
@@ -17,6 +20,9 @@ from batcharray.nested import (
 #######################################
 #     Tests for chunk_along_batch     #
 #######################################
+
+if TYPE_CHECKING:
+    from collections.abc import Callable
 
 
 def test_chunk_along_batch_chunks_3() -> None:
@@ -752,3 +758,16 @@ def test_split_along_seq_split_size_list() -> None:
             {"a": np.array([[4], [9]]), "b": np.array([[0]])},
         ],
     )
+
+
+@pytest.mark.parametrize("func", [chunk_along_batch, chunk_along_seq])
+@pytest.mark.parametrize("data", [{"a": {"b": np.zeros((4, 4))}}, [np.zeros((4, 4))]])
+def test_chunk_not_flat_dict_raises(func: Callable, data: object) -> None:
+    with pytest.raises(TypeError, match="flat dictionary"):
+        func(data, 2)
+
+
+@pytest.mark.parametrize("func", [split_along_batch, split_along_seq])
+def test_split_not_flat_dict_raises(func: Callable) -> None:
+    with pytest.raises(TypeError, match="flat dictionary"):
+        func([np.zeros((4, 4))], 2)

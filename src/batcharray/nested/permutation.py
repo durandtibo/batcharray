@@ -14,11 +14,11 @@ from functools import partial
 from typing import Any
 
 import numpy as np
-from coola.iterator import dfs_iterate
 from coola.recursive import recursive_apply
 
 from batcharray import array
 from batcharray.constants import BATCH_AXIS, SEQ_AXIS
+from batcharray.utils.validation import check_first_array
 
 
 def permute_along_batch(data: Any, permutation: np.ndarray) -> Any:
@@ -40,7 +40,7 @@ def permute_along_batch(data: Any, permutation: np.ndarray) -> Any:
             The output data has the same structure as the input data.
 
     Raises:
-        RuntimeError: if the shape of the permutation does not match
+        ValueError: if the shape of the permutation does not match
             the batch axis of the array.
 
     Example:
@@ -79,7 +79,7 @@ def permute_along_seq(data: Any, permutation: np.ndarray) -> Any:
             The output data has the same structure as the input data.
 
     Raises:
-        RuntimeError: if the shape of the permutation does not match
+        ValueError: if the shape of the permutation does not match
             the sequence axis of the array.
 
     Example:
@@ -131,7 +131,7 @@ def shuffle_along_batch(data: Any, rng: np.random.Generator | None = None) -> An
     """
     if rng is None:
         rng = np.random.default_rng()
-    value = next(dfs_iterate(data))
+    value = check_first_array(data)
     return permute_along_batch(
         data=data,
         permutation=rng.permutation(value.shape[BATCH_AXIS]),
@@ -170,7 +170,7 @@ def shuffle_along_seq(data: Any, rng: np.random.Generator | None = None) -> Any:
     """
     if rng is None:
         rng = np.random.default_rng()
-    value = next(dfs_iterate(data))
+    value = check_first_array(data)
     return permute_along_seq(
         data=data,
         permutation=rng.permutation(value.shape[SEQ_AXIS]),

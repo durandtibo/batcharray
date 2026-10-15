@@ -19,6 +19,7 @@ from typing import TYPE_CHECKING, Any
 from coola.recursive import recursive_apply
 
 from batcharray import array as ba
+from batcharray.utils.validation import check_flat_dict_of_arrays
 
 if TYPE_CHECKING:
     from collections.abc import Hashable, Sequence
@@ -61,6 +62,7 @@ def chunk_along_batch(
 
         ```
     """
+    check_flat_dict_of_arrays(data)
     keys = data.keys()
     return [
         dict(zip(keys, values, strict=True))
@@ -105,6 +107,7 @@ def chunk_along_seq(
 
         ```
     """
+    check_flat_dict_of_arrays(data)
     keys = data.keys()
     return [
         dict(zip(keys, values, strict=True))
@@ -302,6 +305,7 @@ def split_along_batch(
 
         ```
     """
+    check_flat_dict_of_arrays(data)
     keys = data.keys()
     return [
         dict(zip(keys, values, strict=True))
@@ -348,6 +352,7 @@ def split_along_seq(
 
         ```
     """
+    check_flat_dict_of_arrays(data)
     keys = data.keys()
     return [
         dict(zip(keys, values, strict=True))

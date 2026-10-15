@@ -19,9 +19,18 @@ from typing import TYPE_CHECKING
 import numpy as np
 
 from batcharray.constants import BATCH_AXIS, SEQ_AXIS
+from batcharray.utils.validation import check_split_sections
 
 if TYPE_CHECKING:
     from collections.abc import Sequence
+
+
+def _split_indices(size: int, split_size_or_sections: int | Sequence[int]) -> Sequence[int]:
+    r"""Compute the split indices of an axis."""
+    check_split_sections(size, split_size_or_sections)
+    if isinstance(split_size_or_sections, int):
+        return tuple(range(split_size_or_sections, size, split_size_or_sections))
+    return np.cumsum(split_size_or_sections)[:-1].tolist()
 
 
 def chunk_along_batch(array: np.ndarray, chunks: int) -> list[np.ndarray]:
@@ -252,10 +261,7 @@ def split_along_batch(
 
         ```
     """
-    if isinstance(split_size_or_sections, int):
-        indices = tuple(range(split_size_or_sections, array.shape[0], split_size_or_sections))
-    else:
-        indices = np.cumsum(split_size_or_sections)[:-1]
+    indices = _split_indices(array.shape[BATCH_AXIS], split_size_or_sections)
     return np.array_split(array, indices, axis=BATCH_AXIS)
 
 
@@ -289,8 +295,5 @@ def split_along_seq(
 
         ```
     """
-    if isinstance(split_size_or_sections, int):
-        indices = tuple(range(split_size_or_sections, array.shape[1], split_size_or_sections))
-    else:
-        indices = np.cumsum(split_size_or_sections)[:-1]
+    indices = _split_indices(array.shape[SEQ_AXIS], split_size_or_sections)
     return np.array_split(array, indices, axis=SEQ_AXIS)

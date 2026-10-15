@@ -11,6 +11,7 @@ import numpy as np
 
 from batcharray import computation as cmpt
 from batcharray.constants import BATCH_AXIS, SEQ_AXIS
+from batcharray.utils.validation import check_min_ndim
 
 if TYPE_CHECKING:
     from numpy.typing import DTypeLike
@@ -127,6 +128,7 @@ def tile_along_seq(array: np.ndarray, reps: int) -> np.ndarray:
 
         ```
     """
+    check_min_ndim(array)
     repeats = [1] * array.ndim
     repeats[1] = reps
     return np.tile(array, repeats)

@@ -14,6 +14,7 @@ import numpy as np
 
 from batcharray.array.indexing import take_along_batch, take_along_seq
 from batcharray.constants import BATCH_AXIS, SEQ_AXIS
+from batcharray.utils.validation import check_min_ndim
 
 
 def permute_along_batch(array: np.ndarray, permutation: np.ndarray) -> np.ndarray:
@@ -33,7 +34,7 @@ def permute_along_batch(array: np.ndarray, permutation: np.ndarray) -> np.ndarra
         The array with permuted data along the batch axis.
 
     Raises:
-        RuntimeError: if the shape of the permutation does not match
+        ValueError: if the shape of the permutation does not match
             the batch axis of the array.
 
     Example:
@@ -56,7 +57,7 @@ def permute_along_batch(array: np.ndarray, permutation: np.ndarray) -> np.ndarra
             f"permutation shape ({permutation.shape}) is not compatible with array shape "
             f"({array.shape})"
         )
-        raise RuntimeError(msg)
+        raise ValueError(msg)
     return take_along_batch(array, indices=permutation)
 
 
@@ -77,7 +78,7 @@ def permute_along_seq(array: np.ndarray, permutation: np.ndarray) -> np.ndarray:
         The array with permuted data along the sequence axis.
 
     Raises:
-        RuntimeError: if the shape of the permutation does not match
+        ValueError: if the shape of the permutation does not match
             the sequence axis of the array.
 
     Example:
@@ -92,12 +93,13 @@ def permute_along_seq(array: np.ndarray, permutation: np.ndarray) -> np.ndarray:
 
         ```
     """
+    check_min_ndim(array)
     if permutation.shape[0] != array.shape[1]:
         msg = (
             f"permutation shape ({permutation.shape}) is not compatible with array shape "
             f"({array.shape})"
         )
-        raise RuntimeError(msg)
+        raise ValueError(msg)
     return take_along_seq(array, indices=permutation)
 
 
@@ -161,6 +163,7 @@ def shuffle_along_seq(array: np.ndarray, rng: np.random.Generator | None = None)
     """
     if rng is None:
         rng = np.random.default_rng()
+    check_min_ndim(array)
     return permute_along_seq(
         array=array,
         permutation=rng.permutation(array.shape[SEQ_AXIS]),
