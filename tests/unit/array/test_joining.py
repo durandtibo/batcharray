@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from typing import TYPE_CHECKING
+
 import numpy as np
 import pytest
 from coola.equality import objects_are_equal
@@ -7,8 +9,15 @@ from coola.equality import objects_are_equal
 from batcharray.array import (
     concatenate_along_batch,
     concatenate_along_seq,
+    repeat_along_batch,
+    repeat_along_seq,
     tile_along_seq,
 )
+
+if TYPE_CHECKING:
+    from numpy.typing import DTypeLike
+
+DTYPES = [np.int64, np.float64]
 
 #############################################
 #     Tests for concatenate_along_batch     #
@@ -251,3 +260,39 @@ def test_concatenate_dtype(fn: object) -> None:
 def test_tile_along_seq_1d_raises() -> None:
     with pytest.raises(ValueError, match="at least 2 dimensions"):
         tile_along_seq(np.arange(3), reps=2)
+
+
+########################################
+#     Tests for repeat_along_batch     #
+########################################
+
+
+@pytest.mark.parametrize("dtype", DTYPES)
+def test_repeat_along_batch(dtype: DTypeLike) -> None:
+    assert objects_are_equal(
+        repeat_along_batch(
+            np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]], dtype=dtype), repeats=2
+        ),
+        np.array(
+            [[0, 1], [0, 1], [2, 3], [2, 3], [4, 5], [4, 5], [6, 7], [6, 7], [8, 9], [8, 9]],
+            dtype=dtype,
+        ),
+    )
+
+
+######################################
+#     Tests for repeat_along_seq     #
+######################################
+
+
+@pytest.mark.parametrize("dtype", DTYPES)
+def test_repeat_along_seq(dtype: DTypeLike) -> None:
+    assert objects_are_equal(
+        repeat_along_seq(np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]], dtype=dtype), repeats=2),
+        np.array([[0, 0, 1, 1, 2, 2, 3, 3, 4, 4], [5, 5, 6, 6, 7, 7, 8, 8, 9, 9]], dtype=dtype),
+    )
+
+
+def test_repeat_along_seq_1d_raises() -> None:
+    with pytest.raises(ValueError, match="at least 2 dimensions"):
+        repeat_along_seq(np.arange(3), repeats=2)

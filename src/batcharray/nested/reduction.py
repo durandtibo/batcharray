@@ -3,10 +3,14 @@ r"""Contain some reduction functions for arrays."""
 from __future__ import annotations
 
 __all__ = [
+    "all_along_batch",
+    "all_along_seq",
     "amax_along_batch",
     "amax_along_seq",
     "amin_along_batch",
     "amin_along_seq",
+    "any_along_batch",
+    "any_along_seq",
     "argmax_along_batch",
     "argmax_along_seq",
     "argmin_along_batch",
@@ -21,8 +25,12 @@ __all__ = [
     "min_along_seq",
     "prod_along_batch",
     "prod_along_seq",
+    "std_along_batch",
+    "std_along_seq",
     "sum_along_batch",
     "sum_along_seq",
+    "var_along_batch",
+    "var_along_seq",
 ]
 
 from functools import partial
@@ -745,3 +753,263 @@ def sum_along_seq(data: Any, keepdims: bool = False) -> Any:
         ```
     """
     return recursive_apply(data, partial(ba.sum_along_seq, keepdims=keepdims))
+
+
+def std_along_batch(data: Any, *, keepdims: bool = False, ddof: int = 0) -> Any:
+    r"""Return the standard deviation along the batch axis for all arrays.
+
+    Note:
+        This function assumes the batch axis is the first
+            axis of the arrays.
+
+    Args:
+        data: The input data. Each item must be an array.
+        keepdims: Whether the output arrays have dim retained or not.
+        ddof: The delta degrees of freedom. The divisor is ``N - ddof``.
+
+    Returns:
+        The standard deviation along the batch axis. The output has the
+            same structure as the input.
+
+    Example:
+        ```pycon
+        >>> import numpy as np
+        >>> from batcharray.nested import std_along_batch
+        >>> data = {"a": np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]]), "b": np.array([2, 1, 0, -1, -2])}
+        >>> out = std_along_batch(data)
+        >>> out
+        {'a': array([2.82842712, 2.82842712]), 'b': np.float64(1.4142135623730951)}
+        >>> out = std_along_batch(data, keepdims=True)
+        >>> out
+        {'a': array([[2.82842712, 2.82842712]]), 'b': array([1.41421356])}
+
+        ```
+    """
+    return recursive_apply(data, partial(ba.std_along_batch, keepdims=keepdims, ddof=ddof))
+
+
+def std_along_seq(data: Any, *, keepdims: bool = False, ddof: int = 0) -> Any:
+    r"""Return the standard deviation along the sequence axis for all arrays.
+
+    Note:
+        This function assumes the sequence axis is the second
+            axis of the arrays.
+
+    Args:
+        data: The input data. Each item must be an array.
+        keepdims: Whether the output arrays have dim retained or not.
+        ddof: The delta degrees of freedom. The divisor is ``N - ddof``.
+
+    Returns:
+        The standard deviation along the sequence axis. The output has the
+            same structure as the input.
+
+    Example:
+        ```pycon
+        >>> import numpy as np
+        >>> from batcharray.nested import std_along_seq
+        >>> data = {"a": np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]]), "b": np.array([[4, 3, 2, 1, 0], [0, 1, 2, 3, 4]])}
+        >>> out = std_along_seq(data)
+        >>> out
+        {'a': array([1.41421356, 1.41421356]), 'b': array([1.41421356, 1.41421356])}
+        >>> out = std_along_seq(data, keepdims=True)
+        >>> out
+        {'a': array([[1.41421356], [1.41421356]]), 'b': array([[1.41421356], [1.41421356]])}
+
+        ```
+    """
+    return recursive_apply(data, partial(ba.std_along_seq, keepdims=keepdims, ddof=ddof))
+
+
+def var_along_batch(data: Any, *, keepdims: bool = False, ddof: int = 0) -> Any:
+    r"""Return the variance along the batch axis for all arrays.
+
+    Note:
+        This function assumes the batch axis is the first
+            axis of the arrays.
+
+    Args:
+        data: The input data. Each item must be an array.
+        keepdims: Whether the output arrays have dim retained or not.
+        ddof: The delta degrees of freedom. The divisor is ``N - ddof``.
+
+    Returns:
+        The variance along the batch axis. The output has the
+            same structure as the input.
+
+    Example:
+        ```pycon
+        >>> import numpy as np
+        >>> from batcharray.nested import var_along_batch
+        >>> data = {"a": np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]]), "b": np.array([2, 1, 0, -1, -2])}
+        >>> out = var_along_batch(data)
+        >>> out
+        {'a': array([8., 8.]), 'b': np.float64(2.0)}
+        >>> out = var_along_batch(data, keepdims=True)
+        >>> out
+        {'a': array([[8., 8.]]), 'b': array([2.])}
+
+        ```
+    """
+    return recursive_apply(data, partial(ba.var_along_batch, keepdims=keepdims, ddof=ddof))
+
+
+def var_along_seq(data: Any, *, keepdims: bool = False, ddof: int = 0) -> Any:
+    r"""Return the variance along the sequence axis for all arrays.
+
+    Note:
+        This function assumes the sequence axis is the second
+            axis of the arrays.
+
+    Args:
+        data: The input data. Each item must be an array.
+        keepdims: Whether the output arrays have dim retained or not.
+        ddof: The delta degrees of freedom. The divisor is ``N - ddof``.
+
+    Returns:
+        The variance along the sequence axis. The output has the
+            same structure as the input.
+
+    Example:
+        ```pycon
+        >>> import numpy as np
+        >>> from batcharray.nested import var_along_seq
+        >>> data = {"a": np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]]), "b": np.array([[4, 3, 2, 1, 0], [0, 1, 2, 3, 4]])}
+        >>> out = var_along_seq(data)
+        >>> out
+        {'a': array([2., 2.]), 'b': array([2., 2.])}
+        >>> out = var_along_seq(data, keepdims=True)
+        >>> out
+        {'a': array([[2.], [2.]]), 'b': array([[2.], [2.]])}
+
+        ```
+    """
+    return recursive_apply(data, partial(ba.var_along_seq, keepdims=keepdims, ddof=ddof))
+
+
+def any_along_batch(data: Any, *, keepdims: bool = False) -> Any:
+    r"""Return the logical OR (whether any element is true) along the batch axis for all arrays.
+
+    Note:
+        This function assumes the batch axis is the first
+            axis of the arrays.
+
+    Args:
+        data: The input data. Each item must be an array.
+        keepdims: Whether the output arrays have dim retained or not.
+
+    Returns:
+        The logical OR (whether any element is true) along the batch axis. The output has the
+            same structure as the input.
+
+    Example:
+        ```pycon
+        >>> import numpy as np
+        >>> from batcharray.nested import any_along_batch
+        >>> data = {"a": np.array([[True, False], [True, True], [True, False]]), "b": np.array([True, False, True])}
+        >>> out = any_along_batch(data)
+        >>> out
+        {'a': array([ True,  True]), 'b': np.True_}
+        >>> out = any_along_batch(data, keepdims=True)
+        >>> out
+        {'a': array([[ True,  True]]), 'b': array([ True])}
+
+        ```
+    """
+    return recursive_apply(data, partial(ba.any_along_batch, keepdims=keepdims))
+
+
+def any_along_seq(data: Any, *, keepdims: bool = False) -> Any:
+    r"""Return the logical OR (whether any element is true) along the sequence axis for all arrays.
+
+    Note:
+        This function assumes the sequence axis is the second
+            axis of the arrays.
+
+    Args:
+        data: The input data. Each item must be an array.
+        keepdims: Whether the output arrays have dim retained or not.
+
+    Returns:
+        The logical OR (whether any element is true) along the sequence axis. The output has the
+            same structure as the input.
+
+    Example:
+        ```pycon
+        >>> import numpy as np
+        >>> from batcharray.nested import any_along_seq
+        >>> data = {"a": np.array([[True, False, True], [True, True, True]]), "b": np.array([[True, True, False], [False, False, True]])}
+        >>> out = any_along_seq(data)
+        >>> out
+        {'a': array([ True,  True]), 'b': array([ True,  True])}
+        >>> out = any_along_seq(data, keepdims=True)
+        >>> out
+        {'a': array([[ True], [ True]]), 'b': array([[ True], [ True]])}
+
+        ```
+    """
+    return recursive_apply(data, partial(ba.any_along_seq, keepdims=keepdims))
+
+
+def all_along_batch(data: Any, *, keepdims: bool = False) -> Any:
+    r"""Return the logical AND (whether all elements are true) along the batch axis for all arrays.
+
+    Note:
+        This function assumes the batch axis is the first
+            axis of the arrays.
+
+    Args:
+        data: The input data. Each item must be an array.
+        keepdims: Whether the output arrays have dim retained or not.
+
+    Returns:
+        The logical AND (whether all elements are true) along the batch axis. The output has the
+            same structure as the input.
+
+    Example:
+        ```pycon
+        >>> import numpy as np
+        >>> from batcharray.nested import all_along_batch
+        >>> data = {"a": np.array([[True, False], [True, True], [True, False]]), "b": np.array([True, False, True])}
+        >>> out = all_along_batch(data)
+        >>> out
+        {'a': array([ True, False]), 'b': np.False_}
+        >>> out = all_along_batch(data, keepdims=True)
+        >>> out
+        {'a': array([[ True, False]]), 'b': array([False])}
+
+        ```
+    """
+    return recursive_apply(data, partial(ba.all_along_batch, keepdims=keepdims))
+
+
+def all_along_seq(data: Any, *, keepdims: bool = False) -> Any:
+    r"""Return the logical AND (whether all elements are true) along the sequence axis for all arrays.
+
+    Note:
+        This function assumes the sequence axis is the second
+            axis of the arrays.
+
+    Args:
+        data: The input data. Each item must be an array.
+        keepdims: Whether the output arrays have dim retained or not.
+
+    Returns:
+        The logical AND (whether all elements are true) along the sequence axis. The output has the
+            same structure as the input.
+
+    Example:
+        ```pycon
+        >>> import numpy as np
+        >>> from batcharray.nested import all_along_seq
+        >>> data = {"a": np.array([[True, False, True], [True, True, True]]), "b": np.array([[True, True, False], [False, False, True]])}
+        >>> out = all_along_seq(data)
+        >>> out
+        {'a': array([False,  True]), 'b': array([False, False])}
+        >>> out = all_along_seq(data, keepdims=True)
+        >>> out
+        {'a': array([[False], [ True]]), 'b': array([[False], [False]])}
+
+        ```
+    """
+    return recursive_apply(data, partial(ba.all_along_seq, keepdims=keepdims))

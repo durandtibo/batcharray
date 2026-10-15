@@ -8,12 +8,14 @@ import pytest
 from coola.equality import objects_are_equal
 
 from batcharray.nested import (
+    flip_along_batch,
+    flip_along_seq,
     permute_along_batch,
     permute_along_seq,
     shuffle_along_batch,
     shuffle_along_seq,
 )
-from tests.unit.array.test_permutation import INDEX_DTYPES
+from tests.unit.array.test_permutation import DTYPES, INDEX_DTYPES
 
 if TYPE_CHECKING:
     from collections.abc import Callable
@@ -453,3 +455,61 @@ def test_shuffle_along_seq_same_permutation_for_all_arrays() -> None:
 def test_shuffle_invalid_data_raises(func: Callable, data: object) -> None:
     with pytest.raises(ValueError, match="at least one array"):
         func(data)
+
+
+######################################
+#     Tests for flip_along_batch     #
+######################################
+
+
+@pytest.mark.parametrize("dtype", DTYPES)
+def test_flip_along_batch_array(dtype: DTypeLike) -> None:
+    assert objects_are_equal(
+        flip_along_batch(np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]], dtype=dtype)),
+        np.array([[8, 9], [6, 7], [4, 5], [2, 3], [0, 1]], dtype=dtype),
+    )
+
+
+@pytest.mark.parametrize("dtype", DTYPES)
+def test_flip_along_batch_dict(dtype: DTypeLike) -> None:
+    assert objects_are_equal(
+        flip_along_batch(
+            {
+                "a": np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]], dtype=dtype),
+                "b": np.array([[8, 9], [6, 7], [4, 5], [2, 3], [0, 1]], dtype=dtype),
+            }
+        ),
+        {
+            "a": np.array([[8, 9], [6, 7], [4, 5], [2, 3], [0, 1]], dtype=dtype),
+            "b": np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]], dtype=dtype),
+        },
+    )
+
+
+####################################
+#     Tests for flip_along_seq     #
+####################################
+
+
+@pytest.mark.parametrize("dtype", DTYPES)
+def test_flip_along_seq_array(dtype: DTypeLike) -> None:
+    assert objects_are_equal(
+        flip_along_seq(np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]], dtype=dtype)),
+        np.array([[4, 3, 2, 1, 0], [9, 8, 7, 6, 5]], dtype=dtype),
+    )
+
+
+@pytest.mark.parametrize("dtype", DTYPES)
+def test_flip_along_seq_dict(dtype: DTypeLike) -> None:
+    assert objects_are_equal(
+        flip_along_seq(
+            {
+                "a": np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]], dtype=dtype),
+                "b": np.array([[4, 3, 2, 1, 0], [9, 8, 7, 6, 5]], dtype=dtype),
+            }
+        ),
+        {
+            "a": np.array([[4, 3, 2, 1, 0], [9, 8, 7, 6, 5]], dtype=dtype),
+            "b": np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]], dtype=dtype),
+        },
+    )

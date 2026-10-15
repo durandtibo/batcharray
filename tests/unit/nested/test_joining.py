@@ -9,11 +9,16 @@ from coola.equality import objects_are_equal
 from batcharray.nested import (
     concatenate_along_batch,
     concatenate_along_seq,
+    repeat_along_batch,
+    repeat_along_seq,
     tile_along_seq,
 )
+from tests.unit.array.test_joining import DTYPES
 
 if TYPE_CHECKING:
     from collections.abc import Callable, Hashable, Sequence
+
+    from numpy.typing import DTypeLike
 
 #############################################
 #     Tests for concatenate_along_batch     #
@@ -384,3 +389,78 @@ def test_concatenate_dtype(fn: object) -> None:
 def test_concatenate_different_keys_raises(func: Callable, data: list) -> None:
     with pytest.raises(ValueError, match="same keys"):
         func(data)
+
+
+########################################
+#     Tests for repeat_along_batch     #
+########################################
+
+
+@pytest.mark.parametrize("dtype", DTYPES)
+def test_repeat_along_batch_array(dtype: DTypeLike) -> None:
+    assert objects_are_equal(
+        repeat_along_batch(
+            np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]], dtype=dtype), repeats=2
+        ),
+        np.array(
+            [[0, 1], [0, 1], [2, 3], [2, 3], [4, 5], [4, 5], [6, 7], [6, 7], [8, 9], [8, 9]],
+            dtype=dtype,
+        ),
+    )
+
+
+@pytest.mark.parametrize("dtype", DTYPES)
+def test_repeat_along_batch_dict(dtype: DTypeLike) -> None:
+    assert objects_are_equal(
+        repeat_along_batch(
+            {
+                "a": np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]], dtype=dtype),
+                "b": np.array([[8, 9], [6, 7], [4, 5], [2, 3], [0, 1]], dtype=dtype),
+            },
+            repeats=2,
+        ),
+        {
+            "a": np.array(
+                [[0, 1], [0, 1], [2, 3], [2, 3], [4, 5], [4, 5], [6, 7], [6, 7], [8, 9], [8, 9]],
+                dtype=dtype,
+            ),
+            "b": np.array(
+                [[8, 9], [8, 9], [6, 7], [6, 7], [4, 5], [4, 5], [2, 3], [2, 3], [0, 1], [0, 1]],
+                dtype=dtype,
+            ),
+        },
+    )
+
+
+######################################
+#     Tests for repeat_along_seq     #
+######################################
+
+
+@pytest.mark.parametrize("dtype", DTYPES)
+def test_repeat_along_seq_array(dtype: DTypeLike) -> None:
+    assert objects_are_equal(
+        repeat_along_seq(np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]], dtype=dtype), repeats=2),
+        np.array([[0, 0, 1, 1, 2, 2, 3, 3, 4, 4], [5, 5, 6, 6, 7, 7, 8, 8, 9, 9]], dtype=dtype),
+    )
+
+
+@pytest.mark.parametrize("dtype", DTYPES)
+def test_repeat_along_seq_dict(dtype: DTypeLike) -> None:
+    assert objects_are_equal(
+        repeat_along_seq(
+            {
+                "a": np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]], dtype=dtype),
+                "b": np.array([[4, 3, 2, 1, 0], [9, 8, 7, 6, 5]], dtype=dtype),
+            },
+            repeats=2,
+        ),
+        {
+            "a": np.array(
+                [[0, 0, 1, 1, 2, 2, 3, 3, 4, 4], [5, 5, 6, 6, 7, 7, 8, 8, 9, 9]], dtype=dtype
+            ),
+            "b": np.array(
+                [[4, 4, 3, 3, 2, 2, 1, 1, 0, 0], [9, 9, 8, 8, 7, 7, 6, 6, 5, 5]], dtype=dtype
+            ),
+        },
+    )

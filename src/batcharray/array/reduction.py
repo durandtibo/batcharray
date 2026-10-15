@@ -3,10 +3,14 @@ r"""Contain some reduction functions for arrays."""
 from __future__ import annotations
 
 __all__ = [
+    "all_along_batch",
+    "all_along_seq",
     "amax_along_batch",
     "amax_along_seq",
     "amin_along_batch",
     "amin_along_seq",
+    "any_along_batch",
+    "any_along_seq",
     "argmax_along_batch",
     "argmax_along_seq",
     "argmin_along_batch",
@@ -21,8 +25,12 @@ __all__ = [
     "min_along_seq",
     "prod_along_batch",
     "prod_along_seq",
+    "std_along_batch",
+    "std_along_seq",
     "sum_along_batch",
     "sum_along_seq",
+    "var_along_batch",
+    "var_along_seq",
 ]
 
 
@@ -664,3 +672,255 @@ def sum_along_seq(array: np.ndarray, keepdims: bool = False) -> np.ndarray:
         ```
     """
     return np.sum(array, axis=SEQ_AXIS, keepdims=keepdims)
+
+
+def std_along_batch(array: np.ndarray, *, keepdims: bool = False, ddof: int = 0) -> np.ndarray:
+    r"""Return the standard deviation along the batch axis.
+
+    Note:
+        This function assumes the batch axis is the first
+            axis.
+
+    Args:
+        array: The input array.
+        keepdims: Whether the output array has dim retained or not.
+        ddof: The delta degrees of freedom. The divisor is ``N - ddof``.
+
+    Returns:
+        The standard deviation along the batch axis.
+
+    Example:
+        ```pycon
+        >>> import numpy as np
+        >>> from batcharray.array import std_along_batch
+        >>> array = np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]])
+        >>> out = std_along_batch(array)
+        >>> out
+        array([2.82842712, 2.82842712])
+        >>> out = std_along_batch(array, keepdims=True)
+        >>> out
+        array([[2.82842712, 2.82842712]])
+
+        ```
+    """
+    return np.std(array, axis=BATCH_AXIS, keepdims=keepdims, ddof=ddof)
+
+
+def std_along_seq(array: np.ndarray, *, keepdims: bool = False, ddof: int = 0) -> np.ndarray:
+    r"""Return the standard deviation along the sequence axis.
+
+    Note:
+        This function assumes the sequence axis is the second
+            axis.
+
+    Args:
+        array: The input array.
+        keepdims: Whether the output array has dim retained or not.
+        ddof: The delta degrees of freedom. The divisor is ``N - ddof``.
+
+    Returns:
+        The standard deviation along the sequence axis.
+
+    Example:
+        ```pycon
+        >>> import numpy as np
+        >>> from batcharray.array import std_along_seq
+        >>> array = np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]])
+        >>> out = std_along_seq(array)
+        >>> out
+        array([1.41421356, 1.41421356])
+        >>> out = std_along_seq(array, keepdims=True)
+        >>> out
+        array([[1.41421356], [1.41421356]])
+
+        ```
+    """
+    return np.std(array, axis=SEQ_AXIS, keepdims=keepdims, ddof=ddof)
+
+
+def var_along_batch(array: np.ndarray, *, keepdims: bool = False, ddof: int = 0) -> np.ndarray:
+    r"""Return the variance along the batch axis.
+
+    Note:
+        This function assumes the batch axis is the first
+            axis.
+
+    Args:
+        array: The input array.
+        keepdims: Whether the output array has dim retained or not.
+        ddof: The delta degrees of freedom. The divisor is ``N - ddof``.
+
+    Returns:
+        The variance along the batch axis.
+
+    Example:
+        ```pycon
+        >>> import numpy as np
+        >>> from batcharray.array import var_along_batch
+        >>> array = np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]])
+        >>> out = var_along_batch(array)
+        >>> out
+        array([8., 8.])
+        >>> out = var_along_batch(array, keepdims=True)
+        >>> out
+        array([[8., 8.]])
+
+        ```
+    """
+    return np.var(array, axis=BATCH_AXIS, keepdims=keepdims, ddof=ddof)
+
+
+def var_along_seq(array: np.ndarray, *, keepdims: bool = False, ddof: int = 0) -> np.ndarray:
+    r"""Return the variance along the sequence axis.
+
+    Note:
+        This function assumes the sequence axis is the second
+            axis.
+
+    Args:
+        array: The input array.
+        keepdims: Whether the output array has dim retained or not.
+        ddof: The delta degrees of freedom. The divisor is ``N - ddof``.
+
+    Returns:
+        The variance along the sequence axis.
+
+    Example:
+        ```pycon
+        >>> import numpy as np
+        >>> from batcharray.array import var_along_seq
+        >>> array = np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]])
+        >>> out = var_along_seq(array)
+        >>> out
+        array([2., 2.])
+        >>> out = var_along_seq(array, keepdims=True)
+        >>> out
+        array([[2.], [2.]])
+
+        ```
+    """
+    return np.var(array, axis=SEQ_AXIS, keepdims=keepdims, ddof=ddof)
+
+
+def any_along_batch(array: np.ndarray, *, keepdims: bool = False) -> np.ndarray:
+    r"""Return the logical OR (whether any element is true) along the batch axis.
+
+    Note:
+        This function assumes the batch axis is the first
+            axis.
+
+    Args:
+        array: The input array.
+        keepdims: Whether the output array has dim retained or not.
+
+    Returns:
+        The logical OR (whether any element is true) along the batch axis.
+
+    Example:
+        ```pycon
+        >>> import numpy as np
+        >>> from batcharray.array import any_along_batch
+        >>> array = np.array([[True, False], [True, True], [True, False]])
+        >>> out = any_along_batch(array)
+        >>> out
+        array([ True,  True])
+        >>> out = any_along_batch(array, keepdims=True)
+        >>> out
+        array([[ True,  True]])
+
+        ```
+    """
+    return np.any(array, axis=BATCH_AXIS, keepdims=keepdims)
+
+
+def any_along_seq(array: np.ndarray, *, keepdims: bool = False) -> np.ndarray:
+    r"""Return the logical OR (whether any element is true) along the sequence axis.
+
+    Note:
+        This function assumes the sequence axis is the second
+            axis.
+
+    Args:
+        array: The input array.
+        keepdims: Whether the output array has dim retained or not.
+
+    Returns:
+        The logical OR (whether any element is true) along the sequence axis.
+
+    Example:
+        ```pycon
+        >>> import numpy as np
+        >>> from batcharray.array import any_along_seq
+        >>> array = np.array([[True, False, True], [True, True, True]])
+        >>> out = any_along_seq(array)
+        >>> out
+        array([ True,  True])
+        >>> out = any_along_seq(array, keepdims=True)
+        >>> out
+        array([[ True], [ True]])
+
+        ```
+    """
+    return np.any(array, axis=SEQ_AXIS, keepdims=keepdims)
+
+
+def all_along_batch(array: np.ndarray, *, keepdims: bool = False) -> np.ndarray:
+    r"""Return the logical AND (whether all elements are true) along the batch axis.
+
+    Note:
+        This function assumes the batch axis is the first
+            axis.
+
+    Args:
+        array: The input array.
+        keepdims: Whether the output array has dim retained or not.
+
+    Returns:
+        The logical AND (whether all elements are true) along the batch axis.
+
+    Example:
+        ```pycon
+        >>> import numpy as np
+        >>> from batcharray.array import all_along_batch
+        >>> array = np.array([[True, False], [True, True], [True, False]])
+        >>> out = all_along_batch(array)
+        >>> out
+        array([ True, False])
+        >>> out = all_along_batch(array, keepdims=True)
+        >>> out
+        array([[ True, False]])
+
+        ```
+    """
+    return np.all(array, axis=BATCH_AXIS, keepdims=keepdims)
+
+
+def all_along_seq(array: np.ndarray, *, keepdims: bool = False) -> np.ndarray:
+    r"""Return the logical AND (whether all elements are true) along the sequence axis.
+
+    Note:
+        This function assumes the sequence axis is the second
+            axis.
+
+    Args:
+        array: The input array.
+        keepdims: Whether the output array has dim retained or not.
+
+    Returns:
+        The logical AND (whether all elements are true) along the sequence axis.
+
+    Example:
+        ```pycon
+        >>> import numpy as np
+        >>> from batcharray.array import all_along_seq
+        >>> array = np.array([[True, False, True], [True, True, True]])
+        >>> out = all_along_seq(array)
+        >>> out
+        array([False,  True])
+        >>> out = all_along_seq(array, keepdims=True)
+        >>> out
+        array([[False], [ True]])
+
+        ```
+    """
+    return np.all(array, axis=SEQ_AXIS, keepdims=keepdims)

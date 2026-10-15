@@ -7,10 +7,14 @@ import pytest
 from coola.equality import objects_are_allclose, objects_are_equal
 
 from batcharray.array import (
+    all_along_batch,
+    all_along_seq,
     amax_along_batch,
     amax_along_seq,
     amin_along_batch,
     amin_along_seq,
+    any_along_batch,
+    any_along_seq,
     argmax_along_batch,
     argmax_along_seq,
     argmin_along_batch,
@@ -25,8 +29,12 @@ from batcharray.array import (
     min_along_seq,
     prod_along_batch,
     prod_along_seq,
+    std_along_batch,
+    std_along_seq,
     sum_along_batch,
     sum_along_seq,
+    var_along_batch,
+    var_along_seq,
 )
 
 if TYPE_CHECKING:
@@ -893,3 +901,331 @@ def test_along_batch_and_seq_match_numpy_axis(
         getattr(ba, f"{name}_along_seq")(x, keepdims=keepdims),
         reference(x, axis=1, keepdims=keepdims),
     )
+
+
+#####################################
+#     Tests for std_along_batch     #
+#####################################
+
+
+@pytest.mark.parametrize("dtype", DTYPES)
+def test_std_along_batch(dtype: DTypeLike) -> None:
+    assert objects_are_allclose(
+        std_along_batch(np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]], dtype=dtype)),
+        np.array([2.8284271247461903, 2.8284271247461903]),
+    )
+
+
+@pytest.mark.parametrize("dtype", DTYPES)
+def test_std_along_batch_keepdims_true(dtype: DTypeLike) -> None:
+    assert objects_are_allclose(
+        std_along_batch(
+            np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]], dtype=dtype), keepdims=True
+        ),
+        np.array([[2.8284271247461903, 2.8284271247461903]]),
+    )
+
+
+def test_std_along_batch_keepdims_positional_raises() -> None:
+    with pytest.raises(TypeError, match="positional"):
+        std_along_batch(np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]]), True)
+
+
+@pytest.mark.parametrize("dtype", DTYPES)
+def test_std_along_batch_ddof_1(dtype: DTypeLike) -> None:
+    assert objects_are_allclose(
+        std_along_batch(np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]], dtype=dtype), ddof=1),
+        np.array([3.1622776601683795, 3.1622776601683795]),
+    )
+
+
+def test_std_along_batch_masked_array() -> None:
+    assert objects_are_allclose(
+        std_along_batch(
+            np.ma.masked_array(
+                data=np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]]),
+                mask=np.array(
+                    [[False, False], [False, False], [False, False], [False, True], [True, True]]
+                ),
+            )
+        ),
+        np.ma.masked_array(
+            data=np.array([2.23606797749979, 1.632993161855452]),
+            mask=np.array([False, False]),
+        ),
+    )
+
+
+###################################
+#     Tests for std_along_seq     #
+###################################
+
+
+@pytest.mark.parametrize("dtype", DTYPES)
+def test_std_along_seq(dtype: DTypeLike) -> None:
+    assert objects_are_allclose(
+        std_along_seq(np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]], dtype=dtype)),
+        np.array([1.4142135623730951, 1.4142135623730951]),
+    )
+
+
+@pytest.mark.parametrize("dtype", DTYPES)
+def test_std_along_seq_keepdims_true(dtype: DTypeLike) -> None:
+    assert objects_are_allclose(
+        std_along_seq(np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]], dtype=dtype), keepdims=True),
+        np.array([[1.4142135623730951], [1.4142135623730951]]),
+    )
+
+
+def test_std_along_seq_keepdims_positional_raises() -> None:
+    with pytest.raises(TypeError, match="positional"):
+        std_along_seq(np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]]), True)
+
+
+@pytest.mark.parametrize("dtype", DTYPES)
+def test_std_along_seq_ddof_1(dtype: DTypeLike) -> None:
+    assert objects_are_allclose(
+        std_along_seq(np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]], dtype=dtype), ddof=1),
+        np.array([1.5811388300841898, 1.5811388300841898]),
+    )
+
+
+def test_std_along_seq_masked_array() -> None:
+    assert objects_are_allclose(
+        std_along_seq(
+            np.ma.masked_array(
+                data=np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]]),
+                mask=np.array(
+                    [[False, False, False, False, False], [False, False, True, True, True]]
+                ),
+            )
+        ),
+        np.ma.masked_array(
+            data=np.array([1.4142135623730951, 0.5]),
+            mask=np.array([False, False]),
+        ),
+    )
+
+
+#####################################
+#     Tests for var_along_batch     #
+#####################################
+
+
+@pytest.mark.parametrize("dtype", DTYPES)
+def test_var_along_batch(dtype: DTypeLike) -> None:
+    assert objects_are_allclose(
+        var_along_batch(np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]], dtype=dtype)),
+        np.array([8.0, 8.0]),
+    )
+
+
+@pytest.mark.parametrize("dtype", DTYPES)
+def test_var_along_batch_keepdims_true(dtype: DTypeLike) -> None:
+    assert objects_are_allclose(
+        var_along_batch(
+            np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]], dtype=dtype), keepdims=True
+        ),
+        np.array([[8.0, 8.0]]),
+    )
+
+
+def test_var_along_batch_keepdims_positional_raises() -> None:
+    with pytest.raises(TypeError, match="positional"):
+        var_along_batch(np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]]), True)
+
+
+@pytest.mark.parametrize("dtype", DTYPES)
+def test_var_along_batch_ddof_1(dtype: DTypeLike) -> None:
+    assert objects_are_allclose(
+        var_along_batch(np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]], dtype=dtype), ddof=1),
+        np.array([10.0, 10.0]),
+    )
+
+
+def test_var_along_batch_masked_array() -> None:
+    assert objects_are_allclose(
+        var_along_batch(
+            np.ma.masked_array(
+                data=np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]]),
+                mask=np.array(
+                    [[False, False], [False, False], [False, False], [False, True], [True, True]]
+                ),
+            )
+        ),
+        np.ma.masked_array(
+            data=np.array([5.0, 2.6666666666666665]),
+        ),
+    )
+
+
+###################################
+#     Tests for var_along_seq     #
+###################################
+
+
+@pytest.mark.parametrize("dtype", DTYPES)
+def test_var_along_seq(dtype: DTypeLike) -> None:
+    assert objects_are_allclose(
+        var_along_seq(np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]], dtype=dtype)),
+        np.array([2.0, 2.0]),
+    )
+
+
+@pytest.mark.parametrize("dtype", DTYPES)
+def test_var_along_seq_keepdims_true(dtype: DTypeLike) -> None:
+    assert objects_are_allclose(
+        var_along_seq(np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]], dtype=dtype), keepdims=True),
+        np.array([[2.0], [2.0]]),
+    )
+
+
+def test_var_along_seq_keepdims_positional_raises() -> None:
+    with pytest.raises(TypeError, match="positional"):
+        var_along_seq(np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]]), True)
+
+
+@pytest.mark.parametrize("dtype", DTYPES)
+def test_var_along_seq_ddof_1(dtype: DTypeLike) -> None:
+    assert objects_are_allclose(
+        var_along_seq(np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]], dtype=dtype), ddof=1),
+        np.array([2.5, 2.5]),
+    )
+
+
+def test_var_along_seq_masked_array() -> None:
+    assert objects_are_allclose(
+        var_along_seq(
+            np.ma.masked_array(
+                data=np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]]),
+                mask=np.array(
+                    [[False, False, False, False, False], [False, False, True, True, True]]
+                ),
+            )
+        ),
+        np.ma.masked_array(
+            data=np.array([2.0, 0.25]),
+        ),
+    )
+
+
+#####################################
+#     Tests for any_along_batch     #
+#####################################
+
+
+def test_any_along_batch() -> None:
+    assert objects_are_equal(
+        any_along_batch(
+            np.array([[True, False], [True, True], [False, False], [True, True], [True, False]])
+        ),
+        np.array([True, True]),
+    )
+
+
+def test_any_along_batch_keepdims_true() -> None:
+    assert objects_are_equal(
+        any_along_batch(
+            np.array([[True, False], [True, True], [False, False], [True, True], [True, False]]),
+            keepdims=True,
+        ),
+        np.array([[True, True]]),
+    )
+
+
+def test_any_along_batch_keepdims_positional_raises() -> None:
+    with pytest.raises(TypeError, match="positional"):
+        any_along_batch(
+            np.array([[True, False], [True, True], [False, False], [True, True], [True, False]]),
+            True,
+        )
+
+
+###################################
+#     Tests for any_along_seq     #
+###################################
+
+
+def test_any_along_seq() -> None:
+    assert objects_are_equal(
+        any_along_seq(np.array([[True, False, True, True, True], [True, True, True, True, True]])),
+        np.array([True, True]),
+    )
+
+
+def test_any_along_seq_keepdims_true() -> None:
+    assert objects_are_equal(
+        any_along_seq(
+            np.array([[True, False, True, True, True], [True, True, True, True, True]]),
+            keepdims=True,
+        ),
+        np.array([[True], [True]]),
+    )
+
+
+def test_any_along_seq_keepdims_positional_raises() -> None:
+    with pytest.raises(TypeError, match="positional"):
+        any_along_seq(
+            np.array([[True, False, True, True, True], [True, True, True, True, True]]), True
+        )
+
+
+#####################################
+#     Tests for all_along_batch     #
+#####################################
+
+
+def test_all_along_batch() -> None:
+    assert objects_are_equal(
+        all_along_batch(
+            np.array([[True, False], [True, True], [False, False], [True, True], [True, False]])
+        ),
+        np.array([False, False]),
+    )
+
+
+def test_all_along_batch_keepdims_true() -> None:
+    assert objects_are_equal(
+        all_along_batch(
+            np.array([[True, False], [True, True], [False, False], [True, True], [True, False]]),
+            keepdims=True,
+        ),
+        np.array([[False, False]]),
+    )
+
+
+def test_all_along_batch_keepdims_positional_raises() -> None:
+    with pytest.raises(TypeError, match="positional"):
+        all_along_batch(
+            np.array([[True, False], [True, True], [False, False], [True, True], [True, False]]),
+            True,
+        )
+
+
+###################################
+#     Tests for all_along_seq     #
+###################################
+
+
+def test_all_along_seq() -> None:
+    assert objects_are_equal(
+        all_along_seq(np.array([[True, False, True, True, True], [True, True, True, True, True]])),
+        np.array([False, True]),
+    )
+
+
+def test_all_along_seq_keepdims_true() -> None:
+    assert objects_are_equal(
+        all_along_seq(
+            np.array([[True, False, True, True, True], [True, True, True, True, True]]),
+            keepdims=True,
+        ),
+        np.array([[False], [True]]),
+    )
+
+
+def test_all_along_seq_keepdims_positional_raises() -> None:
+    with pytest.raises(TypeError, match="positional"):
+        all_along_seq(
+            np.array([[True, False, True, True, True], [True, True, True, True, True]]), True
+        )
