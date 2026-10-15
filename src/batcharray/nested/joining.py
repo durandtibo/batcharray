@@ -10,7 +10,7 @@ from typing import TYPE_CHECKING, Any
 from coola.recursive import recursive_apply
 
 from batcharray import array as ba
-from batcharray.utils.validation import check_same_keys
+from batcharray.utils.validation import validate_same_keys
 
 if TYPE_CHECKING:
     from collections.abc import Hashable, Sequence
@@ -63,7 +63,7 @@ def concatenate_along_batch(
     """
     if not data:
         return {}
-    check_same_keys(data)
+    validate_same_keys(data)
     item = data[0]
     return type(item)(
         {key: ba.concatenate_along_batch([d[key] for d in data], dtype=dtype) for key in item}
@@ -114,7 +114,7 @@ def concatenate_along_seq(
     """
     if not data:
         return {}
-    check_same_keys(data)
+    validate_same_keys(data)
     item = data[0]
     return type(item)(
         {key: ba.concatenate_along_seq([d[key] for d in data], dtype=dtype) for key in item}

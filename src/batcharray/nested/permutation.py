@@ -18,7 +18,7 @@ from coola.recursive import recursive_apply
 
 from batcharray import array
 from batcharray.constants import BATCH_AXIS, SEQ_AXIS
-from batcharray.utils.validation import check_first_array
+from batcharray.utils.validation import validate_first_array
 
 
 def permute_along_batch(data: Any, permutation: np.ndarray) -> Any:
@@ -131,7 +131,7 @@ def shuffle_along_batch(data: Any, rng: np.random.Generator | None = None) -> An
     """
     if rng is None:
         rng = np.random.default_rng()
-    value = check_first_array(data)
+    value = validate_first_array(data)
     return permute_along_batch(
         data=data,
         permutation=rng.permutation(value.shape[BATCH_AXIS]),
@@ -170,7 +170,7 @@ def shuffle_along_seq(data: Any, rng: np.random.Generator | None = None) -> Any:
     """
     if rng is None:
         rng = np.random.default_rng()
-    value = check_first_array(data)
+    value = validate_first_array(data)
     return permute_along_seq(
         data=data,
         permutation=rng.permutation(value.shape[SEQ_AXIS]),

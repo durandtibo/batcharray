@@ -19,7 +19,7 @@ from typing import TYPE_CHECKING
 import numpy as np
 
 from batcharray.constants import BATCH_AXIS, SEQ_AXIS
-from batcharray.utils.validation import check_split_sections
+from batcharray.utils.validation import validate_split_sections
 
 if TYPE_CHECKING:
     from collections.abc import Sequence
@@ -27,7 +27,7 @@ if TYPE_CHECKING:
 
 def _split_indices(size: int, split_size_or_sections: int | Sequence[int]) -> Sequence[int]:
     r"""Compute the split indices of an axis."""
-    check_split_sections(size, split_size_or_sections)
+    validate_split_sections(size, split_size_or_sections)
     if isinstance(split_size_or_sections, int):
         return tuple(range(split_size_or_sections, size, split_size_or_sections))
     return np.cumsum(split_size_or_sections)[:-1].tolist()
