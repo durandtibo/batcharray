@@ -1,4 +1,11 @@
-r"""Contain functions to manipulate nested data."""
+r"""Contain functions to manipulate nested data.
+
+Note:
+    ``abs`` and ``round`` have the same names as Python builtins. Use
+    them through the namespace (``nested.abs(data)``) and avoid
+    ``from batcharray.nested import *``, which would shadow the
+    builtins.
+"""
 
 from __future__ import annotations
 

@@ -13,7 +13,7 @@ __all__ = [
 
 
 from functools import partial
-from typing import TYPE_CHECKING, Any, TypeVar
+from typing import TYPE_CHECKING, Any
 
 from coola.recursive import recursive_apply
 
@@ -21,8 +21,6 @@ from batcharray import array
 
 if TYPE_CHECKING:
     import numpy as np
-
-T = TypeVar("T")
 
 
 def index_select_along_batch(data: Any, indices: np.ndarray) -> Any:

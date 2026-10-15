@@ -1,4 +1,11 @@
-r"""Contain the computation models."""
+r"""Contain the computation models.
+
+Note:
+    ``max`` and ``min`` have the same names as Python builtins. Use
+    them through the namespace (``cmpt.max(arr)``) and avoid
+    ``from batcharray.computation import *``, which would shadow the
+    builtins.
+"""
 
 from __future__ import annotations
 
