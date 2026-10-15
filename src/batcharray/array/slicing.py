@@ -19,28 +19,18 @@ from typing import TYPE_CHECKING
 import numpy as np
 
 from batcharray.constants import BATCH_AXIS, SEQ_AXIS
+from batcharray.utils.validation import check_split_sections
 
 if TYPE_CHECKING:
     from collections.abc import Sequence
 
 
-def _split_indices(
-    size: int, split_size_or_sections: int | Sequence[int]
-) -> Sequence[int] | np.ndarray:
-    r"""Compute the split indices and validate the split sizes."""
+def _split_indices(size: int, split_size_or_sections: int | Sequence[int]) -> Sequence[int]:
+    r"""Compute the split indices of an axis."""
+    check_split_sections(size, split_size_or_sections)
     if isinstance(split_size_or_sections, int):
-        if split_size_or_sections <= 0:
-            msg = f"split size must be positive, but got {split_size_or_sections}"
-            raise ValueError(msg)
         return tuple(range(split_size_or_sections, size, split_size_or_sections))
-    sections = np.asarray(split_size_or_sections, dtype=int)
-    if (sections < 0).any() or sections.sum() != size:
-        msg = (
-            f"split sections {list(split_size_or_sections)} must be non-negative and sum "
-            f"to the axis size ({size})"
-        )
-        raise ValueError(msg)
-    return np.cumsum(sections)[:-1]
+    return np.cumsum(split_size_or_sections)[:-1].tolist()
 
 
 def chunk_along_batch(array: np.ndarray, chunks: int) -> list[np.ndarray]:

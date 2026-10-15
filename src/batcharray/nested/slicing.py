@@ -16,20 +16,15 @@ __all__ = [
 from functools import partial
 from typing import TYPE_CHECKING, Any
 
-import numpy as np
 from coola.recursive import recursive_apply
 
 from batcharray import array as ba
+from batcharray.utils.validation import check_flat_dict_of_arrays
 
 if TYPE_CHECKING:
     from collections.abc import Hashable, Sequence
 
-
-def _check_flat_dict(data: Any) -> None:
-    r"""Check that the data is a flat dictionary of arrays."""
-    if not isinstance(data, dict) or not all(isinstance(v, np.ndarray) for v in data.values()):
-        msg = "Expected a flat dictionary of arrays (nested structures are not supported)"
-        raise TypeError(msg)
+    import numpy as np
 
 
 def chunk_along_batch(
@@ -67,7 +62,7 @@ def chunk_along_batch(
 
         ```
     """
-    _check_flat_dict(data)
+    check_flat_dict_of_arrays(data)
     keys = data.keys()
     return [
         dict(zip(keys, values, strict=True))
@@ -112,7 +107,7 @@ def chunk_along_seq(
 
         ```
     """
-    _check_flat_dict(data)
+    check_flat_dict_of_arrays(data)
     keys = data.keys()
     return [
         dict(zip(keys, values, strict=True))
@@ -310,7 +305,7 @@ def split_along_batch(
 
         ```
     """
-    _check_flat_dict(data)
+    check_flat_dict_of_arrays(data)
     keys = data.keys()
     return [
         dict(zip(keys, values, strict=True))
@@ -357,7 +352,7 @@ def split_along_seq(
 
         ```
     """
-    _check_flat_dict(data)
+    check_flat_dict_of_arrays(data)
     keys = data.keys()
     return [
         dict(zip(keys, values, strict=True))

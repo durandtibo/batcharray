@@ -14,20 +14,11 @@ from functools import partial
 from typing import Any
 
 import numpy as np
-from coola.iterator import dfs_iterate
 from coola.recursive import recursive_apply
 
 from batcharray import array
 from batcharray.constants import BATCH_AXIS, SEQ_AXIS
-
-
-def _first_array(data: Any) -> np.ndarray:
-    r"""Return the first array of the data."""
-    value = next(dfs_iterate(data), None)
-    if not isinstance(value, np.ndarray):
-        msg = "Expected data with at least one array, but the first item is not an array"
-        raise ValueError(msg)  # noqa: TRY004
-    return value
+from batcharray.utils.validation import check_first_array
 
 
 def permute_along_batch(data: Any, permutation: np.ndarray) -> Any:
@@ -140,7 +131,7 @@ def shuffle_along_batch(data: Any, rng: np.random.Generator | None = None) -> An
     """
     if rng is None:
         rng = np.random.default_rng()
-    value = _first_array(data)
+    value = check_first_array(data)
     return permute_along_batch(
         data=data,
         permutation=rng.permutation(value.shape[BATCH_AXIS]),
@@ -179,7 +170,7 @@ def shuffle_along_seq(data: Any, rng: np.random.Generator | None = None) -> Any:
     """
     if rng is None:
         rng = np.random.default_rng()
-    value = _first_array(data)
+    value = check_first_array(data)
     return permute_along_seq(
         data=data,
         permutation=rng.permutation(value.shape[SEQ_AXIS]),

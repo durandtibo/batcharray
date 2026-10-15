@@ -9,39 +9,28 @@ doctests, `__all__` everywhere, lazy submodule imports). Items from the previous
 review that are done, dropped or not bugs were removed. Findings are ordered by
 value.
 
-## 1. Bugs and sharp edges (verified)
+## 1. Bugs and sharp edges (fixed)
 
-1. **`tile_along_seq` on a 1-D array** raises a bare `IndexError: list
-   assignment index out of range` (`array/joining.py`, `repeats[1] = reps`).
-   Raise a clear `ValueError` (the array needs a sequence axis), as for any
-   `*_along_seq` function on a 1-D input (`shuffle_along_seq` also raises
-   `IndexError: tuple index out of range`).
-2. **`split_along_batch` / `split_along_seq` do not validate sections.**
-   With `[1, 1]` on 4 rows, or `[3, 3]`, the call silently returns two uneven
-   chunks instead of failing. Check `sum(sections) == shape[axis]` (and
-   non-negative sizes).
-3. **`nested.chunk_*` / `nested.split_*` only support a flat dict of arrays.**
-   They are annotated `dict[Hashable, np.ndarray]`, unlike the rest of `nested`
-   which takes any nested structure. A nested dict gives `AttributeError: 'dict'
-   object has no attribute 'shape'` and a list gives `no attribute 'keys'`. Either
-   document the flat-dict restriction or implement it recursively (split every
-   leaf, then rebuild the structure per chunk).
-4. **`nested.concatenate_*` silently drops keys.** Keys come from the first
-   item only: extra keys in later items are ignored, missing keys give a bare
-   `KeyError`. Same flat-dict limitation as above (a nested dict fails with
-   `TypeError: Incorrect array type: dict`). Validate that all items have the
-   same keys and raise a descriptive `ValueError`.
-5. **`nested.shuffle_*` on odd input.** `next(dfs_iterate(data))` raises a bare
-   `StopIteration` on empty data (`{}`) and `AttributeError` when the first leaf
-   is not an array. Validate and raise `ValueError`/`TypeError`.
-6. **`MaskedArrayComputationModel.concatenate`** (`computation/masked_array.py`):
-   `if dtype:` should be `if dtype is not None:`. When `dtype` is given, the
-   result is rebuilt from `.data`/`.mask`, so `fill_value` and hard-mask are
-   lost; without `dtype` the fill value also falls back to the default. Use
-   `out.astype(dtype)` instead of rebuilding.
-7. **Error type inconsistency.** `permute_*` raises `RuntimeError` for a shape
-   mismatch, where `ValueError` is the conventional type. Changing it is a
-   (small) breaking change; mention in the changelog if done.
+All verified issues from the previous pass are fixed, with tests:
+
+- `tile_along_seq`, `shuffle_along_seq` and `permute_along_seq` raise a clear
+  `ValueError` on arrays with fewer than 2 dimensions.
+- `split_along_*` validate the split size / sections (positive int, or
+  non-negative sections summing to the axis size) and raise `ValueError`.
+- `nested.chunk_*` / `nested.split_*` raise a `TypeError` for anything but a
+  flat dict of arrays instead of a confusing `AttributeError`.
+- `nested.concatenate_*` raise a `ValueError` when the dicts have different
+  keys instead of dropping keys or raising `KeyError`.
+- `nested.shuffle_*` raise a `ValueError` for empty data or a non-array first
+  leaf instead of `StopIteration`/`AttributeError`.
+- `MaskedArrayComputationModel.concatenate` uses `dtype is not None` and
+  `astype`, which keeps the mask. `fill_value` is dropped by `np.ma.concatenate`
+  itself (even without `dtype`), so it is not fixable here.
+- `permute_*` raise `ValueError` instead of `RuntimeError` on a shape mismatch
+  (a breaking change; note it in the changelog).
+
+Still open from this group: supporting nested structures in `nested.chunk_*` /
+`nested.split_*` / `nested.concatenate_*`; they now fail clearly instead.
 
 ## 2. API consistency
 

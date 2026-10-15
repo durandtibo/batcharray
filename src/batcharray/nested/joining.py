@@ -10,24 +10,13 @@ from typing import TYPE_CHECKING, Any
 from coola.recursive import recursive_apply
 
 from batcharray import array as ba
+from batcharray.utils.validation import check_same_keys
 
 if TYPE_CHECKING:
     from collections.abc import Hashable, Sequence
 
     import numpy as np
     from numpy.typing import DTypeLike
-
-
-def _check_same_keys(data: Sequence[dict[Hashable, np.ndarray]]) -> None:
-    r"""Check that all the dictionaries have the same keys."""
-    keys = data[0].keys()
-    for i, item in enumerate(data[1:], start=1):
-        if item.keys() != keys:
-            msg = (
-                f"All dictionaries must have the same keys, but item 0 has {sorted(keys, key=str)} "
-                f"and item {i} has {sorted(item.keys(), key=str)}"
-            )
-            raise ValueError(msg)
 
 
 def concatenate_along_batch(
@@ -74,7 +63,7 @@ def concatenate_along_batch(
     """
     if not data:
         return {}
-    _check_same_keys(data)
+    check_same_keys(data)
     item = data[0]
     return type(item)(
         {key: ba.concatenate_along_batch([d[key] for d in data], dtype=dtype) for key in item}
@@ -125,7 +114,7 @@ def concatenate_along_seq(
     """
     if not data:
         return {}
-    _check_same_keys(data)
+    check_same_keys(data)
     item = data[0]
     return type(item)(
         {key: ba.concatenate_along_seq([d[key] for d in data], dtype=dtype) for key in item}

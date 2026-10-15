@@ -38,6 +38,7 @@ nav:
       - nested: refs/nested.md
       - constants: refs/constants.md
       - types: refs/types.md
+      - utils: refs/utils.md
   - GitHub: https://github.com/durandtibo/batcharray
 
 repo_url: https://github.com/durandtibo/batcharray
