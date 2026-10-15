@@ -4,7 +4,7 @@ from typing import TYPE_CHECKING
 
 import numpy as np
 import pytest
-from coola.equality import objects_are_equal
+from coola.equality import objects_are_allclose, objects_are_equal
 
 from batcharray.computation import ArrayComputationModel
 from batcharray.types import SORT_KINDS
@@ -530,4 +530,258 @@ def test_array_computation_model_sort_kind(kind: SortKind) -> None:
             kind=kind,
         ),
         np.array([[3, 5, 0, 2, 0], [4, 5, 8, 8, 4], [8, 7, 8, 8, 5]]),
+    )
+
+
+################
+#     prod     #
+################
+
+
+@pytest.mark.parametrize("dtype", DTYPES)
+def test_array_computation_model_prod_axis_0(dtype: DTypeLike) -> None:
+    assert objects_are_allclose(
+        ArrayComputationModel().prod(
+            np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]], dtype=dtype), axis=0
+        ),
+        np.array([0, 945], dtype=dtype),
+    )
+
+
+@pytest.mark.parametrize("dtype", DTYPES)
+def test_array_computation_model_prod_axis_1(dtype: DTypeLike) -> None:
+    assert objects_are_allclose(
+        ArrayComputationModel().prod(
+            np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]], dtype=dtype), axis=1
+        ),
+        np.array([0, 15120], dtype=dtype),
+    )
+
+
+@pytest.mark.parametrize("dtype", DTYPES)
+def test_array_computation_model_prod_axis_none(dtype: DTypeLike) -> None:
+    assert objects_are_allclose(
+        ArrayComputationModel().prod(np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]], dtype=dtype)),
+        dtype(0),
+    )
+
+
+@pytest.mark.parametrize("dtype", DTYPES)
+def test_array_computation_model_prod_keepdims_true(dtype: DTypeLike) -> None:
+    assert objects_are_allclose(
+        ArrayComputationModel().prod(
+            np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]], dtype=dtype), axis=0, keepdims=True
+        ),
+        np.array([[0, 945]], dtype=dtype),
+    )
+
+
+def test_array_computation_model_prod_masked_array() -> None:
+    assert objects_are_allclose(
+        ArrayComputationModel().prod(
+            np.ma.masked_array(
+                data=np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]]),
+                mask=np.array(
+                    [[False, False], [False, False], [False, False], [False, True], [True, True]]
+                ),
+            ),
+            axis=0,
+        ),
+        np.ma.masked_array(data=np.array([0, 15]), mask=np.array([False, False])),
+    )
+
+
+###############
+#     std     #
+###############
+
+
+@pytest.mark.parametrize("dtype", DTYPES)
+def test_array_computation_model_std_axis_0(dtype: DTypeLike) -> None:
+    assert objects_are_allclose(
+        ArrayComputationModel().std(
+            np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]], dtype=dtype), axis=0
+        ),
+        np.array([2.8284271247461903, 2.8284271247461903]),
+    )
+
+
+@pytest.mark.parametrize("dtype", DTYPES)
+def test_array_computation_model_std_axis_1(dtype: DTypeLike) -> None:
+    assert objects_are_allclose(
+        ArrayComputationModel().std(
+            np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]], dtype=dtype), axis=1
+        ),
+        np.array([1.4142135623730951, 1.4142135623730951]),
+    )
+
+
+@pytest.mark.parametrize("dtype", DTYPES)
+def test_array_computation_model_std_axis_none(dtype: DTypeLike) -> None:
+    assert objects_are_allclose(
+        ArrayComputationModel().std(np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]], dtype=dtype)),
+        np.float64(2.8722813232690143),
+    )
+
+
+@pytest.mark.parametrize("dtype", DTYPES)
+def test_array_computation_model_std_keepdims_true(dtype: DTypeLike) -> None:
+    assert objects_are_allclose(
+        ArrayComputationModel().std(
+            np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]], dtype=dtype), axis=0, keepdims=True
+        ),
+        np.array([[2.8284271247461903, 2.8284271247461903]]),
+    )
+
+
+@pytest.mark.parametrize("dtype", DTYPES)
+def test_array_computation_model_std_ddof_1(dtype: DTypeLike) -> None:
+    assert objects_are_allclose(
+        ArrayComputationModel().std(
+            np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]], dtype=dtype), axis=0, ddof=1
+        ),
+        np.array([3.1622776601683795, 3.1622776601683795]),
+    )
+
+
+def test_array_computation_model_std_masked_array() -> None:
+    assert objects_are_allclose(
+        ArrayComputationModel().std(
+            np.ma.masked_array(
+                data=np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]]),
+                mask=np.array(
+                    [[False, False], [False, False], [False, False], [False, True], [True, True]]
+                ),
+            ),
+            axis=0,
+        ),
+        np.ma.masked_array(
+            data=np.array([2.23606797749979, 1.632993161855452]), mask=np.array([False, False])
+        ),
+    )
+
+
+###############
+#     sum     #
+###############
+
+
+@pytest.mark.parametrize("dtype", DTYPES)
+def test_array_computation_model_sum_axis_0(dtype: DTypeLike) -> None:
+    assert objects_are_allclose(
+        ArrayComputationModel().sum(
+            np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]], dtype=dtype), axis=0
+        ),
+        np.array([20, 25], dtype=dtype),
+    )
+
+
+@pytest.mark.parametrize("dtype", DTYPES)
+def test_array_computation_model_sum_axis_1(dtype: DTypeLike) -> None:
+    assert objects_are_allclose(
+        ArrayComputationModel().sum(
+            np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]], dtype=dtype), axis=1
+        ),
+        np.array([10, 35], dtype=dtype),
+    )
+
+
+@pytest.mark.parametrize("dtype", DTYPES)
+def test_array_computation_model_sum_axis_none(dtype: DTypeLike) -> None:
+    assert objects_are_allclose(
+        ArrayComputationModel().sum(np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]], dtype=dtype)),
+        dtype(45),
+    )
+
+
+@pytest.mark.parametrize("dtype", DTYPES)
+def test_array_computation_model_sum_keepdims_true(dtype: DTypeLike) -> None:
+    assert objects_are_allclose(
+        ArrayComputationModel().sum(
+            np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]], dtype=dtype), axis=0, keepdims=True
+        ),
+        np.array([[20, 25]], dtype=dtype),
+    )
+
+
+def test_array_computation_model_sum_masked_array() -> None:
+    assert objects_are_allclose(
+        ArrayComputationModel().sum(
+            np.ma.masked_array(
+                data=np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]]),
+                mask=np.array(
+                    [[False, False], [False, False], [False, False], [False, True], [True, True]]
+                ),
+            ),
+            axis=0,
+        ),
+        np.ma.masked_array(data=np.array([12, 9]), mask=np.array([False, False])),
+    )
+
+
+###############
+#     var     #
+###############
+
+
+@pytest.mark.parametrize("dtype", DTYPES)
+def test_array_computation_model_var_axis_0(dtype: DTypeLike) -> None:
+    assert objects_are_allclose(
+        ArrayComputationModel().var(
+            np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]], dtype=dtype), axis=0
+        ),
+        np.array([8.0, 8.0]),
+    )
+
+
+@pytest.mark.parametrize("dtype", DTYPES)
+def test_array_computation_model_var_axis_1(dtype: DTypeLike) -> None:
+    assert objects_are_allclose(
+        ArrayComputationModel().var(
+            np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]], dtype=dtype), axis=1
+        ),
+        np.array([2.0, 2.0]),
+    )
+
+
+@pytest.mark.parametrize("dtype", DTYPES)
+def test_array_computation_model_var_axis_none(dtype: DTypeLike) -> None:
+    assert objects_are_allclose(
+        ArrayComputationModel().var(np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]], dtype=dtype)),
+        np.float64(8.25),
+    )
+
+
+@pytest.mark.parametrize("dtype", DTYPES)
+def test_array_computation_model_var_keepdims_true(dtype: DTypeLike) -> None:
+    assert objects_are_allclose(
+        ArrayComputationModel().var(
+            np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]], dtype=dtype), axis=0, keepdims=True
+        ),
+        np.array([[8.0, 8.0]]),
+    )
+
+
+@pytest.mark.parametrize("dtype", DTYPES)
+def test_array_computation_model_var_ddof_1(dtype: DTypeLike) -> None:
+    assert objects_are_allclose(
+        ArrayComputationModel().var(
+            np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]], dtype=dtype), axis=0, ddof=1
+        ),
+        np.array([10.0, 10.0]),
+    )
+
+
+def test_array_computation_model_var_masked_array() -> None:
+    assert objects_are_allclose(
+        ArrayComputationModel().var(
+            np.ma.masked_array(
+                data=np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]]),
+                mask=np.array(
+                    [[False, False], [False, False], [False, False], [False, True], [True, True]]
+                ),
+            ),
+            axis=0,
+        ),
+        np.ma.masked_array(data=np.array([5.0, 2.6666666666666665])),
     )

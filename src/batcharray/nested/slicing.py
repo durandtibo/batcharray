@@ -19,17 +19,13 @@ from typing import TYPE_CHECKING, Any
 from coola.recursive import recursive_apply
 
 from batcharray import array as ba
-from batcharray.validation import validate_flat_dict_of_arrays
+from batcharray.nested._structure import split_structure
 
 if TYPE_CHECKING:
-    from collections.abc import Hashable, Sequence
-
-    import numpy as np
+    from collections.abc import Sequence
 
 
-def chunk_along_batch(
-    data: dict[Hashable, np.ndarray], chunks: int
-) -> list[dict[Hashable, np.ndarray]]:
+def chunk_along_batch(data: Any, chunks: int) -> list[Any]:
     r"""Split all the arrays into chunks along the batch axis.
 
     Each chunk is a view of the input array.
@@ -40,14 +36,16 @@ def chunk_along_batch(
             same batch size.
 
     Args:
-        data: The input data. Each item must be an array.
+        data: The input data. It can be an array or a nested
+            structure of arrays (dictionaries, lists, tuples).
         chunks: Number of chunks to return. The split follows
             ``np.array_split`` (like ``torch.tensor_split``), not
             ``torch.chunk``: sizes may differ by one, and exactly
             ``chunks`` chunks are returned.
 
     Returns:
-        The data chunks.
+        The data chunks. Each chunk has the same structure as the
+            input.
 
     Example:
         ```pycon
@@ -65,19 +63,10 @@ def chunk_along_batch(
 
         ```
     """
-    validate_flat_dict_of_arrays(data)
-    keys = data.keys()
-    return [
-        dict(zip(keys, values, strict=True))
-        for values in zip(
-            *[ba.chunk_along_batch(array, chunks) for array in data.values()], strict=True
-        )
-    ]
+    return split_structure(data, lambda array: ba.chunk_along_batch(array, chunks))
 
 
-def chunk_along_seq(
-    data: dict[Hashable, np.ndarray], chunks: int
-) -> list[dict[Hashable, np.ndarray]]:
+def chunk_along_seq(data: Any, chunks: int) -> list[Any]:
     r"""Split all the arrays into chunks along the sequence axis.
 
     Each chunk is a view of the input array.
@@ -88,14 +77,16 @@ def chunk_along_seq(
             same sequence size.
 
     Args:
-        data: The input data. Each item must be an array.
+        data: The input data. It can be an array or a nested
+            structure of arrays (dictionaries, lists, tuples).
         chunks: Number of chunks to return. The split follows
             ``np.array_split`` (like ``torch.tensor_split``), not
             ``torch.chunk``: sizes may differ by one, and exactly
             ``chunks`` chunks are returned.
 
     Returns:
-        The data chunks.
+        The data chunks. Each chunk has the same structure as the
+            input.
 
     Example:
         ```pycon
@@ -113,14 +104,7 @@ def chunk_along_seq(
 
         ```
     """
-    validate_flat_dict_of_arrays(data)
-    keys = data.keys()
-    return [
-        dict(zip(keys, values, strict=True))
-        for values in zip(
-            *[ba.chunk_along_seq(array, chunks) for array in data.values()], strict=True
-        )
-    ]
+    return split_structure(data, lambda array: ba.chunk_along_seq(array, chunks))
 
 
 def select_along_batch(data: Any, index: int) -> Any:
@@ -275,9 +259,7 @@ def slice_along_seq(data: Any, start: int = 0, stop: int | None = None, step: in
     return recursive_apply(data, partial(ba.slice_along_seq, start=start, stop=stop, step=step))
 
 
-def split_along_batch(
-    data: dict[Hashable, np.ndarray], split_size_or_sections: int | Sequence[int]
-) -> list[dict[Hashable, np.ndarray]]:
+def split_along_batch(data: Any, split_size_or_sections: int | Sequence[int]) -> list[Any]:
     r"""Split all the arrays into chunks along the batch axis.
 
     Each chunk is a view of the original array.
@@ -288,12 +270,14 @@ def split_along_batch(
             same batch size.
 
     Args:
-        data: The input data. Each item must be an array.
+        data: The input data. It can be an array or a nested
+            structure of arrays (dictionaries, lists, tuples).
         split_size_or_sections: Size of a single chunk or list of
             sizes for each chunk
 
     Returns:
-        The data chunks.
+        The data chunks. Each chunk has the same structure as the
+            input.
 
     Example:
         ```pycon
@@ -311,20 +295,10 @@ def split_along_batch(
 
         ```
     """
-    validate_flat_dict_of_arrays(data)
-    keys = data.keys()
-    return [
-        dict(zip(keys, values, strict=True))
-        for values in zip(
-            *[ba.split_along_batch(array, split_size_or_sections) for array in data.values()],
-            strict=True,
-        )
-    ]
+    return split_structure(data, lambda array: ba.split_along_batch(array, split_size_or_sections))
 
 
-def split_along_seq(
-    data: dict[Hashable, np.ndarray], split_size_or_sections: int | Sequence[int]
-) -> list[dict[Hashable, np.ndarray]]:
+def split_along_seq(data: Any, split_size_or_sections: int | Sequence[int]) -> list[Any]:
     r"""Split all the arrays into chunks along the sequence axis.
 
     Each chunk is a view of the original array.
@@ -335,12 +309,14 @@ def split_along_seq(
             same sequence size.
 
     Args:
-        data: The input data. Each item must be an array.
+        data: The input data. It can be an array or a nested
+            structure of arrays (dictionaries, lists, tuples).
         split_size_or_sections: Size of a single chunk or list of
             sizes for each chunk
 
     Returns:
-        The data chunks.
+        The data chunks. Each chunk has the same structure as the
+            input.
 
     Example:
         ```pycon
@@ -358,12 +334,4 @@ def split_along_seq(
 
         ```
     """
-    validate_flat_dict_of_arrays(data)
-    keys = data.keys()
-    return [
-        dict(zip(keys, values, strict=True))
-        for values in zip(
-            *[ba.split_along_seq(array, split_size_or_sections) for array in data.values()],
-            strict=True,
-        )
-    ]
+    return split_structure(data, lambda array: ba.split_along_seq(array, split_size_or_sections))

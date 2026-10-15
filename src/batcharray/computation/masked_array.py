@@ -90,3 +90,33 @@ class MaskedArrayComputationModel(BaseComputationModel[np.ma.MaskedArray]):
         kind: SortKind | None = None,
     ) -> np.ma.MaskedArray:
         return cast("np.ma.MaskedArray", np.ma.sort(arr, axis=axis, kind=kind))
+
+    def prod(
+        self, arr: np.ma.MaskedArray, axis: int | None = None, *, keepdims: bool = False
+    ) -> np.ma.MaskedArray:
+        return np.ma.prod(arr, axis=axis, keepdims=keepdims)
+
+    def std(
+        self,
+        arr: np.ma.MaskedArray,
+        axis: int | None = None,
+        *,
+        keepdims: bool = False,
+        ddof: int = 0,
+    ) -> np.ma.MaskedArray:
+        return np.ma.std(arr, axis=axis, keepdims=keepdims, ddof=ddof)
+
+    def sum(
+        self, arr: np.ma.MaskedArray, axis: int | None = None, *, keepdims: bool = False
+    ) -> np.ma.MaskedArray:
+        return np.ma.sum(arr, axis=axis, keepdims=keepdims)
+
+    def var(
+        self,
+        arr: np.ma.MaskedArray,
+        axis: int | None = None,
+        *,
+        keepdims: bool = False,
+        ddof: int = 0,
+    ) -> np.ma.MaskedArray:
+        return np.ma.var(arr, axis=axis, keepdims=keepdims, ddof=ddof)

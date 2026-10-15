@@ -760,14 +760,59 @@ def test_split_along_seq_split_size_list() -> None:
     )
 
 
+NESTED = {
+    "a": {"b": np.arange(12).reshape(4, 3), "c": [np.arange(8).reshape(4, 2)]},
+    "d": (np.arange(4),),
+}
+
+
+@pytest.mark.parametrize("func", [chunk_along_batch, split_along_batch])
+def test_nested_structure_batch(func: Callable) -> None:
+    out = func(NESTED, 2)
+    assert len(out) == 2
+    for i, chunk in enumerate(out):
+        s = slice(2 * i, 2 * i + 2)
+        assert objects_are_equal(
+            chunk,
+            {
+                "a": {"b": NESTED["a"]["b"][s], "c": [NESTED["a"]["c"][0][s]]},
+                "d": (NESTED["d"][0][s],),
+            },
+        )
+
+
+def test_nested_structure_seq() -> None:
+    data = {"a": {"b": np.arange(8).reshape(2, 4)}, "c": [np.arange(8).reshape(2, 4)]}
+    out = chunk_along_seq(data, 2)
+    assert objects_are_equal(
+        out,
+        [
+            {"a": {"b": data["a"]["b"][:, :2]}, "c": [data["c"][0][:, :2]]},
+            {"a": {"b": data["a"]["b"][:, 2:]}, "c": [data["c"][0][:, 2:]]},
+        ],
+    )
+
+
 @pytest.mark.parametrize("func", [chunk_along_batch, chunk_along_seq])
-@pytest.mark.parametrize("data", [{"a": {"b": np.zeros((4, 4))}}, [np.zeros((4, 4))]])
-def test_chunk_not_flat_dict_raises(func: Callable, data: object) -> None:
-    with pytest.raises(TypeError, match="flat dictionary"):
+def test_chunk_array(func: Callable) -> None:
+    out = func(np.zeros((4, 4)), 2)
+    assert len(out) == 2
+    assert all(isinstance(o, np.ndarray) for o in out)
+
+
+@pytest.mark.parametrize("func", [chunk_along_batch, chunk_along_seq])
+@pytest.mark.parametrize("data", [{"a": 1}, [np.zeros((4, 4)), "x"]])
+def test_chunk_non_array_raises(func: Callable, data: object) -> None:
+    with pytest.raises(TypeError, match="Expected an array"):
         func(data, 2)
 
 
 @pytest.mark.parametrize("func", [split_along_batch, split_along_seq])
-def test_split_not_flat_dict_raises(func: Callable) -> None:
-    with pytest.raises(TypeError, match="flat dictionary"):
-        func([np.zeros((4, 4))], 2)
+def test_split_non_array_raises(func: Callable) -> None:
+    with pytest.raises(TypeError, match="Expected an array"):
+        func({"a": 1}, 2)
+
+
+def test_split_different_number_of_pieces_raises() -> None:
+    with pytest.raises(ValueError, match="same number of pieces"):
+        split_along_batch({"a": np.zeros((4, 2)), "b": np.zeros((6, 2))}, 2)

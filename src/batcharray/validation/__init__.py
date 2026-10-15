@@ -4,7 +4,6 @@ from __future__ import annotations
 
 __all__ = [
     "validate_first_array",
-    "validate_flat_dict_of_arrays",
     "validate_min_ndim",
     "validate_same_keys",
     "validate_split_sections",
@@ -13,6 +12,5 @@ __all__ = [
 from batcharray.validation.array import validate_min_ndim, validate_split_sections
 from batcharray.validation.nested import (
     validate_first_array,
-    validate_flat_dict_of_arrays,
     validate_same_keys,
 )

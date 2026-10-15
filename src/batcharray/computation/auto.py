@@ -195,6 +195,26 @@ class AutoComputationModel(BaseComputationModel[ArrayT]):
     def sort(self, arr: ArrayT, axis: int | None = None, *, kind: SortKind | None = None) -> ArrayT:
         return self.find_computation_model(type(arr)).sort(arr, axis=axis, kind=kind)
 
+    def prod(self, arr: ArrayT, axis: int | None = None, *, keepdims: bool = False) -> ArrayT:
+        return self.find_computation_model(type(arr)).prod(arr=arr, axis=axis, keepdims=keepdims)
+
+    def std(
+        self, arr: ArrayT, axis: int | None = None, *, keepdims: bool = False, ddof: int = 0
+    ) -> ArrayT:
+        return self.find_computation_model(type(arr)).std(
+            arr=arr, axis=axis, keepdims=keepdims, ddof=ddof
+        )
+
+    def sum(self, arr: ArrayT, axis: int | None = None, *, keepdims: bool = False) -> ArrayT:
+        return self.find_computation_model(type(arr)).sum(arr=arr, axis=axis, keepdims=keepdims)
+
+    def var(
+        self, arr: ArrayT, axis: int | None = None, *, keepdims: bool = False, ddof: int = 0
+    ) -> ArrayT:
+        return self.find_computation_model(type(arr)).var(
+            arr=arr, axis=axis, keepdims=keepdims, ddof=ddof
+        )
+
 
 def register_computation_models() -> None:
     r"""Register computation models to ``AutoComputationModel``.

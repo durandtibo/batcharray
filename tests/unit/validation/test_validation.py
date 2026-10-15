@@ -5,7 +5,6 @@ import pytest
 
 from batcharray.validation import (
     validate_first_array,
-    validate_flat_dict_of_arrays,
     validate_min_ndim,
     validate_same_keys,
     validate_split_sections,
@@ -30,21 +29,6 @@ def test_validate_first_array_nested() -> None:
 def test_validate_first_array_invalid(data: object) -> None:
     with pytest.raises(ValueError, match="at least one array"):
         validate_first_array(data)
-
-
-##########################################
-#     validate_flat_dict_of_arrays     #
-##########################################
-
-
-def test_validate_flat_dict_of_arrays_valid() -> None:
-    validate_flat_dict_of_arrays({"a": np.ones(2), "b": np.zeros((2, 3))})
-
-
-@pytest.mark.parametrize("data", [{"a": {"b": np.ones(2)}}, [np.ones(2)], np.ones(2), {"a": 1}])
-def test_validate_flat_dict_of_arrays_invalid(data: object) -> None:
-    with pytest.raises(TypeError, match="flat dictionary"):
-        validate_flat_dict_of_arrays(data)
 
 
 #############################

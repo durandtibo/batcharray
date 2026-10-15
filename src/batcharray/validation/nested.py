@@ -4,7 +4,6 @@ from __future__ import annotations
 
 __all__ = [
     "validate_first_array",
-    "validate_flat_dict_of_arrays",
     "validate_same_keys",
 ]
 
@@ -44,29 +43,6 @@ def validate_first_array(data: Any) -> np.ndarray:
         msg = "Expected data with at least one array, but the first item is not an array"
         raise ValueError(msg)  # noqa: TRY004
     return value
-
-
-def validate_flat_dict_of_arrays(data: Any) -> None:
-    r"""Check that the data is a flat dictionary of arrays.
-
-    Args:
-        data: The data to check.
-
-    Raises:
-        TypeError: if the data is not a dictionary or if some of its
-            values are not arrays.
-
-    Example:
-        ```pycon
-        >>> import numpy as np
-        >>> from batcharray.validation import validate_flat_dict_of_arrays
-        >>> validate_flat_dict_of_arrays({"a": np.ones((2, 3))})
-
-        ```
-    """
-    if not isinstance(data, dict) or not all(isinstance(v, np.ndarray) for v in data.values()):
-        msg = "Expected a flat dictionary of arrays (nested structures are not supported)"
-        raise TypeError(msg)
 
 
 def validate_same_keys(data: Sequence[dict[Hashable, Any]]) -> None:
