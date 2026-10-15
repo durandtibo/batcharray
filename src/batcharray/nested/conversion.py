@@ -15,7 +15,8 @@ def to_list(data: Any) -> Any:
     are converted to lists.
 
     Args:
-        data: The input data. Each item must be a ``numpy.ndarray``.
+        data: The input data. The ``numpy.ndarray``s are converted
+            to lists; the other items are returned unchanged.
 
     Returns:
         A nested data structure with lists instead of
