@@ -16,7 +16,7 @@ from typing import TYPE_CHECKING, Any
 from coola.recursive import recursive_apply
 
 from batcharray import array as ba
-from batcharray.nested._structure import concatenate_structures
+from batcharray.nested.structure import concatenate_structures
 
 if TYPE_CHECKING:
     from collections.abc import Sequence

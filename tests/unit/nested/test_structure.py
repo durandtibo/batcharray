@@ -4,7 +4,7 @@ import numpy as np
 import pytest
 from coola.equality import objects_are_equal
 
-from batcharray.nested._structure import concatenate_structures, split_structure
+from batcharray.nested.structure import concatenate_structures, split_structure
 
 #################################
 #     split_structure           #

@@ -24,8 +24,8 @@ by value. Each section says what was done and what was deliberately left.
 - `permute_*` raise `ValueError` instead of `RuntimeError` on a shape mismatch
   (a breaking change; note it in the changelog).
 - `nested.chunk_*`, `nested.split_*` and `nested.concatenate_*` now support
-  nested structures (dicts, lists, tuples of arrays), through the private
-  helpers in `nested/_structure.py`. Non-array leaves raise a `TypeError`,
+  nested structures (dicts, lists, tuples of arrays), through the
+  helpers in `nested/structure.py`. Non-array leaves raise a `TypeError`,
   mismatched keys / sequence lengths a `ValueError`. The now unused
   `validate_flat_dict_of_arrays` was removed.
 

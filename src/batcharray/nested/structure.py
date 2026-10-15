@@ -1,5 +1,4 @@
-r"""Contain private helpers to split or join nested structures of
-arrays."""
+r"""Contain helpers to split or join nested structures of arrays."""
 
 from __future__ import annotations
 

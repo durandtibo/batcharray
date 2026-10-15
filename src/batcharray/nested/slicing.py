@@ -19,7 +19,7 @@ from typing import TYPE_CHECKING, Any
 from coola.recursive import recursive_apply
 
 from batcharray import array as ba
-from batcharray.nested._structure import split_structure
+from batcharray.nested.structure import split_structure
 
 if TYPE_CHECKING:
     from collections.abc import Sequence
