@@ -11,7 +11,7 @@ import numpy as np
 
 from batcharray import computation as cmpt
 from batcharray.constants import BATCH_AXIS, SEQ_AXIS
-from batcharray.utils.validation import validate_min_ndim
+from batcharray.validation import validate_min_ndim
 
 if TYPE_CHECKING:
     from numpy.typing import DTypeLike

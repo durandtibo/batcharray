@@ -19,7 +19,7 @@ from typing import TYPE_CHECKING
 import numpy as np
 
 from batcharray.constants import BATCH_AXIS, SEQ_AXIS
-from batcharray.utils.validation import validate_split_sections
+from batcharray.validation import validate_split_sections
 
 if TYPE_CHECKING:
     from collections.abc import Sequence

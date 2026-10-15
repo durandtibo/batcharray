@@ -18,7 +18,7 @@ from coola.recursive import recursive_apply
 
 from batcharray import array
 from batcharray.constants import BATCH_AXIS, SEQ_AXIS
-from batcharray.utils.validation import validate_first_array
+from batcharray.validation import validate_first_array
 
 
 def permute_along_batch(data: Any, permutation: np.ndarray) -> Any:

@@ -14,7 +14,7 @@ import numpy as np
 
 from batcharray.array.indexing import take_along_batch, take_along_seq
 from batcharray.constants import BATCH_AXIS, SEQ_AXIS
-from batcharray.utils.validation import validate_min_ndim
+from batcharray.validation import validate_min_ndim
 
 
 def permute_along_batch(array: np.ndarray, permutation: np.ndarray) -> np.ndarray:
