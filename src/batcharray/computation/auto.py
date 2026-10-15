@@ -5,12 +5,13 @@ from __future__ import annotations
 
 __all__ = ["AutoComputationModel", "register_computation_models"]
 
-from typing import TYPE_CHECKING, Any, ClassVar, TypeVar
+from typing import TYPE_CHECKING, Any, ClassVar
 
 import numpy as np
 from coola.utils.format import repr_indent, repr_mapping, str_indent, str_mapping
 
 from batcharray.computation.base import BaseComputationModel
+from batcharray.types import ArrayT
 
 if TYPE_CHECKING:
     from collections.abc import Sequence
@@ -19,10 +20,8 @@ if TYPE_CHECKING:
 
     from batcharray.types import SortKind
 
-T = TypeVar("T", bound=np.ndarray)
 
-
-class AutoComputationModel(BaseComputationModel[T]):
+class AutoComputationModel(BaseComputationModel[ArrayT]):
     r"""Implement a computation model that automatically finds the right
     computation model based on the array type.
 
@@ -57,7 +56,7 @@ class AutoComputationModel(BaseComputationModel[T]):
     def add_computation_model(
         cls,
         array_type: type[np.ndarray],
-        comp_model: BaseComputationModel[T],
+        comp_model: BaseComputationModel[ArrayT],
         exist_ok: bool = False,
     ) -> None:
         r"""Add a computation model for a given array type.
@@ -120,7 +119,7 @@ class AutoComputationModel(BaseComputationModel[T]):
         return array_type in cls.registry
 
     @classmethod
-    def find_computation_model(cls, array_type: type[np.ndarray]) -> BaseComputationModel[T]:
+    def find_computation_model(cls, array_type: type[np.ndarray]) -> BaseComputationModel[ArrayT]:
         r"""Find the computation model associated to an array type.
 
         Args:
@@ -152,20 +151,20 @@ class AutoComputationModel(BaseComputationModel[T]):
         msg = f"Incorrect array type: {array_type}. Registered array types: {registered}"
         raise TypeError(msg)
 
-    def argmax(self, arr: T, axis: int | None = None, *, keepdims: bool = False) -> np.ndarray:
+    def argmax(self, arr: ArrayT, axis: int | None = None, *, keepdims: bool = False) -> np.ndarray:
         return self.find_computation_model(type(arr)).argmax(arr=arr, axis=axis, keepdims=keepdims)
 
-    def argmin(self, arr: T, axis: int | None = None, *, keepdims: bool = False) -> np.ndarray:
+    def argmin(self, arr: ArrayT, axis: int | None = None, *, keepdims: bool = False) -> np.ndarray:
         return self.find_computation_model(type(arr)).argmin(arr=arr, axis=axis, keepdims=keepdims)
 
     def argsort(
-        self, arr: T, axis: int | None = None, *, kind: SortKind | None = None
+        self, arr: ArrayT, axis: int | None = None, *, kind: SortKind | None = None
     ) -> np.ndarray:
         return self.find_computation_model(type(arr)).argsort(arr, axis=axis, kind=kind)
 
     def concatenate(
-        self, arrays: Sequence[T], axis: int | None = None, *, dtype: DTypeLike | None = None
-    ) -> T:
+        self, arrays: Sequence[ArrayT], axis: int | None = None, *, dtype: DTypeLike | None = None
+    ) -> ArrayT:
         if not arrays:
             msg = "Cannot concatenate an empty sequence of arrays"
             raise ValueError(msg)
@@ -173,19 +172,19 @@ class AutoComputationModel(BaseComputationModel[T]):
             arrays=arrays, axis=axis, dtype=dtype
         )
 
-    def max(self, arr: T, axis: int | None = None, *, keepdims: bool = False) -> T:
+    def max(self, arr: ArrayT, axis: int | None = None, *, keepdims: bool = False) -> ArrayT:
         return self.find_computation_model(type(arr)).max(arr=arr, axis=axis, keepdims=keepdims)
 
-    def mean(self, arr: T, axis: int | None = None, *, keepdims: bool = False) -> T:
+    def mean(self, arr: ArrayT, axis: int | None = None, *, keepdims: bool = False) -> ArrayT:
         return self.find_computation_model(type(arr)).mean(arr=arr, axis=axis, keepdims=keepdims)
 
-    def median(self, arr: T, axis: int | None = None, *, keepdims: bool = False) -> T:
+    def median(self, arr: ArrayT, axis: int | None = None, *, keepdims: bool = False) -> ArrayT:
         return self.find_computation_model(type(arr)).median(arr=arr, axis=axis, keepdims=keepdims)
 
-    def min(self, arr: T, axis: int | None = None, *, keepdims: bool = False) -> T:
+    def min(self, arr: ArrayT, axis: int | None = None, *, keepdims: bool = False) -> ArrayT:
         return self.find_computation_model(type(arr)).min(arr=arr, axis=axis, keepdims=keepdims)
 
-    def sort(self, arr: T, axis: int | None = None, *, kind: SortKind | None = None) -> T:
+    def sort(self, arr: ArrayT, axis: int | None = None, *, kind: SortKind | None = None) -> ArrayT:
         return self.find_computation_model(type(arr)).sort(arr, axis=axis, kind=kind)
 
 

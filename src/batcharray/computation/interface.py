@@ -14,27 +14,23 @@ __all__ = [
     "sort",
 ]
 
-from typing import TYPE_CHECKING, TypeVar
-
-import numpy as np
+from typing import TYPE_CHECKING
 
 from batcharray.computation.auto import AutoComputationModel
 
 if TYPE_CHECKING:
     from collections.abc import Sequence
 
+    import numpy as np
     from numpy.typing import DTypeLike
 
-    from batcharray.types import SortKind
-
-
-T = TypeVar("T", bound=np.ndarray)
+    from batcharray.types import ArrayT, SortKind
 
 
 _comp_model = AutoComputationModel()
 
 
-def argmax(arr: T, axis: int | None = None, *, keepdims: bool = False) -> np.ndarray:
+def argmax(arr: ArrayT, axis: int | None = None, *, keepdims: bool = False) -> np.ndarray:
     r"""Return the array of indices of the maximum values along the given
     axis.
 
@@ -72,7 +68,7 @@ def argmax(arr: T, axis: int | None = None, *, keepdims: bool = False) -> np.nda
     return _comp_model.argmax(arr=arr, axis=axis, keepdims=keepdims)
 
 
-def argmin(arr: T, axis: int | None = None, *, keepdims: bool = False) -> np.ndarray:
+def argmin(arr: ArrayT, axis: int | None = None, *, keepdims: bool = False) -> np.ndarray:
     r"""Return the array of indices of the minimum values along the given
     axis.
 
@@ -110,7 +106,7 @@ def argmin(arr: T, axis: int | None = None, *, keepdims: bool = False) -> np.nda
     return _comp_model.argmin(arr=arr, axis=axis, keepdims=keepdims)
 
 
-def argsort(arr: T, axis: int | None = None, *, kind: SortKind | None = None) -> np.ndarray:
+def argsort(arr: ArrayT, axis: int | None = None, *, kind: SortKind | None = None) -> np.ndarray:
     r"""Return the indices that sort an array along the given axis in
     ascending order by value.
 
@@ -151,8 +147,8 @@ def argsort(arr: T, axis: int | None = None, *, kind: SortKind | None = None) ->
 
 
 def concatenate(
-    arrays: Sequence[T], axis: int | None = None, *, dtype: DTypeLike | None = None
-) -> T:
+    arrays: Sequence[ArrayT], axis: int | None = None, *, dtype: DTypeLike | None = None
+) -> ArrayT:
     r"""Concatenate a sequence of arrays along an existing axis.
 
     Args:
@@ -189,7 +185,7 @@ def concatenate(
     return _comp_model.concatenate(arrays=arrays, axis=axis, dtype=dtype)
 
 
-def max(arr: T, axis: int | None = None, *, keepdims: bool = False) -> T:  # noqa: A001
+def max(arr: ArrayT, axis: int | None = None, *, keepdims: bool = False) -> ArrayT:  # noqa: A001
     r"""Return the maximum along the specified axis.
 
     Args:
@@ -225,7 +221,7 @@ def max(arr: T, axis: int | None = None, *, keepdims: bool = False) -> T:  # noq
     return _comp_model.max(arr=arr, axis=axis, keepdims=keepdims)
 
 
-def mean(arr: T, axis: int | None = None, *, keepdims: bool = False) -> T:
+def mean(arr: ArrayT, axis: int | None = None, *, keepdims: bool = False) -> ArrayT:
     r"""Return the mean along the specified axis.
 
     Args:
@@ -264,7 +260,7 @@ def mean(arr: T, axis: int | None = None, *, keepdims: bool = False) -> T:
     return _comp_model.mean(arr=arr, axis=axis, keepdims=keepdims)
 
 
-def median(arr: T, axis: int | None = None, *, keepdims: bool = False) -> T:
+def median(arr: ArrayT, axis: int | None = None, *, keepdims: bool = False) -> ArrayT:
     r"""Return the median along the specified axis.
 
     Args:
@@ -303,7 +299,7 @@ def median(arr: T, axis: int | None = None, *, keepdims: bool = False) -> T:
     return _comp_model.median(arr=arr, axis=axis, keepdims=keepdims)
 
 
-def min(arr: T, axis: int | None = None, *, keepdims: bool = False) -> T:  # noqa: A001
+def min(arr: ArrayT, axis: int | None = None, *, keepdims: bool = False) -> ArrayT:  # noqa: A001
     r"""Return the minimum along the specified axis.
 
     Args:
@@ -339,7 +335,7 @@ def min(arr: T, axis: int | None = None, *, keepdims: bool = False) -> T:  # noq
     return _comp_model.min(arr=arr, axis=axis, keepdims=keepdims)
 
 
-def sort(arr: T, axis: int | None = None, *, kind: SortKind | None = None) -> T:
+def sort(arr: ArrayT, axis: int | None = None, *, kind: SortKind | None = None) -> ArrayT:
     r"""Sort the elements of the input array along the given axis in
     ascending order by value.
 
