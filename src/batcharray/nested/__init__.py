@@ -4,10 +4,14 @@ from __future__ import annotations
 
 __all__ = [
     "abs",
+    "all_along_batch",
+    "all_along_seq",
     "amax_along_batch",
     "amax_along_seq",
     "amin_along_batch",
     "amin_along_seq",
+    "any_along_batch",
+    "any_along_seq",
     "arccos",
     "arccosh",
     "arcsin",
@@ -20,6 +24,7 @@ __all__ = [
     "argmin_along_seq",
     "argsort_along_batch",
     "argsort_along_seq",
+    "ceil",
     "chunk_along_batch",
     "chunk_along_seq",
     "clip",
@@ -34,8 +39,12 @@ __all__ = [
     "exp",
     "exp2",
     "expm1",
+    "flip_along_batch",
+    "flip_along_seq",
+    "floor",
     "index_select_along_batch",
     "index_select_along_seq",
+    "isnan",
     "log",
     "log1p",
     "log2",
@@ -54,10 +63,14 @@ __all__ = [
     "permute_along_seq",
     "prod_along_batch",
     "prod_along_seq",
+    "repeat_along_batch",
+    "repeat_along_seq",
+    "round",
     "select_along_batch",
     "select_along_seq",
     "shuffle_along_batch",
     "shuffle_along_seq",
+    "sign",
     "sin",
     "sinh",
     "slice_along_batch",
@@ -66,6 +79,10 @@ __all__ = [
     "sort_along_seq",
     "split_along_batch",
     "split_along_seq",
+    "sqrt",
+    "square",
+    "std_along_batch",
+    "std_along_seq",
     "sum_along_batch",
     "sum_along_seq",
     "take_along_batch",
@@ -74,6 +91,8 @@ __all__ = [
     "tanh",
     "tile_along_seq",
     "to_list",
+    "var_along_batch",
+    "var_along_seq",
 ]
 
 from batcharray.nested.comparison import (
@@ -94,6 +113,8 @@ from batcharray.nested.indexing import (
 from batcharray.nested.joining import (
     concatenate_along_batch,
     concatenate_along_seq,
+    repeat_along_batch,
+    repeat_along_seq,
     tile_along_seq,
 )
 from batcharray.nested.math import (
@@ -103,6 +124,8 @@ from batcharray.nested.math import (
     cumsum_along_seq,
 )
 from batcharray.nested.permutation import (
+    flip_along_batch,
+    flip_along_seq,
     permute_along_batch,
     permute_along_seq,
     shuffle_along_batch,
@@ -110,20 +133,31 @@ from batcharray.nested.permutation import (
 )
 from batcharray.nested.pointwise import (
     abs,  # noqa: A004
+    ceil,
     clip,
     exp,
     exp2,
     expm1,
+    floor,
+    isnan,
     log,
     log1p,
     log2,
     log10,
+    round,  # noqa: A004
+    sign,
+    sqrt,
+    square,
 )
 from batcharray.nested.reduction import (
+    all_along_batch,
+    all_along_seq,
     amax_along_batch,
     amax_along_seq,
     amin_along_batch,
     amin_along_seq,
+    any_along_batch,
+    any_along_seq,
     argmax_along_batch,
     argmax_along_seq,
     argmin_along_batch,
@@ -138,8 +172,12 @@ from batcharray.nested.reduction import (
     min_along_seq,
     prod_along_batch,
     prod_along_seq,
+    std_along_batch,
+    std_along_seq,
     sum_along_batch,
     sum_along_seq,
+    var_along_batch,
+    var_along_seq,
 )
 from batcharray.nested.slicing import (
     chunk_along_batch,

@@ -4,14 +4,21 @@ from __future__ import annotations
 
 __all__ = [
     "abs",
+    "ceil",
     "clip",
     "exp",
     "exp2",
     "expm1",
+    "floor",
+    "isnan",
     "log",
     "log1p",
     "log2",
     "log10",
+    "round",
+    "sign",
+    "sqrt",
+    "square",
 ]
 
 from functools import partial
@@ -301,3 +308,171 @@ def log1p(data: Any) -> Any:
         ```
     """
     return recursive_apply(data, np.log1p)
+
+
+def ceil(data: Any) -> Any:
+    r"""Return new arrays with the ceiling of each element.
+
+    Args:
+        data: The input data. Each item must be an array.
+
+    Returns:
+        The transformed arrays. The output has the same structure as
+            the input.
+
+    Example:
+        ```pycon
+        >>> import numpy as np
+        >>> from batcharray.nested import ceil
+        >>> data = {"a": np.array([[-1.5, -0.5], [0.2, 1.5]]), "b": np.array([2.1, -2.1])}
+        >>> out = ceil(data)
+        >>> out
+        {'a': array([[-1., -0.], [ 1.,  2.]]), 'b': array([ 3., -2.])}
+
+        ```
+    """
+    return recursive_apply(data, np.ceil)
+
+
+def floor(data: Any) -> Any:
+    r"""Return new arrays with the floor of each element.
+
+    Args:
+        data: The input data. Each item must be an array.
+
+    Returns:
+        The transformed arrays. The output has the same structure as
+            the input.
+
+    Example:
+        ```pycon
+        >>> import numpy as np
+        >>> from batcharray.nested import floor
+        >>> data = {"a": np.array([[-1.5, -0.5], [0.2, 1.5]]), "b": np.array([2.1, -2.1])}
+        >>> out = floor(data)
+        >>> out
+        {'a': array([[-2., -1.], [ 0.,  1.]]), 'b': array([ 2., -3.])}
+
+        ```
+    """
+    return recursive_apply(data, np.floor)
+
+
+def isnan(data: Any) -> Any:
+    r"""Return new boolean arrays that are true where each element is NaN.
+
+    Args:
+        data: The input data. Each item must be an array.
+
+    Returns:
+        The transformed arrays. The output has the same structure as
+            the input.
+
+    Example:
+        ```pycon
+        >>> import numpy as np
+        >>> from batcharray.nested import isnan
+        >>> data = {"a": np.array([[1.0, np.nan], [np.nan, 4.0]]), "b": np.array([np.nan, 0.0])}
+        >>> out = isnan(data)
+        >>> out
+        {'a': array([[False,  True], [ True, False]]), 'b': array([ True, False])}
+
+        ```
+    """
+    return recursive_apply(data, np.isnan)
+
+
+def round(data: Any) -> Any:  # noqa: A001
+    r"""Return new arrays with each element rounded to the nearest integer.
+
+    Args:
+        data: The input data. Each item must be an array.
+
+    Returns:
+        The transformed arrays. The output has the same structure as
+            the input.
+
+    Example:
+        ```pycon
+        >>> import numpy as np
+        >>> from batcharray.nested import round
+        >>> data = {"a": np.array([[-1.6, -0.4], [0.2, 1.5]]), "b": np.array([2.7, -2.7])}
+        >>> out = round(data)
+        >>> out
+        {'a': array([[-2., -0.], [ 0.,  2.]]), 'b': array([ 3., -3.])}
+
+        ```
+    """
+    return recursive_apply(data, np.round)
+
+
+def sign(data: Any) -> Any:
+    r"""Return new arrays with the sign of each element.
+
+    Args:
+        data: The input data. Each item must be an array.
+
+    Returns:
+        The transformed arrays. The output has the same structure as
+            the input.
+
+    Example:
+        ```pycon
+        >>> import numpy as np
+        >>> from batcharray.nested import sign
+        >>> data = {"a": np.array([[-4, -3], [0, 1], [2, 3]]), "b": np.array([2, 0, -2])}
+        >>> out = sign(data)
+        >>> out
+        {'a': array([[-1, -1], [ 0,  1], [ 1,  1]]), 'b': array([ 1,  0, -1])}
+
+        ```
+    """
+    return recursive_apply(data, np.sign)
+
+
+def sqrt(data: Any) -> Any:
+    r"""Return new arrays with the square root of each element.
+
+    Args:
+        data: The input data. Each item must be an array.
+
+    Returns:
+        The transformed arrays. The output has the same structure as
+            the input.
+
+    Example:
+        ```pycon
+        >>> import numpy as np
+        >>> from batcharray.nested import sqrt
+        >>> data = {"a": np.array([[0.0, 1.0], [4.0, 9.0]]), "b": np.array([16.0, 25.0])}
+        >>> out = sqrt(data)
+        >>> out
+        {'a': array([[0., 1.], [2., 3.]]), 'b': array([4., 5.])}
+
+        ```
+    """
+    return recursive_apply(data, np.sqrt)
+
+
+def square(data: Any) -> Any:
+    r"""Return new arrays with the square of each element.
+
+    Args:
+        data: The input data. Each item must be an array.
+
+    Returns:
+        The transformed arrays. The output has the same structure as
+            the input.
+
+    Example:
+        ```pycon
+        >>> import numpy as np
+        >>> from batcharray.nested import square
+        >>> data = {"a": np.array([[-2, -1], [0, 1], [2, 3]]), "b": np.array([2, 0, -2])}
+        >>> out = square(data)
+        >>> out
+        {'a': array([[4, 1], [0, 1], [4, 9]]), 'b': array([4, 0, 4])}
+
+        ```
+    """
+    return recursive_apply(data, np.square)

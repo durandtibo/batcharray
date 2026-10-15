@@ -3,6 +3,8 @@ r"""Contain some functions to permute data in arrays."""
 from __future__ import annotations
 
 __all__ = [
+    "flip_along_batch",
+    "flip_along_seq",
     "permute_along_batch",
     "permute_along_seq",
     "shuffle_along_batch",
@@ -168,3 +170,58 @@ def shuffle_along_seq(array: np.ndarray, rng: np.random.Generator | None = None)
         array=array,
         permutation=rng.permutation(array.shape[SEQ_AXIS]),
     )
+
+
+def flip_along_batch(array: np.ndarray) -> np.ndarray:
+    r"""Reverse the order of the elements along the batch axis.
+
+    Note:
+        This function assumes the batch axis is the first
+            axis.
+
+    Args:
+        array: The input array.
+
+    Returns:
+        The flipped array.
+
+    Example:
+        ```pycon
+        >>> import numpy as np
+        >>> from batcharray.array import flip_along_batch
+        >>> array = np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]])
+        >>> out = flip_along_batch(array)
+        >>> out
+        array([[8, 9], [6, 7], [4, 5], [2, 3], [0, 1]])
+
+        ```
+    """
+    return np.flip(array, axis=BATCH_AXIS)
+
+
+def flip_along_seq(array: np.ndarray) -> np.ndarray:
+    r"""Reverse the order of the elements along the sequence axis.
+
+    Note:
+        This function assumes the sequence axis is the second
+            axis.
+
+    Args:
+        array: The input array.
+
+    Returns:
+        The flipped array.
+
+    Example:
+        ```pycon
+        >>> import numpy as np
+        >>> from batcharray.array import flip_along_seq
+        >>> array = np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]])
+        >>> out = flip_along_seq(array)
+        >>> out
+        array([[4, 3, 2, 1, 0], [9, 8, 7, 6, 5]])
+
+        ```
+    """
+    validate_min_ndim(array)
+    return np.flip(array, axis=SEQ_AXIS)

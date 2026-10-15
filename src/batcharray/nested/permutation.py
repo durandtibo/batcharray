@@ -3,6 +3,8 @@ r"""Contain some functions to permute data in arrays."""
 from __future__ import annotations
 
 __all__ = [
+    "flip_along_batch",
+    "flip_along_seq",
     "permute_along_batch",
     "permute_along_seq",
     "shuffle_along_batch",
@@ -175,3 +177,59 @@ def shuffle_along_seq(data: Any, rng: np.random.Generator | None = None) -> Any:
         data=data,
         permutation=rng.permutation(value.shape[SEQ_AXIS]),
     )
+
+
+def flip_along_batch(data: Any) -> Any:
+    r"""Reverse the order of the elements of all the arrays along the batch axis.
+
+    Note:
+        This function assumes the batch axis is the first
+            axis of the arrays.
+
+    Args:
+        data: The input data. Each item must be an array.
+
+    Returns:
+        The flipped arrays. The output has the same
+            structure as the input.
+
+    Example:
+        ```pycon
+        >>> import numpy as np
+        >>> from batcharray.nested import flip_along_batch
+        >>> data = {"a": np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]]), "b": np.array([2, 1, 0, -1, -2])}
+        >>> out = flip_along_batch(data)
+        >>> out
+        {'a': array([[8, 9], [6, 7], [4, 5], [2, 3], [0, 1]]), 'b': array([-2, -1,  0,  1,  2])}
+
+        ```
+    """
+    return recursive_apply(data, partial(array.flip_along_batch))
+
+
+def flip_along_seq(data: Any) -> Any:
+    r"""Reverse the order of the elements of all the arrays along the sequence axis.
+
+    Note:
+        This function assumes the sequence axis is the second
+            axis of the arrays.
+
+    Args:
+        data: The input data. Each item must be an array.
+
+    Returns:
+        The flipped arrays. The output has the same
+            structure as the input.
+
+    Example:
+        ```pycon
+        >>> import numpy as np
+        >>> from batcharray.nested import flip_along_seq
+        >>> data = {"a": np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]]), "b": np.array([[4, 3, 2, 1, 0], [0, 1, 2, 3, 4]])}
+        >>> out = flip_along_seq(data)
+        >>> out
+        {'a': array([[4, 3, 2, 1, 0], [9, 8, 7, 6, 5]]), 'b': array([[0, 1, 2, 3, 4], [4, 3, 2, 1, 0]])}
+
+        ```
+    """
+    return recursive_apply(data, partial(array.flip_along_seq))
