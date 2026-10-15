@@ -240,3 +240,9 @@ def test_tile_along_seq_masked_array() -> None:
             ),
         ),
     )
+
+
+@pytest.mark.parametrize("fn", [concatenate_along_batch, concatenate_along_seq])
+def test_concatenate_dtype(fn: object) -> None:
+    out = fn([np.ones((2, 3), dtype=np.int64), np.ones((2, 3), dtype=np.int64)], dtype=np.float32)
+    assert out.dtype == np.float32

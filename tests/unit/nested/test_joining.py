@@ -365,3 +365,9 @@ def test_tile_along_seq_dict_nested() -> None:
             "list": [np.array([[5, 6, 7, 8, 9, 5, 6, 7, 8, 9]])],
         },
     )
+
+
+@pytest.mark.parametrize("fn", [concatenate_along_batch, concatenate_along_seq])
+def test_concatenate_dtype(fn: object) -> None:
+    data = [{"a": np.ones((2, 3), dtype=np.int64)}, {"a": np.ones((2, 3), dtype=np.int64)}]
+    assert fn(data, dtype=np.float32)["a"].dtype == np.float32
