@@ -60,7 +60,7 @@ def amax_along_batch(array: np.ndarray, keepdims: bool = False) -> np.ndarray:
 
         ```
     """
-    return np.amax(array, axis=BATCH_AXIS, keepdims=keepdims)
+    return cmpt.max(array, axis=BATCH_AXIS, keepdims=keepdims)
 
 
 def amax_along_seq(array: np.ndarray, keepdims: bool = False) -> np.ndarray:
@@ -91,7 +91,7 @@ def amax_along_seq(array: np.ndarray, keepdims: bool = False) -> np.ndarray:
 
         ```
     """
-    return np.amax(array, axis=SEQ_AXIS, keepdims=keepdims)
+    return cmpt.max(array, axis=SEQ_AXIS, keepdims=keepdims)
 
 
 def amin_along_batch(array: np.ndarray, keepdims: bool = False) -> np.ndarray:
@@ -122,7 +122,7 @@ def amin_along_batch(array: np.ndarray, keepdims: bool = False) -> np.ndarray:
 
         ```
     """
-    return np.amin(array, axis=BATCH_AXIS, keepdims=keepdims)
+    return cmpt.min(array, axis=BATCH_AXIS, keepdims=keepdims)
 
 
 def amin_along_seq(array: np.ndarray, keepdims: bool = False) -> np.ndarray:
@@ -153,7 +153,7 @@ def amin_along_seq(array: np.ndarray, keepdims: bool = False) -> np.ndarray:
 
         ```
     """
-    return np.amin(array, axis=SEQ_AXIS, keepdims=keepdims)
+    return cmpt.min(array, axis=SEQ_AXIS, keepdims=keepdims)
 
 
 def argmax_along_batch(array: np.ndarray, keepdims: bool = False) -> np.ndarray:
