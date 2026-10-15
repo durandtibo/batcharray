@@ -10,7 +10,7 @@ tighten behavior.
 ## Suggested starting order
 
 #7.
-#1 dropped, #2 done, #3 not a bug, #4, #5 and #6 partly done.
+#1 dropped, #2 done, #3 not a bug, #4, #5 and #6 and #7 partly done.
 
 ## 1. Repeated `_along_batch` / `_along_seq` pairs (dropped)
 
@@ -71,14 +71,17 @@ would reject currently valid calls. Index-based ops (`permute`, `take`) already
 fail with understandable `RuntimeError`/`IndexError` messages. If wanted, add an
 opt-in helper rather than a default check.
 
-## 7. Types
+## 7. Types (partly done)
+Done:
+- `SORT_KINDS` is now `typing.get_args(SortKind)` (an immutable tuple), so the
+  literal is the single source of truth.
+- The array `TypeVar` is defined once as `batcharray.types.ArrayT` and used by
+  `computation/base.py`, `auto.py` and `interface.py` (was three copies of `T`).
+  The unbounded `T` in `nested/indexing.py` is a different TypeVar and was kept.
 
-- `nested` functions are `Any -> Any`. A recursive alias
-  (`NestedArray = np.ndarray | Mapping[str, "NestedArray"] | Sequence["NestedArray"]`)
-  plus TypeVars would let `ty` check output structure.
-- `SORT_KINDS` is a mutable `list`; use a tuple or `typing.get_args(SortKind)`
-  to avoid a duplicated source of truth.
-- `T = TypeVar("T", bound=np.ndarray)` is defined in several files; define once.
+Not done: a recursive `NestedArray` alias for the `nested` API. It changes the
+public signatures of ~60 functions and needs per-function TypeVars to preserve
+structure; worth a dedicated change once `ty` handles recursive aliases well.
 
 ## 8. Shadowed builtins in `nested/pointwise.py`
 

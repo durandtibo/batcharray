@@ -5,21 +5,20 @@ from __future__ import annotations
 __all__ = ["BaseComputationModel"]
 
 from abc import ABC, abstractmethod
-from typing import TYPE_CHECKING, Generic, TypeVar
+from typing import TYPE_CHECKING, Generic
 
-import numpy as np
+from batcharray.types import ArrayT
 
 if TYPE_CHECKING:
     from collections.abc import Sequence
 
+    import numpy as np
     from numpy.typing import DTypeLike
 
     from batcharray.types import SortKind
 
-T = TypeVar("T", bound=np.ndarray)
 
-
-class BaseComputationModel(ABC, Generic[T]):
+class BaseComputationModel(ABC, Generic[ArrayT]):
     r"""Define the base class for computation models.
 
     This class provides the interface that all computation models must
@@ -28,7 +27,7 @@ class BaseComputationModel(ABC, Generic[T]):
     """
 
     @abstractmethod
-    def argmax(self, arr: T, axis: int | None = None, *, keepdims: bool = False) -> np.ndarray:
+    def argmax(self, arr: ArrayT, axis: int | None = None, *, keepdims: bool = False) -> np.ndarray:
         r"""Return the array of indices of the maximum values along the
         given axis.
 
@@ -66,7 +65,7 @@ class BaseComputationModel(ABC, Generic[T]):
         """
 
     @abstractmethod
-    def argmin(self, arr: T, axis: int | None = None, *, keepdims: bool = False) -> np.ndarray:
+    def argmin(self, arr: ArrayT, axis: int | None = None, *, keepdims: bool = False) -> np.ndarray:
         r"""Return the array of indices of the minimum values along the
         given axis.
 
@@ -105,7 +104,7 @@ class BaseComputationModel(ABC, Generic[T]):
 
     @abstractmethod
     def argsort(
-        self, arr: T, axis: int | None = None, *, kind: SortKind | None = None
+        self, arr: ArrayT, axis: int | None = None, *, kind: SortKind | None = None
     ) -> np.ndarray:
         r"""Return the indices that sort an array along the given axis in
         ascending order by value.
@@ -146,8 +145,8 @@ class BaseComputationModel(ABC, Generic[T]):
 
     @abstractmethod
     def concatenate(
-        self, arrays: Sequence[T], axis: int | None = None, *, dtype: DTypeLike | None = None
-    ) -> T:
+        self, arrays: Sequence[ArrayT], axis: int | None = None, *, dtype: DTypeLike | None = None
+    ) -> ArrayT:
         r"""Concatenate a sequence of arrays along an existing axis.
 
         Args:
@@ -184,7 +183,7 @@ class BaseComputationModel(ABC, Generic[T]):
         """
 
     @abstractmethod
-    def max(self, arr: T, axis: int | None = None, *, keepdims: bool = False) -> T:
+    def max(self, arr: ArrayT, axis: int | None = None, *, keepdims: bool = False) -> ArrayT:
         r"""Return the maximum along the specified axis.
 
         Args:
@@ -220,7 +219,7 @@ class BaseComputationModel(ABC, Generic[T]):
         """
 
     @abstractmethod
-    def mean(self, arr: T, axis: int | None = None, *, keepdims: bool = False) -> T:
+    def mean(self, arr: ArrayT, axis: int | None = None, *, keepdims: bool = False) -> ArrayT:
         r"""Return the mean along the specified axis.
 
         Args:
@@ -259,7 +258,7 @@ class BaseComputationModel(ABC, Generic[T]):
         """
 
     @abstractmethod
-    def median(self, arr: T, axis: int | None = None, *, keepdims: bool = False) -> T:
+    def median(self, arr: ArrayT, axis: int | None = None, *, keepdims: bool = False) -> ArrayT:
         r"""Return the median along the specified axis.
 
         Args:
@@ -298,7 +297,7 @@ class BaseComputationModel(ABC, Generic[T]):
         """
 
     @abstractmethod
-    def min(self, arr: T, axis: int | None = None, *, keepdims: bool = False) -> T:
+    def min(self, arr: ArrayT, axis: int | None = None, *, keepdims: bool = False) -> ArrayT:
         r"""Return the minimum along the specified axis.
 
         Args:
@@ -334,7 +333,7 @@ class BaseComputationModel(ABC, Generic[T]):
         """
 
     @abstractmethod
-    def sort(self, arr: T, axis: int | None = None, *, kind: SortKind | None = None) -> T:
+    def sort(self, arr: ArrayT, axis: int | None = None, *, kind: SortKind | None = None) -> ArrayT:
         r"""Sort the elements of the input array along the given axis in
         ascending order by value.
 
