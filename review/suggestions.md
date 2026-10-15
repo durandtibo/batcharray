@@ -9,8 +9,8 @@ tighten behavior.
 
 ## Suggested starting order
 
-#3 (likely correctness gap), #4 (empty-sequence error, lookup cache), then #7.
-#1 was dropped and #2 is done.
+#7.
+#1 dropped, #2 done, #3 not a bug, #4 partly done.
 
 ## 1. Repeated `_along_batch` / `_along_seq` pairs (dropped)
 
@@ -28,23 +28,29 @@ maintenance becomes a real cost.
 Removed the argument-less `partial` wrappers and the unused import. Other
 `partial(...)` calls in `nested/` bind real arguments and were left alone.
 
-## 3. Inconsistent reduction backends in `array/reduction.py`
+## 3. Inconsistent reduction backends in `array/reduction.py` (not a bug)
+`amax`/`amin`/`mean`/`prod`/`sum` call NumPy directly while `argmax`, `max`,
+etc. go through `cmpt`. I suspected this broke `MaskedArray` support, but
+checked it: `np.amax`/`np.mean`/`np.sum`/... on an `ndarray` subclass delegate
+to the array's own method, so masked inputs return correct `MaskedArray`
+results (verified for all seven batch reductions). Only a cosmetic
+inconsistency remains; `prod`/`sum` have no `cmpt` equivalent anyway.
+No change made.
 
-`amax`/`amin` call `np.amax`/`np.amin` directly, while `argmax`, `argmin`, etc.
-go through `cmpt`. `amax_along_batch` therefore may not dispatch for
-`MaskedArray` or custom registered types. Route all through `cmpt`, or
-document the difference.
+## 4. `AutoComputationModel` registry (`computation/auto.py`) (partly done)
+Done:
+- `concatenate([])` now raises a clear `ValueError` instead of `IndexError`.
+- The unknown-type `TypeError` lists the registered array types.
+- `find_computation_model` checks the exact type first, so the `__mro__` walk
+  only happens for subclasses.
 
-## 4. `AutoComputationModel` registry (`computation/auto.py`)
-
-- `registry` is a mutable, global class-level `ClassVar`; registration via
-  `register_computation_models()` with `# pragma: no cover` on the guard.
-- Lookup walks `__mro__` on every call; cache with `functools.lru_cache`,
-  invalidated in `add_computation_model`.
-- `concatenate` dispatches on `type(arrays[0])`: an empty sequence raises a
-  bare `IndexError` (should be a clear `ValueError`), and mixed
-  `ndarray`/`MaskedArray` inputs silently use the first type.
-- The unknown-type `TypeError` could list the registered types.
+Not done:
+- A real lookup cache: tests (and users) mutate `registry` directly
+  (`patch.dict`), which would leave a separate cache stale. The exact-type
+  fast path gets most of the benefit without that risk.
+- Mixed `ndarray`/`MaskedArray` inputs still use the first element's type;
+  raising there would be a behavior change.
+- The mutable global registry / `# pragma: no cover` guard is unchanged.
 
 ## 5. API parity gaps
 

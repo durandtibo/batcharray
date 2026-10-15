@@ -682,3 +682,33 @@ def test_auto_computation_model_sort_masked_array(dtype: DTypeLike) -> None:
             ),
         ),
     )
+
+
+def test_auto_computation_model_concatenate_empty() -> None:
+    with pytest.raises(ValueError, match=r"Cannot concatenate an empty sequence"):
+        AutoComputationModel().concatenate([], axis=0)
+
+
+def test_auto_computation_model_find_computation_model_missing_lists_registered() -> None:
+    with pytest.raises(TypeError, match=r"Registered array types: .*ndarray"):
+        AutoComputationModel.find_computation_model(str)
+
+
+def test_auto_computation_model_find_computation_model_subclass() -> None:
+    class MyArray(np.ndarray): ...
+
+    assert AutoComputationModel.find_computation_model(MyArray) == ArrayComputationModel()
+
+
+def test_auto_computation_model_find_computation_model_masked_array_subclass() -> None:
+    class MyMaskedArray(np.ma.MaskedArray): ...
+
+    assert (
+        AutoComputationModel.find_computation_model(MyMaskedArray) == MaskedArrayComputationModel()
+    )
+
+
+@patch.dict(AutoComputationModel.registry, {}, clear=True)
+def test_auto_computation_model_find_computation_model_missing_empty_registry() -> None:
+    with pytest.raises(TypeError, match=r"Registered array types: none"):
+        AutoComputationModel.find_computation_model(str)

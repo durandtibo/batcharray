@@ -140,11 +140,16 @@ class AutoComputationModel(BaseComputationModel[T]):
 
             ```
         """
+        # Fast path: exact type match, which is the common case.
+        comp_model = cls.registry.get(array_type)
+        if comp_model is not None:
+            return comp_model
         for object_type in array_type.__mro__:
             comp_model = cls.registry.get(object_type, None)
             if comp_model is not None:
                 return comp_model
-        msg = f"Incorrect array type: {array_type}"
+        registered = ", ".join(sorted(t.__qualname__ for t in cls.registry)) or "none"
+        msg = f"Incorrect array type: {array_type}. Registered array types: {registered}"
         raise TypeError(msg)
 
     def argmax(self, arr: T, axis: int | None = None, *, keepdims: bool = False) -> np.ndarray:
@@ -161,6 +166,9 @@ class AutoComputationModel(BaseComputationModel[T]):
     def concatenate(
         self, arrays: Sequence[T], axis: int | None = None, *, dtype: DTypeLike | None = None
     ) -> T:
+        if not arrays:
+            msg = "Cannot concatenate an empty sequence of arrays"
+            raise ValueError(msg)
         return self.find_computation_model(type(arrays[0])).concatenate(
             arrays=arrays, axis=axis, dtype=dtype
         )
