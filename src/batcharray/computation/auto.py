@@ -25,6 +25,14 @@ class AutoComputationModel(BaseComputationModel[ArrayT]):
     r"""Implement a computation model that automatically finds the right
     computation model based on the array type.
 
+    Note:
+        ``concatenate`` selects the computation model from the type of
+        the first array. With mixed ``np.ndarray`` /
+        ``np.ma.MaskedArray`` inputs, a masked array first keeps the
+        masks, but a plain array first silently drops the masks of the
+        masked arrays that follow (their data is used as is). Convert
+        the arrays to a common type first if this matters.
+
     Example:
         ```pycon
         >>> import numpy as np
@@ -212,5 +220,5 @@ def register_computation_models() -> None:
     }
 
     for array_type, comp_model in comp_models.items():
-        if not AutoComputationModel.has_computation_model(array_type):  # pragma: no cover
+        if not AutoComputationModel.has_computation_model(array_type):
             AutoComputationModel.add_computation_model(array_type, comp_model)

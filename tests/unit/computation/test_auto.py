@@ -12,6 +12,7 @@ from batcharray.computation import (
     AutoComputationModel,
     BaseComputationModel,
     MaskedArrayComputationModel,
+    register_computation_models,
 )
 from batcharray.types import SORT_KINDS
 from tests.unit.helpers import MyArray, MyMaskedArray
@@ -709,3 +710,33 @@ def test_auto_computation_model_find_computation_model_masked_array_subclass() -
 def test_auto_computation_model_find_computation_model_missing_empty_registry() -> None:
     with pytest.raises(TypeError, match=r"Registered array types: none"):
         AutoComputationModel.find_computation_model(str)
+
+
+@patch.dict(AutoComputationModel.registry, {}, clear=True)
+def test_register_computation_models_empty_registry() -> None:
+    register_computation_models()
+    assert AutoComputationModel.registry == {
+        np.ndarray: ArrayComputationModel(),
+        np.ma.MaskedArray: MaskedArrayComputationModel(),
+    }
+
+
+@patch.dict(AutoComputationModel.registry, {}, clear=True)
+def test_register_computation_models_keeps_existing_model() -> None:
+    custom = Mock()
+    AutoComputationModel.add_computation_model(np.ndarray, custom)
+    register_computation_models()
+    assert AutoComputationModel.registry[np.ndarray] is custom
+    assert AutoComputationModel.registry[np.ma.MaskedArray] == MaskedArrayComputationModel()
+
+
+def test_auto_computation_model_concatenate_mixed_types_masked_first_keeps_mask() -> None:
+    masked = np.ma.masked_array([[1, 2]], mask=[[False, True]])
+    out = AutoComputationModel().concatenate([masked, np.array([[3, 4]])], axis=0)
+    assert objects_are_equal(np.ma.getmaskarray(out), np.array([[False, True], [False, False]]))
+
+
+def test_auto_computation_model_concatenate_mixed_types_array_first_drops_mask() -> None:
+    masked = np.ma.masked_array([[1, 2]], mask=[[False, True]])
+    out = AutoComputationModel().concatenate([np.array([[3, 4]]), masked], axis=0)
+    assert not np.ma.getmaskarray(out).any()
