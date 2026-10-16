@@ -391,6 +391,49 @@ def test_concatenate_different_keys_raises(func: Callable, data: list) -> None:
         func(data)
 
 
+@pytest.mark.parametrize("func", [concatenate_along_batch, concatenate_along_seq])
+def test_concatenate_nested_structure(func: Callable) -> None:
+    axis = 0 if func is concatenate_along_batch else 1
+    data = [
+        {"a": {"b": np.ones((2, 2))}, "c": [np.zeros((2, 2))], "d": (np.ones((2, 2)),)},
+        {"a": {"b": np.ones((2, 2)) * 2}, "c": [np.zeros((2, 2)) + 1], "d": (np.ones((2, 2)) * 3,)},
+    ]
+    assert objects_are_equal(
+        func(data),
+        {
+            "a": {"b": np.concatenate([data[0]["a"]["b"], data[1]["a"]["b"]], axis=axis)},
+            "c": [np.concatenate([data[0]["c"][0], data[1]["c"][0]], axis=axis)],
+            "d": (np.concatenate([data[0]["d"][0], data[1]["d"][0]], axis=axis),),
+        },
+    )
+
+
+@pytest.mark.parametrize("func", [concatenate_along_batch, concatenate_along_seq])
+def test_concatenate_nested_different_keys_raises(func: Callable) -> None:
+    with pytest.raises(ValueError, match="same keys"):
+        func([{"a": {"b": np.zeros((2, 2))}}, {"a": {"c": np.zeros((2, 2))}}])
+
+
+@pytest.mark.parametrize("func", [concatenate_along_batch, concatenate_along_seq])
+def test_concatenate_different_lengths_raises(func: Callable) -> None:
+    with pytest.raises(ValueError, match="same length"):
+        func([[np.zeros((2, 2))], [np.zeros((2, 2)), np.zeros((2, 2))]])
+
+
+@pytest.mark.parametrize("func", [concatenate_along_batch, concatenate_along_seq])
+@pytest.mark.parametrize(
+    "data",
+    [
+        [{"a": np.zeros((2, 2))}, [np.zeros((2, 2))]],
+        [{"a": np.zeros((2, 2))}, {"a": 1}],
+        [{"a": 1}, {"a": 2}],
+    ],
+)
+def test_concatenate_incompatible_items_raises(func: Callable, data: list) -> None:
+    with pytest.raises(TypeError, match="Expected"):
+        func(data)
+
+
 ########################################
 #     Tests for repeat_along_batch     #
 ########################################

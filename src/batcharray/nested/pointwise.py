@@ -21,7 +21,6 @@ __all__ = [
     "square",
 ]
 
-from functools import partial
 from typing import Any
 
 import numpy as np
@@ -81,7 +80,9 @@ def clip(data: Any, a_min: float | None = None, a_max: float | None = None) -> A
 
         ```
     """
-    return recursive_apply(data, partial(np.clip, a_min=a_min, a_max=a_max))
+    # The bounds are passed positionally because NumPy 2.1 renamed the
+    # ``a_min``/``a_max`` keywords to ``min``/``max``.
+    return recursive_apply(data, lambda array: np.clip(array, a_min, a_max))
 
 
 def exp(data: Any) -> Any:

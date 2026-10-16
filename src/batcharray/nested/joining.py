@@ -16,20 +16,19 @@ from typing import TYPE_CHECKING, Any
 from coola.recursive import recursive_apply
 
 from batcharray import array as ba
-from batcharray.validation import validate_same_keys
+from batcharray.nested.structure import concatenate_structures
 
 if TYPE_CHECKING:
-    from collections.abc import Hashable, Sequence
+    from collections.abc import Sequence
 
-    import numpy as np
     from numpy.typing import DTypeLike
 
 
 def concatenate_along_batch(
-    data: Sequence[dict[Hashable, np.ndarray]],
+    data: Sequence[Any],
     *,
     dtype: DTypeLike | None = None,
-) -> dict[Hashable, np.ndarray]:
+) -> Any:
     r"""Concatenate the given arrays in the batch axis.
 
     All arrays must either have the same data type and shape (except
@@ -41,8 +40,10 @@ def concatenate_along_batch(
             same batch size.
 
     Args:
-        data: The input data to concatenate. The dictionaries must have
-            the same keys.
+        data: The input data to concatenate. It can be arrays or nested
+            structures of arrays (dictionaries, lists, tuples). All the
+            items must have the same structure (same dictionary keys
+            and same sequence lengths).
         dtype: If provided, the destination array will have this
             data type.
 
@@ -69,18 +70,16 @@ def concatenate_along_batch(
     """
     if not data:
         return {}
-    validate_same_keys(data)
-    item = data[0]
-    return type(item)(
-        {key: ba.concatenate_along_batch([d[key] for d in data], dtype=dtype) for key in item}
+    return concatenate_structures(
+        data, lambda arrays: ba.concatenate_along_batch(list(arrays), dtype=dtype)
     )
 
 
 def concatenate_along_seq(
-    data: Sequence[dict[Hashable, np.ndarray]],
+    data: Sequence[Any],
     *,
     dtype: DTypeLike | None = None,
-) -> dict[Hashable, np.ndarray]:
+) -> Any:
     r"""Concatenate the given arrays in the sequence axis.
 
     All arrays must either have the same data type and shape (except
@@ -92,8 +91,10 @@ def concatenate_along_seq(
             same sequence size.
 
     Args:
-        data: The input data to concatenate. The dictionaries must have
-            the same keys.
+        data: The input data to concatenate. It can be arrays or nested
+            structures of arrays (dictionaries, lists, tuples). All the
+            items must have the same structure (same dictionary keys
+            and same sequence lengths).
         dtype: If provided, the destination array will have this
             data type.
 
@@ -120,10 +121,8 @@ def concatenate_along_seq(
     """
     if not data:
         return {}
-    validate_same_keys(data)
-    item = data[0]
-    return type(item)(
-        {key: ba.concatenate_along_seq([d[key] for d in data], dtype=dtype) for key in item}
+    return concatenate_structures(
+        data, lambda arrays: ba.concatenate_along_seq(list(arrays), dtype=dtype)
     )
 
 

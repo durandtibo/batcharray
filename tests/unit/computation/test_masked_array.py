@@ -1109,3 +1109,317 @@ def test_masked_array_computation_model_concatenate_dtype_keeps_mask() -> None:
     out = MaskedArrayComputationModel().concatenate([arr, arr], dtype=np.float32)
     assert out.dtype == np.float32
     assert out.mask.sum() == 2
+
+
+################
+#     prod     #
+################
+
+
+@pytest.mark.parametrize("dtype", DTYPES)
+def test_masked_array_computation_model_prod_axis_0(dtype: DTypeLike) -> None:
+    assert objects_are_allclose(
+        MaskedArrayComputationModel().prod(
+            np.ma.masked_array(
+                data=np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]], dtype=dtype),
+                mask=np.array(
+                    [[False, False], [False, False], [False, False], [False, True], [True, True]]
+                ),
+            ),
+            axis=0,
+        ),
+        np.ma.masked_array(data=np.array([0, 15], dtype=dtype), mask=np.array([False, False])),
+    )
+
+
+@pytest.mark.parametrize("dtype", DTYPES)
+def test_masked_array_computation_model_prod_axis_1(dtype: DTypeLike) -> None:
+    assert objects_are_allclose(
+        MaskedArrayComputationModel().prod(
+            np.ma.masked_array(
+                data=np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]], dtype=dtype),
+                mask=np.array(
+                    [[False, False, False, False, False], [False, False, True, True, True]]
+                ),
+            ),
+            axis=1,
+        ),
+        np.ma.masked_array(data=np.array([0, 30], dtype=dtype), mask=np.array([False, False])),
+    )
+
+
+@pytest.mark.parametrize("dtype", DTYPES)
+def test_masked_array_computation_model_prod_axis_none(dtype: DTypeLike) -> None:
+    assert objects_are_allclose(
+        MaskedArrayComputationModel().prod(
+            np.ma.masked_array(
+                data=np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]], dtype=dtype),
+                mask=np.array(
+                    [[False, False, False, False, False], [False, False, True, True, True]]
+                ),
+            )
+        ),
+        dtype(int(0.0)),
+    )
+
+
+@pytest.mark.parametrize("dtype", DTYPES)
+def test_masked_array_computation_model_prod_keepdims_true(dtype: DTypeLike) -> None:
+    assert objects_are_allclose(
+        MaskedArrayComputationModel().prod(
+            np.ma.masked_array(
+                data=np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]], dtype=dtype),
+                mask=np.array(
+                    [[False, False], [False, False], [False, False], [False, True], [True, True]]
+                ),
+            ),
+            axis=0,
+            keepdims=True,
+        ),
+        np.ma.masked_array(data=np.array([[0, 15]], dtype=dtype), mask=np.array([[False, False]])),
+    )
+
+
+###############
+#     std     #
+###############
+
+
+@pytest.mark.parametrize("dtype", DTYPES)
+def test_masked_array_computation_model_std_axis_0(dtype: DTypeLike) -> None:
+    assert objects_are_allclose(
+        MaskedArrayComputationModel().std(
+            np.ma.masked_array(
+                data=np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]], dtype=dtype),
+                mask=np.array(
+                    [[False, False], [False, False], [False, False], [False, True], [True, True]]
+                ),
+            ),
+            axis=0,
+        ),
+        np.ma.masked_array(
+            data=np.array([2.23606797749979, 1.632993161855452]), mask=np.array([False, False])
+        ),
+    )
+
+
+@pytest.mark.parametrize("dtype", DTYPES)
+def test_masked_array_computation_model_std_axis_1(dtype: DTypeLike) -> None:
+    assert objects_are_allclose(
+        MaskedArrayComputationModel().std(
+            np.ma.masked_array(
+                data=np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]], dtype=dtype),
+                mask=np.array(
+                    [[False, False, False, False, False], [False, False, True, True, True]]
+                ),
+            ),
+            axis=1,
+        ),
+        np.ma.masked_array(data=np.array([1.4142135623730951, 0.5]), mask=np.array([False, False])),
+    )
+
+
+@pytest.mark.parametrize("dtype", DTYPES)
+def test_masked_array_computation_model_std_axis_none(dtype: DTypeLike) -> None:
+    assert objects_are_allclose(
+        MaskedArrayComputationModel().std(
+            np.ma.masked_array(
+                data=np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]], dtype=dtype),
+                mask=np.array(
+                    [[False, False, False, False, False], [False, False, True, True, True]]
+                ),
+            )
+        ),
+        np.float64(2.0),
+    )
+
+
+@pytest.mark.parametrize("dtype", DTYPES)
+def test_masked_array_computation_model_std_keepdims_true(dtype: DTypeLike) -> None:
+    assert objects_are_allclose(
+        MaskedArrayComputationModel().std(
+            np.ma.masked_array(
+                data=np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]], dtype=dtype),
+                mask=np.array(
+                    [[False, False], [False, False], [False, False], [False, True], [True, True]]
+                ),
+            ),
+            axis=0,
+            keepdims=True,
+        ),
+        np.ma.masked_array(
+            data=np.array([[2.23606797749979, 1.632993161855452]]), mask=np.array([[False, False]])
+        ),
+    )
+
+
+@pytest.mark.parametrize("dtype", DTYPES)
+def test_masked_array_computation_model_std_ddof_1(dtype: DTypeLike) -> None:
+    assert objects_are_allclose(
+        MaskedArrayComputationModel().std(
+            np.ma.masked_array(
+                data=np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]], dtype=dtype),
+                mask=np.array(
+                    [[False, False], [False, False], [False, False], [False, True], [True, True]]
+                ),
+            ),
+            axis=0,
+            ddof=1,
+        ),
+        np.ma.masked_array(data=np.array([2.581988897471611, 2.0]), mask=np.array([False, False])),
+    )
+
+
+###############
+#     sum     #
+###############
+
+
+@pytest.mark.parametrize("dtype", DTYPES)
+def test_masked_array_computation_model_sum_axis_0(dtype: DTypeLike) -> None:
+    assert objects_are_allclose(
+        MaskedArrayComputationModel().sum(
+            np.ma.masked_array(
+                data=np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]], dtype=dtype),
+                mask=np.array(
+                    [[False, False], [False, False], [False, False], [False, True], [True, True]]
+                ),
+            ),
+            axis=0,
+        ),
+        np.ma.masked_array(data=np.array([12, 9], dtype=dtype), mask=np.array([False, False])),
+    )
+
+
+@pytest.mark.parametrize("dtype", DTYPES)
+def test_masked_array_computation_model_sum_axis_1(dtype: DTypeLike) -> None:
+    assert objects_are_allclose(
+        MaskedArrayComputationModel().sum(
+            np.ma.masked_array(
+                data=np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]], dtype=dtype),
+                mask=np.array(
+                    [[False, False, False, False, False], [False, False, True, True, True]]
+                ),
+            ),
+            axis=1,
+        ),
+        np.ma.masked_array(data=np.array([10, 11], dtype=dtype), mask=np.array([False, False])),
+    )
+
+
+@pytest.mark.parametrize("dtype", DTYPES)
+def test_masked_array_computation_model_sum_axis_none(dtype: DTypeLike) -> None:
+    assert objects_are_allclose(
+        MaskedArrayComputationModel().sum(
+            np.ma.masked_array(
+                data=np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]], dtype=dtype),
+                mask=np.array(
+                    [[False, False, False, False, False], [False, False, True, True, True]]
+                ),
+            )
+        ),
+        dtype(int(21.0)),
+    )
+
+
+@pytest.mark.parametrize("dtype", DTYPES)
+def test_masked_array_computation_model_sum_keepdims_true(dtype: DTypeLike) -> None:
+    assert objects_are_allclose(
+        MaskedArrayComputationModel().sum(
+            np.ma.masked_array(
+                data=np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]], dtype=dtype),
+                mask=np.array(
+                    [[False, False], [False, False], [False, False], [False, True], [True, True]]
+                ),
+            ),
+            axis=0,
+            keepdims=True,
+        ),
+        np.ma.masked_array(data=np.array([[12, 9]], dtype=dtype), mask=np.array([[False, False]])),
+    )
+
+
+###############
+#     var     #
+###############
+
+
+@pytest.mark.parametrize("dtype", DTYPES)
+def test_masked_array_computation_model_var_axis_0(dtype: DTypeLike) -> None:
+    assert objects_are_allclose(
+        MaskedArrayComputationModel().var(
+            np.ma.masked_array(
+                data=np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]], dtype=dtype),
+                mask=np.array(
+                    [[False, False], [False, False], [False, False], [False, True], [True, True]]
+                ),
+            ),
+            axis=0,
+        ),
+        np.ma.masked_array(data=np.array([5.0, 2.6666666666666665])),
+    )
+
+
+@pytest.mark.parametrize("dtype", DTYPES)
+def test_masked_array_computation_model_var_axis_1(dtype: DTypeLike) -> None:
+    assert objects_are_allclose(
+        MaskedArrayComputationModel().var(
+            np.ma.masked_array(
+                data=np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]], dtype=dtype),
+                mask=np.array(
+                    [[False, False, False, False, False], [False, False, True, True, True]]
+                ),
+            ),
+            axis=1,
+        ),
+        np.ma.masked_array(data=np.array([2.0, 0.25])),
+    )
+
+
+@pytest.mark.parametrize("dtype", DTYPES)
+def test_masked_array_computation_model_var_axis_none(dtype: DTypeLike) -> None:
+    assert objects_are_allclose(
+        MaskedArrayComputationModel().var(
+            np.ma.masked_array(
+                data=np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]], dtype=dtype),
+                mask=np.array(
+                    [[False, False, False, False, False], [False, False, True, True, True]]
+                ),
+            )
+        ),
+        np.float64(4.0),
+    )
+
+
+@pytest.mark.parametrize("dtype", DTYPES)
+def test_masked_array_computation_model_var_keepdims_true(dtype: DTypeLike) -> None:
+    assert objects_are_allclose(
+        MaskedArrayComputationModel().var(
+            np.ma.masked_array(
+                data=np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]], dtype=dtype),
+                mask=np.array(
+                    [[False, False], [False, False], [False, False], [False, True], [True, True]]
+                ),
+            ),
+            axis=0,
+            keepdims=True,
+        ),
+        np.ma.masked_array(data=np.array([[5.0, 2.6666666666666665]])),
+    )
+
+
+@pytest.mark.parametrize("dtype", DTYPES)
+def test_masked_array_computation_model_var_ddof_1(dtype: DTypeLike) -> None:
+    assert objects_are_allclose(
+        MaskedArrayComputationModel().var(
+            np.ma.masked_array(
+                data=np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]], dtype=dtype),
+                mask=np.array(
+                    [[False, False], [False, False], [False, False], [False, True], [True, True]]
+                ),
+            ),
+            axis=0,
+            ddof=1,
+        ),
+        np.ma.masked_array(data=np.array([6.666666666666667, 4.0])),
+    )

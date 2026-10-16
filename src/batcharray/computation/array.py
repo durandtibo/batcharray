@@ -79,3 +79,23 @@ class ArrayComputationModel(BaseComputationModel[np.ndarray]):
         self, arr: np.ndarray, axis: int | None = None, *, kind: SortKind | None = None
     ) -> np.ndarray:
         return np.sort(arr, axis=axis, kind=kind)
+
+    def prod(
+        self, arr: np.ndarray, axis: int | None = None, *, keepdims: bool = False
+    ) -> np.ndarray:
+        return np.prod(arr, axis=axis, keepdims=keepdims)
+
+    def std(
+        self, arr: np.ndarray, axis: int | None = None, *, keepdims: bool = False, ddof: int = 0
+    ) -> np.ndarray:
+        return np.std(arr, axis=axis, keepdims=keepdims, ddof=ddof)
+
+    def sum(
+        self, arr: np.ndarray, axis: int | None = None, *, keepdims: bool = False
+    ) -> np.ndarray:
+        return np.sum(arr, axis=axis, keepdims=keepdims)
+
+    def var(
+        self, arr: np.ndarray, axis: int | None = None, *, keepdims: bool = False, ddof: int = 0
+    ) -> np.ndarray:
+        return np.var(arr, axis=axis, keepdims=keepdims, ddof=ddof)

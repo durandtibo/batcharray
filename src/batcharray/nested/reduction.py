@@ -39,9 +39,11 @@ from typing import Any
 from coola.recursive import recursive_apply
 
 from batcharray import array as ba
+from batcharray._deprecation import keepdims_keyword_only
 
 
-def amax_along_batch(data: Any, keepdims: bool = False) -> Any:
+@keepdims_keyword_only
+def amax_along_batch(data: Any, *, keepdims: bool = False) -> Any:
     r"""Return the maximum of all elements along the batch dimension.
 
     Note:
@@ -76,7 +78,8 @@ def amax_along_batch(data: Any, keepdims: bool = False) -> Any:
     return recursive_apply(data, partial(ba.amax_along_batch, keepdims=keepdims))
 
 
-def amax_along_seq(data: Any, keepdims: bool = False) -> Any:
+@keepdims_keyword_only
+def amax_along_seq(data: Any, *, keepdims: bool = False) -> Any:
     r"""Return the maximum of all elements along the sequence dimension.
 
     Note:
@@ -111,7 +114,8 @@ def amax_along_seq(data: Any, keepdims: bool = False) -> Any:
     return recursive_apply(data, partial(ba.amax_along_seq, keepdims=keepdims))
 
 
-def amin_along_batch(data: Any, keepdims: bool = False) -> Any:
+@keepdims_keyword_only
+def amin_along_batch(data: Any, *, keepdims: bool = False) -> Any:
     r"""Return the minimum of all elements along the batch dimension.
 
     Note:
@@ -146,7 +150,8 @@ def amin_along_batch(data: Any, keepdims: bool = False) -> Any:
     return recursive_apply(data, partial(ba.amin_along_batch, keepdims=keepdims))
 
 
-def amin_along_seq(data: Any, keepdims: bool = False) -> Any:
+@keepdims_keyword_only
+def amin_along_seq(data: Any, *, keepdims: bool = False) -> Any:
     r"""Return the minimum of all elements along the sequence dimension.
 
     Note:
@@ -181,7 +186,8 @@ def amin_along_seq(data: Any, keepdims: bool = False) -> Any:
     return recursive_apply(data, partial(ba.amin_along_seq, keepdims=keepdims))
 
 
-def argmax_along_batch(data: Any, keepdims: bool = False) -> Any:
+@keepdims_keyword_only
+def argmax_along_batch(data: Any, *, keepdims: bool = False) -> Any:
     r"""Return the indices of the maximum value of all elements along the
     batch dimension.
 
@@ -218,7 +224,8 @@ def argmax_along_batch(data: Any, keepdims: bool = False) -> Any:
     return recursive_apply(data, partial(ba.argmax_along_batch, keepdims=keepdims))
 
 
-def argmax_along_seq(data: Any, keepdims: bool = False) -> Any:
+@keepdims_keyword_only
+def argmax_along_seq(data: Any, *, keepdims: bool = False) -> Any:
     r"""Return the indices of the maximum value of all elements along the
     sequence dimension.
 
@@ -255,7 +262,8 @@ def argmax_along_seq(data: Any, keepdims: bool = False) -> Any:
     return recursive_apply(data, partial(ba.argmax_along_seq, keepdims=keepdims))
 
 
-def argmin_along_batch(data: Any, keepdims: bool = False) -> Any:
+@keepdims_keyword_only
+def argmin_along_batch(data: Any, *, keepdims: bool = False) -> Any:
     r"""Return the indices of the minimum value of all elements along the
     batch dimension.
 
@@ -292,7 +300,8 @@ def argmin_along_batch(data: Any, keepdims: bool = False) -> Any:
     return recursive_apply(data, partial(ba.argmin_along_batch, keepdims=keepdims))
 
 
-def argmin_along_seq(data: Any, keepdims: bool = False) -> Any:
+@keepdims_keyword_only
+def argmin_along_seq(data: Any, *, keepdims: bool = False) -> Any:
     r"""Return the indices of the minimum value of all elements along the
     sequence dimension.
 
@@ -329,7 +338,8 @@ def argmin_along_seq(data: Any, keepdims: bool = False) -> Any:
     return recursive_apply(data, partial(ba.argmin_along_seq, keepdims=keepdims))
 
 
-def max_along_batch(data: Any, keepdims: bool = False) -> Any:
+@keepdims_keyword_only
+def max_along_batch(data: Any, *, keepdims: bool = False) -> Any:
     r"""Return the maximum of all elements along the batch dimension.
 
     Note:
@@ -364,7 +374,8 @@ def max_along_batch(data: Any, keepdims: bool = False) -> Any:
     return recursive_apply(data, partial(ba.max_along_batch, keepdims=keepdims))
 
 
-def max_along_seq(data: Any, keepdims: bool = False) -> Any:
+@keepdims_keyword_only
+def max_along_seq(data: Any, *, keepdims: bool = False) -> Any:
     r"""Return the maximum of all elements along the sequence dimension.
 
     Note:
@@ -399,7 +410,8 @@ def max_along_seq(data: Any, keepdims: bool = False) -> Any:
     return recursive_apply(data, partial(ba.max_along_seq, keepdims=keepdims))
 
 
-def mean_along_batch(data: Any, keepdims: bool = False) -> Any:
+@keepdims_keyword_only
+def mean_along_batch(data: Any, *, keepdims: bool = False) -> Any:
     r"""Return the mean of all elements along the batch dimension.
 
     Note:
@@ -434,7 +446,8 @@ def mean_along_batch(data: Any, keepdims: bool = False) -> Any:
     return recursive_apply(data, partial(ba.mean_along_batch, keepdims=keepdims))
 
 
-def mean_along_seq(data: Any, keepdims: bool = False) -> Any:
+@keepdims_keyword_only
+def mean_along_seq(data: Any, *, keepdims: bool = False) -> Any:
     r"""Return the mean of all elements along the sequence dimension.
 
     Note:
@@ -469,7 +482,8 @@ def mean_along_seq(data: Any, keepdims: bool = False) -> Any:
     return recursive_apply(data, partial(ba.mean_along_seq, keepdims=keepdims))
 
 
-def median_along_batch(data: Any, keepdims: bool = False) -> Any:
+@keepdims_keyword_only
+def median_along_batch(data: Any, *, keepdims: bool = False) -> Any:
     r"""Return the median of all elements along the batch dimension.
 
     Note:
@@ -507,7 +521,8 @@ def median_along_batch(data: Any, keepdims: bool = False) -> Any:
     return recursive_apply(data, partial(ba.median_along_batch, keepdims=keepdims))
 
 
-def median_along_seq(data: Any, keepdims: bool = False) -> Any:
+@keepdims_keyword_only
+def median_along_seq(data: Any, *, keepdims: bool = False) -> Any:
     r"""Return the median of all elements along the sequence dimension.
 
     Note:
@@ -545,7 +560,8 @@ def median_along_seq(data: Any, keepdims: bool = False) -> Any:
     return recursive_apply(data, partial(ba.median_along_seq, keepdims=keepdims))
 
 
-def min_along_batch(data: Any, keepdims: bool = False) -> Any:
+@keepdims_keyword_only
+def min_along_batch(data: Any, *, keepdims: bool = False) -> Any:
     r"""Return the minimum of all elements along the batch dimension.
 
     Note:
@@ -580,7 +596,8 @@ def min_along_batch(data: Any, keepdims: bool = False) -> Any:
     return recursive_apply(data, partial(ba.min_along_batch, keepdims=keepdims))
 
 
-def min_along_seq(data: Any, keepdims: bool = False) -> Any:
+@keepdims_keyword_only
+def min_along_seq(data: Any, *, keepdims: bool = False) -> Any:
     r"""Return the minimum of all elements along the sequence dimension.
 
     Note:
@@ -615,7 +632,8 @@ def min_along_seq(data: Any, keepdims: bool = False) -> Any:
     return recursive_apply(data, partial(ba.min_along_seq, keepdims=keepdims))
 
 
-def prod_along_batch(data: Any, keepdims: bool = False) -> Any:
+@keepdims_keyword_only
+def prod_along_batch(data: Any, *, keepdims: bool = False) -> Any:
     r"""Return the product of all elements along the batch dimension.
 
     Note:
@@ -650,7 +668,8 @@ def prod_along_batch(data: Any, keepdims: bool = False) -> Any:
     return recursive_apply(data, partial(ba.prod_along_batch, keepdims=keepdims))
 
 
-def prod_along_seq(data: Any, keepdims: bool = False) -> Any:
+@keepdims_keyword_only
+def prod_along_seq(data: Any, *, keepdims: bool = False) -> Any:
     r"""Return the product of all elements along the sequence dimension.
 
     Note:
@@ -685,7 +704,8 @@ def prod_along_seq(data: Any, keepdims: bool = False) -> Any:
     return recursive_apply(data, partial(ba.prod_along_seq, keepdims=keepdims))
 
 
-def sum_along_batch(data: Any, keepdims: bool = False) -> Any:
+@keepdims_keyword_only
+def sum_along_batch(data: Any, *, keepdims: bool = False) -> Any:
     r"""Return the sum of all elements along the batch dimension.
 
     Note:
@@ -720,7 +740,8 @@ def sum_along_batch(data: Any, keepdims: bool = False) -> Any:
     return recursive_apply(data, partial(ba.sum_along_batch, keepdims=keepdims))
 
 
-def sum_along_seq(data: Any, keepdims: bool = False) -> Any:
+@keepdims_keyword_only
+def sum_along_seq(data: Any, *, keepdims: bool = False) -> Any:
     r"""Return the sum of all elements along the sequence dimension.
 
     Note:

@@ -11,7 +11,11 @@ __all__ = [
     "mean",
     "median",
     "min",
+    "prod",
     "sort",
+    "std",
+    "sum",
+    "var",
 ]
 
 from typing import TYPE_CHECKING
@@ -372,3 +376,149 @@ def sort(arr: ArrayT, axis: int | None = None, *, kind: SortKind | None = None) 
         ```
     """
     return _comp_model.sort(arr=arr, axis=axis, kind=kind)
+
+
+def prod(arr: ArrayT, axis: int | None = None, *, keepdims: bool = False) -> ArrayT:
+    r"""Return the product along the specified axis.
+
+    Args:
+        arr: The input array.
+        axis: Axis along which the products are computed.
+            The default (``None``) is to compute the product along
+            a flattened version of the array.
+        keepdims: If this is set to True, the axes which are
+            reduced are left in the result as dimensions with size
+            one. With this option, the result will broadcast
+            correctly against the input array.
+
+    Returns:
+        A new array holding the result.
+
+    Example:
+        ```pycon
+        >>> import numpy as np
+        >>> from batcharray.computation import prod
+        >>> array = np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]])
+        >>> out = prod(array, axis=0)
+        >>> out
+        array([  0, 945])
+        >>> out = prod(array, axis=1)
+        >>> out
+        array([ 0,  6, 20, 42, 72])
+        >>> out = prod(array, axis=0, keepdims=True)
+        >>> out
+        array([[  0, 945]])
+
+        ```
+    """
+    return _comp_model.prod(arr=arr, axis=axis, keepdims=keepdims)
+
+
+def std(arr: ArrayT, axis: int | None = None, *, keepdims: bool = False, ddof: int = 0) -> ArrayT:
+    r"""Return the standard deviation along the specified axis.
+
+    Args:
+        arr: The input array.
+        axis: Axis along which the standard deviations are computed.
+            The default (``None``) is to compute the standard deviation along
+            a flattened version of the array.
+        keepdims: If this is set to True, the axes which are
+            reduced are left in the result as dimensions with size
+            one. With this option, the result will broadcast
+            correctly against the input array.
+        ddof: The delta degrees of freedom. The divisor is ``N - ddof``.
+
+    Returns:
+        A new array holding the result.
+
+    Example:
+        ```pycon
+        >>> import numpy as np
+        >>> from batcharray.computation import std
+        >>> array = np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]])
+        >>> out = std(array, axis=0)
+        >>> out
+        array([2.82842712, 2.82842712])
+        >>> out = std(array, axis=1)
+        >>> out
+        array([0.5, 0.5, 0.5, 0.5, 0.5])
+        >>> out = std(array, axis=0, keepdims=True)
+        >>> out
+        array([[2.82842712, 2.82842712]])
+
+        ```
+    """
+    return _comp_model.std(arr=arr, axis=axis, keepdims=keepdims, ddof=ddof)
+
+
+def sum(arr: ArrayT, axis: int | None = None, *, keepdims: bool = False) -> ArrayT:  # noqa: A001
+    r"""Return the sum along the specified axis.
+
+    Args:
+        arr: The input array.
+        axis: Axis along which the sums are computed.
+            The default (``None``) is to compute the sum along
+            a flattened version of the array.
+        keepdims: If this is set to True, the axes which are
+            reduced are left in the result as dimensions with size
+            one. With this option, the result will broadcast
+            correctly against the input array.
+
+    Returns:
+        A new array holding the result.
+
+    Example:
+        ```pycon
+        >>> import numpy as np
+        >>> from batcharray.computation import sum
+        >>> array = np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]])
+        >>> out = sum(array, axis=0)
+        >>> out
+        array([20, 25])
+        >>> out = sum(array, axis=1)
+        >>> out
+        array([ 1,  5,  9, 13, 17])
+        >>> out = sum(array, axis=0, keepdims=True)
+        >>> out
+        array([[20, 25]])
+
+        ```
+    """
+    return _comp_model.sum(arr=arr, axis=axis, keepdims=keepdims)
+
+
+def var(arr: ArrayT, axis: int | None = None, *, keepdims: bool = False, ddof: int = 0) -> ArrayT:
+    r"""Return the variance along the specified axis.
+
+    Args:
+        arr: The input array.
+        axis: Axis along which the variances are computed.
+            The default (``None``) is to compute the variance along
+            a flattened version of the array.
+        keepdims: If this is set to True, the axes which are
+            reduced are left in the result as dimensions with size
+            one. With this option, the result will broadcast
+            correctly against the input array.
+        ddof: The delta degrees of freedom. The divisor is ``N - ddof``.
+
+    Returns:
+        A new array holding the result.
+
+    Example:
+        ```pycon
+        >>> import numpy as np
+        >>> from batcharray.computation import var
+        >>> array = np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]])
+        >>> out = var(array, axis=0)
+        >>> out
+        array([8., 8.])
+        >>> out = var(array, axis=1)
+        >>> out
+        array([0.25, 0.25, 0.25, 0.25, 0.25])
+        >>> out = var(array, axis=0, keepdims=True)
+        >>> out
+        array([[8., 8.]])
+
+        ```
+    """
+    return _comp_model.var(arr=arr, axis=axis, keepdims=keepdims, ddof=ddof)
