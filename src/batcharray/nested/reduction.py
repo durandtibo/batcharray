@@ -43,11 +43,6 @@ def argmax_along_batch(data: T, *, keepdims: bool = False) -> T:
     r"""Return the indices of the maximum value of all elements along the
     batch dimension.
 
-    Note:
-        This function assumes the batch dimension is the first
-            dimension of the arrays. All the arrays should have the
-            same batch size.
-
     Args:
         data: The input data. Each item must be an array.
         keepdims: Whether the output array has dim retained or not.
@@ -79,11 +74,6 @@ def argmax_along_batch(data: T, *, keepdims: bool = False) -> T:
 def argmax_along_seq(data: T, *, keepdims: bool = False) -> T:
     r"""Return the indices of the maximum value of all elements along the
     sequence dimension.
-
-    Note:
-        This function assumes the sequence dimension is the second
-            dimension of the arrays. All the arrays should have the
-            same sequence size.
 
     Args:
         data: The input data. Each item must be an array.
@@ -117,11 +107,6 @@ def argmin_along_batch(data: T, *, keepdims: bool = False) -> T:
     r"""Return the indices of the minimum value of all elements along the
     batch dimension.
 
-    Note:
-        This function assumes the batch dimension is the first
-            dimension of the arrays. All the arrays should have the
-            same batch size.
-
     Args:
         data: The input data. Each item must be an array.
         keepdims: Whether the output array has dim retained or not.
@@ -154,11 +139,6 @@ def argmin_along_seq(data: T, *, keepdims: bool = False) -> T:
     r"""Return the indices of the minimum value of all elements along the
     sequence dimension.
 
-    Note:
-        This function assumes the sequence dimension is the second
-            dimension of the arrays. All the arrays should have the
-            same sequence size.
-
     Args:
         data: The input data. Each item must be an array.
         keepdims: Whether the output array has dim retained or not.
@@ -190,11 +170,6 @@ def argmin_along_seq(data: T, *, keepdims: bool = False) -> T:
 def max_along_batch(data: T, *, keepdims: bool = False) -> T:
     r"""Return the maximum of all elements along the batch dimension.
 
-    Note:
-        This function assumes the batch dimension is the first
-            dimension of the arrays. All the arrays should have the
-            same batch size.
-
     Args:
         data: The input data. Each item must be an array.
         keepdims: Whether the output array has dim retained or not.
@@ -224,11 +199,6 @@ def max_along_batch(data: T, *, keepdims: bool = False) -> T:
 
 def max_along_seq(data: T, *, keepdims: bool = False) -> T:
     r"""Return the maximum of all elements along the sequence dimension.
-
-    Note:
-        This function assumes the sequence dimension is the second
-            dimension of the arrays. All the arrays should have the
-            same sequence size.
 
     Args:
         data: The input data. Each item must be an array.
@@ -260,11 +230,6 @@ def max_along_seq(data: T, *, keepdims: bool = False) -> T:
 def mean_along_batch(data: T, *, keepdims: bool = False) -> T:
     r"""Return the mean of all elements along the batch dimension.
 
-    Note:
-        This function assumes the batch dimension is the first
-            dimension of the arrays. All the arrays should have the
-            same batch size.
-
     Args:
         data: The input data. Each item must be an array.
         keepdims: Whether the output array has dim retained or not.
@@ -295,11 +260,6 @@ def mean_along_batch(data: T, *, keepdims: bool = False) -> T:
 def mean_along_seq(data: T, *, keepdims: bool = False) -> T:
     r"""Return the mean of all elements along the sequence dimension.
 
-    Note:
-        This function assumes the sequence dimension is the second
-            dimension of the arrays. All the arrays should have the
-            same sequence size.
-
     Args:
         data: The input data. Each item must be an array.
         keepdims: Whether the output array has dim retained or not.
@@ -329,11 +289,6 @@ def mean_along_seq(data: T, *, keepdims: bool = False) -> T:
 
 def median_along_batch(data: T, *, keepdims: bool = False) -> T:
     r"""Return the median of all elements along the batch dimension.
-
-    Note:
-        This function assumes the batch dimension is the first
-            dimension of the arrays. All the arrays should have the
-            same batch size.
 
     Args:
         data: The input data. Each item must be an array.
@@ -368,11 +323,6 @@ def median_along_batch(data: T, *, keepdims: bool = False) -> T:
 def median_along_seq(data: T, *, keepdims: bool = False) -> T:
     r"""Return the median of all elements along the sequence dimension.
 
-    Note:
-        This function assumes the sequence dimension is the second
-            dimension of the arrays. All the arrays should have the
-            same sequence size.
-
     Args:
         data: The input data. Each item must be an array.
         keepdims: Whether the output array has dim retained or not.
@@ -406,11 +356,6 @@ def median_along_seq(data: T, *, keepdims: bool = False) -> T:
 def min_along_batch(data: T, *, keepdims: bool = False) -> T:
     r"""Return the minimum of all elements along the batch dimension.
 
-    Note:
-        This function assumes the batch dimension is the first
-            dimension of the arrays. All the arrays should have the
-            same batch size.
-
     Args:
         data: The input data. Each item must be an array.
         keepdims: Whether the output array has dim retained or not.
@@ -440,11 +385,6 @@ def min_along_batch(data: T, *, keepdims: bool = False) -> T:
 
 def min_along_seq(data: T, *, keepdims: bool = False) -> T:
     r"""Return the minimum of all elements along the sequence dimension.
-
-    Note:
-        This function assumes the sequence dimension is the second
-            dimension of the arrays. All the arrays should have the
-            same sequence size.
 
     Args:
         data: The input data. Each item must be an array.
@@ -476,11 +416,6 @@ def min_along_seq(data: T, *, keepdims: bool = False) -> T:
 def prod_along_batch(data: T, *, keepdims: bool = False) -> T:
     r"""Return the product of all elements along the batch dimension.
 
-    Note:
-        This function assumes the batch dimension is the first
-            dimension of the arrays. All the arrays should have the
-            same batch size.
-
     Args:
         data: The input data. Each item must be an array.
         keepdims: Whether the output array has dim retained or not.
@@ -510,11 +445,6 @@ def prod_along_batch(data: T, *, keepdims: bool = False) -> T:
 
 def prod_along_seq(data: T, *, keepdims: bool = False) -> T:
     r"""Return the product of all elements along the sequence dimension.
-
-    Note:
-        This function assumes the sequence dimension is the second
-            dimension of the arrays. All the arrays should have the
-            same sequence size.
 
     Args:
         data: The input data. Each item must be an array.
@@ -546,11 +476,6 @@ def prod_along_seq(data: T, *, keepdims: bool = False) -> T:
 def sum_along_batch(data: T, *, keepdims: bool = False) -> T:
     r"""Return the sum of all elements along the batch dimension.
 
-    Note:
-        This function assumes the batch dimension is the first
-            dimension of the arrays. All the arrays should have the
-            same batch size.
-
     Args:
         data: The input data. Each item must be an array.
         keepdims: Whether the output array has dim retained or not.
@@ -580,11 +505,6 @@ def sum_along_batch(data: T, *, keepdims: bool = False) -> T:
 
 def sum_along_seq(data: T, *, keepdims: bool = False) -> T:
     r"""Return the sum of all elements along the sequence dimension.
-
-    Note:
-        This function assumes the sequence dimension is the second
-            dimension of the arrays. All the arrays should have the
-            same sequence size.
 
     Args:
         data: The input data. Each item must be an array.
@@ -616,10 +536,6 @@ def sum_along_seq(data: T, *, keepdims: bool = False) -> T:
 def std_along_batch(data: T, *, keepdims: bool = False, ddof: int = 0) -> T:
     r"""Return the standard deviation along the batch axis for all arrays.
 
-    Note:
-        This function assumes the batch axis is the first
-            axis of the arrays.
-
     Args:
         data: The input data. Each item must be an array.
         keepdims: Whether the output arrays have dim retained or not.
@@ -648,10 +564,6 @@ def std_along_batch(data: T, *, keepdims: bool = False, ddof: int = 0) -> T:
 
 def std_along_seq(data: T, *, keepdims: bool = False, ddof: int = 0) -> T:
     r"""Return the standard deviation along the sequence axis for all arrays.
-
-    Note:
-        This function assumes the sequence axis is the second
-            axis of the arrays.
 
     Args:
         data: The input data. Each item must be an array.
@@ -682,10 +594,6 @@ def std_along_seq(data: T, *, keepdims: bool = False, ddof: int = 0) -> T:
 def var_along_batch(data: T, *, keepdims: bool = False, ddof: int = 0) -> T:
     r"""Return the variance along the batch axis for all arrays.
 
-    Note:
-        This function assumes the batch axis is the first
-            axis of the arrays.
-
     Args:
         data: The input data. Each item must be an array.
         keepdims: Whether the output arrays have dim retained or not.
@@ -714,10 +622,6 @@ def var_along_batch(data: T, *, keepdims: bool = False, ddof: int = 0) -> T:
 
 def var_along_seq(data: T, *, keepdims: bool = False, ddof: int = 0) -> T:
     r"""Return the variance along the sequence axis for all arrays.
-
-    Note:
-        This function assumes the sequence axis is the second
-            axis of the arrays.
 
     Args:
         data: The input data. Each item must be an array.
@@ -748,10 +652,6 @@ def var_along_seq(data: T, *, keepdims: bool = False, ddof: int = 0) -> T:
 def any_along_batch(data: T, *, keepdims: bool = False) -> T:
     r"""Return the logical OR (whether any element is true) along the batch axis for all arrays.
 
-    Note:
-        This function assumes the batch axis is the first
-            axis of the arrays.
-
     Args:
         data: The input data. Each item must be an array.
         keepdims: Whether the output arrays have dim retained or not.
@@ -779,10 +679,6 @@ def any_along_batch(data: T, *, keepdims: bool = False) -> T:
 
 def any_along_seq(data: T, *, keepdims: bool = False) -> T:
     r"""Return the logical OR (whether any element is true) along the sequence axis for all arrays.
-
-    Note:
-        This function assumes the sequence axis is the second
-            axis of the arrays.
 
     Args:
         data: The input data. Each item must be an array.
@@ -812,10 +708,6 @@ def any_along_seq(data: T, *, keepdims: bool = False) -> T:
 def all_along_batch(data: T, *, keepdims: bool = False) -> T:
     r"""Return the logical AND (whether all elements are true) along the batch axis for all arrays.
 
-    Note:
-        This function assumes the batch axis is the first
-            axis of the arrays.
-
     Args:
         data: The input data. Each item must be an array.
         keepdims: Whether the output arrays have dim retained or not.
@@ -843,10 +735,6 @@ def all_along_batch(data: T, *, keepdims: bool = False) -> T:
 
 def all_along_seq(data: T, *, keepdims: bool = False) -> T:
     r"""Return the logical AND (whether all elements are true) along the sequence axis for all arrays.
-
-    Note:
-        This function assumes the sequence axis is the second
-            axis of the arrays.
 
     Args:
         data: The input data. Each item must be an array.

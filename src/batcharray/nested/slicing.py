@@ -31,11 +31,6 @@ def chunk_along_batch(data: T, chunks: int) -> list[T]:
 
     Each chunk is a view of the input array.
 
-    Note:
-        This function assumes the batch axis is the first
-            axis of the arrays. All the arrays should have the
-            same batch size.
-
     Args:
         data: The input data. It can be an array or a nested
             structure of arrays (dictionaries, lists, tuples).
@@ -75,11 +70,6 @@ def chunk_along_seq(data: T, chunks: int) -> list[T]:
     r"""Split all the arrays into chunks along the sequence axis.
 
     Each chunk is a view of the input array.
-
-    Note:
-        This function assumes the sequence axis is the second
-            axis of the arrays. All the arrays should have the
-            same sequence size.
 
     Args:
         data: The input data. It can be an array or a nested
@@ -122,11 +112,6 @@ def select_along_batch(data: T, index: int) -> T:
     This function returns a view of the original array with the batch
     axis removed.
 
-    Note:
-        This function assumes the batch axis is the first
-            axis of the arrays. All the arrays should have the
-            same batch size.
-
     Args:
         data: The input data. Each item must be an array.
         index: The index to select with.
@@ -157,11 +142,6 @@ def select_along_seq(data: T, index: int) -> T:
     This function returns a view of the original array with the
     sequence axis removed.
 
-    Note:
-        This function assumes the sequence axis is the second
-            axis of the arrays. All the arrays should have the
-            same sequence size.
-
     Args:
         data: The input data. Each item must be an array.
         index: The index to select with.
@@ -188,11 +168,6 @@ def select_along_seq(data: T, index: int) -> T:
 
 def slice_along_batch(data: T, start: int = 0, stop: int | None = None, *, step: int = 1) -> T:
     r"""Slice all the arrays along the batch axis.
-
-    Note:
-        This function assumes the batch axis is the first
-            axis of the arrays. All the arrays should have the
-            same batch size.
 
     Args:
         data: The input data. Each item must be an array.
@@ -229,11 +204,6 @@ def slice_along_batch(data: T, start: int = 0, stop: int | None = None, *, step:
 
 def slice_along_seq(data: T, start: int = 0, stop: int | None = None, *, step: int = 1) -> T:
     r"""Slice all the arrays along the sequence axis.
-
-    Note:
-        This function assumes the sequence axis is the second
-            axis of the arrays. All the arrays should have the
-            same sequence size.
 
     Args:
         data: The input data. Each item must be an array.
@@ -272,11 +242,6 @@ def split_along_batch(data: T, split_size_or_sections: int | Sequence[int]) -> l
     r"""Split all the arrays into chunks along the batch axis.
 
     Each chunk is a view of the original array.
-
-    Note:
-        This function assumes the batch axis is the first
-            axis of the arrays. All the arrays should have the
-            same batch size.
 
     Args:
         data: The input data. It can be an array or a nested
@@ -317,11 +282,6 @@ def split_along_seq(data: T, split_size_or_sections: int | Sequence[int]) -> lis
     r"""Split all the arrays into chunks along the sequence axis.
 
     Each chunk is a view of the original array.
-
-    Note:
-        This function assumes the sequence axis is the second
-            axis of the arrays. All the arrays should have the
-            same sequence size.
 
     Args:
         data: The input data. It can be an array or a nested

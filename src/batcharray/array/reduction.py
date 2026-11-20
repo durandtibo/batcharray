@@ -40,10 +40,6 @@ def argmax_along_batch(array: np.ndarray, *, keepdims: bool = False) -> np.ndarr
     r"""Return the indices of the maximum value of all elements along the
     batch axis.
 
-    Note:
-        This function assumes the batch axis is the first
-            axis.
-
     Args:
         array: The input array.
         keepdims: Whether the output array has dim retained or not.
@@ -72,10 +68,6 @@ def argmax_along_batch(array: np.ndarray, *, keepdims: bool = False) -> np.ndarr
 def argmax_along_seq(array: np.ndarray, *, keepdims: bool = False) -> np.ndarray:
     r"""Return the indices of the maximum value of all elements along the
     sequence axis.
-
-    Note:
-        This function assumes the sequence axis is the second
-            axis.
 
     Args:
         array: The input array.
@@ -106,10 +98,6 @@ def argmin_along_batch(array: np.ndarray, *, keepdims: bool = False) -> np.ndarr
     r"""Return the indices of the minimum value of all elements along the
     batch axis.
 
-    Note:
-        This function assumes the batch axis is the first
-            axis.
-
     Args:
         array: The input array.
         keepdims: Whether the output array has dim retained or not.
@@ -139,10 +127,6 @@ def argmin_along_seq(array: np.ndarray, *, keepdims: bool = False) -> np.ndarray
     r"""Return the indices of the minimum value of all elements along the
     sequence axis.
 
-    Note:
-        This function assumes the sequence axis is the second
-            axis.
-
     Args:
         array: The input array.
         keepdims: Whether the output array has dim retained or not.
@@ -171,10 +155,6 @@ def argmin_along_seq(array: np.ndarray, *, keepdims: bool = False) -> np.ndarray
 def max_along_batch(array: np.ndarray, *, keepdims: bool = False) -> np.ndarray:
     r"""Return the maximum of all elements along the batch axis.
 
-    Note:
-        This function assumes the batch axis is the first
-            axis.
-
     Args:
         array: The input array.
         keepdims: Whether the output array has dim retained or not.
@@ -201,10 +181,6 @@ def max_along_batch(array: np.ndarray, *, keepdims: bool = False) -> np.ndarray:
 
 def max_along_seq(array: np.ndarray, *, keepdims: bool = False) -> np.ndarray:
     r"""Return the maximum of all elements along the sequence axis.
-
-    Note:
-        This function assumes the sequence axis is the second
-            axis.
 
     Args:
         array: The input array.
@@ -233,10 +209,6 @@ def max_along_seq(array: np.ndarray, *, keepdims: bool = False) -> np.ndarray:
 def mean_along_batch(array: np.ndarray, *, keepdims: bool = False) -> np.ndarray:
     r"""Return the mean of all elements along the batch axis.
 
-    Note:
-        This function assumes the batch axis is the first
-            axis.
-
     Args:
         array: The input array.
         keepdims: Whether the output array has dim retained or not.
@@ -264,10 +236,6 @@ def mean_along_batch(array: np.ndarray, *, keepdims: bool = False) -> np.ndarray
 def mean_along_seq(array: np.ndarray, *, keepdims: bool = False) -> np.ndarray:
     r"""Return the mean of all elements along the sequence axis.
 
-    Note:
-        This function assumes the sequence axis is the second
-            axis.
-
     Args:
         array: The input array.
         keepdims: Whether the output array has dim retained or not.
@@ -294,10 +262,6 @@ def mean_along_seq(array: np.ndarray, *, keepdims: bool = False) -> np.ndarray:
 
 def median_along_batch(array: np.ndarray, *, keepdims: bool = False) -> np.ndarray:
     r"""Return the median of all elements along the batch axis.
-
-    Note:
-        This function assumes the batch axis is the first
-            axis.
 
     Args:
         array: The input array.
@@ -329,10 +293,6 @@ def median_along_batch(array: np.ndarray, *, keepdims: bool = False) -> np.ndarr
 def median_along_seq(array: np.ndarray, *, keepdims: bool = False) -> np.ndarray:
     r"""Return the median of all elements along the sequence axis.
 
-    Note:
-        This function assumes the sequence axis is the second
-            axis.
-
     Args:
         array: The input array.
         keepdims: Whether the output array has dim retained or not.
@@ -363,10 +323,6 @@ def median_along_seq(array: np.ndarray, *, keepdims: bool = False) -> np.ndarray
 def min_along_batch(array: np.ndarray, *, keepdims: bool = False) -> np.ndarray:
     r"""Return the minimum of all elements along the batch axis.
 
-    Note:
-        This function assumes the batch axis is the first
-            axis.
-
     Args:
         array: The input array.
         keepdims: Whether the output array has dim retained or not.
@@ -393,10 +349,6 @@ def min_along_batch(array: np.ndarray, *, keepdims: bool = False) -> np.ndarray:
 
 def min_along_seq(array: np.ndarray, *, keepdims: bool = False) -> np.ndarray:
     r"""Return the minimum of all elements along the sequence axis.
-
-    Note:
-        This function assumes the sequence axis is the second
-            axis.
 
     Args:
         array: The input array.
@@ -425,10 +377,6 @@ def min_along_seq(array: np.ndarray, *, keepdims: bool = False) -> np.ndarray:
 def prod_along_batch(array: np.ndarray, *, keepdims: bool = False) -> np.ndarray:
     r"""Return the product of all elements along the batch axis.
 
-    Note:
-        This function assumes the batch axis is the first
-            axis.
-
     Args:
         array: The input array.
         keepdims: Whether the output array has dim retained or not.
@@ -455,10 +403,6 @@ def prod_along_batch(array: np.ndarray, *, keepdims: bool = False) -> np.ndarray
 
 def prod_along_seq(array: np.ndarray, *, keepdims: bool = False) -> np.ndarray:
     r"""Return the product of all elements along the sequence axis.
-
-    Note:
-        This function assumes the sequence axis is the second
-            axis.
 
     Args:
         array: The input array.
@@ -487,10 +431,6 @@ def prod_along_seq(array: np.ndarray, *, keepdims: bool = False) -> np.ndarray:
 def sum_along_batch(array: np.ndarray, *, keepdims: bool = False) -> np.ndarray:
     r"""Return the sum of all elements along the batch axis.
 
-    Note:
-        This function assumes the batch axis is the first
-            axis.
-
     Args:
         array: The input array.
         keepdims: Whether the output array has dim retained or not.
@@ -518,10 +458,6 @@ def sum_along_batch(array: np.ndarray, *, keepdims: bool = False) -> np.ndarray:
 def sum_along_seq(array: np.ndarray, *, keepdims: bool = False) -> np.ndarray:
     r"""Return the sum of all elements along the sequence axis.
 
-    Note:
-        This function assumes the sequence axis is the second
-            axis.
-
     Args:
         array: The input array.
         keepdims: Whether the output array has dim retained or not.
@@ -548,10 +484,6 @@ def sum_along_seq(array: np.ndarray, *, keepdims: bool = False) -> np.ndarray:
 
 def std_along_batch(array: np.ndarray, *, keepdims: bool = False, ddof: int = 0) -> np.ndarray:
     r"""Return the standard deviation along the batch axis.
-
-    Note:
-        This function assumes the batch axis is the first
-            axis.
 
     Args:
         array: The input array.
@@ -581,10 +513,6 @@ def std_along_batch(array: np.ndarray, *, keepdims: bool = False, ddof: int = 0)
 def std_along_seq(array: np.ndarray, *, keepdims: bool = False, ddof: int = 0) -> np.ndarray:
     r"""Return the standard deviation along the sequence axis.
 
-    Note:
-        This function assumes the sequence axis is the second
-            axis.
-
     Args:
         array: The input array.
         keepdims: Whether the output array has dim retained or not.
@@ -612,10 +540,6 @@ def std_along_seq(array: np.ndarray, *, keepdims: bool = False, ddof: int = 0) -
 
 def var_along_batch(array: np.ndarray, *, keepdims: bool = False, ddof: int = 0) -> np.ndarray:
     r"""Return the variance along the batch axis.
-
-    Note:
-        This function assumes the batch axis is the first
-            axis.
 
     Args:
         array: The input array.
@@ -645,10 +569,6 @@ def var_along_batch(array: np.ndarray, *, keepdims: bool = False, ddof: int = 0)
 def var_along_seq(array: np.ndarray, *, keepdims: bool = False, ddof: int = 0) -> np.ndarray:
     r"""Return the variance along the sequence axis.
 
-    Note:
-        This function assumes the sequence axis is the second
-            axis.
-
     Args:
         array: The input array.
         keepdims: Whether the output array has dim retained or not.
@@ -677,10 +597,6 @@ def var_along_seq(array: np.ndarray, *, keepdims: bool = False, ddof: int = 0) -
 def any_along_batch(array: np.ndarray, *, keepdims: bool = False) -> np.ndarray:
     r"""Return the logical OR (whether any element is true) along the batch axis.
 
-    Note:
-        This function assumes the batch axis is the first
-            axis.
-
     Args:
         array: The input array.
         keepdims: Whether the output array has dim retained or not.
@@ -707,10 +623,6 @@ def any_along_batch(array: np.ndarray, *, keepdims: bool = False) -> np.ndarray:
 
 def any_along_seq(array: np.ndarray, *, keepdims: bool = False) -> np.ndarray:
     r"""Return the logical OR (whether any element is true) along the sequence axis.
-
-    Note:
-        This function assumes the sequence axis is the second
-            axis.
 
     Args:
         array: The input array.
@@ -739,10 +651,6 @@ def any_along_seq(array: np.ndarray, *, keepdims: bool = False) -> np.ndarray:
 def all_along_batch(array: np.ndarray, *, keepdims: bool = False) -> np.ndarray:
     r"""Return the logical AND (whether all elements are true) along the batch axis.
 
-    Note:
-        This function assumes the batch axis is the first
-            axis.
-
     Args:
         array: The input array.
         keepdims: Whether the output array has dim retained or not.
@@ -769,10 +677,6 @@ def all_along_batch(array: np.ndarray, *, keepdims: bool = False) -> np.ndarray:
 
 def all_along_seq(array: np.ndarray, *, keepdims: bool = False) -> np.ndarray:
     r"""Return the logical AND (whether all elements are true) along the sequence axis.
-
-    Note:
-        This function assumes the sequence axis is the second
-            axis.
 
     Args:
         array: The input array.

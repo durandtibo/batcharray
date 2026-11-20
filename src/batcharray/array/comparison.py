@@ -24,10 +24,6 @@ def argsort_along_batch(array: np.ndarray, *, kind: SortKind | None = None) -> n
     r"""Return the indices that sort an array along the batch axis in
     ascending order by value.
 
-    Note:
-        This function assumes the batch axis is the first
-            axis.
-
     Args:
         array: The input array.
         kind: Sorting algorithm. The default is `quicksort`.
@@ -57,10 +53,6 @@ def argsort_along_batch(array: np.ndarray, *, kind: SortKind | None = None) -> n
 def argsort_along_seq(array: np.ndarray, *, kind: SortKind | None = None) -> np.ndarray:
     r"""Return the indices that sort an array along the sequence axis in
     ascending order by value.
-
-    Note:
-        This function assumes the sequence axis is the second
-            axis.
 
     Args:
         array: The input array.
@@ -93,10 +85,6 @@ def sort_along_batch(array: np.ndarray, *, kind: SortKind | None = None) -> np.n
     r"""Sort the elements of the input array along the batch axis in
     ascending order by value.
 
-    Note:
-        This function assumes the batch axis is the first
-            axis.
-
     Args:
         array: The input array.
         kind: Sorting algorithm. The default is `quicksort`.
@@ -126,10 +114,6 @@ def sort_along_batch(array: np.ndarray, *, kind: SortKind | None = None) -> np.n
 def sort_along_seq(array: np.ndarray, *, kind: SortKind | None = None) -> np.ndarray:
     r"""Sort the elements of the input array along the sequence axis in
     ascending order by value.
-
-    Note:
-        This function assumes the sequence axis is the second
-            axis.
 
     Args:
         array: The input array.

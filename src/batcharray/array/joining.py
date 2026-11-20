@@ -33,10 +33,6 @@ def concatenate_along_batch(
     All arrays must either have the same data type and shape (except
     in the concatenating axis) or be empty.
 
-    Note:
-        This function assumes the batch axis is the first
-            axis.
-
     Args:
         arrays: The arrays to concatenate.
         dtype: If provided, the destination array will have this
@@ -75,10 +71,6 @@ def concatenate_along_seq(
     All arrays must either have the same data type and shape (except
     in the concatenating axis) or be empty.
 
-    Note:
-        This function assumes the sequence axis is the second
-            axis.
-
     Args:
         arrays: The arrays to concatenate.
         dtype: If provided, the destination array will have this
@@ -108,10 +100,6 @@ def concatenate_along_seq(
 def tile_along_seq(array: np.ndarray, reps: int) -> np.ndarray:
     r"""Construct an array by repeating the input array along the
     sequence axis.
-
-    Note:
-        This function assumes the sequence axis is the second
-            axis.
 
     Args:
         array: The input array.
@@ -143,10 +131,6 @@ def tile_along_seq(array: np.ndarray, reps: int) -> np.ndarray:
 def repeat_along_batch(array: np.ndarray, repeats: int) -> np.ndarray:
     r"""Repeat each element along the batch axis.
 
-    Note:
-        This function assumes the batch axis is the first
-            axis.
-
     Args:
         array: The input array.
         repeats: The number of repetitions of each element.
@@ -170,10 +154,6 @@ def repeat_along_batch(array: np.ndarray, repeats: int) -> np.ndarray:
 
 def repeat_along_seq(array: np.ndarray, repeats: int) -> np.ndarray:
     r"""Repeat each element along the sequence axis.
-
-    Note:
-        This function assumes the sequence axis is the second
-            axis.
 
     Args:
         array: The input array.

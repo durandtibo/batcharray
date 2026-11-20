@@ -40,10 +40,6 @@ def chunk_along_batch(array: np.ndarray, chunks: int) -> list[np.ndarray]:
 
     Each chunk is a view of the input array.
 
-    Note:
-        This function assumes the batch axis is the first
-            axis.
-
     Args:
         array: The array to split.
         chunks: Number of chunks to return. The split follows
@@ -72,10 +68,6 @@ def chunk_along_seq(array: np.ndarray, chunks: int) -> list[np.ndarray]:
     r"""Split the array into chunks along the sequence axis.
 
     Each chunk is a view of the input array.
-
-    Note:
-        This function assumes the sequence axis is the second
-            axis.
 
     Args:
         array: The array to split.
@@ -106,10 +98,6 @@ def select_along_batch(array: np.ndarray, index: int) -> np.ndarray:
 
     This function returns a view of the original array with the batch axis removed.
 
-    Note:
-        This function assumes the batch axis is the first
-            axis.
-
     Args:
         array: The input array.
         index: The index to select with.
@@ -136,10 +124,6 @@ def select_along_seq(array: np.ndarray, index: int) -> np.ndarray:
 
     This function returns a view of the original array with the sequence axis removed.
 
-    Note:
-        This function assumes the sequence axis is the second
-            axis.
-
     Args:
         array: The input array.
         index: The index to select with.
@@ -165,10 +149,6 @@ def slice_along_batch(
     array: np.ndarray, start: int = 0, stop: int | None = None, *, step: int = 1
 ) -> np.ndarray:
     r"""Slice the array along the batch axis.
-
-    Note:
-        This function assumes the batch axis is the first
-            axis.
 
     Args:
         array: The input array.
@@ -204,10 +184,6 @@ def slice_along_seq(
     array: np.ndarray, start: int = 0, stop: int | None = None, *, step: int = 1
 ) -> np.ndarray:
     r"""Slice the array along the sequence axis.
-
-    Note:
-        This function assumes the sequence axis is the second
-            axis.
 
     Args:
         array: The input array.
@@ -246,10 +222,6 @@ def split_along_batch(
 
     Each chunk is a view of the original array.
 
-    Note:
-        This function assumes the batch axis is the first
-            axis.
-
     Args:
         array: The input array.
         split_size_or_sections: Size of a single chunk or list of
@@ -279,10 +251,6 @@ def split_along_seq(
     r"""Split the array into chunks along the sequence axis.
 
     Each chunk is a view of the original array.
-
-    Note:
-        This function assumes the sequence axis is the second
-            axis.
 
     Args:
         array: The input array.
