@@ -86,3 +86,14 @@ equal to `index_select_*`.
 `shuffle_along_*` now passes `rng` to `numpy.random.default_rng`: a `Generator`, an integer seed or
 `None`. `split_along_*` accepts NumPy integers as the split size and rejects a `bool` with a
 `ValueError`.
+
+## Reductions on a 1-D array and `flip_along_seq`, `repeat_along_seq`
+
+- The `*_along_batch` reductions (`all`, `any`, `argmax`, `argmin`, `max`, `mean`, `median`, `min`,
+  `prod`, `std`, `sum`, `var`) and `select_along_batch` return a 0-d array where NumPy returns a
+  scalar (`np.float64`, `np.int64`, `np.bool_`), so the output of any function is a valid input of
+  `batcharray.nested`. A 0-d array behaves like a scalar in arithmetic, and `float(x)` and
+  `x.item()` work.
+- `flip_along_seq` and `repeat_along_seq` no longer check the number of dimensions: a 1-D array
+  raises NumPy's `AxisError` (a `ValueError` and an `IndexError`) instead of the `ValueError` of
+  `batcharray`.

@@ -128,7 +128,7 @@ def select_along_batch(array: np.ndarray, index: int) -> np.ndarray:
 
         ```
     """
-    return array[index]
+    return np.asanyarray(array[index])
 
 
 def select_along_seq(array: np.ndarray, index: int) -> np.ndarray:

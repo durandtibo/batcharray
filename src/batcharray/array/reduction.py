@@ -66,7 +66,7 @@ def argmax_along_batch(array: np.ndarray, *, keepdims: bool = False) -> np.ndarr
 
         ```
     """
-    return array.argmax(axis=BATCH_AXIS, keepdims=keepdims)
+    return np.asanyarray(array.argmax(axis=BATCH_AXIS, keepdims=keepdims))
 
 
 def argmax_along_seq(array: np.ndarray, *, keepdims: bool = False) -> np.ndarray:
@@ -132,7 +132,7 @@ def argmin_along_batch(array: np.ndarray, *, keepdims: bool = False) -> np.ndarr
 
         ```
     """
-    return array.argmin(axis=BATCH_AXIS, keepdims=keepdims)
+    return np.asanyarray(array.argmin(axis=BATCH_AXIS, keepdims=keepdims))
 
 
 def argmin_along_seq(array: np.ndarray, *, keepdims: bool = False) -> np.ndarray:
@@ -196,7 +196,7 @@ def max_along_batch(array: np.ndarray, *, keepdims: bool = False) -> np.ndarray:
 
         ```
     """
-    return array.max(axis=BATCH_AXIS, keepdims=keepdims)
+    return np.asanyarray(array.max(axis=BATCH_AXIS, keepdims=keepdims))
 
 
 def max_along_seq(array: np.ndarray, *, keepdims: bool = False) -> np.ndarray:
@@ -258,7 +258,7 @@ def mean_along_batch(array: np.ndarray, *, keepdims: bool = False) -> np.ndarray
 
         ```
     """
-    return array.mean(axis=BATCH_AXIS, keepdims=keepdims)
+    return np.asanyarray(array.mean(axis=BATCH_AXIS, keepdims=keepdims))
 
 
 def mean_along_seq(array: np.ndarray, *, keepdims: bool = False) -> np.ndarray:
@@ -323,7 +323,7 @@ def median_along_batch(array: np.ndarray, *, keepdims: bool = False) -> np.ndarr
 
         ```
     """
-    return get_namespace(array).median(array, axis=BATCH_AXIS, keepdims=keepdims)
+    return np.asanyarray(get_namespace(array).median(array, axis=BATCH_AXIS, keepdims=keepdims))
 
 
 def median_along_seq(array: np.ndarray, *, keepdims: bool = False) -> np.ndarray:
@@ -388,7 +388,7 @@ def min_along_batch(array: np.ndarray, *, keepdims: bool = False) -> np.ndarray:
 
         ```
     """
-    return array.min(axis=BATCH_AXIS, keepdims=keepdims)
+    return np.asanyarray(array.min(axis=BATCH_AXIS, keepdims=keepdims))
 
 
 def min_along_seq(array: np.ndarray, *, keepdims: bool = False) -> np.ndarray:
@@ -450,7 +450,7 @@ def prod_along_batch(array: np.ndarray, *, keepdims: bool = False) -> np.ndarray
 
         ```
     """
-    return array.prod(axis=BATCH_AXIS, keepdims=keepdims)
+    return np.asanyarray(array.prod(axis=BATCH_AXIS, keepdims=keepdims))
 
 
 def prod_along_seq(array: np.ndarray, *, keepdims: bool = False) -> np.ndarray:
@@ -512,7 +512,7 @@ def sum_along_batch(array: np.ndarray, *, keepdims: bool = False) -> np.ndarray:
 
         ```
     """
-    return array.sum(axis=BATCH_AXIS, keepdims=keepdims)
+    return np.asanyarray(array.sum(axis=BATCH_AXIS, keepdims=keepdims))
 
 
 def sum_along_seq(array: np.ndarray, *, keepdims: bool = False) -> np.ndarray:
@@ -575,7 +575,7 @@ def std_along_batch(array: np.ndarray, *, keepdims: bool = False, ddof: int = 0)
 
         ```
     """
-    return array.std(axis=BATCH_AXIS, keepdims=keepdims, ddof=ddof)
+    return np.asanyarray(array.std(axis=BATCH_AXIS, keepdims=keepdims, ddof=ddof))
 
 
 def std_along_seq(array: np.ndarray, *, keepdims: bool = False, ddof: int = 0) -> np.ndarray:
@@ -639,7 +639,7 @@ def var_along_batch(array: np.ndarray, *, keepdims: bool = False, ddof: int = 0)
 
         ```
     """
-    return array.var(axis=BATCH_AXIS, keepdims=keepdims, ddof=ddof)
+    return np.asanyarray(array.var(axis=BATCH_AXIS, keepdims=keepdims, ddof=ddof))
 
 
 def var_along_seq(array: np.ndarray, *, keepdims: bool = False, ddof: int = 0) -> np.ndarray:
@@ -702,7 +702,7 @@ def any_along_batch(array: np.ndarray, *, keepdims: bool = False) -> np.ndarray:
 
         ```
     """
-    return np.any(array, axis=BATCH_AXIS, keepdims=keepdims)
+    return np.asanyarray(np.any(array, axis=BATCH_AXIS, keepdims=keepdims))
 
 
 def any_along_seq(array: np.ndarray, *, keepdims: bool = False) -> np.ndarray:
@@ -764,7 +764,7 @@ def all_along_batch(array: np.ndarray, *, keepdims: bool = False) -> np.ndarray:
 
         ```
     """
-    return np.all(array, axis=BATCH_AXIS, keepdims=keepdims)
+    return np.asanyarray(np.all(array, axis=BATCH_AXIS, keepdims=keepdims))
 
 
 def all_along_seq(array: np.ndarray, *, keepdims: bool = False) -> np.ndarray:

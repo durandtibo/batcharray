@@ -226,5 +226,4 @@ def flip_along_seq(array: np.ndarray) -> np.ndarray:
 
         ```
     """
-    validate_min_ndim(array)
     return np.flip(array, axis=SEQ_AXIS)

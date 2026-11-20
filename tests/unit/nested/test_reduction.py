@@ -70,7 +70,7 @@ def test_argmax_along_batch_dict(dtype: DTypeLike) -> None:
                 "b": np.array([4, 3, 2, 1, 0]),
             }
         ),
-        {"a": np.array([4, 4]), "b": np.int64(0)},
+        {"a": np.array([4, 4]), "b": np.array(0, dtype=np.int64)},
     )
 
 
@@ -97,7 +97,11 @@ def test_argmax_along_batch_nested() -> None:
                 "c": [np.array([5, 6, 7, 8, 9])],
             }
         ),
-        {"a": np.array([4, 4]), "b": np.int64(0), "c": [np.int64(4)]},
+        {
+            "a": np.array([4, 4]),
+            "b": np.array(0, dtype=np.int64),
+            "c": [np.array(4, dtype=np.int64)],
+        },
     )
 
 
@@ -195,7 +199,7 @@ def test_argmin_along_batch_dict(dtype: DTypeLike) -> None:
                 "b": np.array([4, 3, 2, 1, 0]),
             }
         ),
-        {"a": np.array([0, 0]), "b": np.int64(4)},
+        {"a": np.array([0, 0]), "b": np.array(4, dtype=np.int64)},
     )
 
 
@@ -222,7 +226,11 @@ def test_argmin_along_batch_nested() -> None:
                 "c": [np.array([5, 6, 7, 8, 9])],
             }
         ),
-        {"a": np.array([0, 0]), "b": np.int64(4), "c": [np.int64(0)]},
+        {
+            "a": np.array([0, 0]),
+            "b": np.array(4, dtype=np.int64),
+            "c": [np.array(0, dtype=np.int64)],
+        },
     )
 
 
@@ -322,7 +330,7 @@ def test_max_along_batch_dict(dtype: DTypeLike) -> None:
         ),
         {
             "a": np.array([8, 9], dtype=dtype),
-            "b": np.int64(4),
+            "b": np.array(4, dtype=np.int64),
         },
     )
 
@@ -355,8 +363,8 @@ def test_max_along_batch_nested() -> None:
         ),
         {
             "a": np.array([8.0, 9.0]),
-            "b": np.int64(4),
-            "c": [np.int64(9)],
+            "b": np.array(4, dtype=np.int64),
+            "c": [np.array(9, dtype=np.int64)],
         },
     )
 
@@ -465,7 +473,7 @@ def test_mean_along_batch_dict(dtype: DTypeLike) -> None:
                 "b": np.array([4, 3, 2, 1, 0], dtype=np.float32),
             }
         ),
-        {"a": np.array([4.0, 5.0]), "b": np.float32(2.0)},
+        {"a": np.array([4.0, 5.0]), "b": np.array(2.0, dtype=np.float32)},
     )
 
 
@@ -492,7 +500,11 @@ def test_mean_along_batch_nested() -> None:
                 "c": [np.array([5, 6, 7, 8, 9], dtype=np.float64)],
             }
         ),
-        {"a": np.array([4.0, 5.0]), "b": np.float32(2.0), "c": [np.float64(7.0)]},
+        {
+            "a": np.array([4.0, 5.0]),
+            "b": np.array(2.0, dtype=np.float32),
+            "c": [np.array(7.0, dtype=np.float64)],
+        },
     )
 
 
@@ -594,7 +606,7 @@ def test_median_along_batch_dict(dtype: DTypeLike) -> None:
                 "b": np.array([4, 3, 2, 1, 0], dtype=np.float32),
             }
         ),
-        {"a": np.array([4.0, 5.0]), "b": np.float32(2.0)},
+        {"a": np.array([4.0, 5.0]), "b": np.array(2.0, dtype=np.float32)},
     )
 
 
@@ -621,7 +633,11 @@ def test_median_along_batch_nested() -> None:
                 "c": [np.array([5, 6, 7, 8, 9])],
             }
         ),
-        {"a": np.array([4.0, 5.0]), "b": np.float32(2.0), "c": [np.float64(7.0)]},
+        {
+            "a": np.array([4.0, 5.0]),
+            "b": np.array(2.0, dtype=np.float32),
+            "c": [np.array(7.0, dtype=np.float64)],
+        },
     )
 
 
@@ -731,7 +747,7 @@ def test_min_along_batch_dict(dtype: DTypeLike) -> None:
         ),
         {
             "a": np.array([0, 1], dtype=dtype),
-            "b": np.int64(0),
+            "b": np.array(0, dtype=np.int64),
         },
     )
 
@@ -764,8 +780,8 @@ def test_min_along_batch_nested() -> None:
         ),
         {
             "a": np.array([0.0, 1.0]),
-            "b": np.int64(0),
-            "c": [np.int64(5)],
+            "b": np.array(0, dtype=np.int64),
+            "c": [np.array(5, dtype=np.int64)],
         },
     )
 
@@ -874,7 +890,7 @@ def test_prod_along_batch_dict(dtype: DTypeLike) -> None:
                 "b": np.array([5, 4, 3, 2, 1]),
             }
         ),
-        {"a": np.array([0, 945], dtype=dtype), "b": np.int64(120)},
+        {"a": np.array([0, 945], dtype=dtype), "b": np.array(120, dtype=np.int64)},
     )
 
 
@@ -903,8 +919,8 @@ def test_prod_along_batch_nested() -> None:
         ),
         {
             "a": np.array([0.0, 945.0]),
-            "b": np.int64(120),
-            "c": [np.int64(15120)],
+            "b": np.array(120, dtype=np.int64),
+            "c": [np.array(15120, dtype=np.int64)],
         },
     )
 
@@ -1007,7 +1023,7 @@ def test_sum_along_batch_dict(dtype: DTypeLike) -> None:
                 "b": np.array([5, 4, 3, 2, 1]),
             }
         ),
-        {"a": np.array([20, 25], dtype=dtype), "b": np.int64(15)},
+        {"a": np.array([20, 25], dtype=dtype), "b": np.array(15, dtype=np.int64)},
     )
 
 
@@ -1036,8 +1052,8 @@ def test_sum_along_batch_nested() -> None:
         ),
         {
             "a": np.array([20.0, 25.0]),
-            "b": np.int64(15),
-            "c": [np.int64(35)],
+            "b": np.array(15, dtype=np.int64),
+            "c": [np.array(35, dtype=np.int64)],
         },
     )
 
