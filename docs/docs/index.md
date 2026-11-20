@@ -128,6 +128,7 @@ Please check the documentation to see all the implemented functions.
 - **[User Guide: Computation Models](uguide/computation.md)** - Low-level abstractions
 - **[Design Principles](design_principles.md)** - The rules of the package
 - **[Architecture](architecture.md)** - The layers and how to add an operation
+- **[Migration guide](migration.md)** - The removed names and their replacement
 
 ### API Reference
 

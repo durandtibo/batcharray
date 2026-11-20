@@ -102,7 +102,7 @@ Please check the documentation to see all the implemented functions.
 - `nested`: Functions to manipulate nested data structures (dicts, lists) containing arrays
   - Apply operations to all arrays in a structure simultaneously
   - Maintain relationships between related arrays
-  - Mathematical operations (abs, exp, log, trigonometric functions)
+  - Any other function can be applied to all the arrays with `coola.recursive.recursive_apply`
   - All operations from `array` module, but for nested structures
 - `computation`: Computation models for abstracting array operations
   - Automatic selection of appropriate implementation based on array type
