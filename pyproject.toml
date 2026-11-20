@@ -240,25 +240,12 @@ root_package = "batcharray"
 include_external_packages = false
 
 [[tool.importlinter.contracts]]
-name = "Validation must not import feature packages"
-type = "forbidden"
-source_modules = ["batcharray.validation"]
-forbidden_modules = [
-  "batcharray.array",
+name = "Layers"
+type = "layers"
+layers = [
   "batcharray.nested",
-]
-
-[[tool.importlinter.contracts]]
-name = "Utils must not import feature packages"
-type = "forbidden"
-source_modules = ["batcharray.utils"]
-forbidden_modules = [
   "batcharray.array",
-  "batcharray.nested",
+  "batcharray.utils",
+  "batcharray.validation",
+  "batcharray.constants",
 ]
-
-[[tool.importlinter.contracts]]
-name = "Array must not import nested"
-type = "forbidden"
-source_modules = ["batcharray.array"]
-forbidden_modules = ["batcharray.nested"]

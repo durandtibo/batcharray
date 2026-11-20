@@ -110,3 +110,24 @@ equal to `index_select_*`.
   not 1-D (they returned a higher-rank array or, along the sequence axis, did a per-sample gather).
 - `masked_select_along_batch` and `masked_select_along_seq` raise a `ValueError` for a mask that is
   not boolean (an integer mask was read as indices).
+
+## The size validators
+
+`validate_first_array`, `validate_same_batch_size` and `validate_same_seq_size` of
+`batcharray.validation` were removed (`validate_min_ndim`, `validate_split_sections` and
+`validate_same_keys` stay). `batcharray.nested.batch_size(data)` and `batcharray.nested.seq_len(data)`
+do the same check and return the size: all the arrays must have the same size along the axis,
+otherwise (or for a structure without array) a `ValueError` is raised, and a leaf that is not an
+array raises a `TypeError`.
+
+| Removed                                  | Replacement                              |
+| ---------------------------------------- | ---------------------------------------- |
+| `validate_same_batch_size(data)`         | `batch_size(data)`                       |
+| `validate_same_seq_size(data)`           | `seq_len(data)`                          |
+| `validate_first_array(data).shape[0]`    | `batch_size(data)`                       |
+
+The three `import-linter` contracts are replaced by one `layers` contract
+(`nested` > `array` > `utils` > `validation` > `constants`).
+
+`permute_along_batch` and `permute_along_seq` raise a `ValueError` for a permutation that is not
+1-D (a 2-D permutation with the right first dimension was accepted).

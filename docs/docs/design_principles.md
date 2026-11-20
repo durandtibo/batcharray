@@ -6,11 +6,11 @@ rules.
 
 !!! note "Status"
 
-    The properties below are the target of the package.
+    Each property has a gate: a test or a CI job that fails when it breaks (see the table
+    [Gates](#gates)). A property without a gate is given one or removed.
     [`review/target_state.md`](https://github.com/durandtibo/batcharray/blob/main/review/target_state.md)
-    lists the steps that bring the code to this state and the test that guards each property
-    (the gate). A property without a gate is given one or removed. The package is pre-1.0: the API
-    can change between releases.
+    records how the code reached this state. The package is pre-1.0: the API can change between
+    releases.
 
 ## Layout
 
@@ -43,6 +43,29 @@ transposed first. A `_along_seq` function needs an array with at least 2 dimensi
 | P16 | Documented by example  | Every public function has a docstring with a runnable `pycon` example. Each rule is stated once, on this page.                                                                       |
 | P17 | Defined on edge cases  | Every function has a documented result on empty and degenerate input. "NumPy's behaviour" is an answer, "undefined" is not.                                                          |
 | P18 | Documented claims exist | Every file, workflow or module that the README and the docs point to exists, and the description of the package matches `pyproject.toml`.                                           |
+
+## Gates
+
+| Property | Gate                                                                                                                  |
+| -------- | --------------------------------------------------------------------------------------------------------------------- |
+| P1       | `tests/unit/test_signatures.py` (no `axis` parameter)                                                                 |
+| P2       | `tests/unit/test_thin_wrappers.py` (the body of a function outside the closed list is one NumPy call)                 |
+| P3       | `tests/unit/test_signatures.py` (same names, options and defaults in `array` and `nested`)                            |
+| P4       | `tests/unit/test_nested_contract.py` (no `recursive_apply`, no `isinstance` on a container in `nested`)               |
+| P5       | `tests/unit/test_nested_contract.py` and `tests/unit/utils/test_structure.py` (the container types are kept)          |
+| P6       | `tests/unit/test_nested_contract.py` (every `nested` function raises a `TypeError` for a non-array leaf)              |
+| P7       | `tests/unit/test_purity.py` (inputs are not modified, no aliasing except the views)                                   |
+| P8       | `tests/unit/test_error_contract.py` (one row per line of the error table)                                             |
+| P9       | `tests/unit/test_rng.py`                                                                                              |
+| P10      | the dtype tests of `concatenate_*` and of the reductions in `tests/unit/array`                                        |
+| P11      | `tests/unit/test_masked_arrays.py` (every function on a masked array equals the `numpy.ma` result)                    |
+| P12      | `tests/unit/test_array_in_array_out.py`                                                                               |
+| P13      | `tests/unit/test_signatures.py` (options are keyword-only, no `**kwargs`)                                             |
+| P14      | `ty` in CI and `tests/unit/test_nested_contract.py` (the annotations are `T -> T`)                                    |
+| P15      | the `layers` contract of `import-linter` (`ci-cyclic-imports`)                                                        |
+| P16      | `ci-doctest` (the examples run)                                                                                       |
+| P17      | `tests/unit/test_edge_case.py` (one test per row of the edge-case table)                                              |
+| P18      | `tests/unit/test_docs_references.py`                                                                                  |
 
 **Not guaranteed:**
 

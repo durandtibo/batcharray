@@ -53,7 +53,7 @@ def permute_along_batch(array: np.ndarray, permutation: np.ndarray) -> np.ndarra
 
         ```
     """
-    if permutation.shape[0] != array.shape[0]:
+    if permutation.ndim != 1 or permutation.shape[0] != array.shape[BATCH_AXIS]:
         msg = (
             f"permutation shape ({permutation.shape}) is not compatible with array shape "
             f"({array.shape})"
@@ -95,7 +95,7 @@ def permute_along_seq(array: np.ndarray, permutation: np.ndarray) -> np.ndarray:
         ```
     """
     validate_min_ndim(array)
-    if permutation.shape[0] != array.shape[1]:
+    if permutation.ndim != 1 or permutation.shape[0] != array.shape[SEQ_AXIS]:
         msg = (
             f"permutation shape ({permutation.shape}) is not compatible with array shape "
             f"({array.shape})"

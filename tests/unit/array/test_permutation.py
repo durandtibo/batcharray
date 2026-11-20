@@ -277,3 +277,15 @@ def test_shuffle_rng_none_keeps_shape(func: Callable) -> None:
 def test_shuffle_rng_is_keyword_only(func: Callable) -> None:
     with pytest.raises(TypeError, match="positional argument"):
         func(np.ones((4, 5)), np.random.default_rng(1))
+
+
+@pytest.mark.parametrize("permutation", [np.zeros((4, 1), dtype=int), np.array(0)])
+def test_permute_along_batch_permutation_not_1d_raises(permutation: np.ndarray) -> None:
+    with pytest.raises(ValueError, match="permutation shape"):
+        permute_along_batch(np.ones((4, 5)), permutation)
+
+
+@pytest.mark.parametrize("permutation", [np.zeros((5, 1), dtype=int), np.array(0)])
+def test_permute_along_seq_permutation_not_1d_raises(permutation: np.ndarray) -> None:
+    with pytest.raises(ValueError, match="permutation shape"):
+        permute_along_seq(np.ones((4, 5)), permutation)

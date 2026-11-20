@@ -262,6 +262,11 @@ mini_batches = nested.split_along_batch(augmented, split_size_or_sections=4)
 The `nested` module provides all operations from the `array` module, but for nested structures.
 Here's a non comprehensive list organized by category:
 
+### Size
+
+- `batch_size()` - Batch size shared by all the arrays
+- `seq_len()` - Sequence length shared by all the arrays
+
 ### Comparison and Sorting
 
 - `argsort_along_batch()` - Get sorting indices (batch)

@@ -183,9 +183,7 @@ def test_map_function_keeps_nested_values() -> None:
 #     Tests for the annotations (P14: T -> T)           #
 #########################################################
 
-PUBLIC_FUNCTIONS = sorted(
-    name for name in bn.__all__ if inspect.isfunction(getattr(bn, name)) and name != "NestedArray"
-)
+PUBLIC_FUNCTIONS = sorted(set(bn.__all__) - {"batch_size", "seq_len"})
 
 
 @pytest.mark.parametrize("name", PUBLIC_FUNCTIONS)
