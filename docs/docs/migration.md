@@ -18,23 +18,23 @@ data = {"a": np.array([[1.0, 4.0], [9.0, 16.0]])}
 out = apply_to_arrays(data, np.sqrt)
 ```
 
-| Removed                                                       | Replacement                                                  |
-| ------------------------------------------------------------- | ------------------------------------------------------------ |
-| `nested.abs(data)`                                            | `apply_to_arrays(data, np.abs)`                              |
-| `nested.ceil(data)`                                           | `apply_to_arrays(data, np.ceil)`                             |
-| `nested.clip(data, a_min, a_max)`                             | `apply_to_arrays(data, lambda x: np.clip(x, a_min, a_max))`  |
-| `nested.exp(data)`, `exp2`, `expm1`                           | `apply_to_arrays(data, np.exp)`, `np.exp2`, `np.expm1`       |
-| `nested.floor(data)`                                          | `apply_to_arrays(data, np.floor)`                            |
-| `nested.isnan(data)`                                          | `apply_to_arrays(data, np.isnan)`                            |
-| `nested.log(data)`, `log10`, `log1p`, `log2`                  | `apply_to_arrays(data, np.log)`, `np.log10`, `np.log1p`, `np.log2` |
-| `nested.round(data)`                                          | `apply_to_arrays(data, np.round)`                            |
-| `nested.sign(data)`                                           | `apply_to_arrays(data, np.sign)`                             |
-| `nested.sqrt(data)`, `square`                                 | `apply_to_arrays(data, np.sqrt)`, `np.square`                |
-| `nested.sin(data)`, `cos`, `tan`                              | `apply_to_arrays(data, np.sin)`, `np.cos`, `np.tan`          |
-| `nested.arcsin(data)`, `arccos`, `arctan`                     | `apply_to_arrays(data, np.arcsin)`, `np.arccos`, `np.arctan` |
-| `nested.sinh(data)`, `cosh`, `tanh`                           | `apply_to_arrays(data, np.sinh)`, `np.cosh`, `np.tanh`       |
-| `nested.arcsinh(data)`, `arccosh`, `arctanh`                  | `apply_to_arrays(data, np.arcsinh)`, `np.arccosh`, `np.arctanh` |
-| `nested.to_list(data)`                                        | `apply_to_arrays(data, np.ndarray.tolist)`                   |
+| Removed                                      | Replacement                                                        |
+| -------------------------------------------- | ------------------------------------------------------------------ |
+| `nested.abs(data)`                           | `apply_to_arrays(data, np.abs)`                                    |
+| `nested.ceil(data)`                          | `apply_to_arrays(data, np.ceil)`                                   |
+| `nested.clip(data, a_min, a_max)`            | `apply_to_arrays(data, lambda x: np.clip(x, a_min, a_max))`        |
+| `nested.exp(data)`, `exp2`, `expm1`          | `apply_to_arrays(data, np.exp)`, `np.exp2`, `np.expm1`             |
+| `nested.floor(data)`                         | `apply_to_arrays(data, np.floor)`                                  |
+| `nested.isnan(data)`                         | `apply_to_arrays(data, np.isnan)`                                  |
+| `nested.log(data)`, `log10`, `log1p`, `log2` | `apply_to_arrays(data, np.log)`, `np.log10`, `np.log1p`, `np.log2` |
+| `nested.round(data)`                         | `apply_to_arrays(data, np.round)`                                  |
+| `nested.sign(data)`                          | `apply_to_arrays(data, np.sign)`                                   |
+| `nested.sqrt(data)`, `square`                | `apply_to_arrays(data, np.sqrt)`, `np.square`                      |
+| `nested.sin(data)`, `cos`, `tan`             | `apply_to_arrays(data, np.sin)`, `np.cos`, `np.tan`                |
+| `nested.arcsin(data)`, `arccos`, `arctan`    | `apply_to_arrays(data, np.arcsin)`, `np.arccos`, `np.arctan`       |
+| `nested.sinh(data)`, `cosh`, `tanh`          | `apply_to_arrays(data, np.sinh)`, `np.cosh`, `np.tanh`             |
+| `nested.arcsinh(data)`, `arccosh`, `arctanh` | `apply_to_arrays(data, np.arcsinh)`, `np.arccosh`, `np.arctanh`    |
+| `nested.to_list(data)`                       | `apply_to_arrays(data, np.ndarray.tolist)`                         |
 
 `apply_to_arrays` raises a `TypeError` that names the type of a leaf that is not an array.
 
@@ -45,11 +45,11 @@ interface) was removed. A masked array is dispatched by the method of the array 
 or by `numpy.ma` for `median`, `sort`, `argsort` and `concatenate`. The one helper is
 `batcharray.utils.get_namespace`, which returns `numpy.ma` for a masked array and `numpy` otherwise.
 
-| Removed                                                          | Replacement                                          |
-| ---------------------------------------------------------------- | ---------------------------------------------------- |
-| `computation.sum(x, axis=0)`, `prod`, `mean`, `std`, `var`, `min`, `max`, `argmax`, `argmin` | `x.sum(axis=0)`, ... (the method of the array) |
-| `computation.median(x, axis=0)`, `sort`, `argsort`              | `get_namespace(x).median(x, axis=0)`, ...            |
-| `computation.concatenate(arrays, axis=0)`                        | `get_namespace(arrays[0]).concatenate(arrays, axis=0)` |
+| Removed                                                                                                                                   | Replacement                                               |
+| ----------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------- |
+| `computation.sum(x, axis=0)`, `prod`, `mean`, `std`, `var`, `min`, `max`, `argmax`, `argmin`                                              | `x.sum(axis=0)`, ... (the method of the array)            |
+| `computation.median(x, axis=0)`, `sort`, `argsort`                                                                                        | `get_namespace(x).median(x, axis=0)`, ...                 |
+| `computation.concatenate(arrays, axis=0)`                                                                                                 | `get_namespace(arrays[0]).concatenate(arrays, axis=0)`    |
 | `ArrayComputationModel`, `MaskedArrayComputationModel`, `AutoComputationModel`, `BaseComputationModel`, and `register_computation_models` | none: an array type with other semantics is not supported |
 
 ## The `types` module
@@ -62,26 +62,26 @@ or by `numpy.ma` for `median`, `sort`, `argsort` and `concatenate`. The one help
 `amax_*` and `amin_*` were aliases of `max_*` and `min_*` (as in NumPy). `take_*` was documented as
 equal to `index_select_*`.
 
-| Removed (`array` and `nested`)                          | Replacement                                                       |
-| ------------------------------------------------------- | ----------------------------------------------------------------- |
-| `amax_along_batch`, `amax_along_seq`                    | `max_along_batch`, `max_along_seq`                                |
-| `amin_along_batch`, `amin_along_seq`                    | `min_along_batch`, `min_along_seq`                                |
-| `take_along_batch`, `take_along_seq` with a 1-D index   | `index_select_along_batch`, `index_select_along_seq`              |
-| `take_along_seq` with a 2-D index (per-sample gather)   | `gather_along_seq`                                                |
-| `take_along_batch` with a 2-D index                     | `np.take(array, indices, axis=0)`                                 |
+| Removed (`array` and `nested`)                        | Replacement                                          |
+| ----------------------------------------------------- | ---------------------------------------------------- |
+| `amax_along_batch`, `amax_along_seq`                  | `max_along_batch`, `max_along_seq`                   |
+| `amin_along_batch`, `amin_along_seq`                  | `min_along_batch`, `min_along_seq`                   |
+| `take_along_batch`, `take_along_seq` with a 1-D index | `index_select_along_batch`, `index_select_along_seq` |
+| `take_along_seq` with a 2-D index (per-sample gather) | `gather_along_seq`                                   |
+| `take_along_batch` with a 2-D index                   | `np.take(array, indices, axis=0)`                    |
 
 ## Keyword-only options and the deprecation shim
 
 `keepdims`, `kind`, `rng` and `step` are keyword-only. The `keepdims_keyword_only` shim (and
 `batcharray._deprecation`) was removed: a positional `keepdims` is a `TypeError`.
 
-| Before                                    | After                                      |
-| ----------------------------------------- | ------------------------------------------ |
-| `sum_along_batch(x, True)`                | `sum_along_batch(x, keepdims=True)`        |
-| `sort_along_batch(x, "stable")`           | `sort_along_batch(x, kind="stable")`       |
-| `argsort_along_seq(x, "stable")`          | `argsort_along_seq(x, kind="stable")`      |
-| `shuffle_along_batch(x, rng)`             | `shuffle_along_batch(x, rng=rng)`          |
-| `slice_along_batch(x, 0, 10, 2)`          | `slice_along_batch(x, 0, 10, step=2)`      |
+| Before                           | After                                 |
+| -------------------------------- | ------------------------------------- |
+| `sum_along_batch(x, True)`       | `sum_along_batch(x, keepdims=True)`   |
+| `sort_along_batch(x, "stable")`  | `sort_along_batch(x, kind="stable")`  |
+| `argsort_along_seq(x, "stable")` | `argsort_along_seq(x, kind="stable")` |
+| `shuffle_along_batch(x, rng)`    | `shuffle_along_batch(x, rng=rng)`     |
+| `slice_along_batch(x, 0, 10, 2)` | `slice_along_batch(x, 0, 10, step=2)` |
 
 `shuffle_along_*` now passes `rng` to `numpy.random.default_rng`: a `Generator`, an integer seed or
 `None`. `split_along_*` accepts NumPy integers as the split size and rejects a `bool` with a
@@ -120,11 +120,11 @@ do the same check and return the size: all the arrays must have the same size al
 otherwise (or for a structure without array) a `ValueError` is raised, and a leaf that is not an
 array raises a `TypeError`.
 
-| Removed                                  | Replacement                              |
-| ---------------------------------------- | ---------------------------------------- |
-| `validate_same_batch_size(data)`         | `batch_size(data)`                       |
-| `validate_same_seq_size(data)`           | `seq_len(data)`                          |
-| `validate_first_array(data).shape[0]`    | `batch_size(data)`                       |
+| Removed                               | Replacement        |
+| ------------------------------------- | ------------------ |
+| `validate_same_batch_size(data)`      | `batch_size(data)` |
+| `validate_same_seq_size(data)`        | `seq_len(data)`    |
+| `validate_first_array(data).shape[0]` | `batch_size(data)` |
 
 The three `import-linter` contracts are replaced by one `layers` contract
 (`nested` > `array` > `utils` > `validation` > `constants`).
