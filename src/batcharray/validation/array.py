@@ -7,6 +7,7 @@ __all__ = [
     "validate_split_sections",
 ]
 
+from numbers import Integral
 from typing import TYPE_CHECKING
 
 import numpy as np
@@ -46,12 +47,13 @@ def validate_split_sections(size: int, split_size_or_sections: int | Sequence[in
 
     Args:
         size: The size of the axis to split.
-        split_size_or_sections: The size of a single chunk, or the
-            sizes of each chunk.
+        split_size_or_sections: The size of a single chunk (a Python
+            or NumPy integer, not a boolean), or the sizes of each
+            chunk.
 
     Raises:
-        ValueError: if the split size is not positive, or if the
-            sections are negative or do not sum to ``size``.
+        ValueError: if the split size is a boolean or is not positive,
+            or if the sections are negative or do not sum to ``size``.
 
     Example:
         ```pycon
@@ -61,15 +63,15 @@ def validate_split_sections(size: int, split_size_or_sections: int | Sequence[in
 
         ```
     """
-    if isinstance(split_size_or_sections, int):
-        if split_size_or_sections <= 0:
-            msg = f"split size must be positive, but got {split_size_or_sections}"
+    if isinstance(split_size_or_sections, Integral):
+        if isinstance(split_size_or_sections, bool) or split_size_or_sections <= 0:
+            msg = f"split size must be a positive integer, but got {split_size_or_sections}"
             raise ValueError(msg)
         return
     sections = np.asarray(split_size_or_sections, dtype=int)
     if (sections < 0).any() or sections.sum() != size:
         msg = (
-            f"split sections {list(split_size_or_sections)} must be non-negative and sum "
+            f"split sections {sections.tolist()} must be non-negative and sum "
             f"to the axis size ({size})"
         )
         raise ValueError(msg)

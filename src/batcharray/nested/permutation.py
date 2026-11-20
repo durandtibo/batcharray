@@ -101,7 +101,7 @@ def permute_along_seq(data: Any, permutation: np.ndarray) -> Any:
     return recursive_apply(data, partial(array.permute_along_seq, permutation=permutation))
 
 
-def shuffle_along_batch(data: Any, rng: np.random.Generator | None = None) -> Any:
+def shuffle_along_batch(data: Any, *, rng: np.random.Generator | int | None = None) -> Any:
     r"""Shuffle all the arrays along the batch axis.
 
     Note:
@@ -111,7 +111,8 @@ def shuffle_along_batch(data: Any, rng: np.random.Generator | None = None) -> An
 
     Args:
         data: The input data. Each item must be an array.
-        rng: An optional random number generator.
+        rng: A random number generator, a seed or ``None``. It is
+            passed to ``numpy.random.default_rng``.
 
     Returns:
         The data with shuffled arrays along the sequence axis.
@@ -131,8 +132,7 @@ def shuffle_along_batch(data: Any, rng: np.random.Generator | None = None) -> An
 
         ```
     """
-    if rng is None:
-        rng = np.random.default_rng()
+    rng = np.random.default_rng(rng)
     value = validate_first_array(data)
     return permute_along_batch(
         data=data,
@@ -140,7 +140,7 @@ def shuffle_along_batch(data: Any, rng: np.random.Generator | None = None) -> An
     )
 
 
-def shuffle_along_seq(data: Any, rng: np.random.Generator | None = None) -> Any:
+def shuffle_along_seq(data: Any, *, rng: np.random.Generator | int | None = None) -> Any:
     r"""Shuffle all the arrays along the batch axis.
 
     Note:
@@ -150,7 +150,8 @@ def shuffle_along_seq(data: Any, rng: np.random.Generator | None = None) -> Any:
 
     Args:
         data: The input data. Each item must be an array.
-        rng: An optional random number generator.
+        rng: A random number generator, a seed or ``None``. It is
+            passed to ``numpy.random.default_rng``.
 
     Returns:
         The data with shuffled arrays along the sequence axis.
@@ -170,8 +171,7 @@ def shuffle_along_seq(data: Any, rng: np.random.Generator | None = None) -> Any:
 
         ```
     """
-    if rng is None:
-        rng = np.random.default_rng()
+    rng = np.random.default_rng(rng)
     value = validate_first_array(data)
     return permute_along_seq(
         data=data,

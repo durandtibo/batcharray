@@ -49,7 +49,7 @@ batch = np.array([[1.0, 2.0], [3.0, 4.0], [5.0, 6.0]])
 
 # Compute statistics along batch
 mean_val = array.mean_along_batch(batch)  # [3.0, 4.0]
-max_val = array.amax_along_batch(batch)  # [5.0, 6.0]
+max_val = array.max_along_batch(batch)  # [5.0, 6.0]
 sum_val = array.sum_along_batch(batch)  # [9.0, 12.0]
 ```
 
@@ -177,8 +177,6 @@ The `array` module provides the following categories of functions:
 - `index_select_along_seq()` - Select using integer indices (sequence)
 - `masked_select_along_batch()` - Select using boolean mask (batch)
 - `masked_select_along_seq()` - Select using boolean mask (sequence)
-- `take_along_batch()` - Take elements using index array (batch)
-- `take_along_seq()` - Take elements using index array (sequence)
 
 ### Joining and Combining
 
@@ -210,10 +208,10 @@ The `array` module provides the following categories of functions:
 - `all_along_seq()` - Logical and along sequence
 - `any_along_batch()` - Logical or along batch
 - `any_along_seq()` - Logical or along sequence
-- `amax_along_batch()` / `max_along_batch()` - Maximum along batch
-- `amax_along_seq()` / `max_along_seq()` - Maximum along sequence
-- `amin_along_batch()` / `min_along_batch()` - Minimum along batch
-- `amin_along_seq()` / `min_along_seq()` - Minimum along sequence
+- `max_along_batch()` - Maximum along batch
+- `max_along_seq()` - Maximum along sequence
+- `min_along_batch()` - Minimum along batch
+- `min_along_seq()` - Minimum along sequence
 - `argmax_along_batch()` - Indices of maximum along batch
 - `argmax_along_seq()` - Indices of maximum along sequence
 - `argmin_along_batch()` - Indices of minimum along batch

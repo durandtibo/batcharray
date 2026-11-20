@@ -134,7 +134,7 @@ means = nested.mean_along_batch(batch)
 # }
 
 # Find maximum values
-maxes = nested.amax_along_batch(batch)
+maxes = nested.max_along_batch(batch)
 ```
 
 ## Element-wise Operations
@@ -199,7 +199,7 @@ batch = {
 indices = nested.argsort_along_batch(batch["scores"])
 
 # Sort all arrays by the scores
-sorted_batch = nested.take_along_batch(batch, indices=indices)
+sorted_batch = nested.index_select_along_batch(batch, indices=indices)
 # Result: scores [1.0, 2.0, 3.0, 4.0], names ["Bob", "David", "Alice", "Charlie"]
 ```
 
@@ -275,8 +275,6 @@ Here's a non comprehensive list organized by category:
 - `index_select_along_seq()` - Select using indices (sequence)
 - `masked_select_along_batch()` - Select using mask (batch)
 - `masked_select_along_seq()` - Select using mask (sequence)
-- `take_along_batch()` - Take elements using index array (batch)
-- `take_along_seq()` - Take elements using index array (sequence)
 
 ### Joining Operations
 
@@ -308,10 +306,10 @@ Here's a non comprehensive list organized by category:
 - `all_along_seq()` - Logical and (sequence)
 - `any_along_batch()` - Logical or (batch)
 - `any_along_seq()` - Logical or (sequence)
-- `amax_along_batch()` / `max_along_batch()` - Maximum (batch)
-- `amax_along_seq()` / `max_along_seq()` - Maximum (sequence)
-- `amin_along_batch()` / `min_along_batch()` - Minimum (batch)
-- `amin_along_seq()` / `min_along_seq()` - Minimum (sequence)
+- `max_along_batch()` - Maximum (batch)
+- `max_along_seq()` - Maximum (sequence)
+- `min_along_batch()` - Minimum (batch)
+- `min_along_seq()` - Minimum (sequence)
 - `argmax_along_batch()` - Indices of maximum (batch)
 - `argmax_along_seq()` - Indices of maximum (sequence)
 - `argmin_along_batch()` - Indices of minimum (batch)

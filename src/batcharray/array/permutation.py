@@ -14,7 +14,6 @@ __all__ = [
 
 import numpy as np
 
-from batcharray.array.indexing import take_along_batch, take_along_seq
 from batcharray.constants import BATCH_AXIS, SEQ_AXIS
 from batcharray.validation import validate_min_ndim
 
@@ -60,7 +59,7 @@ def permute_along_batch(array: np.ndarray, permutation: np.ndarray) -> np.ndarra
             f"({array.shape})"
         )
         raise ValueError(msg)
-    return take_along_batch(array, indices=permutation)
+    return np.take(array, permutation, axis=BATCH_AXIS)
 
 
 def permute_along_seq(array: np.ndarray, permutation: np.ndarray) -> np.ndarray:
@@ -102,10 +101,12 @@ def permute_along_seq(array: np.ndarray, permutation: np.ndarray) -> np.ndarray:
             f"({array.shape})"
         )
         raise ValueError(msg)
-    return take_along_seq(array, indices=permutation)
+    return np.take(array, permutation, axis=SEQ_AXIS)
 
 
-def shuffle_along_batch(array: np.ndarray, rng: np.random.Generator | None = None) -> np.ndarray:
+def shuffle_along_batch(
+    array: np.ndarray, *, rng: np.random.Generator | int | None = None
+) -> np.ndarray:
     r"""Shuffle the array along the batch dimension.
 
     Note:
@@ -114,7 +115,8 @@ def shuffle_along_batch(array: np.ndarray, rng: np.random.Generator | None = Non
 
     Args:
         array: The array to split.
-        rng: An optional random number generator.
+        rng: A random number generator, a seed or ``None``. It is
+            passed to ``numpy.random.default_rng``.
 
     Returns:
         The shuffled array.
@@ -130,15 +132,16 @@ def shuffle_along_batch(array: np.ndarray, rng: np.random.Generator | None = Non
 
         ```
     """
-    if rng is None:
-        rng = np.random.default_rng()
+    rng = np.random.default_rng(rng)
     return permute_along_batch(
         array=array,
         permutation=rng.permutation(array.shape[BATCH_AXIS]),
     )
 
 
-def shuffle_along_seq(array: np.ndarray, rng: np.random.Generator | None = None) -> np.ndarray:
+def shuffle_along_seq(
+    array: np.ndarray, *, rng: np.random.Generator | int | None = None
+) -> np.ndarray:
     r"""Shuffle the array along the batch dimension.
 
     Note:
@@ -147,7 +150,8 @@ def shuffle_along_seq(array: np.ndarray, rng: np.random.Generator | None = None)
 
     Args:
         array: The array to split.
-        rng: An optional random number generator.
+        rng: A random number generator, a seed or ``None``. It is
+            passed to ``numpy.random.default_rng``.
 
     Returns:
         The shuffled array.
@@ -163,8 +167,7 @@ def shuffle_along_seq(array: np.ndarray, rng: np.random.Generator | None = None)
 
         ```
     """
-    if rng is None:
-        rng = np.random.default_rng()
+    rng = np.random.default_rng(rng)
     validate_min_ndim(array)
     return permute_along_seq(
         array=array,

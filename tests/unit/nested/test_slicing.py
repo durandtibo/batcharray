@@ -825,3 +825,21 @@ def test_chunk_split_different_batch_sizes_raises(func: Callable, size: int) -> 
 def test_chunk_split_different_seq_sizes_raises(func: Callable, size: int) -> None:
     with pytest.raises(ValueError, match="same sequence size"):
         func({"a": np.zeros((2, 5)), "b": np.zeros((2, size))}, 3 if size == 6 else 2)
+
+
+@pytest.mark.parametrize("func", [split_along_batch, split_along_seq])
+def test_split_numpy_integer_size_equal_python_integer(func: Callable) -> None:
+    data = {"a": np.arange(20).reshape(4, 5)}
+    assert objects_are_equal(func(data, np.int64(2)), func(data, 2))
+
+
+@pytest.mark.parametrize("func", [split_along_batch, split_along_seq])
+def test_split_bool_size_raises(func: Callable) -> None:
+    with pytest.raises(ValueError, match="split size must be a positive integer"):
+        func({"a": np.ones((4, 5))}, True)
+
+
+@pytest.mark.parametrize("func", [slice_along_batch, slice_along_seq])
+def test_slice_step_is_keyword_only(func: Callable) -> None:
+    with pytest.raises(TypeError, match="positional argument"):
+        func({"a": np.ones((4, 5))}, 0, 2, 2)

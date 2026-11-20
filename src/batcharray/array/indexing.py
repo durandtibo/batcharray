@@ -7,8 +7,6 @@ __all__ = [
     "index_select_along_seq",
     "masked_select_along_batch",
     "masked_select_along_seq",
-    "take_along_batch",
-    "take_along_seq",
 ]
 
 import numpy as np
@@ -22,9 +20,6 @@ def index_select_along_batch(array: np.ndarray, indices: np.ndarray) -> np.ndarr
 
     Note:
         This function assumes the batch axis is the first axis.
-
-    Note:
-        Equivalent to ``take_along_batch``.
 
     Args:
         array: The input array.
@@ -53,7 +48,7 @@ def index_select_along_batch(array: np.ndarray, indices: np.ndarray) -> np.ndarr
 
         ```
     """
-    return take_along_batch(array, indices)
+    return np.take(array, indices, axis=BATCH_AXIS)
 
 
 def index_select_along_seq(array: np.ndarray, indices: np.ndarray) -> np.ndarray:
@@ -62,9 +57,6 @@ def index_select_along_seq(array: np.ndarray, indices: np.ndarray) -> np.ndarray
 
     Note:
         This function assumes the sequence axis is the second axis.
-
-    Note:
-        Equivalent to ``take_along_seq``.
 
     Args:
         array: The input array.
@@ -90,7 +82,11 @@ def index_select_along_seq(array: np.ndarray, indices: np.ndarray) -> np.ndarray
 
         ```
     """
-    return take_along_seq(array, indices)
+    if indices.ndim == 1:
+        return np.take(array, indices, axis=SEQ_AXIS)
+    batch_size, seq_len = indices.shape[:2]
+    batch_indices = np.arange(batch_size).repeat(seq_len)
+    return array[batch_indices, indices.flatten()].reshape(batch_size, seq_len, *array.shape[2:])
 
 
 def masked_select_along_batch(array: np.ndarray, mask: np.ndarray) -> np.ndarray:
@@ -147,85 +143,3 @@ def masked_select_along_seq(array: np.ndarray, mask: np.ndarray) -> np.ndarray:
         ```
     """
     return array[:, mask]
-
-
-def take_along_batch(array: np.ndarray, indices: np.ndarray) -> np.ndarray:
-    r"""Return a new array which indexes the input array along the batch
-    axis using the entries in ``indices``.
-
-    Note:
-        This function assumes the batch axis is the first axis.
-
-    Note:
-        Equivalent to ``index_select_along_batch``.
-
-    Args:
-        array: The input array.
-        indices: The 1-D array containing the indices to take. Other
-            shapes are passed to ``np.take`` and add dimensions.
-
-    Returns:
-        The indexed array along the batch axis.
-
-    Example:
-        ```pycon
-        >>> import numpy as np
-        >>> from batcharray.array import take_along_batch
-        >>> array = np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]])
-        >>> out = take_along_batch(array, np.array([2, 4]))
-        >>> out
-        array([[4, 5],
-               [8, 9]])
-        >>> out = take_along_batch(array, np.array([4, 3, 2, 1, 0]))
-        >>> out
-        array([[8, 9],
-               [6, 7],
-               [4, 5],
-               [2, 3],
-               [0, 1]])
-
-        ```
-    """
-    return np.take(array, indices=indices, axis=BATCH_AXIS)
-
-
-def take_along_seq(array: np.ndarray, indices: np.ndarray) -> np.ndarray:
-    r"""Return a new array which indexes the input array along the
-    sequence axis using the entries in ``indices``.
-
-    Note:
-        This function assumes the sequence axis is the second axis.
-
-    Note:
-        Equivalent to ``index_select_along_seq``.
-
-    Args:
-        array: The input array.
-        indices: The indices to take, a 1-D array (or a 2-D array of
-            shape `(batch_size, n)` for the sequence axis variants).
-
-    Returns:
-        The indexed array along the sequence axis.
-
-    Example:
-        ```pycon
-        >>> import numpy as np
-        >>> from batcharray.array import take_along_seq
-        >>> array = np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]])
-        >>> out = take_along_seq(array, np.array([2, 4]))
-        >>> out
-        array([[2, 4],
-               [7, 9]])
-        >>> out = take_along_seq(array, np.array([4, 3, 2, 1, 0]))
-        >>> out
-        array([[4, 3, 2, 1, 0],
-               [9, 8, 7, 6, 5]])
-
-        ```
-    """
-    if indices.ndim == 1:
-        return np.take(array, indices=indices, axis=SEQ_AXIS)
-    batch_size, seq_len = indices.shape[:2]
-    batch_indices = np.arange(batch_size).repeat(seq_len)
-    indices = indices.flatten()
-    return array[batch_indices, indices].reshape(batch_size, seq_len, *array.shape[2:])

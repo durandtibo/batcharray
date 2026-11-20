@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 from typing import TYPE_CHECKING
-from unittest.mock import Mock
 
 import numpy as np
 import pytest
@@ -15,8 +14,11 @@ from batcharray.array import (
     shuffle_along_batch,
     shuffle_along_seq,
 )
+from tests.unit.helpers import FixedPermutationGenerator
 
 if TYPE_CHECKING:
+    from collections.abc import Callable
+
     from numpy.typing import DTypeLike
 
 DTYPES = [np.int64, np.float64]
@@ -140,9 +142,9 @@ def test_shuffle_along_batch() -> None:
 
 
 def test_shuffle_along_batch_mock_rng() -> None:
-    rng = Mock(spec=np.random.Generator, permutation=Mock(return_value=np.array([2, 1, 3, 0])))
+    rng = FixedPermutationGenerator(np.array([2, 1, 3, 0]))
     assert objects_are_equal(
-        shuffle_along_batch(np.array([[0, 1, 2], [3, 4, 5], [6, 7, 8], [9, 10, 11]]), rng),
+        shuffle_along_batch(np.array([[0, 1, 2], [3, 4, 5], [6, 7, 8], [9, 10, 11]]), rng=rng),
         np.array([[6, 7, 8], [3, 4, 5], [9, 10, 11], [0, 1, 2]]),
     )
 
@@ -150,23 +152,25 @@ def test_shuffle_along_batch_mock_rng() -> None:
 def test_shuffle_along_batch_same_random_seed() -> None:
     array = np.array([[0, 1, 2], [3, 4, 5], [6, 7, 8], [9, 10, 11]])
     assert objects_are_equal(
-        shuffle_along_batch(array, np.random.default_rng(1)),
-        shuffle_along_batch(array, np.random.default_rng(1)),
+        shuffle_along_batch(array, rng=np.random.default_rng(1)),
+        shuffle_along_batch(array, rng=np.random.default_rng(1)),
     )
 
 
 def test_shuffle_along_batch_different_random_seeds() -> None:
     array = np.array([[0, 1, 2], [3, 4, 5], [6, 7, 8], [9, 10, 11]])
     assert not objects_are_equal(
-        shuffle_along_batch(array, np.random.default_rng(1)),
-        shuffle_along_batch(array, np.random.default_rng(2)),
+        shuffle_along_batch(array, rng=np.random.default_rng(1)),
+        shuffle_along_batch(array, rng=np.random.default_rng(2)),
     )
 
 
 def test_shuffle_along_batch_multiple_shuffle() -> None:
     array = np.array([[0, 1, 2], [3, 4, 5], [6, 7, 8], [9, 10, 11]])
     rng = np.random.default_rng(1)
-    assert not objects_are_equal(shuffle_along_batch(array, rng), shuffle_along_batch(array, rng))
+    assert not objects_are_equal(
+        shuffle_along_batch(array, rng=rng), shuffle_along_batch(array, rng=rng)
+    )
 
 
 #######################################
@@ -180,12 +184,9 @@ def test_shuffle_along_seq() -> None:
 
 
 def test_shuffle_along_seq_mock_rng() -> None:
-    rng = Mock(
-        spec=np.random.Generator,
-        permutation=Mock(return_value=np.array([2, 4, 1, 3, 0])),
-    )
+    rng = FixedPermutationGenerator(np.array([2, 4, 1, 3, 0]))
     assert objects_are_equal(
-        shuffle_along_seq(np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]]), rng),
+        shuffle_along_seq(np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]]), rng=rng),
         np.array([[2, 4, 1, 3, 0], [7, 9, 6, 8, 5]]),
     )
 
@@ -193,23 +194,25 @@ def test_shuffle_along_seq_mock_rng() -> None:
 def test_shuffle_along_seq_same_random_seed() -> None:
     array = np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]])
     assert objects_are_equal(
-        shuffle_along_seq(array, np.random.default_rng(1)),
-        shuffle_along_seq(array, np.random.default_rng(1)),
+        shuffle_along_seq(array, rng=np.random.default_rng(1)),
+        shuffle_along_seq(array, rng=np.random.default_rng(1)),
     )
 
 
 def test_shuffle_along_seq_different_random_seeds() -> None:
     array = np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]])
     assert not objects_are_equal(
-        shuffle_along_seq(array, np.random.default_rng(1)),
-        shuffle_along_seq(array, np.random.default_rng(2)),
+        shuffle_along_seq(array, rng=np.random.default_rng(1)),
+        shuffle_along_seq(array, rng=np.random.default_rng(2)),
     )
 
 
 def test_shuffle_along_seq_multiple_shuffle() -> None:
     array = np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]])
     rng = np.random.default_rng(1)
-    assert not objects_are_equal(shuffle_along_seq(array, rng), shuffle_along_seq(array, rng))
+    assert not objects_are_equal(
+        shuffle_along_seq(array, rng=rng), shuffle_along_seq(array, rng=rng)
+    )
 
 
 def test_shuffle_along_seq_1d_raises() -> None:
@@ -251,3 +254,26 @@ def test_flip_along_seq(dtype: DTypeLike) -> None:
 def test_flip_along_seq_1d_raises() -> None:
     with pytest.raises(ValueError, match="at least 2 dimensions"):
         flip_along_seq(np.arange(3))
+
+
+@pytest.mark.parametrize("func", [shuffle_along_batch, shuffle_along_seq])
+def test_shuffle_seed_equal_generator(func: Callable) -> None:
+    x = np.arange(30).reshape(5, 6)
+    assert objects_are_equal(func(x, rng=3), func(x, rng=np.random.default_rng(3)))
+
+
+@pytest.mark.parametrize("func", [shuffle_along_batch, shuffle_along_seq])
+def test_shuffle_same_seed_is_reproducible(func: Callable) -> None:
+    x = np.arange(30).reshape(5, 6)
+    assert objects_are_equal(func(x, rng=3), func(x, rng=3))
+
+
+@pytest.mark.parametrize("func", [shuffle_along_batch, shuffle_along_seq])
+def test_shuffle_rng_none_keeps_shape(func: Callable) -> None:
+    assert func(np.arange(30).reshape(5, 6), rng=None).shape == (5, 6)
+
+
+@pytest.mark.parametrize("func", [shuffle_along_batch, shuffle_along_seq])
+def test_shuffle_rng_is_keyword_only(func: Callable) -> None:
+    with pytest.raises(TypeError, match="positional argument"):
+        func(np.ones((4, 5)), np.random.default_rng(1))

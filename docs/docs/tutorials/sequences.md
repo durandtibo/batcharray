@@ -112,7 +112,7 @@ mean_over_time = array.mean_along_seq(sequences)
 #  [ 9. 10.]]   # Sequence 2: mean of all time steps
 
 # Maximum over time
-max_over_time = array.amax_along_seq(sequences)
+max_over_time = array.max_along_seq(sequences)
 # [[ 5.  6.]    # Sequence 1: max across time
 #  [11. 12.]]   # Sequence 2: max across time
 
@@ -136,7 +136,7 @@ max_indices = array.argmax_along_seq(sequences)
 #  [2 1]]   # Sequence 2: max at t=2 for feat 0, t=1 for feat 1
 
 # Find actual maximum values
-max_values = array.amax_along_seq(sequences)
+max_values = array.max_along_seq(sequences)
 # [[0.5 0.8]
 #  [0.7 0.9]]
 ```
@@ -358,7 +358,7 @@ sequences = np.array(
 
 # Different aggregations over time
 mean_rep = array.mean_along_seq(sequences)  # Average over time
-max_rep = array.amax_along_seq(sequences)  # Max pooling over time
+max_rep = array.max_along_seq(sequences)  # Max pooling over time
 sum_rep = array.sum_along_seq(sequences)  # Sum over time
 ```
 

@@ -5,10 +5,6 @@ from __future__ import annotations
 __all__ = [
     "all_along_batch",
     "all_along_seq",
-    "amax_along_batch",
-    "amax_along_seq",
-    "amin_along_batch",
-    "amin_along_seq",
     "any_along_batch",
     "any_along_seq",
     "argmax_along_batch",
@@ -59,8 +55,6 @@ __all__ = [
     "std_along_seq",
     "sum_along_batch",
     "sum_along_seq",
-    "take_along_batch",
-    "take_along_seq",
     "tile_along_seq",
     "var_along_batch",
     "var_along_seq",
@@ -77,8 +71,6 @@ from batcharray.nested.indexing import (
     index_select_along_seq,
     masked_select_along_batch,
     masked_select_along_seq,
-    take_along_batch,
-    take_along_seq,
 )
 from batcharray.nested.joining import (
     concatenate_along_batch,
@@ -104,10 +96,6 @@ from batcharray.nested.permutation import (
 from batcharray.nested.reduction import (
     all_along_batch,
     all_along_seq,
-    amax_along_batch,
-    amax_along_seq,
-    amin_along_batch,
-    amin_along_seq,
     any_along_batch,
     any_along_seq,
     argmax_along_batch,

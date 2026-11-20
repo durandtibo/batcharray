@@ -60,3 +60,33 @@ or by `numpy.ma` for `median`, `sort`, `argsort` and `concatenate`. The one help
 
 `batcharray.types` moved to `batcharray.utils.types`. `ArrayT` and `SORT_KINDS` were removed;
 `SortKind` stays and is exported by `batcharray.utils`.
+
+## Aliases: `amax_*`, `amin_*` and `take_*`
+
+`amax_*` and `amin_*` were aliases of `max_*` and `min_*` (as in NumPy). `take_*` was documented as
+equal to `index_select_*`.
+
+| Removed (`array` and `nested`)                          | Replacement                                                       |
+| ------------------------------------------------------- | ----------------------------------------------------------------- |
+| `amax_along_batch`, `amax_along_seq`                    | `max_along_batch`, `max_along_seq`                                |
+| `amin_along_batch`, `amin_along_seq`                    | `min_along_batch`, `min_along_seq`                                |
+| `take_along_batch`, `take_along_seq` with a 1-D index   | `index_select_along_batch`, `index_select_along_seq`              |
+| `take_along_seq` with a 2-D index (per-sample gather)   | `index_select_along_seq` for now (a later step adds `gather_along_seq`) |
+| `take_along_batch` with a 2-D index                     | `np.take(array, indices, axis=0)`                                 |
+
+## Keyword-only options and the deprecation shim
+
+`keepdims`, `kind`, `rng` and `step` are keyword-only. The `keepdims_keyword_only` shim (and
+`batcharray._deprecation`) was removed: a positional `keepdims` is a `TypeError`.
+
+| Before                                    | After                                      |
+| ----------------------------------------- | ------------------------------------------ |
+| `sum_along_batch(x, True)`                | `sum_along_batch(x, keepdims=True)`        |
+| `sort_along_batch(x, "stable")`           | `sort_along_batch(x, kind="stable")`       |
+| `argsort_along_seq(x, "stable")`          | `argsort_along_seq(x, kind="stable")`      |
+| `shuffle_along_batch(x, rng)`             | `shuffle_along_batch(x, rng=rng)`          |
+| `slice_along_batch(x, 0, 10, 2)`          | `slice_along_batch(x, 0, 10, step=2)`      |
+
+`shuffle_along_*` now passes `rng` to `numpy.random.default_rng`: a `Generator`, an integer seed or
+`None`. `split_along_*` accepts NumPy integers as the split size and rejects a `bool` with a
+`ValueError`.

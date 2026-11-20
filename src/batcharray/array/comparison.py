@@ -20,7 +20,7 @@ if TYPE_CHECKING:
     from batcharray.utils import SortKind
 
 
-def argsort_along_batch(array: np.ndarray, kind: SortKind | None = None) -> np.ndarray:
+def argsort_along_batch(array: np.ndarray, *, kind: SortKind | None = None) -> np.ndarray:
     r"""Return the indices that sort an array along the batch axis in
     ascending order by value.
 
@@ -54,7 +54,7 @@ def argsort_along_batch(array: np.ndarray, kind: SortKind | None = None) -> np.n
     return get_namespace(array).argsort(array, axis=BATCH_AXIS, kind=kind)
 
 
-def argsort_along_seq(array: np.ndarray, kind: SortKind | None = None) -> np.ndarray:
+def argsort_along_seq(array: np.ndarray, *, kind: SortKind | None = None) -> np.ndarray:
     r"""Return the indices that sort an array along the sequence axis in
     ascending order by value.
 
@@ -89,7 +89,7 @@ def argsort_along_seq(array: np.ndarray, kind: SortKind | None = None) -> np.nda
     return get_namespace(array).argsort(array, axis=SEQ_AXIS, kind=kind)
 
 
-def sort_along_batch(array: np.ndarray, kind: SortKind | None = None) -> np.ndarray:
+def sort_along_batch(array: np.ndarray, *, kind: SortKind | None = None) -> np.ndarray:
     r"""Sort the elements of the input array along the batch axis in
     ascending order by value.
 
@@ -123,7 +123,7 @@ def sort_along_batch(array: np.ndarray, kind: SortKind | None = None) -> np.ndar
     return get_namespace(array).sort(array, axis=BATCH_AXIS, kind=kind)
 
 
-def sort_along_seq(array: np.ndarray, kind: SortKind | None = None) -> np.ndarray:
+def sort_along_seq(array: np.ndarray, *, kind: SortKind | None = None) -> np.ndarray:
     r"""Sort the elements of the input array along the sequence axis in
     ascending order by value.
 

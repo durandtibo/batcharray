@@ -156,15 +156,13 @@ from batcharray import nested
 
 data = {"values": np.array([[5, 2], [1, 4], [3, 6]]), "labels": np.array([0, 1, 0])}
 
-# Get sort indices
-sort_indices = nested.argsort_along_batch(data["values"])
-# [[1 0]   # For column 0: indices that would sort [5,1,3] -> [1,3,5]
-#  [2 1]   # For column 1: indices that would sort [2,4,6] -> [2,4,6]
-#  [0 2]]
+# Get the indices that sort the first column
+sort_indices = nested.argsort_along_batch(data["values"][:, 0])
+# [1 2 0]: the indices that would sort [5, 1, 3] -> [1, 3, 5]
 
 # Use those indices to sort all arrays
-sorted_data = nested.take_along_batch(data, indices=sort_indices[:, 0:1])
-# Takes first column of indices for all arrays
+sorted_data = nested.index_select_along_batch(data, indices=sort_indices)
+# Selects the same rows for all arrays
 ```
 
 ## Reductions and Aggregations
@@ -188,10 +186,10 @@ mean_scores = nested.mean_along_batch(data)
 # }
 
 # Maximum values
-max_scores = nested.amax_along_batch(data)
+max_scores = nested.max_along_batch(data)
 
 # Minimum values
-min_scores = nested.amin_along_batch(data)
+min_scores = nested.min_along_batch(data)
 
 # Median values
 median_scores = nested.median_along_batch(data)
@@ -251,7 +249,7 @@ mean_over_time = nested.mean_along_seq(sequences)
 sum_over_time = nested.sum_along_seq(sequences)
 
 # Max over sequences
-max_over_time = nested.amax_along_seq(sequences)
+max_over_time = nested.max_along_seq(sequences)
 ```
 
 ## Cumulative Operations
