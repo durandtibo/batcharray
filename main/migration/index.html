@@ -639,6 +639,50 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#the-computation-package" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The computation package
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-types-module" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The types module
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#aliases-amax_-amin_-and-take_" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Aliases: amax_*, amin_* and take_*
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#keyword-only-options-and-the-deprecation-shim" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Keyword-only options and the deprecation shim
+      
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -898,34 +942,6 @@
 
               
             
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../uguide/computation/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Computation Models
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
           </ul>
         </nav>
       
@@ -1020,34 +1036,6 @@
   
   
     <li class="md-nav__item">
-      <a href="../refs/computation/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    computation
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
       <a href="../refs/nested/" class="md-nav__link">
         
   
@@ -1104,14 +1092,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../refs/types/" class="md-nav__link">
+      <a href="../refs/utils/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    types
+    utils
   
 
     
@@ -1218,6 +1206,50 @@
     <span class="md-ellipsis">
       
         Pointwise functions and to_list of nested
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-computation-package" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The computation package
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-types-module" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The types module
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#aliases-amax_-amin_-and-take_" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Aliases: amax_*, amin_* and take_*
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#keyword-only-options-and-the-deprecation-shim" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Keyword-only options and the deprecation shim
       
     </span>
   </a>
@@ -1333,6 +1365,109 @@ twin and no batch or sequence meaning: each one was <code>recursive_apply(data, 
 function. A later step of the refactoring adds `batcharray.utils.apply_to_arrays`, which
 raises a `TypeError` for a leaf that is not an array. This page will then use it.
 </code></pre></div>
+<h2 id="the-computation-package">The <code>computation</code> package<a class="headerlink" href="#the-computation-package" title="Permanent link">&para;</a></h2>
+<p><code>batcharray.computation</code> (the computation models, the registry and the 14 functions of the
+interface) was removed. A masked array is dispatched by the method of the array (<code>x.sum(axis=0)</code>),
+or by <code>numpy.ma</code> for <code>median</code>, <code>sort</code>, <code>argsort</code> and <code>concatenate</code>. The one helper is
+<code>batcharray.utils.get_namespace</code>, which returns <code>numpy.ma</code> for a masked array and <code>numpy</code> otherwise.</p>
+<table>
+<thead>
+<tr>
+<th>Removed</th>
+<th>Replacement</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>computation.sum(x, axis=0)</code>, <code>prod</code>, <code>mean</code>, <code>std</code>, <code>var</code>, <code>min</code>, <code>max</code>, <code>argmax</code>, <code>argmin</code></td>
+<td><code>x.sum(axis=0)</code>, ... (the method of the array)</td>
+</tr>
+<tr>
+<td><code>computation.median(x, axis=0)</code>, <code>sort</code>, <code>argsort</code></td>
+<td><code>get_namespace(x).median(x, axis=0)</code>, ...</td>
+</tr>
+<tr>
+<td><code>computation.concatenate(arrays, axis=0)</code></td>
+<td><code>get_namespace(arrays[0]).concatenate(arrays, axis=0)</code></td>
+</tr>
+<tr>
+<td><code>ArrayComputationModel</code>, <code>MaskedArrayComputationModel</code>, <code>AutoComputationModel</code>, <code>BaseComputationModel</code>, and <code>register_computation_models</code></td>
+<td>none: an array type with other semantics is not supported</td>
+</tr>
+</tbody>
+</table>
+<h2 id="the-types-module">The <code>types</code> module<a class="headerlink" href="#the-types-module" title="Permanent link">&para;</a></h2>
+<p><code>batcharray.types</code> moved to <code>batcharray.utils.types</code>. <code>ArrayT</code> and <code>SORT_KINDS</code> were removed;
+<code>SortKind</code> stays and is exported by <code>batcharray.utils</code>.</p>
+<h2 id="aliases-amax_-amin_-and-take_">Aliases: <code>amax_*</code>, <code>amin_*</code> and <code>take_*</code><a class="headerlink" href="#aliases-amax_-amin_-and-take_" title="Permanent link">&para;</a></h2>
+<p><code>amax_*</code> and <code>amin_*</code> were aliases of <code>max_*</code> and <code>min_*</code> (as in NumPy). <code>take_*</code> was documented as
+equal to <code>index_select_*</code>.</p>
+<table>
+<thead>
+<tr>
+<th>Removed (<code>array</code> and <code>nested</code>)</th>
+<th>Replacement</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>amax_along_batch</code>, <code>amax_along_seq</code></td>
+<td><code>max_along_batch</code>, <code>max_along_seq</code></td>
+</tr>
+<tr>
+<td><code>amin_along_batch</code>, <code>amin_along_seq</code></td>
+<td><code>min_along_batch</code>, <code>min_along_seq</code></td>
+</tr>
+<tr>
+<td><code>take_along_batch</code>, <code>take_along_seq</code> with a 1-D index</td>
+<td><code>index_select_along_batch</code>, <code>index_select_along_seq</code></td>
+</tr>
+<tr>
+<td><code>take_along_seq</code> with a 2-D index (per-sample gather)</td>
+<td><code>index_select_along_seq</code> for now (a later step adds <code>gather_along_seq</code>)</td>
+</tr>
+<tr>
+<td><code>take_along_batch</code> with a 2-D index</td>
+<td><code>np.take(array, indices, axis=0)</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="keyword-only-options-and-the-deprecation-shim">Keyword-only options and the deprecation shim<a class="headerlink" href="#keyword-only-options-and-the-deprecation-shim" title="Permanent link">&para;</a></h2>
+<p><code>keepdims</code>, <code>kind</code>, <code>rng</code> and <code>step</code> are keyword-only. The <code>keepdims_keyword_only</code> shim (and
+<code>batcharray._deprecation</code>) was removed: a positional <code>keepdims</code> is a <code>TypeError</code>.</p>
+<table>
+<thead>
+<tr>
+<th>Before</th>
+<th>After</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>sum_along_batch(x, True)</code></td>
+<td><code>sum_along_batch(x, keepdims=True)</code></td>
+</tr>
+<tr>
+<td><code>sort_along_batch(x, "stable")</code></td>
+<td><code>sort_along_batch(x, kind="stable")</code></td>
+</tr>
+<tr>
+<td><code>argsort_along_seq(x, "stable")</code></td>
+<td><code>argsort_along_seq(x, kind="stable")</code></td>
+</tr>
+<tr>
+<td><code>shuffle_along_batch(x, rng)</code></td>
+<td><code>shuffle_along_batch(x, rng=rng)</code></td>
+</tr>
+<tr>
+<td><code>slice_along_batch(x, 0, 10, 2)</code></td>
+<td><code>slice_along_batch(x, 0, 10, step=2)</code></td>
+</tr>
+</tbody>
+</table>
+<p><code>shuffle_along_*</code> now passes <code>rng</code> to <code>numpy.random.default_rng</code>: a <code>Generator</code>, an integer seed or
+<code>None</code>. <code>split_along_*</code> accepts NumPy integers as the split size and rejects a <code>bool</code> with a
+<code>ValueError</code>.</p>
 
 
 

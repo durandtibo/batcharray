@@ -1001,34 +1001,6 @@
 
               
             
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="uguide/computation/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Computation Models
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
           </ul>
         </nav>
       
@@ -1123,34 +1095,6 @@
   
   
     <li class="md-nav__item">
-      <a href="refs/computation/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    computation
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
       <a href="refs/nested/" class="md-nav__link">
         
   
@@ -1207,14 +1151,14 @@
   
   
     <li class="md-nav__item">
-      <a href="refs/types/" class="md-nav__link">
+      <a href="refs/utils/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    types
+    utils
   
 
     
@@ -1512,7 +1456,7 @@ is the batch axis and the second axis is the sequence axis.</p>
 <li><strong>Sequence Support</strong>: Handle time-series and sequential data efficiently</li>
 <li><strong>Nested Structures</strong>: Work with dictionaries and lists of arrays seamlessly</li>
 <li><strong>Masked Arrays</strong>: Built-in support for handling missing or invalid data</li>
-<li><strong>Type Safety</strong>: Computation models for different array types</li>
+<li><strong>Masked arrays</strong>: the dispatch between <code>numpy</code> and <code>numpy.ma</code> is done by the array itself</li>
 <li><strong>Minimal Dependencies</strong>: Lightweight with only NumPy and coola as required dependencies</li>
 </ul>
 <h2 id="quick-links">Quick Links<a class="headerlink" href="#quick-links" title="Permanent link">&para;</a></h2>
@@ -1563,7 +1507,6 @@ function <code>split_along_batch</code>:</p>
 <li><strong><a href="tutorials/nested/">Advanced Nested Operations Tutorial</a></strong> - Master complex structures</li>
 <li><strong><a href="uguide/array/">User Guide: Array Operations</a></strong> - Complete guide to array functions</li>
 <li><strong><a href="uguide/nested/">User Guide: Nested Structures</a></strong> - Working with nested data</li>
-<li><strong><a href="uguide/computation/">User Guide: Computation Models</a></strong> - Low-level abstractions</li>
 <li><strong><a href="design_principles/">Design Principles</a></strong> - The rules of the package</li>
 <li><strong><a href="architecture/">Architecture</a></strong> - The layers and how to add an operation</li>
 <li><strong><a href="migration/">Migration guide</a></strong> - The removed names and their replacement</li>
@@ -1572,9 +1515,8 @@ function <code>split_along_batch</code>:</p>
 <ul>
 <li><strong><a href="refs/array/">array module</a></strong> - Single array operations</li>
 <li><strong><a href="refs/nested/">nested module</a></strong> - Nested structure operations</li>
-<li><strong><a href="refs/computation/">computation module</a></strong> - Computation models</li>
 <li><strong><a href="refs/constants/">constants module</a></strong> - Package constants</li>
-<li><strong><a href="refs/types/">types module</a></strong> - Type definitions</li>
+<li><strong><a href="refs/utils/">utils module</a></strong> - Shared helpers and types</li>
 </ul>
 <h2 id="api-stability">API stability<a class="headerlink" href="#api-stability" title="Permanent link">&para;</a></h2>
 <p><img alt="⚠" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/26a0.svg" title=":warning:" /> While <code>batcharray</code> is in development stage, no API is guaranteed to be stable from one

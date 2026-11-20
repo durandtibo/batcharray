@@ -940,34 +940,6 @@
 
               
             
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../uguide/computation/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Computation Models
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
           </ul>
         </nav>
       
@@ -1062,34 +1034,6 @@
   
   
     <li class="md-nav__item">
-      <a href="../../refs/computation/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    computation
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
       <a href="../../refs/nested/" class="md-nav__link">
         
   
@@ -1146,14 +1090,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../../refs/types/" class="md-nav__link">
+      <a href="../../refs/utils/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    types
+    utils
   
 
     
@@ -1421,7 +1365,7 @@ mean_over_time = array.mean_along_seq(sequences)
 #  [ 9. 10.]]   # Sequence 2: mean of all time steps
 
 # Maximum over time
-max_over_time = array.amax_along_seq(sequences)
+max_over_time = array.max_along_seq(sequences)
 # [[ 5.  6.]    # Sequence 1: max across time
 #  [11. 12.]]   # Sequence 2: max across time
 
@@ -1442,7 +1386,7 @@ sum_over_time = array.sum_along_seq(sequences)
 <span class="c1">#  [2 1]]   # Sequence 2: max at t=2 for feat 0, t=1 for feat 1</span>
 
 <span class="c1"># Find actual maximum values</span>
-<span class="n">max_values</span> <span class="o">=</span> <span class="n">array</span><span class="o">.</span><span class="n">amax_along_seq</span><span class="p">(</span><span class="n">sequences</span><span class="p">)</span>
+<span class="n">max_values</span> <span class="o">=</span> <span class="n">array</span><span class="o">.</span><span class="n">max_along_seq</span><span class="p">(</span><span class="n">sequences</span><span class="p">)</span>
 <span class="c1"># [[0.5 0.8]</span>
 <span class="c1">#  [0.7 0.9]]</span>
 </code></pre></div>
@@ -1628,7 +1572,7 @@ sum_over_time = array.sum_along_seq(sequences)
 
 <span class="c1"># Different aggregations over time</span>
 <span class="n">mean_rep</span> <span class="o">=</span> <span class="n">array</span><span class="o">.</span><span class="n">mean_along_seq</span><span class="p">(</span><span class="n">sequences</span><span class="p">)</span>  <span class="c1"># Average over time</span>
-<span class="n">max_rep</span> <span class="o">=</span> <span class="n">array</span><span class="o">.</span><span class="n">amax_along_seq</span><span class="p">(</span><span class="n">sequences</span><span class="p">)</span>  <span class="c1"># Max pooling over time</span>
+<span class="n">max_rep</span> <span class="o">=</span> <span class="n">array</span><span class="o">.</span><span class="n">max_along_seq</span><span class="p">(</span><span class="n">sequences</span><span class="p">)</span>  <span class="c1"># Max pooling over time</span>
 <span class="n">sum_rep</span> <span class="o">=</span> <span class="n">array</span><span class="o">.</span><span class="n">sum_along_seq</span><span class="p">(</span><span class="n">sequences</span><span class="p">)</span>  <span class="c1"># Sum over time</span>
 </code></pre></div>
 <h2 id="next-steps">Next Steps<a class="headerlink" href="#next-steps" title="Permanent link">&para;</a></h2>

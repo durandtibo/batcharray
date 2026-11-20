@@ -14,7 +14,7 @@
         <link rel="prev" href="../array/">
       
       
-        <link rel="next" href="../computation/">
+        <link rel="next" href="../../refs/array/">
       
       
         
@@ -1150,34 +1150,6 @@
 
               
             
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../computation/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Computation Models
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
           </ul>
         </nav>
       
@@ -1272,34 +1244,6 @@
   
   
     <li class="md-nav__item">
-      <a href="../../refs/computation/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    computation
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
       <a href="../../refs/nested/" class="md-nav__link">
         
   
@@ -1356,14 +1300,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../../refs/types/" class="md-nav__link">
+      <a href="../../refs/utils/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    types
+    utils
   
 
     
@@ -1860,7 +1804,7 @@ structures simultaneously.</p>
 <span class="c1"># }</span>
 
 <span class="c1"># Find maximum values</span>
-<span class="n">maxes</span> <span class="o">=</span> <span class="n">nested</span><span class="o">.</span><span class="n">amax_along_batch</span><span class="p">(</span><span class="n">batch</span><span class="p">)</span>
+<span class="n">maxes</span> <span class="o">=</span> <span class="n">nested</span><span class="o">.</span><span class="n">max_along_batch</span><span class="p">(</span><span class="n">batch</span><span class="p">)</span>
 </code></pre></div>
 <h2 id="element-wise-operations">Element-wise Operations<a class="headerlink" href="#element-wise-operations" title="Permanent link">&para;</a></h2>
 <p><code>batcharray.nested</code> does not wrap the element-wise NumPy functions, because they have no batch or
@@ -1912,7 +1856,7 @@ sequence axis. Apply any function to all the arrays of a structure with <code>re
 <span class="n">indices</span> <span class="o">=</span> <span class="n">nested</span><span class="o">.</span><span class="n">argsort_along_batch</span><span class="p">(</span><span class="n">batch</span><span class="p">[</span><span class="s2">"scores"</span><span class="p">])</span>
 
 <span class="c1"># Sort all arrays by the scores</span>
-<span class="n">sorted_batch</span> <span class="o">=</span> <span class="n">nested</span><span class="o">.</span><span class="n">take_along_batch</span><span class="p">(</span><span class="n">batch</span><span class="p">,</span> <span class="n">indices</span><span class="o">=</span><span class="n">indices</span><span class="p">)</span>
+<span class="n">sorted_batch</span> <span class="o">=</span> <span class="n">nested</span><span class="o">.</span><span class="n">index_select_along_batch</span><span class="p">(</span><span class="n">batch</span><span class="p">,</span> <span class="n">indices</span><span class="o">=</span><span class="n">indices</span><span class="p">)</span>
 <span class="c1"># Result: scores [1.0, 2.0, 3.0, 4.0], names ["Bob", "David", "Alice", "Charlie"]</span>
 </code></pre></div>
 <h2 id="converting-to-lists">Converting to Lists<a class="headerlink" href="#converting-to-lists" title="Permanent link">&para;</a></h2>
@@ -1974,8 +1918,6 @@ Here's a non comprehensive list organized by category:</p>
 <li><code>index_select_along_seq()</code> - Select using indices (sequence)</li>
 <li><code>masked_select_along_batch()</code> - Select using mask (batch)</li>
 <li><code>masked_select_along_seq()</code> - Select using mask (sequence)</li>
-<li><code>take_along_batch()</code> - Take elements using index array (batch)</li>
-<li><code>take_along_seq()</code> - Take elements using index array (sequence)</li>
 </ul>
 <h3 id="joining-operations">Joining Operations<a class="headerlink" href="#joining-operations" title="Permanent link">&para;</a></h3>
 <ul>
@@ -2007,10 +1949,10 @@ Here's a non comprehensive list organized by category:</p>
 <li><code>all_along_seq()</code> - Logical and (sequence)</li>
 <li><code>any_along_batch()</code> - Logical or (batch)</li>
 <li><code>any_along_seq()</code> - Logical or (sequence)</li>
-<li><code>amax_along_batch()</code> / <code>max_along_batch()</code> - Maximum (batch)</li>
-<li><code>amax_along_seq()</code> / <code>max_along_seq()</code> - Maximum (sequence)</li>
-<li><code>amin_along_batch()</code> / <code>min_along_batch()</code> - Minimum (batch)</li>
-<li><code>amin_along_seq()</code> / <code>min_along_seq()</code> - Minimum (sequence)</li>
+<li><code>max_along_batch()</code> - Maximum (batch)</li>
+<li><code>max_along_seq()</code> - Maximum (sequence)</li>
+<li><code>min_along_batch()</code> - Minimum (batch)</li>
+<li><code>min_along_seq()</code> - Minimum (sequence)</li>
 <li><code>argmax_along_batch()</code> - Indices of maximum (batch)</li>
 <li><code>argmax_along_seq()</code> - Indices of maximum (sequence)</li>
 <li><code>argmin_along_batch()</code> - Indices of minimum (batch)</li>

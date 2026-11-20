@@ -940,34 +940,6 @@
 
               
             
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../uguide/computation/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Computation Models
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
           </ul>
         </nav>
       
@@ -1062,34 +1034,6 @@
   
   
     <li class="md-nav__item">
-      <a href="../../refs/computation/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    computation
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
       <a href="../../refs/nested/" class="md-nav__link">
         
   
@@ -1146,14 +1090,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../../refs/types/" class="md-nav__link">
+      <a href="../../refs/utils/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    types
+    utils
   
 
     
@@ -1462,7 +1406,7 @@ train, val = splits[0], splits[1]
 <span class="c1"># [4. 5. 6.]</span>
 
 <span class="c1"># Maximum value for each feature</span>
-<span class="n">max_features</span> <span class="o">=</span> <span class="n">array</span><span class="o">.</span><span class="n">amax_along_batch</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="n">max_features</span> <span class="o">=</span> <span class="n">array</span><span class="o">.</span><span class="n">max_along_batch</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
 <span class="c1"># [7. 8. 9.]</span>
 
 <span class="c1"># Sum across samples</span>
@@ -1480,7 +1424,7 @@ train, val = splits[0], splits[1]
 <span class="c1"># [2, 1, 0]</span>
 
 <span class="c1"># Actual maximum values</span>
-<span class="n">max_values</span> <span class="o">=</span> <span class="n">array</span><span class="o">.</span><span class="n">amax_along_batch</span><span class="p">(</span><span class="n">scores</span><span class="p">)</span>
+<span class="n">max_values</span> <span class="o">=</span> <span class="n">array</span><span class="o">.</span><span class="n">max_along_batch</span><span class="p">(</span><span class="n">scores</span><span class="p">)</span>
 <span class="c1"># [0.6, 0.8, 0.3]</span>
 </code></pre></div>
 <h2 id="sorting-and-ordering">Sorting and Ordering<a class="headerlink" href="#sorting-and-ordering" title="Permanent link">&para;</a></h2>
@@ -1577,7 +1521,7 @@ train, val = splits[0], splits[1]
 <ul>
 <li>Learn about <a href="../sequences/">sequence operations</a> for time-series data</li>
 <li>Explore <a href="../nested/">advanced nested operations</a></li>
-<li>See <a href="../../uguide/computation/">computation models</a> for low-level operations</li>
+<li>Read the <a href="../../design_principles/">design principles</a> for the rules of the package</li>
 </ul>
 <h2 id="common-patterns">Common Patterns<a class="headerlink" href="#common-patterns" title="Permanent link">&para;</a></h2>
 <h3 id="traintest-split">Train/Test Split<a class="headerlink" href="#traintest-split" title="Permanent link">&para;</a></h3>

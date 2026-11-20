@@ -1106,34 +1106,6 @@
 
               
             
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../computation/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Computation Models
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
           </ul>
         </nav>
       
@@ -1228,34 +1200,6 @@
   
   
     <li class="md-nav__item">
-      <a href="../../refs/computation/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    computation
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
       <a href="../../refs/nested/" class="md-nav__link">
         
   
@@ -1312,14 +1256,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../../refs/types/" class="md-nav__link">
+      <a href="../../refs/utils/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    types
+    utils
   
 
     
@@ -1698,7 +1642,7 @@ All functions that operate on the batch dimension have the suffix <code>_along_b
 
 <span class="c1"># Compute statistics along batch</span>
 <span class="n">mean_val</span> <span class="o">=</span> <span class="n">array</span><span class="o">.</span><span class="n">mean_along_batch</span><span class="p">(</span><span class="n">batch</span><span class="p">)</span>  <span class="c1"># [3.0, 4.0]</span>
-<span class="n">max_val</span> <span class="o">=</span> <span class="n">array</span><span class="o">.</span><span class="n">amax_along_batch</span><span class="p">(</span><span class="n">batch</span><span class="p">)</span>  <span class="c1"># [5.0, 6.0]</span>
+<span class="n">max_val</span> <span class="o">=</span> <span class="n">array</span><span class="o">.</span><span class="n">max_along_batch</span><span class="p">(</span><span class="n">batch</span><span class="p">)</span>  <span class="c1"># [5.0, 6.0]</span>
 <span class="n">sum_val</span> <span class="o">=</span> <span class="n">array</span><span class="o">.</span><span class="n">sum_along_batch</span><span class="p">(</span><span class="n">batch</span><span class="p">)</span>  <span class="c1"># [9.0, 12.0]</span>
 </code></pre></div>
 <h3 id="sorting-and-permutation">Sorting and Permutation<a class="headerlink" href="#sorting-and-permutation" title="Permanent link">&para;</a></h3>
@@ -1804,8 +1748,6 @@ invalid data:</p>
 <li><code>index_select_along_seq()</code> - Select using integer indices (sequence)</li>
 <li><code>masked_select_along_batch()</code> - Select using boolean mask (batch)</li>
 <li><code>masked_select_along_seq()</code> - Select using boolean mask (sequence)</li>
-<li><code>take_along_batch()</code> - Take elements using index array (batch)</li>
-<li><code>take_along_seq()</code> - Take elements using index array (sequence)</li>
 </ul>
 <h3 id="joining-and-combining">Joining and Combining<a class="headerlink" href="#joining-and-combining" title="Permanent link">&para;</a></h3>
 <ul>
@@ -1837,10 +1779,10 @@ invalid data:</p>
 <li><code>all_along_seq()</code> - Logical and along sequence</li>
 <li><code>any_along_batch()</code> - Logical or along batch</li>
 <li><code>any_along_seq()</code> - Logical or along sequence</li>
-<li><code>amax_along_batch()</code> / <code>max_along_batch()</code> - Maximum along batch</li>
-<li><code>amax_along_seq()</code> / <code>max_along_seq()</code> - Maximum along sequence</li>
-<li><code>amin_along_batch()</code> / <code>min_along_batch()</code> - Minimum along batch</li>
-<li><code>amin_along_seq()</code> / <code>min_along_seq()</code> - Minimum along sequence</li>
+<li><code>max_along_batch()</code> - Maximum along batch</li>
+<li><code>max_along_seq()</code> - Maximum along sequence</li>
+<li><code>min_along_batch()</code> - Minimum along batch</li>
+<li><code>min_along_seq()</code> - Minimum along sequence</li>
 <li><code>argmax_along_batch()</code> - Indices of maximum along batch</li>
 <li><code>argmax_along_seq()</code> - Indices of maximum along sequence</li>
 <li><code>argmin_along_batch()</code> - Indices of minimum along batch</li>

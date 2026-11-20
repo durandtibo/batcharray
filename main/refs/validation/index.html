@@ -11,7 +11,7 @@
         <link rel="canonical" href="https://durandtibo.github.io/batcharray/main/refs/validation/">
       
       
-        <link rel="prev" href="../types/">
+        <link rel="prev" href="../utils/">
       
       
       
@@ -838,34 +838,6 @@
 
               
             
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../uguide/computation/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Computation Models
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
           </ul>
         </nav>
       
@@ -963,34 +935,6 @@
   
   
     <li class="md-nav__item">
-      <a href="../computation/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    computation
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
       <a href="../nested/" class="md-nav__link">
         
   
@@ -1047,14 +991,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../types/" class="md-nav__link">
+      <a href="../utils/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    types
+    utils
   
 
     
@@ -1973,8 +1917,9 @@ some arrays have fewer than 2 dimensions.</p>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>The size of a single chunk, or the
-sizes of each chunk.</p>
+                <p>The size of a single chunk (a Python
+or NumPy integer, not a boolean), or the sizes of each
+chunk.</p>
               </div>
             </td>
             <td>
@@ -2000,8 +1945,8 @@ sizes of each chunk.</p>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>if the split size is not positive, or if the
-sections are negative or do not sum to <code>size</code>.</p>
+                <p>if the split size is a boolean or is not positive,
+or if the sections are negative or do not sum to <code>size</code>.</p>
               </div>
             </td>
           </tr>

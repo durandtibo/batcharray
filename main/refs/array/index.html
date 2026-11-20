@@ -11,10 +11,10 @@
         <link rel="canonical" href="https://durandtibo.github.io/batcharray/main/refs/array/">
       
       
-        <link rel="prev" href="../../uguide/computation/">
+        <link rel="prev" href="../../uguide/nested/">
       
       
-        <link rel="next" href="../computation/">
+        <link rel="next" href="../nested/">
       
       
         
@@ -840,34 +840,6 @@
 
               
             
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../uguide/computation/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Computation Models
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
           </ul>
         </nav>
       
@@ -1027,50 +999,6 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#batcharray.array.amax_along_batch" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        amax_along_batch
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#batcharray.array.amax_along_seq" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        amax_along_seq
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#batcharray.array.amin_along_batch" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        amin_along_batch
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#batcharray.array.amin_along_seq" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        amin_along_seq
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
   <a href="#batcharray.array.any_along_batch" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1621,28 +1549,6 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#batcharray.array.take_along_batch" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        take_along_batch
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#batcharray.array.take_along_seq" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        take_along_seq
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
   <a href="#batcharray.array.tile_along_seq" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1684,34 +1590,6 @@
   
 </nav>
       
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../computation/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    computation
-  
-
-    
-  </span>
-  
-  
-
-      </a>
     </li>
   
 
@@ -1780,14 +1658,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../types/" class="md-nav__link">
+      <a href="../utils/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    types
+    utils
   
 
     
@@ -1922,50 +1800,6 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#batcharray.array.amax_along_batch" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        amax_along_batch
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#batcharray.array.amax_along_seq" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        amax_along_seq
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#batcharray.array.amin_along_batch" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        amin_along_batch
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#batcharray.array.amin_along_seq" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        amin_along_seq
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
   <a href="#batcharray.array.any_along_batch" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2509,28 +2343,6 @@
     <span class="md-ellipsis">
       
         sum_along_seq
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#batcharray.array.take_along_batch" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        take_along_batch
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#batcharray.array.take_along_seq" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        take_along_seq
       
     </span>
   </a>
@@ -2848,454 +2660,6 @@
 <span class="gp">&gt;&gt;&gt; </span><span class="n">out</span> <span class="o">=</span> <span class="n">all_along_seq</span><span class="p">(</span><span class="n">array</span><span class="p">,</span> <span class="n">keepdims</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">out</span>
 <span class="go">array([[False], [ True]])</span>
-</code></pre></div>
-</details>
-
-    </div>
-
-</div>
-
-<div class="doc doc-object doc-function">
-
-
-<h3 id="batcharray.array.amax_along_batch" class="doc doc-heading">
-            <span class="doc doc-object-name doc-function-name">batcharray.array.amax_along_batch</span>
-
-
-<a href="#batcharray.array.amax_along_batch" class="headerlink" title="Permanent link">&para;</a></h3>
-<div class="doc-signature highlight"><pre><span></span><code><span class="nf">amax_along_batch</span><span class="p">(</span>
-    <span class="n">array</span><span class="p">:</span> <span class="n"><span title="numpy.ndarray">ndarray</span></span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">keepdims</span><span class="p">:</span> <span class="n"><span title="bool">bool</span></span> <span class="o">=</span> <span class="kc">False</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="n"><span title="numpy.ndarray">ndarray</span></span>
-</code></pre></div>
-
-    <div class="doc doc-contents ">
-
-        <p>Return the maximum of all elements along the batch axis.</p>
-
-
-<details class="note" open>
-  <summary>Note</summary>
-  <p>This function assumes the batch axis is the first
-    axis.</p>
-</details>
-
-<p><span class="doc-section-title">Parameters:</span></p>
-    <table>
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Type</th>
-          <th>Description</th>
-          <th>Default</th>
-        </tr>
-      </thead>
-      <tbody>
-          <tr class="doc-section-item">
-            <td>
-                <code>array</code>
-            </td>
-            <td>
-                  <code><span title="numpy.ndarray">ndarray</span></code>
-            </td>
-            <td>
-              <div class="doc-md-description">
-                <p>The input array.</p>
-              </div>
-            </td>
-            <td>
-                <em>required</em>
-            </td>
-          </tr>
-          <tr class="doc-section-item">
-            <td>
-                <code>keepdims</code>
-            </td>
-            <td>
-                  <code><span title="bool">bool</span></code>
-            </td>
-            <td>
-              <div class="doc-md-description">
-                <p>Whether the output array has dim retained or not.</p>
-              </div>
-            </td>
-            <td>
-                  <code>False</code>
-            </td>
-          </tr>
-      </tbody>
-    </table>
-
-
-    <p><span class="doc-section-title">Returns:</span></p>
-    <table>
-      <thead>
-        <tr>
-          <th>Type</th>
-          <th>Description</th>
-        </tr>
-      </thead>
-      <tbody>
-          <tr class="doc-section-item">
-            <td>
-                  <code><span title="numpy.ndarray">ndarray</span></code>
-            </td>
-            <td>
-              <div class="doc-md-description">
-                <p>The maximum of all elements along the batch axis.</p>
-              </div>
-            </td>
-          </tr>
-      </tbody>
-    </table>
-
-
-<details class="example" open>
-  <summary>Example</summary>
-  <div class="highlight"><pre><span></span><code><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">batcharray.array</span><span class="w"> </span><span class="kn">import</span> <span class="n">amax_along_batch</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">],</span> <span class="p">[</span><span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">],</span> <span class="p">[</span><span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">]])</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">out</span> <span class="o">=</span> <span class="n">amax_along_batch</span><span class="p">(</span><span class="n">array</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">out</span>
-<span class="go">array([8, 9])</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">out</span> <span class="o">=</span> <span class="n">amax_along_batch</span><span class="p">(</span><span class="n">array</span><span class="p">,</span> <span class="n">keepdims</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">out</span>
-<span class="go">array([[8, 9]])</span>
-</code></pre></div>
-</details>
-
-    </div>
-
-</div>
-
-<div class="doc doc-object doc-function">
-
-
-<h3 id="batcharray.array.amax_along_seq" class="doc doc-heading">
-            <span class="doc doc-object-name doc-function-name">batcharray.array.amax_along_seq</span>
-
-
-<a href="#batcharray.array.amax_along_seq" class="headerlink" title="Permanent link">&para;</a></h3>
-<div class="doc-signature highlight"><pre><span></span><code><span class="nf">amax_along_seq</span><span class="p">(</span>
-    <span class="n">array</span><span class="p">:</span> <span class="n"><span title="numpy.ndarray">ndarray</span></span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">keepdims</span><span class="p">:</span> <span class="n"><span title="bool">bool</span></span> <span class="o">=</span> <span class="kc">False</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="n"><span title="numpy.ndarray">ndarray</span></span>
-</code></pre></div>
-
-    <div class="doc doc-contents ">
-
-        <p>Return the maximum of all elements along the sequence axis.</p>
-
-
-<details class="note" open>
-  <summary>Note</summary>
-  <p>This function assumes the sequence axis is the second
-    axis.</p>
-</details>
-
-<p><span class="doc-section-title">Parameters:</span></p>
-    <table>
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Type</th>
-          <th>Description</th>
-          <th>Default</th>
-        </tr>
-      </thead>
-      <tbody>
-          <tr class="doc-section-item">
-            <td>
-                <code>array</code>
-            </td>
-            <td>
-                  <code><span title="numpy.ndarray">ndarray</span></code>
-            </td>
-            <td>
-              <div class="doc-md-description">
-                <p>The input array.</p>
-              </div>
-            </td>
-            <td>
-                <em>required</em>
-            </td>
-          </tr>
-          <tr class="doc-section-item">
-            <td>
-                <code>keepdims</code>
-            </td>
-            <td>
-                  <code><span title="bool">bool</span></code>
-            </td>
-            <td>
-              <div class="doc-md-description">
-                <p>Whether the output array has dim retained or not.</p>
-              </div>
-            </td>
-            <td>
-                  <code>False</code>
-            </td>
-          </tr>
-      </tbody>
-    </table>
-
-
-    <p><span class="doc-section-title">Returns:</span></p>
-    <table>
-      <thead>
-        <tr>
-          <th>Type</th>
-          <th>Description</th>
-        </tr>
-      </thead>
-      <tbody>
-          <tr class="doc-section-item">
-            <td>
-                  <code><span title="numpy.ndarray">ndarray</span></code>
-            </td>
-            <td>
-              <div class="doc-md-description">
-                <p>The maximum of all elements along the sequence axis.</p>
-              </div>
-            </td>
-          </tr>
-      </tbody>
-    </table>
-
-
-<details class="example" open>
-  <summary>Example</summary>
-  <div class="highlight"><pre><span></span><code><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">batcharray.array</span><span class="w"> </span><span class="kn">import</span> <span class="n">amax_along_seq</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">]])</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">out</span> <span class="o">=</span> <span class="n">amax_along_seq</span><span class="p">(</span><span class="n">array</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">out</span>
-<span class="go">array([4, 9])</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">out</span> <span class="o">=</span> <span class="n">amax_along_seq</span><span class="p">(</span><span class="n">array</span><span class="p">,</span> <span class="n">keepdims</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">out</span>
-<span class="go">array([[4], [9]])</span>
-</code></pre></div>
-</details>
-
-    </div>
-
-</div>
-
-<div class="doc doc-object doc-function">
-
-
-<h3 id="batcharray.array.amin_along_batch" class="doc doc-heading">
-            <span class="doc doc-object-name doc-function-name">batcharray.array.amin_along_batch</span>
-
-
-<a href="#batcharray.array.amin_along_batch" class="headerlink" title="Permanent link">&para;</a></h3>
-<div class="doc-signature highlight"><pre><span></span><code><span class="nf">amin_along_batch</span><span class="p">(</span>
-    <span class="n">array</span><span class="p">:</span> <span class="n"><span title="numpy.ndarray">ndarray</span></span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">keepdims</span><span class="p">:</span> <span class="n"><span title="bool">bool</span></span> <span class="o">=</span> <span class="kc">False</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="n"><span title="numpy.ndarray">ndarray</span></span>
-</code></pre></div>
-
-    <div class="doc doc-contents ">
-
-        <p>Return the minimum of all elements along the batch axis.</p>
-
-
-<details class="note" open>
-  <summary>Note</summary>
-  <p>This function assumes the batch axis is the first
-    axis.</p>
-</details>
-
-<p><span class="doc-section-title">Parameters:</span></p>
-    <table>
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Type</th>
-          <th>Description</th>
-          <th>Default</th>
-        </tr>
-      </thead>
-      <tbody>
-          <tr class="doc-section-item">
-            <td>
-                <code>array</code>
-            </td>
-            <td>
-                  <code><span title="numpy.ndarray">ndarray</span></code>
-            </td>
-            <td>
-              <div class="doc-md-description">
-                <p>The input array.</p>
-              </div>
-            </td>
-            <td>
-                <em>required</em>
-            </td>
-          </tr>
-          <tr class="doc-section-item">
-            <td>
-                <code>keepdims</code>
-            </td>
-            <td>
-                  <code><span title="bool">bool</span></code>
-            </td>
-            <td>
-              <div class="doc-md-description">
-                <p>Whether the output array has dim retained or not.</p>
-              </div>
-            </td>
-            <td>
-                  <code>False</code>
-            </td>
-          </tr>
-      </tbody>
-    </table>
-
-
-    <p><span class="doc-section-title">Returns:</span></p>
-    <table>
-      <thead>
-        <tr>
-          <th>Type</th>
-          <th>Description</th>
-        </tr>
-      </thead>
-      <tbody>
-          <tr class="doc-section-item">
-            <td>
-                  <code><span title="numpy.ndarray">ndarray</span></code>
-            </td>
-            <td>
-              <div class="doc-md-description">
-                <p>The minimum of all elements along the batch axis.</p>
-              </div>
-            </td>
-          </tr>
-      </tbody>
-    </table>
-
-
-<details class="example" open>
-  <summary>Example</summary>
-  <div class="highlight"><pre><span></span><code><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">batcharray.array</span><span class="w"> </span><span class="kn">import</span> <span class="n">amin_along_batch</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">],</span> <span class="p">[</span><span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">],</span> <span class="p">[</span><span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">]])</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">out</span> <span class="o">=</span> <span class="n">amin_along_batch</span><span class="p">(</span><span class="n">array</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">out</span>
-<span class="go">array([0, 1])</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">out</span> <span class="o">=</span> <span class="n">amin_along_batch</span><span class="p">(</span><span class="n">array</span><span class="p">,</span> <span class="n">keepdims</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">out</span>
-<span class="go">array([[0, 1]])</span>
-</code></pre></div>
-</details>
-
-    </div>
-
-</div>
-
-<div class="doc doc-object doc-function">
-
-
-<h3 id="batcharray.array.amin_along_seq" class="doc doc-heading">
-            <span class="doc doc-object-name doc-function-name">batcharray.array.amin_along_seq</span>
-
-
-<a href="#batcharray.array.amin_along_seq" class="headerlink" title="Permanent link">&para;</a></h3>
-<div class="doc-signature highlight"><pre><span></span><code><span class="nf">amin_along_seq</span><span class="p">(</span>
-    <span class="n">array</span><span class="p">:</span> <span class="n"><span title="numpy.ndarray">ndarray</span></span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">keepdims</span><span class="p">:</span> <span class="n"><span title="bool">bool</span></span> <span class="o">=</span> <span class="kc">False</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="n"><span title="numpy.ndarray">ndarray</span></span>
-</code></pre></div>
-
-    <div class="doc doc-contents ">
-
-        <p>Return the minimum of all elements along the sequence axis.</p>
-
-
-<details class="note" open>
-  <summary>Note</summary>
-  <p>This function assumes the sequence axis is the second
-    axis.</p>
-</details>
-
-<p><span class="doc-section-title">Parameters:</span></p>
-    <table>
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Type</th>
-          <th>Description</th>
-          <th>Default</th>
-        </tr>
-      </thead>
-      <tbody>
-          <tr class="doc-section-item">
-            <td>
-                <code>array</code>
-            </td>
-            <td>
-                  <code><span title="numpy.ndarray">ndarray</span></code>
-            </td>
-            <td>
-              <div class="doc-md-description">
-                <p>The input array.</p>
-              </div>
-            </td>
-            <td>
-                <em>required</em>
-            </td>
-          </tr>
-          <tr class="doc-section-item">
-            <td>
-                <code>keepdims</code>
-            </td>
-            <td>
-                  <code><span title="bool">bool</span></code>
-            </td>
-            <td>
-              <div class="doc-md-description">
-                <p>Whether the output array has dim retained or not.</p>
-              </div>
-            </td>
-            <td>
-                  <code>False</code>
-            </td>
-          </tr>
-      </tbody>
-    </table>
-
-
-    <p><span class="doc-section-title">Returns:</span></p>
-    <table>
-      <thead>
-        <tr>
-          <th>Type</th>
-          <th>Description</th>
-        </tr>
-      </thead>
-      <tbody>
-          <tr class="doc-section-item">
-            <td>
-                  <code><span title="numpy.ndarray">ndarray</span></code>
-            </td>
-            <td>
-              <div class="doc-md-description">
-                <p>The minimum of all elements along the sequence axis.</p>
-              </div>
-            </td>
-          </tr>
-      </tbody>
-    </table>
-
-
-<details class="example" open>
-  <summary>Example</summary>
-  <div class="highlight"><pre><span></span><code><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">batcharray.array</span><span class="w"> </span><span class="kn">import</span> <span class="n">amin_along_seq</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">]])</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">out</span> <span class="o">=</span> <span class="n">amin_along_seq</span><span class="p">(</span><span class="n">array</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">out</span>
-<span class="go">array([0, 5])</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">out</span> <span class="o">=</span> <span class="n">amin_along_seq</span><span class="p">(</span><span class="n">array</span><span class="p">,</span> <span class="n">keepdims</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">out</span>
-<span class="go">array([[0], [5]])</span>
 </code></pre></div>
 </details>
 
@@ -3992,7 +3356,7 @@ sequence axis.</p>
 
 <a href="#batcharray.array.argsort_along_batch" class="headerlink" title="Permanent link">&para;</a></h3>
 <div class="doc-signature highlight"><pre><span></span><code><span class="nf">argsort_along_batch</span><span class="p">(</span>
-    <span class="n">array</span><span class="p">:</span> <span class="n"><span title="numpy.ndarray">ndarray</span></span><span class="p">,</span> <span class="n">kind</span><span class="p">:</span> <span class="n"><span title="batcharray.types.SortKind">SortKind</span></span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">array</span><span class="p">:</span> <span class="n"><span title="numpy.ndarray">ndarray</span></span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">kind</span><span class="p">:</span> <span class="n"><span title="batcharray.utils.SortKind">SortKind</span></span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n"><span title="numpy.ndarray">ndarray</span></span>
 </code></pre></div>
 
@@ -4040,7 +3404,7 @@ ascending order by value.</p>
                 <code>kind</code>
             </td>
             <td>
-                  <code><span title="batcharray.types.SortKind">SortKind</span> | None</code>
+                  <code><span title="batcharray.utils.SortKind">SortKind</span> | None</code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -4107,7 +3471,7 @@ compatibility.</p>
 
 <a href="#batcharray.array.argsort_along_seq" class="headerlink" title="Permanent link">&para;</a></h3>
 <div class="doc-signature highlight"><pre><span></span><code><span class="nf">argsort_along_seq</span><span class="p">(</span>
-    <span class="n">array</span><span class="p">:</span> <span class="n"><span title="numpy.ndarray">ndarray</span></span><span class="p">,</span> <span class="n">kind</span><span class="p">:</span> <span class="n"><span title="batcharray.types.SortKind">SortKind</span></span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">array</span><span class="p">:</span> <span class="n"><span title="numpy.ndarray">ndarray</span></span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">kind</span><span class="p">:</span> <span class="n"><span title="batcharray.utils.SortKind">SortKind</span></span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n"><span title="numpy.ndarray">ndarray</span></span>
 </code></pre></div>
 
@@ -4155,7 +3519,7 @@ ascending order by value.</p>
                 <code>kind</code>
             </td>
             <td>
-                  <code><span title="batcharray.types.SortKind">SortKind</span> | None</code>
+                  <code><span title="batcharray.utils.SortKind">SortKind</span> | None</code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -5257,11 +4621,6 @@ axis using the entries in <code>indices</code>.</p>
   <p>This function assumes the batch axis is the first axis.</p>
 </details>
 
-<details class="note" open>
-  <summary>Note</summary>
-  <p>Equivalent to <code>take_along_batch</code>.</p>
-</details>
-
 <p><span class="doc-section-title">Parameters:</span></p>
     <table>
       <thead>
@@ -5378,11 +4737,6 @@ sequence axis using the entries in <code>indices</code>.</p>
 <details class="note" open>
   <summary>Note</summary>
   <p>This function assumes the sequence axis is the second axis.</p>
-</details>
-
-<details class="note" open>
-  <summary>Note</summary>
-  <p>Equivalent to <code>take_along_seq</code>.</p>
 </details>
 
 <p><span class="doc-section-title">Parameters:</span></p>
@@ -7534,7 +6888,7 @@ the sequence axis of the array.</p>
 
 <a href="#batcharray.array.shuffle_along_batch" class="headerlink" title="Permanent link">&para;</a></h3>
 <div class="doc-signature highlight"><pre><span></span><code><span class="nf">shuffle_along_batch</span><span class="p">(</span>
-    <span class="n">array</span><span class="p">:</span> <span class="n"><span title="numpy.ndarray">ndarray</span></span><span class="p">,</span> <span class="n">rng</span><span class="p">:</span> <span class="n"><span title="numpy.random.Generator">Generator</span></span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">array</span><span class="p">:</span> <span class="n"><span title="numpy.ndarray">ndarray</span></span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">rng</span><span class="p">:</span> <span class="n"><span title="numpy.random.Generator">Generator</span></span> <span class="o">|</span> <span class="n"><span title="int">int</span></span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n"><span title="numpy.ndarray">ndarray</span></span>
 </code></pre></div>
 
@@ -7581,11 +6935,12 @@ the sequence axis of the array.</p>
                 <code>rng</code>
             </td>
             <td>
-                  <code><span title="numpy.random.Generator">Generator</span> | None</code>
+                  <code><span title="numpy.random.Generator">Generator</span> | <span title="int">int</span> | None</code>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>An optional random number generator.</p>
+                <p>A random number generator, a seed or <code>None</code>. It is
+passed to <code>numpy.random.default_rng</code>.</p>
               </div>
             </td>
             <td>
@@ -7643,7 +6998,7 @@ the sequence axis of the array.</p>
 
 <a href="#batcharray.array.shuffle_along_seq" class="headerlink" title="Permanent link">&para;</a></h3>
 <div class="doc-signature highlight"><pre><span></span><code><span class="nf">shuffle_along_seq</span><span class="p">(</span>
-    <span class="n">array</span><span class="p">:</span> <span class="n"><span title="numpy.ndarray">ndarray</span></span><span class="p">,</span> <span class="n">rng</span><span class="p">:</span> <span class="n"><span title="numpy.random.Generator">Generator</span></span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">array</span><span class="p">:</span> <span class="n"><span title="numpy.ndarray">ndarray</span></span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">rng</span><span class="p">:</span> <span class="n"><span title="numpy.random.Generator">Generator</span></span> <span class="o">|</span> <span class="n"><span title="int">int</span></span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n"><span title="numpy.ndarray">ndarray</span></span>
 </code></pre></div>
 
@@ -7690,11 +7045,12 @@ the sequence axis of the array.</p>
                 <code>rng</code>
             </td>
             <td>
-                  <code><span title="numpy.random.Generator">Generator</span> | None</code>
+                  <code><span title="numpy.random.Generator">Generator</span> | <span title="int">int</span> | None</code>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>An optional random number generator.</p>
+                <p>A random number generator, a seed or <code>None</code>. It is
+passed to <code>numpy.random.default_rng</code>.</p>
               </div>
             </td>
             <td>
@@ -7755,6 +7111,7 @@ the sequence axis of the array.</p>
     <span class="n">array</span><span class="p">:</span> <span class="n"><span title="numpy.ndarray">ndarray</span></span><span class="p">,</span>
     <span class="n">start</span><span class="p">:</span> <span class="n"><span title="int">int</span></span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
     <span class="n">stop</span><span class="p">:</span> <span class="n"><span title="int">int</span></span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="o">*</span><span class="p">,</span>
     <span class="n">step</span><span class="p">:</span> <span class="n"><span title="int">int</span></span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n"><span title="numpy.ndarray">ndarray</span></span>
 </code></pre></div>
@@ -7906,6 +7263,7 @@ the sequence axis of the array.</p>
     <span class="n">array</span><span class="p">:</span> <span class="n"><span title="numpy.ndarray">ndarray</span></span><span class="p">,</span>
     <span class="n">start</span><span class="p">:</span> <span class="n"><span title="int">int</span></span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
     <span class="n">stop</span><span class="p">:</span> <span class="n"><span title="int">int</span></span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="o">*</span><span class="p">,</span>
     <span class="n">step</span><span class="p">:</span> <span class="n"><span title="int">int</span></span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n"><span title="numpy.ndarray">ndarray</span></span>
 </code></pre></div>
@@ -8054,7 +7412,7 @@ the sequence axis of the array.</p>
 
 <a href="#batcharray.array.sort_along_batch" class="headerlink" title="Permanent link">&para;</a></h3>
 <div class="doc-signature highlight"><pre><span></span><code><span class="nf">sort_along_batch</span><span class="p">(</span>
-    <span class="n">array</span><span class="p">:</span> <span class="n"><span title="numpy.ndarray">ndarray</span></span><span class="p">,</span> <span class="n">kind</span><span class="p">:</span> <span class="n"><span title="batcharray.types.SortKind">SortKind</span></span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">array</span><span class="p">:</span> <span class="n"><span title="numpy.ndarray">ndarray</span></span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">kind</span><span class="p">:</span> <span class="n"><span title="batcharray.utils.SortKind">SortKind</span></span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n"><span title="numpy.ndarray">ndarray</span></span>
 </code></pre></div>
 
@@ -8102,7 +7460,7 @@ ascending order by value.</p>
                 <code>kind</code>
             </td>
             <td>
-                  <code><span title="batcharray.types.SortKind">SortKind</span> | None</code>
+                  <code><span title="batcharray.utils.SortKind">SortKind</span> | None</code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -8169,7 +7527,7 @@ compatibility.</p>
 
 <a href="#batcharray.array.sort_along_seq" class="headerlink" title="Permanent link">&para;</a></h3>
 <div class="doc-signature highlight"><pre><span></span><code><span class="nf">sort_along_seq</span><span class="p">(</span>
-    <span class="n">array</span><span class="p">:</span> <span class="n"><span title="numpy.ndarray">ndarray</span></span><span class="p">,</span> <span class="n">kind</span><span class="p">:</span> <span class="n"><span title="batcharray.types.SortKind">SortKind</span></span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">array</span><span class="p">:</span> <span class="n"><span title="numpy.ndarray">ndarray</span></span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">kind</span><span class="p">:</span> <span class="n"><span title="batcharray.utils.SortKind">SortKind</span></span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n"><span title="numpy.ndarray">ndarray</span></span>
 </code></pre></div>
 
@@ -8217,7 +7575,7 @@ ascending order by value.</p>
                 <code>kind</code>
             </td>
             <td>
-                  <code><span title="batcharray.types.SortKind">SortKind</span> | None</code>
+                  <code><span title="batcharray.utils.SortKind">SortKind</span> | None</code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -8972,247 +8330,6 @@ sizes for each chunk</p>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">out</span> <span class="o">=</span> <span class="n">sum_along_seq</span><span class="p">(</span><span class="n">array</span><span class="p">,</span> <span class="n">keepdims</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">out</span>
 <span class="go">array([[10], [35]])</span>
-</code></pre></div>
-</details>
-
-    </div>
-
-</div>
-
-<div class="doc doc-object doc-function">
-
-
-<h3 id="batcharray.array.take_along_batch" class="doc doc-heading">
-            <span class="doc doc-object-name doc-function-name">batcharray.array.take_along_batch</span>
-
-
-<a href="#batcharray.array.take_along_batch" class="headerlink" title="Permanent link">&para;</a></h3>
-<div class="doc-signature highlight"><pre><span></span><code><span class="nf">take_along_batch</span><span class="p">(</span>
-    <span class="n">array</span><span class="p">:</span> <span class="n"><span title="numpy.ndarray">ndarray</span></span><span class="p">,</span> <span class="n">indices</span><span class="p">:</span> <span class="n"><span title="numpy.ndarray">ndarray</span></span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="n"><span title="numpy.ndarray">ndarray</span></span>
-</code></pre></div>
-
-    <div class="doc doc-contents ">
-
-        <p>Return a new array which indexes the input array along the batch
-axis using the entries in <code>indices</code>.</p>
-
-
-<details class="note" open>
-  <summary>Note</summary>
-  <p>This function assumes the batch axis is the first axis.</p>
-</details>
-
-<details class="note" open>
-  <summary>Note</summary>
-  <p>Equivalent to <code>index_select_along_batch</code>.</p>
-</details>
-
-<p><span class="doc-section-title">Parameters:</span></p>
-    <table>
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Type</th>
-          <th>Description</th>
-          <th>Default</th>
-        </tr>
-      </thead>
-      <tbody>
-          <tr class="doc-section-item">
-            <td>
-                <code>array</code>
-            </td>
-            <td>
-                  <code><span title="numpy.ndarray">ndarray</span></code>
-            </td>
-            <td>
-              <div class="doc-md-description">
-                <p>The input array.</p>
-              </div>
-            </td>
-            <td>
-                <em>required</em>
-            </td>
-          </tr>
-          <tr class="doc-section-item">
-            <td>
-                <code>indices</code>
-            </td>
-            <td>
-                  <code><span title="numpy.ndarray">ndarray</span></code>
-            </td>
-            <td>
-              <div class="doc-md-description">
-                <p>The 1-D array containing the indices to take. Other
-shapes are passed to <code>np.take</code> and add dimensions.</p>
-              </div>
-            </td>
-            <td>
-                <em>required</em>
-            </td>
-          </tr>
-      </tbody>
-    </table>
-
-
-    <p><span class="doc-section-title">Returns:</span></p>
-    <table>
-      <thead>
-        <tr>
-          <th>Type</th>
-          <th>Description</th>
-        </tr>
-      </thead>
-      <tbody>
-          <tr class="doc-section-item">
-            <td>
-                  <code><span title="numpy.ndarray">ndarray</span></code>
-            </td>
-            <td>
-              <div class="doc-md-description">
-                <p>The indexed array along the batch axis.</p>
-              </div>
-            </td>
-          </tr>
-      </tbody>
-    </table>
-
-
-<details class="example" open>
-  <summary>Example</summary>
-  <div class="highlight"><pre><span></span><code><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">batcharray.array</span><span class="w"> </span><span class="kn">import</span> <span class="n">take_along_batch</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">],</span> <span class="p">[</span><span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">],</span> <span class="p">[</span><span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">]])</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">out</span> <span class="o">=</span> <span class="n">take_along_batch</span><span class="p">(</span><span class="n">array</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">]))</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">out</span>
-<span class="go">array([[4, 5],</span>
-<span class="go">       [8, 9]])</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">out</span> <span class="o">=</span> <span class="n">take_along_batch</span><span class="p">(</span><span class="n">array</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]))</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">out</span>
-<span class="go">array([[8, 9],</span>
-<span class="go">       [6, 7],</span>
-<span class="go">       [4, 5],</span>
-<span class="go">       [2, 3],</span>
-<span class="go">       [0, 1]])</span>
-</code></pre></div>
-</details>
-
-    </div>
-
-</div>
-
-<div class="doc doc-object doc-function">
-
-
-<h3 id="batcharray.array.take_along_seq" class="doc doc-heading">
-            <span class="doc doc-object-name doc-function-name">batcharray.array.take_along_seq</span>
-
-
-<a href="#batcharray.array.take_along_seq" class="headerlink" title="Permanent link">&para;</a></h3>
-<div class="doc-signature highlight"><pre><span></span><code><span class="nf">take_along_seq</span><span class="p">(</span><span class="n">array</span><span class="p">:</span> <span class="n"><span title="numpy.ndarray">ndarray</span></span><span class="p">,</span> <span class="n">indices</span><span class="p">:</span> <span class="n"><span title="numpy.ndarray">ndarray</span></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n"><span title="numpy.ndarray">ndarray</span></span>
-</code></pre></div>
-
-    <div class="doc doc-contents ">
-
-        <p>Return a new array which indexes the input array along the
-sequence axis using the entries in <code>indices</code>.</p>
-
-
-<details class="note" open>
-  <summary>Note</summary>
-  <p>This function assumes the sequence axis is the second axis.</p>
-</details>
-
-<details class="note" open>
-  <summary>Note</summary>
-  <p>Equivalent to <code>index_select_along_seq</code>.</p>
-</details>
-
-<p><span class="doc-section-title">Parameters:</span></p>
-    <table>
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Type</th>
-          <th>Description</th>
-          <th>Default</th>
-        </tr>
-      </thead>
-      <tbody>
-          <tr class="doc-section-item">
-            <td>
-                <code>array</code>
-            </td>
-            <td>
-                  <code><span title="numpy.ndarray">ndarray</span></code>
-            </td>
-            <td>
-              <div class="doc-md-description">
-                <p>The input array.</p>
-              </div>
-            </td>
-            <td>
-                <em>required</em>
-            </td>
-          </tr>
-          <tr class="doc-section-item">
-            <td>
-                <code>indices</code>
-            </td>
-            <td>
-                  <code><span title="numpy.ndarray">ndarray</span></code>
-            </td>
-            <td>
-              <div class="doc-md-description">
-                <p>The indices to take, a 1-D array (or a 2-D array of
-shape <code>(batch_size, n)</code> for the sequence axis variants).</p>
-              </div>
-            </td>
-            <td>
-                <em>required</em>
-            </td>
-          </tr>
-      </tbody>
-    </table>
-
-
-    <p><span class="doc-section-title">Returns:</span></p>
-    <table>
-      <thead>
-        <tr>
-          <th>Type</th>
-          <th>Description</th>
-        </tr>
-      </thead>
-      <tbody>
-          <tr class="doc-section-item">
-            <td>
-                  <code><span title="numpy.ndarray">ndarray</span></code>
-            </td>
-            <td>
-              <div class="doc-md-description">
-                <p>The indexed array along the sequence axis.</p>
-              </div>
-            </td>
-          </tr>
-      </tbody>
-    </table>
-
-
-<details class="example" open>
-  <summary>Example</summary>
-  <div class="highlight"><pre><span></span><code><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">batcharray.array</span><span class="w"> </span><span class="kn">import</span> <span class="n">take_along_seq</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">]])</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">out</span> <span class="o">=</span> <span class="n">take_along_seq</span><span class="p">(</span><span class="n">array</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">]))</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">out</span>
-<span class="go">array([[2, 4],</span>
-<span class="go">       [7, 9]])</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">out</span> <span class="o">=</span> <span class="n">take_along_seq</span><span class="p">(</span><span class="n">array</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]))</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">out</span>
-<span class="go">array([[4, 3, 2, 1, 0],</span>
-<span class="go">       [9, 8, 7, 6, 5]])</span>
 </code></pre></div>
 </details>
 
