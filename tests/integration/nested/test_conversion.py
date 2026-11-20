@@ -5,12 +5,14 @@ from typing import TYPE_CHECKING, Any
 import numpy as np
 import pytest
 from coola.equality import objects_are_equal
-from coola.recursive import BaseTransformer, TransformerRegistry, get_default_registry
+from coola.recursive import BaseTransformer, get_default_registry
 
 from batcharray.nested import to_list
 
 if TYPE_CHECKING:
-    from collections.abc import Callable, Generator
+    from collections.abc import Generator
+
+    from coola.recursive.base import Expansion
 
 
 @pytest.fixture(autouse=True)
@@ -39,13 +41,9 @@ class LinkedListNode:
 class LinkedListTransformer(BaseTransformer[LinkedListNode]):
     """Custom transformer for linked list structures."""
 
-    def transform(
-        self,
-        data: LinkedListNode,
-        func: Callable[[Any], Any],
-        registry: TransformerRegistry,
-    ) -> Any:
-        return type(data)(value=func(data.value), next_node=registry.transform(data.next, func))
+    def expand(self, data: LinkedListNode) -> Expansion | None:
+        children = [data.value, data.next]
+        return children, lambda new: type(data)(value=new[0], next_node=new[1])
 
 
 #############################
