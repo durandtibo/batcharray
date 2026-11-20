@@ -232,12 +232,12 @@ def test_gather_along_seq_masked_array() -> None:
 
 
 def test_gather_along_seq_batch_size_mismatch_raises() -> None:
-    with pytest.raises(ValueError, match="batch size of the indices"):
+    with pytest.raises(ValueError, match=r"indices must have 2 elements along the first axis"):
         gather_along_seq({"a": np.arange(6).reshape(2, 3)}, np.array([[0, 1]]))
 
 
 def test_gather_along_seq_indices_not_2d_raises() -> None:
-    with pytest.raises(ValueError, match="indices must be a 2-D array"):
+    with pytest.raises(ValueError, match=r"indices must be a 2-D array"):
         gather_along_seq({"a": np.ones((2, 3))}, np.array([0, 1]))
 
 
@@ -253,11 +253,11 @@ def test_gather_along_seq_keeps_container_types() -> None:
 
 @pytest.mark.parametrize("func", [index_select_along_batch, index_select_along_seq])
 def test_index_select_indices_not_1d_raises(func: Callable) -> None:
-    with pytest.raises(ValueError, match="indices must be a 1-D array"):
+    with pytest.raises(ValueError, match=r"indices must be a 1-D array"):
         func({"a": np.ones((2, 3))}, np.ones((2, 2), dtype=int))
 
 
 @pytest.mark.parametrize("func", [masked_select_along_batch, masked_select_along_seq])
 def test_masked_select_mask_not_bool_raises(func: Callable) -> None:
-    with pytest.raises(ValueError, match="mask must be a boolean array"):
+    with pytest.raises(ValueError, match=r"mask must be a boolean array"):
         func({"a": np.ones((3, 3))}, np.array([0, 1, 2]))

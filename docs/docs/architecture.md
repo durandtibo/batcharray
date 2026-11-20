@@ -11,7 +11,7 @@ A module imports only from the layers above it in this list:
 ```text
 constants          BATCH_AXIS, SEQ_AXIS
    ^
-validation         validate_min_ndim, validate_split_sections, validate_same_keys
+validation         validate_min_ndim, validate_split_sections, validate_indices, validate_mask
 utils              types      NestedArray, T, SortKind
                    namespace  get_namespace
                    structure  apply_to_arrays, split_arrays, combine_arrays, get_size

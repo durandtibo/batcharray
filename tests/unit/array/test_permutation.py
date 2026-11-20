@@ -41,10 +41,7 @@ def test_permute_along_batch(dtype: DTypeLike) -> None:
 
 
 def test_permute_along_batch_incorrect_shape() -> None:
-    with pytest.raises(
-        ValueError,
-        match=r"permutation shape \(.*\) is not compatible with array shape \(.*\)",
-    ):
+    with pytest.raises(ValueError, match=r"indices must have .* elements along the first axis"):
         permute_along_batch(
             np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]]),
             np.array([4, 3, 2, 1, 0, 2, 0]),
@@ -100,10 +97,7 @@ def test_permute_along_seq(dtype: DTypeLike) -> None:
 
 
 def test_permute_along_seq_incorrect_shape() -> None:
-    with pytest.raises(
-        ValueError,
-        match=r"permutation shape \(.*\) is not compatible with array shape \(.*\)",
-    ):
+    with pytest.raises(ValueError, match=r"indices must have .* elements along the first axis"):
         permute_along_seq(
             np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]]),
             np.array([4, 3, 2, 1, 0, 2, 0]),
@@ -279,13 +273,30 @@ def test_shuffle_rng_is_keyword_only(func: Callable) -> None:
         func(np.ones((4, 5)), np.random.default_rng(1))
 
 
+def test_permute_along_batch_bool_permutation_raises() -> None:
+    # A boolean permutation of the right length was read as the integers 0 and 1.
+    with pytest.raises(ValueError, match=r"indices must be an integer array"):
+        permute_along_batch(np.ones((3, 2)), np.array([True, False, True]))
+
+
+def test_permute_along_seq_bool_permutation_raises() -> None:
+    with pytest.raises(ValueError, match=r"indices must be an integer array"):
+        permute_along_seq(np.ones((2, 3)), np.array([True, False, True]))
+
+
+@pytest.mark.parametrize("func", [permute_along_batch, permute_along_seq])
+def test_permute_list_permutation_raises(func: Callable) -> None:
+    with pytest.raises(TypeError, match=r"indices must be a numpy.ndarray"):
+        func(np.ones((3, 3)), [0, 1, 2])  # ty: ignore[invalid-argument-type]
+
+
 @pytest.mark.parametrize("permutation", [np.zeros((4, 1), dtype=int), np.array(0)])
 def test_permute_along_batch_permutation_not_1d_raises(permutation: np.ndarray) -> None:
-    with pytest.raises(ValueError, match="permutation shape"):
+    with pytest.raises(ValueError, match=r"indices must be a 1-D array"):
         permute_along_batch(np.ones((4, 5)), permutation)
 
 
 @pytest.mark.parametrize("permutation", [np.zeros((5, 1), dtype=int), np.array(0)])
 def test_permute_along_seq_permutation_not_1d_raises(permutation: np.ndarray) -> None:
-    with pytest.raises(ValueError, match="permutation shape"):
+    with pytest.raises(ValueError, match=r"indices must be a 1-D array"):
         permute_along_seq(np.ones((4, 5)), permutation)
