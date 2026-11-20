@@ -534,9 +534,9 @@ a measure.
 - Ragged data (lists of arrays of different lengths) and `pad_sequences` (D8).
 - A configurable layout (P1 says no).
 - Data loaders, datasets or collate functions (`concatenate_*` is the building block).
-- Python and NumPy version policy beyond `numpy>=1.22,<3.0` and Python 3.11 and above. The probes
+- Python and NumPy version policy beyond `numpy>=2.0,<3.0` and Python 3.11 and above. The probes
   ran on NumPy 2.5.5 only: the equivalence of F9 and the masked behaviour are **not** checked on
-  `numpy` 1.22, the lowest supported version. The CI matrix of `package_versions.json` runs the
+  `numpy` 2.0, the lowest supported version. The CI matrix of `package_versions.json` runs the
   tests, so `test_masked_arrays` (T9) is the check; it must pass on the whole matrix before step 4
   is merged.
 - Performance work. Section 6.1 shows no need.

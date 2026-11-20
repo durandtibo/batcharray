@@ -89,7 +89,7 @@ by value. Each section says what was done and what was deliberately left.
 - `coverage.xml` and `htmlcov/` are git-ignored and the sdist only includes
   `src` (`only-include = ["src"]`), so they cannot leak into a build.
 - The CI dependency matrix comes from `dev/config/package_versions.json` and
-  starts at numpy `1.22.4`, which matches the declared `numpy>=1.22`.
+  starts at numpy `2.0.2`, which matches the declared `numpy>=2.0`.
 
 ## 7. Docstring duplication (not done)
 
