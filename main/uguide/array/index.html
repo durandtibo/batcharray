@@ -276,6 +276,44 @@
   
   
   
+    <li class="md-tabs__item">
+      <a href="../../design_principles/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Design Principles
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../architecture/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Architecture
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
     
     
       <li class="md-tabs__item">
@@ -457,6 +495,60 @@
   
   
   
+    <li class="md-nav__item">
+      <a href="../../design_principles/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Design Principles
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../architecture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Architecture
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
     
     
     
@@ -471,10 +563,10 @@
         
           
         
-        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5" >
         
           
-          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
             
   
   
@@ -492,8 +584,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_3">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
             <span class="md-nav__icon md-icon"></span>
             
   
@@ -617,10 +709,10 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" checked>
         
           
-          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="">
             
   
   
@@ -638,8 +730,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
-          <label class="md-nav__title" for="__nav_4">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_6">
             <span class="md-nav__icon md-icon"></span>
             
   
@@ -1023,10 +1115,10 @@
         
           
         
-        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5" >
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_7" >
         
           
-          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
             
   
   
@@ -1044,8 +1136,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_5">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
             <span class="md-nav__icon md-icon"></span>
             
   
@@ -1673,6 +1765,8 @@ invalid data:</p>
 <ul>
 <li><code>concatenate_along_batch()</code> - Concatenate arrays along batch</li>
 <li><code>concatenate_along_seq()</code> - Concatenate arrays along sequence</li>
+<li><code>repeat_along_batch()</code> - Repeat each item along batch</li>
+<li><code>repeat_along_seq()</code> - Repeat each item along sequence</li>
 <li><code>tile_along_seq()</code> - Repeat array along sequence dimension</li>
 </ul>
 <h3 id="mathematical-operations">Mathematical Operations<a class="headerlink" href="#mathematical-operations" title="Permanent link">&para;</a></h3>
@@ -1684,6 +1778,8 @@ invalid data:</p>
 </ul>
 <h3 id="permutation-and-shuffling">Permutation and Shuffling<a class="headerlink" href="#permutation-and-shuffling" title="Permanent link">&para;</a></h3>
 <ul>
+<li><code>flip_along_batch()</code> - Reverse the order along batch</li>
+<li><code>flip_along_seq()</code> - Reverse the order along sequence</li>
 <li><code>permute_along_batch()</code> - Apply permutation to batch</li>
 <li><code>permute_along_seq()</code> - Apply permutation to sequence</li>
 <li><code>shuffle_along_batch()</code> - Random shuffle along batch</li>
@@ -1691,6 +1787,10 @@ invalid data:</p>
 </ul>
 <h3 id="reduction-operations">Reduction Operations<a class="headerlink" href="#reduction-operations" title="Permanent link">&para;</a></h3>
 <ul>
+<li><code>all_along_batch()</code> - Logical and along batch</li>
+<li><code>all_along_seq()</code> - Logical and along sequence</li>
+<li><code>any_along_batch()</code> - Logical or along batch</li>
+<li><code>any_along_seq()</code> - Logical or along sequence</li>
 <li><code>amax_along_batch()</code> / <code>max_along_batch()</code> - Maximum along batch</li>
 <li><code>amax_along_seq()</code> / <code>max_along_seq()</code> - Maximum along sequence</li>
 <li><code>amin_along_batch()</code> / <code>min_along_batch()</code> - Minimum along batch</li>
@@ -1705,8 +1805,12 @@ invalid data:</p>
 <li><code>median_along_seq()</code> - Median along sequence</li>
 <li><code>prod_along_batch()</code> - Product along batch</li>
 <li><code>prod_along_seq()</code> - Product along sequence</li>
+<li><code>std_along_batch()</code> - Standard deviation along batch</li>
+<li><code>std_along_seq()</code> - Standard deviation along sequence</li>
 <li><code>sum_along_batch()</code> - Sum along batch</li>
 <li><code>sum_along_seq()</code> - Sum along sequence</li>
+<li><code>var_along_batch()</code> - Variance along batch</li>
+<li><code>var_along_seq()</code> - Variance along sequence</li>
 </ul>
 <h3 id="slicing-operations">Slicing Operations<a class="headerlink" href="#slicing-operations" title="Permanent link">&para;</a></h3>
 <ul>
