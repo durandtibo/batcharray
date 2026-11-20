@@ -192,7 +192,6 @@ def repeat_along_seq(array: np.ndarray, repeats: int) -> np.ndarray:
 
         ```
     """
-    validate_min_ndim(array)
     return np.repeat(array, repeats, axis=SEQ_AXIS)
 
 

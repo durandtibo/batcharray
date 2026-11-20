@@ -148,6 +148,7 @@ The result on an empty or degenerate input is NumPy's, and is pinned by a test:
 | `sum_along_batch` and other map functions                    | an empty structure           | the empty structure (`{}`)              |
 | `permute_*`                                                  | a repeated index             | not checked: only the length is         |
 | `tile_along_seq`                                             | `reps == 0`                  | a zero-length sequence axis             |
+| `*_along_batch` reductions and `select_along_batch`           | a 1-D array                  | a 0-d array (P12)                       |
 | a masked reduction                                           | a fully masked row or column | what `numpy.ma` returns (`masked`)      |
 
 A function that would need the values of an array to validate it does not validate it.

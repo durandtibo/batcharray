@@ -184,7 +184,7 @@ def test_select_along_batch_dict() -> None:
             },
             index=2,
         ),
-        {"a": np.array([4, 5]), "b": np.int64(2)},
+        {"a": np.array([4, 5]), "b": np.array(2, dtype=np.int64)},
     )
 
 
@@ -213,7 +213,7 @@ def test_select_along_batch_nested() -> None:
         ),
         {
             "a": np.array([4, 5]),
-            "b": np.int64(2),
+            "b": np.array(2, dtype=np.int64),
             "list": [np.array([7])],
             "dict": {"c": np.array([1.0, 1.0])},
             "nested": np.ma.masked_array(data=np.array([4, 5]), mask=np.array([False, True])),

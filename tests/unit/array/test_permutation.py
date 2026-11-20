@@ -252,7 +252,7 @@ def test_flip_along_seq(dtype: DTypeLike) -> None:
 
 
 def test_flip_along_seq_1d_raises() -> None:
-    with pytest.raises(ValueError, match="at least 2 dimensions"):
+    with pytest.raises(ValueError, match="out of bounds"):
         flip_along_seq(np.arange(3))
 
 
