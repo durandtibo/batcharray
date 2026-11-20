@@ -8,6 +8,8 @@ the sequence axis.
 Main modules:
     - array: Functions to manipulate single arrays with batch/sequence dimensions
     - nested: Functions to manipulate nested structures (dicts, lists) of arrays
+    - constants: The batch axis and the sequence axis
+    - validation: Input validation functions
     - utils: Utilities shared by the other packages
 
 Example:
@@ -28,14 +30,14 @@ For more information, see https://durandtibo.github.io/batcharray/
 
 from __future__ import annotations
 
-__all__ = ["__version__", "array", "nested", "utils"]
+__all__ = ["__version__", "array", "constants", "nested", "utils", "validation"]
 
 from importlib import import_module
 from importlib.metadata import PackageNotFoundError, version
 from typing import TYPE_CHECKING, Any
 
 if TYPE_CHECKING:
-    from batcharray import array, nested, utils
+    from batcharray import array, constants, nested, utils, validation
 
 try:
     __version__ = version(__name__)
@@ -43,12 +45,12 @@ except PackageNotFoundError:  # pragma: no cover
     # Package is not installed, fallback if needed
     __version__ = "0.0.0"
 
-_SUBPACKAGES = frozenset({"array", "nested", "utils"})
+_SUBPACKAGES = frozenset({"array", "constants", "nested", "utils", "validation"})
 
 
 def __getattr__(name: str) -> Any:
-    # Lazily import the subpackages so `import batcharray` stays cheap but
-    # `batcharray.array` / `batcharray.nested` work without an explicit import.
+    # Lazily import the modules so `import batcharray` stays cheap but
+    # `batcharray.array` / `batcharray.validation` work without an explicit import.
     if name in _SUBPACKAGES:
         return import_module(f"{__name__}.{name}")
     msg = f"module {__name__!r} has no attribute {name!r}"
