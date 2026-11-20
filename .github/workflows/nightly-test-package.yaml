@@ -12,15 +12,16 @@ on:
         required: false
         type: string
       test-matrix:
-        description: "JSON test matrix from get-test-matrix.yaml, loaded once by the caller"
+        description: "JSON test matrix from lib-get-test-matrix.yaml, loaded once by the caller"
         required: true
         type: string
 
-permissions:
-  contents: read
+permissions: {}
 
 jobs:
   test:
+    permissions:
+      contents: read
     runs-on: ${{ matrix.os }}
     timeout-minutes: 5
     strategy:

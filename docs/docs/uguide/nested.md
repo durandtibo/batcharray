@@ -1,16 +1,20 @@
 # Nested Data Structures
 
-The `batcharray.nested` module provides functions to manipulate nested data structures containing NumPy arrays. This is particularly useful when working with complex data like dictionaries or lists of arrays that represent batches or sequences.
+The `batcharray.nested` module provides functions to manipulate nested data structures containing
+NumPy arrays. This is particularly useful when working with complex data like dictionaries or lists
+of arrays that represent batches or sequences.
 
 ## Overview
 
-When working with machine learning or data processing pipelines, you often have data organized in nested structures:
+When working with machine learning or data processing pipelines, you often have data organized in
+nested structures:
 
 - Dictionaries with multiple arrays (e.g., features, labels, metadata)
 - Lists or tuples of arrays
 - Combinations of both
 
-The `nested` module allows you to apply batch or sequence operations to all arrays in these structures simultaneously.
+The `nested` module allows you to apply batch or sequence operations to all arrays in these
+structures simultaneously.
 
 ## Working with Dictionaries
 

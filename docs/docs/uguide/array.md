@@ -1,13 +1,16 @@
 # Array Operations
 
-The `batcharray.array` module provides functions to manipulate NumPy arrays representing batches of data and sequences.
+The `batcharray.array` module provides functions to manipulate NumPy arrays representing batches
+of data and sequences.
 
 ## Overview
 
 `batcharray` provides two main categories of array operations:
 
-1. **Batch operations**: Work on arrays with shape `(batch_size, ...)` where the first axis is the batch dimension
-2. **Sequence operations**: Work on arrays with shape `(batch_size, seq_len, ...)` where the first axis is batch and second is sequence
+1. **Batch operations**: Work on arrays with shape `(batch_size, ...)` where the first axis is the
+   batch dimension
+2. **Sequence operations**: Work on arrays with shape `(batch_size, seq_len, ...)` where the first
+   axis is batch and second is sequence
 
 ## Batch Operations
 
@@ -71,7 +74,8 @@ shuffled = array.shuffle_along_batch(batch)
 
 ## Sequence Operations
 
-Sequence operations work along the second axis (sequence dimension). All functions that operate on sequences have the suffix `_along_seq`.
+Sequence operations work along the second axis (sequence dimension). All functions that operate on
+sequences have the suffix `_along_seq`.
 
 ### Sequence Manipulation
 
@@ -140,7 +144,8 @@ mean = array.mean_along_seq(data)  # Average over time for each batch
 
 ## Working with Masked Arrays
 
-All functions in `batcharray.array` support NumPy masked arrays, allowing you to handle missing or invalid data:
+All functions in `batcharray.array` support NumPy masked arrays, allowing you to handle missing or
+invalid data:
 
 ```python
 import numpy as np

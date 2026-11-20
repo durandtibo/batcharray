@@ -9,18 +9,19 @@ on:
   workflow_call:
     inputs:
       test-matrix:
-        description: "JSON test matrix from get-test-matrix.yaml, loaded once by the caller"
+        description: "JSON test matrix from lib-get-test-matrix.yaml, loaded once by the caller"
         required: true
         type: string
 
-permissions:
-  contents: read
+permissions: {}
 
 jobs:
   # Test with all dependencies across multiple Python versions and operating systems
   all:
+    permissions:
+      contents: read
     runs-on: ${{ matrix.os }}
-    timeout-minutes: 5
+    timeout-minutes: 10 # free-threaded and macOS cells are slow
     strategy:
       max-parallel: 8
       fail-fast: false
@@ -33,16 +34,14 @@ jobs:
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # ratchet:actions/checkout@v7
 
       - name: Setup python environment
-        uses: durandtibo/setup-venv-uv-action@269cae0b38051f39b2cfb10230687ba2b8093424 # ratchet:durandtibo/setup-venv-uv-action@v0.2.0
+        uses: durandtibo/setup-venv-uv-action@4445098aa662d3d72aa0455918bc46a091b2a7f8 # ratchet:durandtibo/setup-venv-uv-action@v0.3.1
         with:
           python-version: ${{ matrix.python-version }}
       - name: Run unit tests
         run: |
           inv test.unit --cov
-      - name: Run integration tests
-        run: |
-          inv test.integration --cov
-      # Upload coverage from a single representative cell of the matrix (only
+      # Upload the coverage of the unit tests only (the integration tests below
+      # replace coverage.xml) from a single representative cell of the matrix (only
       # for the main repository, to avoid spam from forks).
       - name: Upload coverage to Codecov
         if: |
@@ -57,11 +56,16 @@ jobs:
           # in the github UI just because the coverage report failed to
           # be published.
           fail_ci_if_error: false
+      - name: Run integration tests
+        run: |
+          inv test.integration --cov
 
   # Test with minimal dependencies to ensure optional dependencies are truly optional
   min:
+    permissions:
+      contents: read
     runs-on: ${{ matrix.os }}
-    timeout-minutes: 5
+    timeout-minutes: 10 # free-threaded and macOS cells are slow
     strategy:
       max-parallel: 8
       fail-fast: false
@@ -74,13 +78,13 @@ jobs:
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # ratchet:actions/checkout@v7
 
       - name: Setup python environment
-        uses: durandtibo/setup-venv-uv-action@269cae0b38051f39b2cfb10230687ba2b8093424 # ratchet:durandtibo/setup-venv-uv-action@v0.2.0
+        uses: durandtibo/setup-venv-uv-action@4445098aa662d3d72aa0455918bc46a091b2a7f8 # ratchet:durandtibo/setup-venv-uv-action@v0.3.1
         with:
           python-version: ${{ matrix.python-version }}
           install-args: "--no-optional-deps"
       - name: Run unit tests
         run: |
-          inv test.unit --cov
+          inv test.unit
       - name: Run integration tests
         run: |
-          inv test.integration --cov
+          inv test.integration

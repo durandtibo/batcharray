@@ -1,0 +1,63 @@
+name: Get Package Dependencies
+
+# Reads the dependencies to test from dev/config/package_versions.json (kept up
+# to date from pyproject.toml by bot-generate-package-versions.yaml) and exposes
+# their names and their version bounds together, since every caller that tests
+# per-dependency compatibility (ci-test-deps.yaml, nightly-package.yaml) needs
+# both to build a package-name x package-version matrix.
+#
+# batcharray has no optional dependency, so the names are the required
+# dependencies (the equivalent of the extras of lib-get-package-extras.yaml).
+#
+# Usage:
+#   jobs:
+#     get-deps:
+#       uses: ./.github/workflows/lib-get-package-deps.yaml
+#
+#     test-dep:
+#       needs: get-deps
+#       strategy:
+#         matrix:
+#           package-name: ${{ fromJson(needs.get-deps.outputs.package_names) }}
+#       uses: ./.github/workflows/ci-test-code-dep.yaml
+#       with:
+#         package-name: ${{ matrix.package-name }}
+#         package-versions: ${{ toJson(fromJson(needs.get-deps.outputs.package_versions)[matrix.package-name]) }}
+
+on:
+  workflow_call:
+    outputs:
+      package_names:
+        description: "JSON array of the package names of dev/config/package_versions.json"
+        value: ${{ jobs.get-names.outputs.package_names }}
+      package_versions:
+        description: "JSON string containing all package versions from dev/config/package_versions.json"
+        value: ${{ jobs.get-versions.outputs.package_versions }}
+
+  workflow_dispatch: # Allows manual triggering for testing purposes
+
+permissions: {}
+
+jobs:
+  # Get the version bounds from dev/config/package_versions.json.
+  get-versions:
+    permissions:
+      contents: read
+    uses: ./.github/workflows/lib-get-package-versions.yaml
+
+  # Get the package names (the keys of the JSON object).
+  get-names:
+    needs: get-versions
+    runs-on: ubuntu-slim
+    timeout-minutes: 2
+    outputs:
+      package_names: ${{ steps.names.outputs.package_names }}
+    steps:
+      - name: Get package names
+        id: names
+        env:
+          PACKAGE_VERSIONS: ${{ needs.get-versions.outputs.package_versions }}
+        run: |
+          package_names=$(echo "$PACKAGE_VERSIONS" | jq -c 'keys')
+          echo "package_names=$package_names" >> "$GITHUB_OUTPUT"
+          echo "📦 Package names: $package_names"

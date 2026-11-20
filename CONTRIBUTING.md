@@ -21,10 +21,13 @@ We actively welcome your pull requests.
 3. If you've added code that should be tested, add tests.
 4. If you've changed APIs, update the documentation.
 5. Ensure the test suite passes. You can use the following command to run the tests:
+
    ```shell
    inv test.unit --cov
    ```
+
 6. Make sure your code lints. The following commands can help you to format the code:
+
    ```shell
    pre-commit run --all-files
    ```
@@ -34,7 +37,9 @@ We actively welcome your pull requests.
 ### Prerequisites
 
 This project uses [`uv`](https://docs.astral.sh/uv/) for dependency management.
-Please refer to the [uv installation documentation](https://docs.astral.sh/uv/getting-started/installation/) to install it.
+Please refer to the
+[uv installation documentation](https://docs.astral.sh/uv/getting-started/installation/)
+to install it.
 
 ### Setting up the development environment
 
@@ -53,6 +58,7 @@ Please refer to the [uv installation documentation](https://docs.astral.sh/uv/ge
    ```
 
 3. Install pre-commit hooks:
+
    ```shell
    pre-commit install
    ```
