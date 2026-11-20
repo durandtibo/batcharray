@@ -56,7 +56,7 @@ that takes a `mask`, an `indices` or a `permutation` (`masked_select_*`, `index_
 | Property | Gate                                                                                                         |
 | -------- | ------------------------------------------------------------------------------------------------------------ |
 | P1       | `tests/unit/test_signatures.py` (no `axis` parameter)                                                        |
-| P2       | `tests/unit/test_thin_wrappers.py` (the body of a function outside the closed list is one NumPy call)        |
+| P2       | `tests/unit/test_thin_wrappers.py` (the body of a function outside the closed list is one NumPy call, and the table below is the closed list) |
 | P3       | `tests/unit/test_signatures.py` (same names, options and defaults in `array` and `nested`)                   |
 | P4       | `tests/unit/test_nested_contract.py` (no `recursive_apply`, no `isinstance` on a container in `nested`)      |
 | P5       | `tests/unit/test_nested_contract.py` and `tests/unit/utils/test_structure.py` (the container types are kept) |
