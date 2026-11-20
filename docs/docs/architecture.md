@@ -21,14 +21,8 @@ array              one NumPy call with the axis fixed
 nested             one helper call per function
 ```
 
-!!! note "Current state"
-
-    `utils` has `types` (`NestedArray`, `T`, `SortKind`), `namespace` (`get_namespace`) and
-    `structure` (the three helpers and `get_size`), and every `nested` function goes through a
-    helper. `nested.batch_size` and `nested.seq_len`, and the `layers` contract of `import-linter`,
-    are not done yet. The steps in
-    [`review/target_state.md`](https://github.com/durandtibo/batcharray/blob/main/review/target_state.md)
-    bring the code to the layers above.
+`import-linter` enforces the order with one `layers` contract (`inv imports.check-cycles`). `nested`
+also has `batch_size` and `seq_len`, which read a size with `get_size` and have no `array` twin.
 
 ## A `nested` function is logic-free
 

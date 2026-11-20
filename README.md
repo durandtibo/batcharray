@@ -104,6 +104,7 @@ Please check the documentation to see all the implemented functions.
   - Maintain relationships between related arrays
   - Any other function can be applied to all the arrays with `batcharray.utils.apply_to_arrays`
   - All operations from `array` module, but for nested structures
+  - `batch_size` and `seq_len`: the size shared by all the arrays of a structure
 - `utils`: Helpers shared by the other packages
   - `apply_to_arrays`, `split_arrays`, `combine_arrays` and `get_size`: the helpers that traverse nested
     structures of arrays (use `apply_to_arrays` to apply any other function to all the arrays)
