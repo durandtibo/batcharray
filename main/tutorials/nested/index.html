@@ -1938,9 +1938,9 @@
 <h2 id="element-wise-operations-on-nested-structures">Element-wise Operations on Nested Structures<a class="headerlink" href="#element-wise-operations-on-nested-structures" title="Permanent link">&para;</a></h2>
 <p><code>batcharray.nested</code> does not wrap the element-wise NumPy functions (<code>np.abs</code>, <code>np.exp</code>,
 <code>np.log</code>, <code>np.sin</code>, ...): they have no batch or sequence axis. Apply any function to all the arrays
-of a structure with <code>recursive_apply</code> of <code>coola</code>:</p>
+of a structure with <code>apply_to_arrays</code> of <code>batcharray.utils</code>:</p>
 <div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">coola.recursive</span><span class="w"> </span><span class="kn">import</span> <span class="n">recursive_apply</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">batcharray.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">apply_to_arrays</span>
 
 <span class="n">data</span> <span class="o">=</span> <span class="p">{</span>
     <span class="s2">"values"</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="o">-</span><span class="mf">2.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">],</span> <span class="p">[</span><span class="mf">1.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">4.0</span><span class="p">]]),</span>
@@ -1948,7 +1948,7 @@ of a structure with <code>recursive_apply</code> of <code>coola</code>:</p>
 <span class="p">}</span>
 
 <span class="c1"># Absolute values</span>
-<span class="n">abs_data</span> <span class="o">=</span> <span class="n">recursive_apply</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">)</span>
+<span class="n">abs_data</span> <span class="o">=</span> <span class="n">apply_to_arrays</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">)</span>
 <span class="c1"># {</span>
 <span class="c1">#     'values': array([[2., 3.],</span>
 <span class="c1">#                      [1., 4.]]),</span>
@@ -1957,13 +1957,13 @@ of a structure with <code>recursive_apply</code> of <code>coola</code>:</p>
 <span class="c1"># }</span>
 
 <span class="c1"># Exponential</span>
-<span class="n">exp_data</span> <span class="o">=</span> <span class="n">recursive_apply</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">)</span>
+<span class="n">exp_data</span> <span class="o">=</span> <span class="n">apply_to_arrays</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">)</span>
 
 <span class="c1"># Logarithm (of absolute values to avoid errors)</span>
-<span class="n">log_data</span> <span class="o">=</span> <span class="n">recursive_apply</span><span class="p">(</span><span class="n">abs_data</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">)</span>
+<span class="n">log_data</span> <span class="o">=</span> <span class="n">apply_to_arrays</span><span class="p">(</span><span class="n">abs_data</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">)</span>
 
 <span class="c1"># Clipping</span>
-<span class="n">clipped_data</span> <span class="o">=</span> <span class="n">recursive_apply</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">))</span>
+<span class="n">clipped_data</span> <span class="o">=</span> <span class="n">apply_to_arrays</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">))</span>
 <span class="c1"># {</span>
 <span class="c1">#     'values': array([[-1.,  1.],</span>
 <span class="c1">#                      [ 1., -1.]]),</span>
@@ -2278,7 +2278,7 @@ of a structure with <code>recursive_apply</code> of <code>coola</code>:</p>
 </code></pre></div>
 <h2 id="converting-to-native-python">Converting to Native Python<a class="headerlink" href="#converting-to-native-python" title="Permanent link">&para;</a></h2>
 <div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">coola.recursive</span><span class="w"> </span><span class="kn">import</span> <span class="n">recursive_apply</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">batcharray.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">apply_to_arrays</span>
 
 <span class="n">data</span> <span class="o">=</span> <span class="p">{</span>
     <span class="s2">"features"</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">]]),</span>
@@ -2287,7 +2287,7 @@ of a structure with <code>recursive_apply</code> of <code>coola</code>:</p>
 <span class="p">}</span>
 
 <span class="c1"># Convert to native Python lists</span>
-<span class="n">python_data</span> <span class="o">=</span> <span class="n">recursive_apply</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="o">.</span><span class="n">tolist</span><span class="p">)</span>
+<span class="n">python_data</span> <span class="o">=</span> <span class="n">apply_to_arrays</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="o">.</span><span class="n">tolist</span><span class="p">)</span>
 <span class="c1"># {</span>
 <span class="c1">#     'features': [[1, 2], [3, 4]],</span>
 <span class="c1">#     'labels': [0, 1],</span>

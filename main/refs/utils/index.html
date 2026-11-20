@@ -1065,10 +1065,76 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#batcharray.utils.NestedArray" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        NestedArray
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#batcharray.utils.T" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        T
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#batcharray.utils.apply_to_arrays" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        apply_to_arrays
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#batcharray.utils.combine_arrays" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        combine_arrays
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#batcharray.utils.get_namespace" class="md-nav__link">
     <span class="md-ellipsis">
       
         get_namespace
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#batcharray.utils.get_size" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        get_size
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#batcharray.utils.split_arrays" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        split_arrays
       
     </span>
   </a>
@@ -1190,10 +1256,76 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#batcharray.utils.NestedArray" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        NestedArray
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#batcharray.utils.T" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        T
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#batcharray.utils.apply_to_arrays" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        apply_to_arrays
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#batcharray.utils.combine_arrays" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        combine_arrays
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#batcharray.utils.get_namespace" class="md-nav__link">
     <span class="md-ellipsis">
       
         get_namespace
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#batcharray.utils.get_size" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        get_size
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#batcharray.utils.split_arrays" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        split_arrays
       
     </span>
   </a>
@@ -1259,8 +1391,384 @@
 
 
 
+<div class="doc doc-object doc-attribute">
 
 
+
+<h3 id="batcharray.utils.NestedArray" class="doc doc-heading">
+            <span class="doc doc-object-name doc-attribute-name">batcharray.utils.NestedArray</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-module-attribute"><code>module-attribute</code></small>
+  </span>
+
+<a href="#batcharray.utils.NestedArray" class="headerlink" title="Permanent link">&para;</a></h3>
+<div class="doc-signature highlight"><pre><span></span><code><span class="n">NestedArray</span><span class="p">:</span> <span class="n"><span title="typing.TypeAlias">TypeAlias</span></span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n"><span title="numpy">np</span></span><span class="o">.</span><span class="n"><span title="numpy.ndarray">ndarray</span></span>
+    <span class="o">|</span> <span class="n"><span title="collections.abc.Mapping">Mapping</span></span><span class="p">[</span><span class="n"><span title="typing.Any">Any</span></span><span class="p">,</span> <span class="s2">"NestedArray"</span><span class="p">]</span>
+    <span class="o">|</span> <span class="n"><span title="collections.abc.Sequence">Sequence</span></span><span class="p">[</span><span class="s2">"NestedArray"</span><span class="p">]</span>
+<span class="p">)</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>An array or a nested structure (dictionary, list, tuple and their
+subclasses) of arrays.</p>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h3 id="batcharray.utils.T" class="doc doc-heading">
+            <span class="doc doc-object-name doc-attribute-name">batcharray.utils.T</span>
+
+
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-module-attribute"><code>module-attribute</code></small>
+  </span>
+
+<a href="#batcharray.utils.T" class="headerlink" title="Permanent link">&para;</a></h3>
+<div class="doc-signature highlight"><pre><span></span><code><span class="n">T</span> <span class="o">=</span> <span class="n"><span title="typing.TypeVar">TypeVar</span></span><span class="p">(</span><span class="s1">'T'</span><span class="p">,</span> <span class="n"><span title="typing.TypeVar(bound)">bound</span></span><span class="o">=</span><span class="n"><a class="autorefs autorefs-internal" title="batcharray.utils.NestedArray
+
+
+  
+      module-attribute
+   (batcharray.utils.types.NestedArray)" href="#batcharray.utils.NestedArray">NestedArray</a></span><span class="p">)</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>A nested array type: a function of type <code>T -&gt; T</code> returns the same
+structure as its input.</p>
+
+    </div>
+
+</div>
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="batcharray.utils.apply_to_arrays" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">batcharray.utils.apply_to_arrays</span>
+
+
+<a href="#batcharray.utils.apply_to_arrays" class="headerlink" title="Permanent link">&para;</a></h3>
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">apply_to_arrays</span><span class="p">(</span>
+    <span class="n">data</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-internal" title="batcharray.utils.T
+
+
+  
+      module-attribute
+   (batcharray.utils.types.T)" href="#batcharray.utils.T">T</a></span><span class="p">,</span> <span class="n">fn</span><span class="p">:</span> <span class="n"><span title="collections.abc.Callable">Callable</span></span><span class="p">[[</span><span class="n"><span title="numpy.ndarray">ndarray</span></span><span class="p">],</span> <span class="n"><span title="typing.Any">Any</span></span><span class="p">]</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n"><a class="autorefs autorefs-internal" title="batcharray.utils.T
+
+
+  
+      module-attribute
+   (batcharray.utils.types.T)" href="#batcharray.utils.T">T</a></span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Apply a function to every array of a nested structure.</p>
+<p>The output has the same structure as the input: the containers
+(<code>dict</code>, <code>list</code>, <code>tuple</code> and their subclasses) are kept and
+every array is replaced by the output of the function. This is also
+the tool to apply a function that the package does not wrap, like
+a pointwise function.</p>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>data</code>
+            </td>
+            <td>
+                  <code><a class="autorefs autorefs-internal" title="batcharray.utils.T
+
+
+  
+      module-attribute
+   (batcharray.utils.types.T)" href="#batcharray.utils.T">T</a></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The input data. It can be an array or a nested
+structure of arrays.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>fn</code>
+            </td>
+            <td>
+                  <code><span title="collections.abc.Callable">Callable</span>[[<span title="numpy.ndarray">ndarray</span>], <span title="typing.Any">Any</span>]</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The function applied to each array.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+    <p><span class="doc-section-title">Returns:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                  <code><a class="autorefs autorefs-internal" title="batcharray.utils.T
+
+
+  
+      module-attribute
+   (batcharray.utils.types.T)" href="#batcharray.utils.T">T</a></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The data with every array replaced by the output of <code>fn</code>.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+<p><span class="doc-section-title">Raises:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                  <code><span title="TypeError">TypeError</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>if a leaf of the data is not an array.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+<details class="example" open>
+  <summary>Example</summary>
+  <div class="highlight"><pre><span></span><code><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">batcharray.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">apply_to_arrays</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">apply_to_arrays</span><span class="p">({</span><span class="s2">"a"</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">4.0</span><span class="p">]),</span> <span class="s2">"b"</span><span class="p">:</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">9.0</span><span class="p">])]},</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">)</span>
+<span class="go">{'a': array([1., 2.]), 'b': [array([3.])]}</span>
+</code></pre></div>
+</details>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="batcharray.utils.combine_arrays" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">batcharray.utils.combine_arrays</span>
+
+
+<a href="#batcharray.utils.combine_arrays" class="headerlink" title="Permanent link">&para;</a></h3>
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">combine_arrays</span><span class="p">(</span>
+    <span class="n">items</span><span class="p">:</span> <span class="n"><span title="collections.abc.Sequence">Sequence</span></span><span class="p">[</span><span class="n"><a class="autorefs autorefs-internal" title="batcharray.utils.T
+
+
+  
+      module-attribute
+   (batcharray.utils.types.T)" href="#batcharray.utils.T">T</a></span><span class="p">],</span>
+    <span class="n">fn</span><span class="p">:</span> <span class="n"><span title="collections.abc.Callable">Callable</span></span><span class="p">[[</span><span class="n"><span title="collections.abc.Sequence">Sequence</span></span><span class="p">[</span><span class="n"><span title="numpy.ndarray">ndarray</span></span><span class="p">]],</span> <span class="n"><span title="typing.Any">Any</span></span><span class="p">],</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n"><a class="autorefs autorefs-internal" title="batcharray.utils.T
+
+
+  
+      module-attribute
+   (batcharray.utils.types.T)" href="#batcharray.utils.T">T</a></span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Combine nested structures of arrays that have the same layout.</p>
+<p>The structures are traversed in parallel, and <code>fn</code> receives the
+arrays found at the same position in every structure. The
+containers of the output are the ones of the first item: a list and
+a tuple can be combined (the output has the type of the first item),
+as can a dictionary and an ordered dictionary.</p>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>items</code>
+            </td>
+            <td>
+                  <code><span title="collections.abc.Sequence">Sequence</span>[<a class="autorefs autorefs-internal" title="batcharray.utils.T
+
+
+  
+      module-attribute
+   (batcharray.utils.types.T)" href="#batcharray.utils.T">T</a>]</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The structures to combine. They must have the same
+layout (same dictionary keys, same sequence lengths).</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>fn</code>
+            </td>
+            <td>
+                  <code><span title="collections.abc.Callable">Callable</span>[[<span title="collections.abc.Sequence">Sequence</span>[<span title="numpy.ndarray">ndarray</span>]], <span title="typing.Any">Any</span>]</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The function used to combine the arrays found at the same
+position.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+    <p><span class="doc-section-title">Returns:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                  <code><a class="autorefs autorefs-internal" title="batcharray.utils.T
+
+
+  
+      module-attribute
+   (batcharray.utils.types.T)" href="#batcharray.utils.T">T</a></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The combined structure.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+<p><span class="doc-section-title">Raises:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                  <code><span title="TypeError">TypeError</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>if a leaf of the items is not an array.</p>
+              </div>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                  <code><span title="ValueError">ValueError</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>if no item is given, if the items have different
+layouts (dictionary keys, sequence lengths) or if a mapping
+is combined with a sequence.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+<details class="example" open>
+  <summary>Example</summary>
+  <div class="highlight"><pre><span></span><code><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">batcharray.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">combine_arrays</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">combine_arrays</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="p">[{</span><span class="s2">"a"</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">])},</span> <span class="p">{</span><span class="s2">"a"</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">2</span><span class="p">])}],</span>
+<span class="gp">... </span>    <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">,</span>
+<span class="gp">... </span><span class="p">)</span>
+<span class="go">{'a': array([1, 2])}</span>
+</code></pre></div>
+</details>
+
+    </div>
+
+</div>
 
 <div class="doc doc-object doc-function">
 
@@ -1344,6 +1852,337 @@ array. A subclass of <code>numpy.ndarray</code> is a plain array.</p>
 <span class="go">'numpy'</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">get_namespace</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">)))</span><span class="o">.</span><span class="vm">__name__</span>
 <span class="go">'numpy.ma'</span>
+</code></pre></div>
+</details>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="batcharray.utils.get_size" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">batcharray.utils.get_size</span>
+
+
+<a href="#batcharray.utils.get_size" class="headerlink" title="Permanent link">&para;</a></h3>
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">get_size</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-internal" title="batcharray.utils.NestedArray
+
+
+  
+      module-attribute
+   (batcharray.utils.types.NestedArray)" href="#batcharray.utils.NestedArray">NestedArray</a></span><span class="p">,</span> <span class="n">axis</span><span class="p">:</span> <span class="n"><span title="int">int</span></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n"><span title="int">int</span></span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Return the size of the axis shared by all the arrays.</p>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>data</code>
+            </td>
+            <td>
+                  <code><a class="autorefs autorefs-internal" title="batcharray.utils.NestedArray
+
+
+  
+      module-attribute
+   (batcharray.utils.types.NestedArray)" href="#batcharray.utils.NestedArray">NestedArray</a></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The input data. It can be an array or a nested
+structure of arrays.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>axis</code>
+            </td>
+            <td>
+                  <code><span title="int">int</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The axis. <code>BATCH_AXIS</code> is the batch axis and
+<code>SEQ_AXIS</code> is the sequence axis.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+    <p><span class="doc-section-title">Returns:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                  <code><span title="int">int</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The size of the axis.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+<p><span class="doc-section-title">Raises:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                  <code><span title="TypeError">TypeError</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>if a leaf of the data is not an array.</p>
+              </div>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                  <code><span title="ValueError">ValueError</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>if the data has no array, if an array has fewer
+dimensions than needed, or if the arrays have different
+sizes along the axis.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+<details class="example" open>
+  <summary>Example</summary>
+  <div class="highlight"><pre><span></span><code><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">batcharray.constants</span><span class="w"> </span><span class="kn">import</span> <span class="n">BATCH_AXIS</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">batcharray.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_size</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">get_size</span><span class="p">({</span><span class="s2">"a"</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">)),</span> <span class="s2">"b"</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">2</span><span class="p">)},</span> <span class="n">axis</span><span class="o">=</span><span class="n">BATCH_AXIS</span><span class="p">)</span>
+<span class="go">2</span>
+</code></pre></div>
+</details>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="batcharray.utils.split_arrays" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">batcharray.utils.split_arrays</span>
+
+
+<a href="#batcharray.utils.split_arrays" class="headerlink" title="Permanent link">&para;</a></h3>
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">split_arrays</span><span class="p">(</span>
+    <span class="n">data</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-internal" title="batcharray.utils.T
+
+
+  
+      module-attribute
+   (batcharray.utils.types.T)" href="#batcharray.utils.T">T</a></span><span class="p">,</span>
+    <span class="n">fn</span><span class="p">:</span> <span class="n"><span title="collections.abc.Callable">Callable</span></span><span class="p">[[</span><span class="n"><span title="numpy.ndarray">ndarray</span></span><span class="p">],</span> <span class="n"><span title="collections.abc.Sequence">Sequence</span></span><span class="p">[</span><span class="n"><span title="numpy.ndarray">ndarray</span></span><span class="p">]],</span>
+    <span class="o">*</span><span class="p">,</span>
+    <span class="n">axis</span><span class="p">:</span> <span class="n"><span title="int">int</span></span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n"><span title="list">list</span></span><span class="p">[</span><span class="n"><a class="autorefs autorefs-internal" title="batcharray.utils.T
+
+
+  
+      module-attribute
+   (batcharray.utils.types.T)" href="#batcharray.utils.T">T</a></span><span class="p">]</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Split a nested structure of arrays into a list of structures.</p>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>data</code>
+            </td>
+            <td>
+                  <code><a class="autorefs autorefs-internal" title="batcharray.utils.T
+
+
+  
+      module-attribute
+   (batcharray.utils.types.T)" href="#batcharray.utils.T">T</a></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The input data. It can be an array or a nested
+structure of arrays.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>fn</code>
+            </td>
+            <td>
+                  <code><span title="collections.abc.Callable">Callable</span>[[<span title="numpy.ndarray">ndarray</span>], <span title="collections.abc.Sequence">Sequence</span>[<span title="numpy.ndarray">ndarray</span>]]</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The function used to split each array into pieces.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>axis</code>
+            </td>
+            <td>
+                  <code><span title="int">int</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The axis along which <code>fn</code> splits the arrays. All the
+arrays must have the same size along this axis, otherwise
+the pieces of different arrays are not aligned.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+    <p><span class="doc-section-title">Returns:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                  <code><span title="list">list</span>[<a class="autorefs autorefs-internal" title="batcharray.utils.T
+
+
+  
+      module-attribute
+   (batcharray.utils.types.T)" href="#batcharray.utils.T">T</a>]</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>A list of structures with the same structure as the input.
+The <code>i</code>-th structure contains the <code>i</code>-th piece of each
+array.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+<p><span class="doc-section-title">Raises:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                  <code><span title="TypeError">TypeError</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>if a leaf of the data is not an array.</p>
+              </div>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                  <code><span title="ValueError">ValueError</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>if the data has no array, or if the arrays have
+different sizes along the axis.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+<details class="example" open>
+  <summary>Example</summary>
+  <div class="highlight"><pre><span></span><code><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">batcharray.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">split_arrays</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">split_arrays</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="p">{</span><span class="s2">"a"</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">4</span><span class="p">),</span> <span class="s2">"b"</span><span class="p">:</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span> <span class="o">+</span> <span class="mi">10</span><span class="p">]},</span>
+<span class="gp">... </span>    <span class="k">lambda</span> <span class="n">array</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array_split</span><span class="p">(</span><span class="n">array</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span>
+<span class="gp">... </span>    <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+<span class="gp">... </span><span class="p">)</span>
+<span class="go">[{'a': array([0, 1]), 'b': [array([10, 11])]},</span>
+<span class="go"> {'a': array([2, 3]), 'b': [array([12, 13])]}]</span>
 </code></pre></div>
 </details>
 

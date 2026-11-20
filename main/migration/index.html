@@ -1281,14 +1281,14 @@
 pre-1.0: a removal has no deprecation period.</p>
 <h2 id="pointwise-functions-and-to_list-of-nested">Pointwise functions and <code>to_list</code> of <code>nested</code><a class="headerlink" href="#pointwise-functions-and-to_list-of-nested" title="Permanent link">&para;</a></h2>
 <p>The 28 pointwise functions and <code>to_list</code> were removed from <code>batcharray.nested</code>. They have no <code>array</code>
-twin and no batch or sequence meaning: each one was <code>recursive_apply(data, np.f)</code>. Use
-<code>recursive_apply</code> of <code>coola</code> with the NumPy function:</p>
+twin and no batch or sequence meaning: each one was <code>apply_to_arrays(data, np.f)</code>. Use
+<code>apply_to_arrays</code> of <code>batcharray.utils</code> with the NumPy function:</p>
 <div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">coola.recursive</span><span class="w"> </span><span class="kn">import</span> <span class="n">recursive_apply</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">batcharray.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">apply_to_arrays</span>
 
 <span class="n">data</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"a"</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">4.0</span><span class="p">],</span> <span class="p">[</span><span class="mf">9.0</span><span class="p">,</span> <span class="mf">16.0</span><span class="p">]])}</span>
 
-<span class="n">out</span> <span class="o">=</span> <span class="n">recursive_apply</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">)</span>
+<span class="n">out</span> <span class="o">=</span> <span class="n">apply_to_arrays</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">)</span>
 </code></pre></div>
 <table>
 <thead>
@@ -1300,71 +1300,67 @@ twin and no batch or sequence meaning: each one was <code>recursive_apply(data, 
 <tbody>
 <tr>
 <td><code>nested.abs(data)</code></td>
-<td><code>recursive_apply(data, np.abs)</code></td>
+<td><code>apply_to_arrays(data, np.abs)</code></td>
 </tr>
 <tr>
 <td><code>nested.ceil(data)</code></td>
-<td><code>recursive_apply(data, np.ceil)</code></td>
+<td><code>apply_to_arrays(data, np.ceil)</code></td>
 </tr>
 <tr>
 <td><code>nested.clip(data, a_min, a_max)</code></td>
-<td><code>recursive_apply(data, lambda x: np.clip(x, a_min, a_max))</code></td>
+<td><code>apply_to_arrays(data, lambda x: np.clip(x, a_min, a_max))</code></td>
 </tr>
 <tr>
 <td><code>nested.exp(data)</code>, <code>exp2</code>, <code>expm1</code></td>
-<td><code>recursive_apply(data, np.exp)</code>, <code>np.exp2</code>, <code>np.expm1</code></td>
+<td><code>apply_to_arrays(data, np.exp)</code>, <code>np.exp2</code>, <code>np.expm1</code></td>
 </tr>
 <tr>
 <td><code>nested.floor(data)</code></td>
-<td><code>recursive_apply(data, np.floor)</code></td>
+<td><code>apply_to_arrays(data, np.floor)</code></td>
 </tr>
 <tr>
 <td><code>nested.isnan(data)</code></td>
-<td><code>recursive_apply(data, np.isnan)</code></td>
+<td><code>apply_to_arrays(data, np.isnan)</code></td>
 </tr>
 <tr>
 <td><code>nested.log(data)</code>, <code>log10</code>, <code>log1p</code>, <code>log2</code></td>
-<td><code>recursive_apply(data, np.log)</code>, <code>np.log10</code>, <code>np.log1p</code>, <code>np.log2</code></td>
+<td><code>apply_to_arrays(data, np.log)</code>, <code>np.log10</code>, <code>np.log1p</code>, <code>np.log2</code></td>
 </tr>
 <tr>
 <td><code>nested.round(data)</code></td>
-<td><code>recursive_apply(data, np.round)</code></td>
+<td><code>apply_to_arrays(data, np.round)</code></td>
 </tr>
 <tr>
 <td><code>nested.sign(data)</code></td>
-<td><code>recursive_apply(data, np.sign)</code></td>
+<td><code>apply_to_arrays(data, np.sign)</code></td>
 </tr>
 <tr>
 <td><code>nested.sqrt(data)</code>, <code>square</code></td>
-<td><code>recursive_apply(data, np.sqrt)</code>, <code>np.square</code></td>
+<td><code>apply_to_arrays(data, np.sqrt)</code>, <code>np.square</code></td>
 </tr>
 <tr>
 <td><code>nested.sin(data)</code>, <code>cos</code>, <code>tan</code></td>
-<td><code>recursive_apply(data, np.sin)</code>, <code>np.cos</code>, <code>np.tan</code></td>
+<td><code>apply_to_arrays(data, np.sin)</code>, <code>np.cos</code>, <code>np.tan</code></td>
 </tr>
 <tr>
 <td><code>nested.arcsin(data)</code>, <code>arccos</code>, <code>arctan</code></td>
-<td><code>recursive_apply(data, np.arcsin)</code>, <code>np.arccos</code>, <code>np.arctan</code></td>
+<td><code>apply_to_arrays(data, np.arcsin)</code>, <code>np.arccos</code>, <code>np.arctan</code></td>
 </tr>
 <tr>
 <td><code>nested.sinh(data)</code>, <code>cosh</code>, <code>tanh</code></td>
-<td><code>recursive_apply(data, np.sinh)</code>, <code>np.cosh</code>, <code>np.tanh</code></td>
+<td><code>apply_to_arrays(data, np.sinh)</code>, <code>np.cosh</code>, <code>np.tanh</code></td>
 </tr>
 <tr>
 <td><code>nested.arcsinh(data)</code>, <code>arccosh</code>, <code>arctanh</code></td>
-<td><code>recursive_apply(data, np.arcsinh)</code>, <code>np.arccosh</code>, <code>np.arctanh</code></td>
+<td><code>apply_to_arrays(data, np.arcsinh)</code>, <code>np.arccosh</code>, <code>np.arctanh</code></td>
 </tr>
 <tr>
 <td><code>nested.to_list(data)</code></td>
-<td><code>recursive_apply(data, np.ndarray.tolist)</code></td>
+<td><code>apply_to_arrays(data, np.ndarray.tolist)</code></td>
 </tr>
 </tbody>
 </table>
-<p>!!! note</p>
-<div class="highlight"><pre><span></span><code>`recursive_apply` does not check the type of a leaf: a leaf that is not an array is passed to the
-function. A later step of the refactoring adds `batcharray.utils.apply_to_arrays`, which
-raises a `TypeError` for a leaf that is not an array. This page will then use it.
-</code></pre></div>
+<p><code>apply_to_arrays</code> raises a <code>TypeError</code> that names the type of a leaf that is not an array.</p>
 <h2 id="the-computation-package">The <code>computation</code> package<a class="headerlink" href="#the-computation-package" title="Permanent link">&para;</a></h2>
 <p><code>batcharray.computation</code> (the computation models, the registry and the 14 functions of the
 interface) was removed. A masked array is dispatched by the method of the array (<code>x.sum(axis=0)</code>),

@@ -1811,17 +1811,17 @@ structures simultaneously.</p>
 sequence axis. Apply any function to all the arrays of a structure with <code>recursive_apply</code> of
 <code>coola</code>:</p>
 <div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">coola.recursive</span><span class="w"> </span><span class="kn">import</span> <span class="n">recursive_apply</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">batcharray.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">apply_to_arrays</span>
 
 <span class="n">data</span> <span class="o">=</span> <span class="p">{</span>
     <span class="s2">"angles"</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span> <span class="mi">3</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">2</span><span class="p">]]),</span>
     <span class="s2">"values"</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="o">-</span><span class="mi">4</span><span class="p">]]),</span>
 <span class="p">}</span>
 
-<span class="n">sines</span> <span class="o">=</span> <span class="n">recursive_apply</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s2">"angles"</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">)</span>
-<span class="n">absolute</span> <span class="o">=</span> <span class="n">recursive_apply</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">)</span>
-<span class="n">exponential</span> <span class="o">=</span> <span class="n">recursive_apply</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">)</span>
-<span class="n">clipped</span> <span class="o">=</span> <span class="n">recursive_apply</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+<span class="n">sines</span> <span class="o">=</span> <span class="n">apply_to_arrays</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s2">"angles"</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">)</span>
+<span class="n">absolute</span> <span class="o">=</span> <span class="n">apply_to_arrays</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">)</span>
+<span class="n">exponential</span> <span class="o">=</span> <span class="n">apply_to_arrays</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">)</span>
+<span class="n">clipped</span> <span class="o">=</span> <span class="n">apply_to_arrays</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
 </code></pre></div>
 <p>See the <a href="../../migration/">migration guide</a> for the functions that were removed.</p>
 <h2 id="shuffling-and-permutation">Shuffling and Permutation<a class="headerlink" href="#shuffling-and-permutation" title="Permanent link">&para;</a></h2>
@@ -1860,14 +1860,14 @@ sequence axis. Apply any function to all the arrays of a structure with <code>re
 <span class="c1"># Result: scores [1.0, 2.0, 3.0, 4.0], names ["Bob", "David", "Alice", "Charlie"]</span>
 </code></pre></div>
 <h2 id="converting-to-lists">Converting to Lists<a class="headerlink" href="#converting-to-lists" title="Permanent link">&para;</a></h2>
-<p>Convert nested structures to native Python lists with <code>recursive_apply</code>:</p>
+<p>Convert nested structures to native Python lists with <code>apply_to_arrays</code>:</p>
 <div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">coola.recursive</span><span class="w"> </span><span class="kn">import</span> <span class="n">recursive_apply</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">batcharray.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">apply_to_arrays</span>
 
 <span class="n">batch</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"data"</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">]]),</span> <span class="s2">"info"</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">])}</span>
 
 <span class="c1"># Convert to lists recursively</span>
-<span class="n">as_lists</span> <span class="o">=</span> <span class="n">recursive_apply</span><span class="p">(</span><span class="n">batch</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="o">.</span><span class="n">tolist</span><span class="p">)</span>
+<span class="n">as_lists</span> <span class="o">=</span> <span class="n">apply_to_arrays</span><span class="p">(</span><span class="n">batch</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="o">.</span><span class="n">tolist</span><span class="p">)</span>
 <span class="c1"># Result: {</span>
 <span class="c1">#     "data": [[1, 2], [3, 4]],</span>
 <span class="c1">#     "info": [True, False]</span>
