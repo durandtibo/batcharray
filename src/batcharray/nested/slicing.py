@@ -19,6 +19,7 @@ from typing import TYPE_CHECKING, Any
 from coola.recursive import recursive_apply
 
 from batcharray import array as ba
+from batcharray.constants import BATCH_AXIS, SEQ_AXIS
 from batcharray.nested.structure import split_structure
 
 if TYPE_CHECKING:
@@ -47,6 +48,10 @@ def chunk_along_batch(data: Any, chunks: int) -> list[Any]:
         The data chunks. Each chunk has the same structure as the
             input.
 
+    Raises:
+        TypeError: if an item of the data is not an array.
+        ValueError: if the arrays have different batch sizes.
+
     Example:
         ```pycon
         >>> import numpy as np
@@ -63,7 +68,7 @@ def chunk_along_batch(data: Any, chunks: int) -> list[Any]:
 
         ```
     """
-    return split_structure(data, lambda array: ba.chunk_along_batch(array, chunks))
+    return split_structure(data, lambda array: ba.chunk_along_batch(array, chunks), axis=BATCH_AXIS)
 
 
 def chunk_along_seq(data: Any, chunks: int) -> list[Any]:
@@ -88,6 +93,10 @@ def chunk_along_seq(data: Any, chunks: int) -> list[Any]:
         The data chunks. Each chunk has the same structure as the
             input.
 
+    Raises:
+        TypeError: if an item of the data is not an array.
+        ValueError: if the arrays have different sequence sizes.
+
     Example:
         ```pycon
         >>> import numpy as np
@@ -104,7 +113,7 @@ def chunk_along_seq(data: Any, chunks: int) -> list[Any]:
 
         ```
     """
-    return split_structure(data, lambda array: ba.chunk_along_seq(array, chunks))
+    return split_structure(data, lambda array: ba.chunk_along_seq(array, chunks), axis=SEQ_AXIS)
 
 
 def select_along_batch(data: Any, index: int) -> Any:
@@ -279,6 +288,10 @@ def split_along_batch(data: Any, split_size_or_sections: int | Sequence[int]) ->
         The data chunks. Each chunk has the same structure as the
             input.
 
+    Raises:
+        TypeError: if an item of the data is not an array.
+        ValueError: if the arrays have different batch sizes.
+
     Example:
         ```pycon
         >>> import numpy as np
@@ -295,7 +308,9 @@ def split_along_batch(data: Any, split_size_or_sections: int | Sequence[int]) ->
 
         ```
     """
-    return split_structure(data, lambda array: ba.split_along_batch(array, split_size_or_sections))
+    return split_structure(
+        data, lambda array: ba.split_along_batch(array, split_size_or_sections), axis=BATCH_AXIS
+    )
 
 
 def split_along_seq(data: Any, split_size_or_sections: int | Sequence[int]) -> list[Any]:
@@ -318,6 +333,10 @@ def split_along_seq(data: Any, split_size_or_sections: int | Sequence[int]) -> l
         The data chunks. Each chunk has the same structure as the
             input.
 
+    Raises:
+        TypeError: if an item of the data is not an array.
+        ValueError: if the arrays have different sequence sizes.
+
     Example:
         ```pycon
         >>> import numpy as np
@@ -334,4 +353,6 @@ def split_along_seq(data: Any, split_size_or_sections: int | Sequence[int]) -> l
 
         ```
     """
-    return split_structure(data, lambda array: ba.split_along_seq(array, split_size_or_sections))
+    return split_structure(
+        data, lambda array: ba.split_along_seq(array, split_size_or_sections), axis=SEQ_AXIS
+    )

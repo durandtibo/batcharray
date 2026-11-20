@@ -48,7 +48,15 @@ def concatenate_along_batch(
             data type.
 
     Returns:
-        The concatenated arrays along the batch axis.
+        The concatenated arrays along the batch axis. The containers
+            are the ones of the first item.
+
+    Raises:
+        TypeError: if the items contain something that is not an
+            array.
+        ValueError: if no item is given, if a dictionary is combined
+            with a sequence, or if the items have different layouts
+            (dictionary keys or sequence lengths).
 
     Example:
         ```pycon
@@ -68,8 +76,6 @@ def concatenate_along_batch(
 
         ```
     """
-    if not data:
-        return {}
     return concatenate_structures(
         data, lambda arrays: ba.concatenate_along_batch(list(arrays), dtype=dtype)
     )
@@ -99,7 +105,15 @@ def concatenate_along_seq(
             data type.
 
     Returns:
-        The concatenated arrays along the sequence axis.
+        The concatenated arrays along the sequence axis. The containers
+            are the ones of the first item.
+
+    Raises:
+        TypeError: if the items contain something that is not an
+            array.
+        ValueError: if no item is given, if a dictionary is combined
+            with a sequence, or if the items have different layouts
+            (dictionary keys or sequence lengths).
 
     Example:
         ```pycon
@@ -119,8 +133,6 @@ def concatenate_along_seq(
 
         ```
     """
-    if not data:
-        return {}
     return concatenate_structures(
         data, lambda arrays: ba.concatenate_along_seq(list(arrays), dtype=dtype)
     )
