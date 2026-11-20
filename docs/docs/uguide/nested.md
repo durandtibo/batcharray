@@ -271,6 +271,7 @@ Here's a non comprehensive list organized by category:
 
 ### Indexing and Selection
 
+- `gather_along_seq()` - Gather different indices for each sample (sequence)
 - `index_select_along_batch()` - Select using indices (batch)
 - `index_select_along_seq()` - Select using indices (sequence)
 - `masked_select_along_batch()` - Select using mask (batch)

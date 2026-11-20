@@ -173,6 +173,7 @@ The `array` module provides the following categories of functions:
 
 ### Indexing and Selection
 
+- `gather_along_seq()` - Gather different indices for each sample (sequence)
 - `index_select_along_batch()` - Select using integer indices (batch)
 - `index_select_along_seq()` - Select using integer indices (sequence)
 - `masked_select_along_batch()` - Select using boolean mask (batch)

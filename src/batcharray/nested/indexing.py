@@ -3,6 +3,7 @@ r"""Contain some array indexing functions for nested data."""
 from __future__ import annotations
 
 __all__ = [
+    "gather_along_seq",
     "index_select_along_batch",
     "index_select_along_seq",
     "masked_select_along_batch",
@@ -158,3 +159,48 @@ def masked_select_along_seq(data: T, mask: np.ndarray) -> T:
         ```
     """
     return apply_to_arrays(data, partial(array.masked_select_along_seq, mask=mask))
+
+
+def gather_along_seq(data: T, indices: np.ndarray) -> T:
+    r"""Gather different elements of the sequence axis for each sample of
+    all the arrays.
+
+    The output of each array is ``out[b, i] = array[b, indices[b, i]]``.
+    The indices are one array shared by all the arrays.
+
+    Note:
+        This function assumes the sequence axis is the second
+            axis of the arrays. All the arrays should have the
+            same batch size and at least 2 dimensions.
+
+    Args:
+        data: The input data. It can be an array or a nested
+            structure of arrays (dictionaries, lists, tuples).
+        indices: The 2-D integer array of shape ``(batch_size, n)``
+            containing the indices to take.
+
+    Returns:
+        The gathered data. The output data has the same structure as
+            the input data.
+
+    Raises:
+        TypeError: if a leaf of the data is not an array.
+        ValueError: if an array has fewer than 2 dimensions, if the
+            indices are not a 2-D array, or if the batch size of the
+            indices differs from the batch size of an array.
+
+    Example:
+        ```pycon
+        >>> import numpy as np
+        >>> from batcharray.nested import gather_along_seq
+        >>> data = {
+        ...     "a": np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]]),
+        ...     "b": np.array([[4, 3, 2, 1, 0], [9, 8, 7, 6, 5]]),
+        ... }
+        >>> out = gather_along_seq(data, np.array([[0, 4], [1, 3]]))
+        >>> out
+        {'a': array([[0, 4], [6, 8]]), 'b': array([[4, 0], [8, 6]])}
+
+        ```
+    """
+    return apply_to_arrays(data, partial(array.gather_along_seq, indices=indices))
