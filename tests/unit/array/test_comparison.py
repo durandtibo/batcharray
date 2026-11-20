@@ -15,6 +15,8 @@ from batcharray.array import (
 from tests.unit.helpers import SORT_KINDS
 
 if TYPE_CHECKING:
+    from collections.abc import Callable
+
     from batcharray.utils import SortKind
 
 
@@ -205,3 +207,11 @@ def test_sort_along_seq_masked_array() -> None:
             ),
         ),
     )
+
+
+@pytest.mark.parametrize(
+    "func", [argsort_along_batch, argsort_along_seq, sort_along_batch, sort_along_seq]
+)
+def test_kind_is_keyword_only(func: Callable) -> None:
+    with pytest.raises(TypeError, match="positional argument"):
+        func(np.ones((4, 5)), "stable")

@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 from typing import TYPE_CHECKING
-from unittest.mock import Mock
 
 import numpy as np
 import pytest
@@ -16,6 +15,7 @@ from batcharray.nested import (
     shuffle_along_seq,
 )
 from tests.unit.array.test_permutation import DTYPES, INDEX_DTYPES
+from tests.unit.helpers import FixedPermutationGenerator
 
 if TYPE_CHECKING:
     from collections.abc import Callable
@@ -205,7 +205,7 @@ def test_shuffle_along_batch() -> None:
 
 
 def test_shuffle_along_batch_array() -> None:
-    rng = Mock(spec=np.random.Generator, permutation=Mock(return_value=np.array([2, 1, 3, 0])))
+    rng = FixedPermutationGenerator(np.array([2, 1, 3, 0]))
     assert objects_are_equal(
         shuffle_along_batch(np.array([[0, 1, 2], [3, 4, 5], [6, 7, 8], [9, 10, 11]]), rng=rng),
         np.array([[6, 7, 8], [3, 4, 5], [9, 10, 11], [0, 1, 2]]),
@@ -213,10 +213,7 @@ def test_shuffle_along_batch_array() -> None:
 
 
 def test_shuffle_along_batch_dict() -> None:
-    rng = Mock(
-        spec=np.random.Generator,
-        permutation=Mock(return_value=np.array([2, 4, 1, 3, 0])),
-    )
+    rng = FixedPermutationGenerator(np.array([2, 4, 1, 3, 0]))
     assert objects_are_equal(
         shuffle_along_batch(
             {
@@ -233,10 +230,7 @@ def test_shuffle_along_batch_dict() -> None:
 
 
 def test_shuffle_along_batch_nested() -> None:
-    rng = Mock(
-        spec=np.random.Generator,
-        permutation=Mock(return_value=np.array([2, 4, 1, 3, 0])),
-    )
+    rng = FixedPermutationGenerator(np.array([2, 4, 1, 3, 0]))
     assert objects_are_equal(
         shuffle_along_batch(
             {
@@ -284,8 +278,8 @@ def test_shuffle_along_batch_same_random_seed() -> None:
         "b": np.array([4, 3, 2, 1, 0]),
     }
     assert objects_are_equal(
-        shuffle_along_batch(data, np.random.default_rng(1)),
-        shuffle_along_batch(data, np.random.default_rng(1)),
+        shuffle_along_batch(data, rng=np.random.default_rng(1)),
+        shuffle_along_batch(data, rng=np.random.default_rng(1)),
     )
 
 
@@ -295,8 +289,8 @@ def test_shuffle_along_batch_different_random_seeds() -> None:
         "b": np.array([4, 3, 2, 1, 0]),
     }
     assert not objects_are_equal(
-        shuffle_along_batch(data, np.random.default_rng(1)),
-        shuffle_along_batch(data, np.random.default_rng(2)),
+        shuffle_along_batch(data, rng=np.random.default_rng(1)),
+        shuffle_along_batch(data, rng=np.random.default_rng(2)),
     )
 
 
@@ -307,7 +301,7 @@ def test_shuffle_along_batch_multiple_shuffle() -> None:
     }
     generator = np.random.default_rng(1)
     assert not objects_are_equal(
-        shuffle_along_batch(data, generator), shuffle_along_batch(data, generator)
+        shuffle_along_batch(data, rng=generator), shuffle_along_batch(data, rng=generator)
     )
 
 
@@ -322,10 +316,7 @@ def test_shuffle_along_seq() -> None:
 
 
 def test_shuffle_along_seq_array() -> None:
-    rng = Mock(
-        spec=np.random.Generator,
-        permutation=Mock(return_value=np.array([2, 4, 1, 3, 0])),
-    )
+    rng = FixedPermutationGenerator(np.array([2, 4, 1, 3, 0]))
     assert objects_are_equal(
         shuffle_along_seq(np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]]), rng=rng),
         np.array([[2, 4, 1, 3, 0], [7, 9, 6, 8, 5]]),
@@ -333,10 +324,7 @@ def test_shuffle_along_seq_array() -> None:
 
 
 def test_shuffle_along_seq_dict() -> None:
-    rng = Mock(
-        spec=np.random.Generator,
-        permutation=Mock(return_value=np.array([2, 4, 1, 3, 0])),
-    )
+    rng = FixedPermutationGenerator(np.array([2, 4, 1, 3, 0]))
     assert objects_are_equal(
         shuffle_along_seq(
             {
@@ -353,10 +341,7 @@ def test_shuffle_along_seq_dict() -> None:
 
 
 def test_shuffle_along_seq_nested() -> None:
-    rng = Mock(
-        spec=np.random.Generator,
-        permutation=Mock(return_value=np.array([2, 4, 1, 3, 0])),
-    )
+    rng = FixedPermutationGenerator(np.array([2, 4, 1, 3, 0]))
     assert objects_are_equal(
         shuffle_along_seq(
             {
@@ -398,8 +383,8 @@ def test_shuffle_along_seq_same_random_seed() -> None:
         "b": np.array([[4, 3, 2, 1, 0]]),
     }
     assert objects_are_equal(
-        shuffle_along_seq(data, np.random.default_rng(1)),
-        shuffle_along_seq(data, np.random.default_rng(1)),
+        shuffle_along_seq(data, rng=np.random.default_rng(1)),
+        shuffle_along_seq(data, rng=np.random.default_rng(1)),
     )
 
 
@@ -409,8 +394,8 @@ def test_shuffle_along_seq_different_random_seeds() -> None:
         "b": np.array([[4, 3, 2, 1, 0]]),
     }
     assert not objects_are_equal(
-        shuffle_along_seq(data, np.random.default_rng(1)),
-        shuffle_along_seq(data, np.random.default_rng(2)),
+        shuffle_along_seq(data, rng=np.random.default_rng(1)),
+        shuffle_along_seq(data, rng=np.random.default_rng(2)),
     )
 
 
@@ -421,7 +406,7 @@ def test_shuffle_along_seq_multiple_shuffle() -> None:
     }
     generator = np.random.default_rng(1)
     assert not objects_are_equal(
-        shuffle_along_seq(data, generator), shuffle_along_seq(data, generator)
+        shuffle_along_seq(data, rng=generator), shuffle_along_seq(data, rng=generator)
     )
 
 
@@ -513,3 +498,22 @@ def test_flip_along_seq_dict(dtype: DTypeLike) -> None:
             "b": np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]], dtype=dtype),
         },
     )
+
+
+@pytest.mark.parametrize("func", [shuffle_along_batch, shuffle_along_seq])
+def test_shuffle_seed_equal_generator(func: Callable) -> None:
+    data = {"a": np.arange(30).reshape(5, 6), "b": np.arange(30).reshape(5, 6) + 100}
+    assert objects_are_equal(func(data, rng=3), func(data, rng=np.random.default_rng(3)))
+
+
+@pytest.mark.parametrize("func", [shuffle_along_batch, shuffle_along_seq])
+def test_shuffle_seed_shares_one_permutation_between_leaves(func: Callable) -> None:
+    x = np.arange(30).reshape(5, 6)
+    out = func({"a": x, "b": x}, rng=3)
+    assert objects_are_equal(out["a"], out["b"])
+
+
+@pytest.mark.parametrize("func", [shuffle_along_batch, shuffle_along_seq])
+def test_shuffle_rng_is_keyword_only(func: Callable) -> None:
+    with pytest.raises(TypeError, match="positional argument"):
+        func({"a": np.ones((4, 5))}, np.random.default_rng(1))

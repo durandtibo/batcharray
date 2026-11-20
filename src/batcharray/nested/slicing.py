@@ -186,7 +186,7 @@ def select_along_seq(data: Any, index: int) -> Any:
     return recursive_apply(data, partial(ba.select_along_seq, index=index))
 
 
-def slice_along_batch(data: Any, start: int = 0, stop: int | None = None, step: int = 1) -> Any:
+def slice_along_batch(data: Any, start: int = 0, stop: int | None = None, *, step: int = 1) -> Any:
     r"""Slice all the arrays along the batch axis.
 
     Note:
@@ -227,7 +227,7 @@ def slice_along_batch(data: Any, start: int = 0, stop: int | None = None, step: 
     return recursive_apply(data, partial(ba.slice_along_batch, start=start, stop=stop, step=step))
 
 
-def slice_along_seq(data: Any, start: int = 0, stop: int | None = None, step: int = 1) -> Any:
+def slice_along_seq(data: Any, start: int = 0, stop: int | None = None, *, step: int = 1) -> Any:
     r"""Slice all the arrays along the sequence axis.
 
     Note:

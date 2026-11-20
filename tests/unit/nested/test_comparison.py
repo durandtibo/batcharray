@@ -15,6 +15,8 @@ from batcharray.nested import (
 from tests.unit.helpers import SORT_KINDS
 
 if TYPE_CHECKING:
+    from collections.abc import Callable
+
     from batcharray.utils import SortKind
 
 #########################################
@@ -358,3 +360,11 @@ def test_sort_along_seq_kind(kind: SortKind) -> None:
             "list": [np.array([[5, 6, 7, 8, 9]])],
         },
     )
+
+
+@pytest.mark.parametrize(
+    "func", [argsort_along_batch, argsort_along_seq, sort_along_batch, sort_along_seq]
+)
+def test_kind_is_keyword_only(func: Callable) -> None:
+    with pytest.raises(TypeError, match="positional argument"):
+        func({"a": np.ones((4, 5))}, "stable")

@@ -5,10 +5,6 @@ from __future__ import annotations
 __all__ = [
     "all_along_batch",
     "all_along_seq",
-    "amax_along_batch",
-    "amax_along_seq",
-    "amin_along_batch",
-    "amin_along_seq",
     "any_along_batch",
     "any_along_seq",
     "argmax_along_batch",
@@ -36,140 +32,10 @@ __all__ = [
 
 import numpy as np
 
-from batcharray._deprecation import keepdims_keyword_only
 from batcharray.constants import BATCH_AXIS, SEQ_AXIS
 from batcharray.utils import get_namespace
 
 
-@keepdims_keyword_only
-def amax_along_batch(array: np.ndarray, *, keepdims: bool = False) -> np.ndarray:
-    r"""Return the maximum of all elements along the batch axis.
-
-    Note:
-        This function assumes the batch axis is the first
-            axis.
-
-    Args:
-        array: The input array.
-        keepdims: Whether the output array has dim retained or not.
-
-    Returns:
-        The maximum of all elements along the batch axis.
-
-    Example:
-        ```pycon
-        >>> import numpy as np
-        >>> from batcharray.array import amax_along_batch
-        >>> array = np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]])
-        >>> out = amax_along_batch(array)
-        >>> out
-        array([8, 9])
-        >>> out = amax_along_batch(array, keepdims=True)
-        >>> out
-        array([[8, 9]])
-
-        ```
-    """
-    return array.max(axis=BATCH_AXIS, keepdims=keepdims)
-
-
-@keepdims_keyword_only
-def amax_along_seq(array: np.ndarray, *, keepdims: bool = False) -> np.ndarray:
-    r"""Return the maximum of all elements along the sequence axis.
-
-    Note:
-        This function assumes the sequence axis is the second
-            axis.
-
-    Args:
-        array: The input array.
-        keepdims: Whether the output array has dim retained or not.
-
-    Returns:
-        The maximum of all elements along the sequence axis.
-
-    Example:
-        ```pycon
-        >>> import numpy as np
-        >>> from batcharray.array import amax_along_seq
-        >>> array = np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]])
-        >>> out = amax_along_seq(array)
-        >>> out
-        array([4, 9])
-        >>> out = amax_along_seq(array, keepdims=True)
-        >>> out
-        array([[4], [9]])
-
-        ```
-    """
-    return array.max(axis=SEQ_AXIS, keepdims=keepdims)
-
-
-@keepdims_keyword_only
-def amin_along_batch(array: np.ndarray, *, keepdims: bool = False) -> np.ndarray:
-    r"""Return the minimum of all elements along the batch axis.
-
-    Note:
-        This function assumes the batch axis is the first
-            axis.
-
-    Args:
-        array: The input array.
-        keepdims: Whether the output array has dim retained or not.
-
-    Returns:
-        The minimum of all elements along the batch axis.
-
-    Example:
-        ```pycon
-        >>> import numpy as np
-        >>> from batcharray.array import amin_along_batch
-        >>> array = np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]])
-        >>> out = amin_along_batch(array)
-        >>> out
-        array([0, 1])
-        >>> out = amin_along_batch(array, keepdims=True)
-        >>> out
-        array([[0, 1]])
-
-        ```
-    """
-    return array.min(axis=BATCH_AXIS, keepdims=keepdims)
-
-
-@keepdims_keyword_only
-def amin_along_seq(array: np.ndarray, *, keepdims: bool = False) -> np.ndarray:
-    r"""Return the minimum of all elements along the sequence axis.
-
-    Note:
-        This function assumes the sequence axis is the second
-            axis.
-
-    Args:
-        array: The input array.
-        keepdims: Whether the output array has dim retained or not.
-
-    Returns:
-        The minimum of all elements along the sequence axis.
-
-    Example:
-        ```pycon
-        >>> import numpy as np
-        >>> from batcharray.array import amin_along_seq
-        >>> array = np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]])
-        >>> out = amin_along_seq(array)
-        >>> out
-        array([0, 5])
-        >>> out = amin_along_seq(array, keepdims=True)
-        >>> out
-        array([[0], [5]])
-
-        ```
-    """
-    return array.min(axis=SEQ_AXIS, keepdims=keepdims)
-
-
-@keepdims_keyword_only
 def argmax_along_batch(array: np.ndarray, *, keepdims: bool = False) -> np.ndarray:
     r"""Return the indices of the maximum value of all elements along the
     batch axis.
@@ -203,7 +69,6 @@ def argmax_along_batch(array: np.ndarray, *, keepdims: bool = False) -> np.ndarr
     return array.argmax(axis=BATCH_AXIS, keepdims=keepdims)
 
 
-@keepdims_keyword_only
 def argmax_along_seq(array: np.ndarray, *, keepdims: bool = False) -> np.ndarray:
     r"""Return the indices of the maximum value of all elements along the
     sequence axis.
@@ -237,7 +102,6 @@ def argmax_along_seq(array: np.ndarray, *, keepdims: bool = False) -> np.ndarray
     return array.argmax(axis=SEQ_AXIS, keepdims=keepdims)
 
 
-@keepdims_keyword_only
 def argmin_along_batch(array: np.ndarray, *, keepdims: bool = False) -> np.ndarray:
     r"""Return the indices of the minimum value of all elements along the
     batch axis.
@@ -271,7 +135,6 @@ def argmin_along_batch(array: np.ndarray, *, keepdims: bool = False) -> np.ndarr
     return array.argmin(axis=BATCH_AXIS, keepdims=keepdims)
 
 
-@keepdims_keyword_only
 def argmin_along_seq(array: np.ndarray, *, keepdims: bool = False) -> np.ndarray:
     r"""Return the indices of the minimum value of all elements along the
     sequence axis.
@@ -305,7 +168,6 @@ def argmin_along_seq(array: np.ndarray, *, keepdims: bool = False) -> np.ndarray
     return array.argmin(axis=SEQ_AXIS, keepdims=keepdims)
 
 
-@keepdims_keyword_only
 def max_along_batch(array: np.ndarray, *, keepdims: bool = False) -> np.ndarray:
     r"""Return the maximum of all elements along the batch axis.
 
@@ -337,7 +199,6 @@ def max_along_batch(array: np.ndarray, *, keepdims: bool = False) -> np.ndarray:
     return array.max(axis=BATCH_AXIS, keepdims=keepdims)
 
 
-@keepdims_keyword_only
 def max_along_seq(array: np.ndarray, *, keepdims: bool = False) -> np.ndarray:
     r"""Return the maximum of all elements along the sequence axis.
 
@@ -369,7 +230,6 @@ def max_along_seq(array: np.ndarray, *, keepdims: bool = False) -> np.ndarray:
     return array.max(axis=SEQ_AXIS, keepdims=keepdims)
 
 
-@keepdims_keyword_only
 def mean_along_batch(array: np.ndarray, *, keepdims: bool = False) -> np.ndarray:
     r"""Return the mean of all elements along the batch axis.
 
@@ -401,7 +261,6 @@ def mean_along_batch(array: np.ndarray, *, keepdims: bool = False) -> np.ndarray
     return array.mean(axis=BATCH_AXIS, keepdims=keepdims)
 
 
-@keepdims_keyword_only
 def mean_along_seq(array: np.ndarray, *, keepdims: bool = False) -> np.ndarray:
     r"""Return the mean of all elements along the sequence axis.
 
@@ -433,7 +292,6 @@ def mean_along_seq(array: np.ndarray, *, keepdims: bool = False) -> np.ndarray:
     return array.mean(axis=SEQ_AXIS, keepdims=keepdims)
 
 
-@keepdims_keyword_only
 def median_along_batch(array: np.ndarray, *, keepdims: bool = False) -> np.ndarray:
     r"""Return the median of all elements along the batch axis.
 
@@ -468,7 +326,6 @@ def median_along_batch(array: np.ndarray, *, keepdims: bool = False) -> np.ndarr
     return get_namespace(array).median(array, axis=BATCH_AXIS, keepdims=keepdims)
 
 
-@keepdims_keyword_only
 def median_along_seq(array: np.ndarray, *, keepdims: bool = False) -> np.ndarray:
     r"""Return the median of all elements along the sequence axis.
 
@@ -503,7 +360,6 @@ def median_along_seq(array: np.ndarray, *, keepdims: bool = False) -> np.ndarray
     return get_namespace(array).median(array, axis=SEQ_AXIS, keepdims=keepdims)
 
 
-@keepdims_keyword_only
 def min_along_batch(array: np.ndarray, *, keepdims: bool = False) -> np.ndarray:
     r"""Return the minimum of all elements along the batch axis.
 
@@ -535,7 +391,6 @@ def min_along_batch(array: np.ndarray, *, keepdims: bool = False) -> np.ndarray:
     return array.min(axis=BATCH_AXIS, keepdims=keepdims)
 
 
-@keepdims_keyword_only
 def min_along_seq(array: np.ndarray, *, keepdims: bool = False) -> np.ndarray:
     r"""Return the minimum of all elements along the sequence axis.
 
@@ -567,7 +422,6 @@ def min_along_seq(array: np.ndarray, *, keepdims: bool = False) -> np.ndarray:
     return array.min(axis=SEQ_AXIS, keepdims=keepdims)
 
 
-@keepdims_keyword_only
 def prod_along_batch(array: np.ndarray, *, keepdims: bool = False) -> np.ndarray:
     r"""Return the product of all elements along the batch axis.
 
@@ -599,7 +453,6 @@ def prod_along_batch(array: np.ndarray, *, keepdims: bool = False) -> np.ndarray
     return array.prod(axis=BATCH_AXIS, keepdims=keepdims)
 
 
-@keepdims_keyword_only
 def prod_along_seq(array: np.ndarray, *, keepdims: bool = False) -> np.ndarray:
     r"""Return the product of all elements along the sequence axis.
 
@@ -631,7 +484,6 @@ def prod_along_seq(array: np.ndarray, *, keepdims: bool = False) -> np.ndarray:
     return array.prod(axis=SEQ_AXIS, keepdims=keepdims)
 
 
-@keepdims_keyword_only
 def sum_along_batch(array: np.ndarray, *, keepdims: bool = False) -> np.ndarray:
     r"""Return the sum of all elements along the batch axis.
 
@@ -663,7 +515,6 @@ def sum_along_batch(array: np.ndarray, *, keepdims: bool = False) -> np.ndarray:
     return array.sum(axis=BATCH_AXIS, keepdims=keepdims)
 
 
-@keepdims_keyword_only
 def sum_along_seq(array: np.ndarray, *, keepdims: bool = False) -> np.ndarray:
     r"""Return the sum of all elements along the sequence axis.
 

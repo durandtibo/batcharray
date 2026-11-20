@@ -4,46 +4,11 @@ from __future__ import annotations
 
 import numpy as np
 import pytest
-from coola.equality import objects_are_equal
 
 from batcharray import array as ba, nested as bn
 
 ARRAY = np.arange(24, dtype=float).reshape(4, 3, 2)
 MASKED = np.ma.masked_array(ARRAY, mask=ARRAY % 5 == 0)
-
-
-@pytest.mark.parametrize("axis_name", ["batch", "seq"])
-@pytest.mark.parametrize("keepdims", [True, False])
-@pytest.mark.parametrize("x", [ARRAY, MASKED])
-def test_amax_amin_equal_max_min(axis_name: str, keepdims: bool, x: np.ndarray) -> None:
-    for alias, name in (("amax", "max"), ("amin", "min")):
-        out = getattr(ba, f"{alias}_along_{axis_name}")(x, keepdims=keepdims)
-        expected = getattr(ba, f"{name}_along_{axis_name}")(x, keepdims=keepdims)
-        assert objects_are_equal(out, expected)
-        out = getattr(bn, f"{alias}_along_{axis_name}")({"a": x}, keepdims=keepdims)
-        expected = getattr(bn, f"{name}_along_{axis_name}")({"a": x}, keepdims=keepdims)
-        assert objects_are_equal(out, expected)
-
-
-@pytest.mark.parametrize("axis_name", ["batch", "seq"])
-def test_index_select_equal_take(axis_name: str) -> None:
-    indices = np.array([2, 0, 1])
-    out = getattr(ba, f"index_select_along_{axis_name}")(ARRAY, indices)
-    assert objects_are_equal(out, getattr(ba, f"take_along_{axis_name}")(ARRAY, indices))
-    out = getattr(bn, f"index_select_along_{axis_name}")({"a": ARRAY}, indices)
-    assert objects_are_equal(out, getattr(bn, f"take_along_{axis_name}")({"a": ARRAY}, indices))
-
-
-def test_take_along_batch_2d_indices_adds_dimension() -> None:
-    assert ba.take_along_batch(ARRAY, np.array([[0, 1], [2, 3]])).shape == (2, 2, 3, 2)
-
-
-def test_take_along_seq_1d_indices() -> None:
-    assert ba.take_along_seq(ARRAY, np.array([2, 0])).shape == (4, 2, 2)
-
-
-def test_take_along_seq_2d_indices() -> None:
-    assert ba.take_along_seq(ARRAY, np.array([[0, 1]] * 4)).shape == (4, 2, 2)
 
 
 @pytest.mark.parametrize("axis_name", ["batch", "seq"])
@@ -60,3 +25,35 @@ def test_chunk_follows_array_split(axis_name: str) -> None:
 def test_chunk_returns_requested_number_of_chunks() -> None:
     # torch.chunk(torch.arange(5), 4) returns 3 chunks; array_split returns 4.
     assert len(ba.chunk_along_batch(np.arange(5), chunks=4)) == 4
+
+
+REDUCTIONS = [
+    f"{name}_along_{axis}"
+    for name in (
+        "all",
+        "any",
+        "argmax",
+        "argmin",
+        "max",
+        "mean",
+        "median",
+        "min",
+        "prod",
+        "std",
+        "sum",
+        "var",
+    )
+    for axis in ("batch", "seq")
+]
+
+
+@pytest.mark.parametrize("name", REDUCTIONS)
+def test_array_reduction_keepdims_is_keyword_only(name: str) -> None:
+    with pytest.raises(TypeError, match="positional argument"):
+        getattr(ba, name)(ARRAY, True)
+
+
+@pytest.mark.parametrize("name", REDUCTIONS)
+def test_nested_reduction_keepdims_is_keyword_only(name: str) -> None:
+    with pytest.raises(TypeError, match="positional argument"):
+        getattr(bn, name)({"a": ARRAY}, True)

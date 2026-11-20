@@ -20,7 +20,7 @@ if TYPE_CHECKING:
     from batcharray.utils import SortKind
 
 
-def argsort_along_batch(data: Any, kind: SortKind | None = None) -> Any:
+def argsort_along_batch(data: Any, *, kind: SortKind | None = None) -> Any:
     r"""Return the indices that sort each array along the batch dimension
     in ascending order by value.
 
@@ -58,7 +58,7 @@ def argsort_along_batch(data: Any, kind: SortKind | None = None) -> Any:
     return recursive_apply(data, partial(ba.argsort_along_batch, kind=kind))
 
 
-def argsort_along_seq(data: Any, kind: SortKind | None = None) -> Any:
+def argsort_along_seq(data: Any, *, kind: SortKind | None = None) -> Any:
     r"""Return the indices that sort each array along the sequence
     dimension in ascending order by value.
 
@@ -96,7 +96,7 @@ def argsort_along_seq(data: Any, kind: SortKind | None = None) -> Any:
     return recursive_apply(data, partial(ba.argsort_along_seq, kind=kind))
 
 
-def sort_along_batch(data: Any, kind: SortKind | None = None) -> Any:
+def sort_along_batch(data: Any, *, kind: SortKind | None = None) -> Any:
     r"""Sort the elements of the input array along the batch dimension in
     ascending order by value.
 
@@ -135,7 +135,7 @@ def sort_along_batch(data: Any, kind: SortKind | None = None) -> Any:
     return recursive_apply(data, partial(ba.sort_along_batch, kind=kind))
 
 
-def sort_along_seq(data: Any, kind: SortKind | None = None) -> Any:
+def sort_along_seq(data: Any, *, kind: SortKind | None = None) -> Any:
     r"""Sort the elements of the input array along the sequence dimension
     in ascending order by value.
 

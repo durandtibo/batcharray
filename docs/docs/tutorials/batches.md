@@ -166,7 +166,7 @@ mean_features = array.mean_along_batch(data)
 # [4. 5. 6.]
 
 # Maximum value for each feature
-max_features = array.amax_along_batch(data)
+max_features = array.max_along_batch(data)
 # [7. 8. 9.]
 
 # Sum across samples
@@ -187,7 +187,7 @@ max_indices = array.argmax_along_batch(scores)
 # [2, 1, 0]
 
 # Actual maximum values
-max_values = array.amax_along_batch(scores)
+max_values = array.max_along_batch(scores)
 # [0.6, 0.8, 0.3]
 ```
 

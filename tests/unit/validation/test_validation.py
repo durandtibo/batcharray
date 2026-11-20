@@ -146,3 +146,20 @@ def test_validate_same_seq_size_1d() -> None:
 def test_validate_same_seq_size_not_array() -> None:
     with pytest.raises(TypeError, match="Expected an array"):
         validate_same_seq_size({"a": 1})
+
+
+@pytest.mark.parametrize("sections", [np.int64(1), np.int64(2), np.int32(5)])
+def test_validate_split_sections_numpy_integer_valid(sections: np.integer) -> None:
+    validate_split_sections(5, sections)
+
+
+@pytest.mark.parametrize("sections", [np.int64(0), np.int64(-1)])
+def test_validate_split_sections_numpy_integer_invalid(sections: np.integer) -> None:
+    with pytest.raises(ValueError, match="split size must be a positive integer"):
+        validate_split_sections(5, sections)
+
+
+@pytest.mark.parametrize("sections", [True, False])
+def test_validate_split_sections_bool_invalid(sections: bool) -> None:
+    with pytest.raises(ValueError, match="split size must be a positive integer"):
+        validate_split_sections(5, sections)

@@ -14,6 +14,7 @@ __all__ = [
 ]
 
 
+from numbers import Integral
 from typing import TYPE_CHECKING
 
 import numpy as np
@@ -28,8 +29,9 @@ if TYPE_CHECKING:
 def _split_indices(size: int, split_size_or_sections: int | Sequence[int]) -> Sequence[int]:
     r"""Compute the split indices of an axis."""
     validate_split_sections(size, split_size_or_sections)
-    if isinstance(split_size_or_sections, int):
-        return tuple(range(split_size_or_sections, size, split_size_or_sections))
+    if isinstance(split_size_or_sections, Integral):
+        step = int(split_size_or_sections)
+        return tuple(range(step, size, step))
     return np.cumsum(split_size_or_sections)[:-1].tolist()
 
 
@@ -160,7 +162,7 @@ def select_along_seq(array: np.ndarray, index: int) -> np.ndarray:
 
 
 def slice_along_batch(
-    array: np.ndarray, start: int = 0, stop: int | None = None, step: int = 1
+    array: np.ndarray, start: int = 0, stop: int | None = None, *, step: int = 1
 ) -> np.ndarray:
     r"""Slice the array along the batch axis.
 
@@ -199,7 +201,7 @@ def slice_along_batch(
 
 
 def slice_along_seq(
-    array: np.ndarray, start: int = 0, stop: int | None = None, step: int = 1
+    array: np.ndarray, start: int = 0, stop: int | None = None, *, step: int = 1
 ) -> np.ndarray:
     r"""Slice the array along the sequence axis.
 

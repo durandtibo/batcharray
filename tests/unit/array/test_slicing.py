@@ -513,3 +513,23 @@ def test_split_along_seq_masked_array() -> None:
 def test_split_invalid_sections_raises(func: Callable, sections: int | list[int]) -> None:
     with pytest.raises(ValueError, match="split"):
         func(np.zeros((4, 4)), sections)
+
+
+@pytest.mark.parametrize("func", [split_along_batch, split_along_seq])
+@pytest.mark.parametrize("size", [np.int64(2), np.int32(2)])
+def test_split_numpy_integer_size_equal_python_integer(func: Callable, size: np.integer) -> None:
+    x = np.arange(20).reshape(4, 5)
+    assert objects_are_equal(func(x, size), func(x, 2))
+
+
+@pytest.mark.parametrize("func", [split_along_batch, split_along_seq])
+@pytest.mark.parametrize("size", [True, False])
+def test_split_bool_size_raises(func: Callable, size: bool) -> None:
+    with pytest.raises(ValueError, match="split size must be a positive integer"):
+        func(np.ones((4, 5)), size)
+
+
+@pytest.mark.parametrize("func", [slice_along_batch, slice_along_seq])
+def test_slice_step_is_keyword_only(func: Callable) -> None:
+    with pytest.raises(TypeError, match="positional argument"):
+        func(np.ones((4, 5)), 0, 2, 2)
