@@ -55,7 +55,7 @@ def test_concatenate_along_batch(data: Sequence[dict[Hashable, np.ndarray]]) -> 
 
 
 def test_concatenate_along_batch_empty_raises() -> None:
-    with pytest.raises(ValueError, match="empty sequence"):
+    with pytest.raises(ValueError, match="at least one structure"):
         concatenate_along_batch([])
 
 
@@ -136,7 +136,7 @@ def test_concatenate_along_seq(data: Sequence[dict[Hashable, np.ndarray]]) -> No
 
 
 def test_concatenate_along_seq_empty_raises() -> None:
-    with pytest.raises(ValueError, match="empty sequence"):
+    with pytest.raises(ValueError, match="at least one structure"):
         concatenate_along_seq([])
 
 
@@ -445,7 +445,7 @@ def test_concatenate_incompatible_items_raises(func: Callable, data: list) -> No
     ],
 )
 def test_concatenate_mapping_and_sequence_raises(func: Callable, data: list) -> None:
-    with pytest.raises(ValueError, match="dictionary with a sequence"):
+    with pytest.raises(ValueError, match="same kind"):
         func(data)
 
 

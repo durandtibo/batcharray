@@ -23,8 +23,10 @@ nested             one helper call per function
 
 !!! note "Current state"
 
-    `utils` has `types` (`SortKind`) and `namespace` (`get_namespace`), and `computation` is
-    removed. `utils.structure` and the `NestedArray` type are not done yet. The steps in
+    `utils` has `types` (`NestedArray`, `T`, `SortKind`), `namespace` (`get_namespace`) and
+    `structure` (the three helpers and `get_size`), and every `nested` function goes through a
+    helper. `nested.batch_size` and `nested.seq_len`, and the `layers` contract of `import-linter`,
+    are not done yet. The steps in
     [`review/target_state.md`](https://github.com/durandtibo/batcharray/blob/main/review/target_state.md)
     bring the code to the layers above.
 

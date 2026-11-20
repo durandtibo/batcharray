@@ -13,17 +13,19 @@ __all__ = [
 
 
 from functools import partial
-from typing import Any
+from typing import TYPE_CHECKING
 
 import numpy as np
-from coola.recursive import recursive_apply
 
 from batcharray import array
 from batcharray.constants import BATCH_AXIS, SEQ_AXIS
-from batcharray.validation import validate_first_array
+from batcharray.utils import apply_to_arrays, get_size
+
+if TYPE_CHECKING:
+    from batcharray.utils import T
 
 
-def permute_along_batch(data: Any, permutation: np.ndarray) -> Any:
+def permute_along_batch(data: T, permutation: np.ndarray) -> T:
     r"""Permute all the arrays along the batch axis.
 
     Note:
@@ -59,10 +61,10 @@ def permute_along_batch(data: Any, permutation: np.ndarray) -> Any:
 
         ```
     """
-    return recursive_apply(data, partial(array.permute_along_batch, permutation=permutation))
+    return apply_to_arrays(data, partial(array.permute_along_batch, permutation=permutation))
 
 
-def permute_along_seq(data: Any, permutation: np.ndarray) -> Any:
+def permute_along_seq(data: T, permutation: np.ndarray) -> T:
     r"""Permute all the arrays along the sequence axis.
 
     Note:
@@ -98,10 +100,10 @@ def permute_along_seq(data: Any, permutation: np.ndarray) -> Any:
 
         ```
     """
-    return recursive_apply(data, partial(array.permute_along_seq, permutation=permutation))
+    return apply_to_arrays(data, partial(array.permute_along_seq, permutation=permutation))
 
 
-def shuffle_along_batch(data: Any, *, rng: np.random.Generator | int | None = None) -> Any:
+def shuffle_along_batch(data: T, *, rng: np.random.Generator | int | None = None) -> T:
     r"""Shuffle all the arrays along the batch axis.
 
     Note:
@@ -133,14 +135,13 @@ def shuffle_along_batch(data: Any, *, rng: np.random.Generator | int | None = No
         ```
     """
     rng = np.random.default_rng(rng)
-    value = validate_first_array(data)
     return permute_along_batch(
         data=data,
-        permutation=rng.permutation(value.shape[BATCH_AXIS]),
+        permutation=rng.permutation(get_size(data, axis=BATCH_AXIS)),
     )
 
 
-def shuffle_along_seq(data: Any, *, rng: np.random.Generator | int | None = None) -> Any:
+def shuffle_along_seq(data: T, *, rng: np.random.Generator | int | None = None) -> T:
     r"""Shuffle all the arrays along the batch axis.
 
     Note:
@@ -172,14 +173,13 @@ def shuffle_along_seq(data: Any, *, rng: np.random.Generator | int | None = None
         ```
     """
     rng = np.random.default_rng(rng)
-    value = validate_first_array(data)
     return permute_along_seq(
         data=data,
-        permutation=rng.permutation(value.shape[SEQ_AXIS]),
+        permutation=rng.permutation(get_size(data, axis=SEQ_AXIS)),
     )
 
 
-def flip_along_batch(data: Any) -> Any:
+def flip_along_batch(data: T) -> T:
     r"""Reverse the order of the elements of all the arrays along the batch axis.
 
     Note:
@@ -204,10 +204,10 @@ def flip_along_batch(data: Any) -> Any:
 
         ```
     """
-    return recursive_apply(data, partial(array.flip_along_batch))
+    return apply_to_arrays(data, partial(array.flip_along_batch))
 
 
-def flip_along_seq(data: Any) -> Any:
+def flip_along_seq(data: T) -> T:
     r"""Reverse the order of the elements of all the arrays along the sequence axis.
 
     Note:
@@ -232,4 +232,4 @@ def flip_along_seq(data: Any) -> Any:
 
         ```
     """
-    return recursive_apply(data, partial(array.flip_along_seq))
+    return apply_to_arrays(data, partial(array.flip_along_seq))

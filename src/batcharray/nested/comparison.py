@@ -10,17 +10,16 @@ __all__ = [
 ]
 
 from functools import partial
-from typing import TYPE_CHECKING, Any
-
-from coola.recursive import recursive_apply
+from typing import TYPE_CHECKING
 
 from batcharray import array as ba
+from batcharray.utils import apply_to_arrays
 
 if TYPE_CHECKING:
-    from batcharray.utils import SortKind
+    from batcharray.utils import SortKind, T
 
 
-def argsort_along_batch(data: Any, *, kind: SortKind | None = None) -> Any:
+def argsort_along_batch(data: T, *, kind: SortKind | None = None) -> T:
     r"""Return the indices that sort each array along the batch dimension
     in ascending order by value.
 
@@ -55,10 +54,10 @@ def argsort_along_batch(data: Any, *, kind: SortKind | None = None) -> Any:
 
         ```
     """
-    return recursive_apply(data, partial(ba.argsort_along_batch, kind=kind))
+    return apply_to_arrays(data, partial(ba.argsort_along_batch, kind=kind))
 
 
-def argsort_along_seq(data: Any, *, kind: SortKind | None = None) -> Any:
+def argsort_along_seq(data: T, *, kind: SortKind | None = None) -> T:
     r"""Return the indices that sort each array along the sequence
     dimension in ascending order by value.
 
@@ -93,10 +92,10 @@ def argsort_along_seq(data: Any, *, kind: SortKind | None = None) -> Any:
 
         ```
     """
-    return recursive_apply(data, partial(ba.argsort_along_seq, kind=kind))
+    return apply_to_arrays(data, partial(ba.argsort_along_seq, kind=kind))
 
 
-def sort_along_batch(data: Any, *, kind: SortKind | None = None) -> Any:
+def sort_along_batch(data: T, *, kind: SortKind | None = None) -> T:
     r"""Sort the elements of the input array along the batch dimension in
     ascending order by value.
 
@@ -132,10 +131,10 @@ def sort_along_batch(data: Any, *, kind: SortKind | None = None) -> Any:
 
         ```
     """
-    return recursive_apply(data, partial(ba.sort_along_batch, kind=kind))
+    return apply_to_arrays(data, partial(ba.sort_along_batch, kind=kind))
 
 
-def sort_along_seq(data: Any, *, kind: SortKind | None = None) -> Any:
+def sort_along_seq(data: T, *, kind: SortKind | None = None) -> T:
     r"""Sort the elements of the input array along the sequence dimension
     in ascending order by value.
 
@@ -171,4 +170,4 @@ def sort_along_seq(data: Any, *, kind: SortKind | None = None) -> Any:
 
         ```
     """
-    return recursive_apply(data, partial(ba.sort_along_seq, kind=kind))
+    return apply_to_arrays(data, partial(ba.sort_along_seq, kind=kind))

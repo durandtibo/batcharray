@@ -145,17 +145,17 @@ sequence axis. Apply any function to all the arrays of a structure with `recursi
 
 ```python
 import numpy as np
-from coola.recursive import recursive_apply
+from batcharray.utils import apply_to_arrays
 
 data = {
     "angles": np.array([[0.1, np.pi / 2], [np.pi, 3 * np.pi / 2]]),
     "values": np.array([[1, -2], [3, -4]]),
 }
 
-sines = recursive_apply(data["angles"], np.sin)
-absolute = recursive_apply(data, np.abs)
-exponential = recursive_apply(data, np.exp)
-clipped = recursive_apply(data, lambda x: np.clip(x, -2, 2))
+sines = apply_to_arrays(data["angles"], np.sin)
+absolute = apply_to_arrays(data, np.abs)
+exponential = apply_to_arrays(data, np.exp)
+clipped = apply_to_arrays(data, lambda x: np.clip(x, -2, 2))
 ```
 
 See the [migration guide](../migration.md) for the functions that were removed.
@@ -205,16 +205,16 @@ sorted_batch = nested.index_select_along_batch(batch, indices=indices)
 
 ## Converting to Lists
 
-Convert nested structures to native Python lists with `recursive_apply`:
+Convert nested structures to native Python lists with `apply_to_arrays`:
 
 ```python
 import numpy as np
-from coola.recursive import recursive_apply
+from batcharray.utils import apply_to_arrays
 
 batch = {"data": np.array([[1, 2], [3, 4]]), "info": np.array([True, False])}
 
 # Convert to lists recursively
-as_lists = recursive_apply(batch, np.ndarray.tolist)
+as_lists = apply_to_arrays(batch, np.ndarray.tolist)
 # Result: {
 #     "data": [[1, 2], [3, 4]],
 #     "info": [True, False]

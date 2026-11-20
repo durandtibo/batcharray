@@ -114,7 +114,7 @@ It never repeats a check NumPy makes.
 | `index_select_*` with an index that is not 1-D; `masked_select_*` with a mask that is not boolean   | `ValueError`                        |
 | `gather_along_seq` with an index that is not 2-D or whose batch size differs                        | `ValueError`                        |
 | `permute_*` with a permutation of the wrong rank or length                                          | `ValueError`                        |
-| `tile_along_seq`, `shuffle_along_seq`, `permute_along_seq`, `gather_along_seq`, `seq_len` on an array with fewer than 2 dimensions | `ValueError`      |
+| `tile_along_seq`, `shuffle_along_seq`, `permute_along_seq`, `gather_along_seq`, `chunk_along_seq`, `split_along_seq`, `seq_len` on an array with fewer than 2 dimensions | `ValueError` |
 | Another `_along_seq` function on a 1-D array (`slice`, `select`, `sum`, `flip`, `repeat`, `sort`, ...) | NumPy's `AxisError` or `IndexError` |
 | An out-of-range or a float index, a negative count, a bad `kind`, a bad `ddof`                      | NumPy's own error                   |
 

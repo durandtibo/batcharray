@@ -9,14 +9,16 @@ __all__ = [
     "cumsum_along_seq",
 ]
 
-from typing import Any
-
-from coola.recursive import recursive_apply
+from typing import TYPE_CHECKING
 
 from batcharray import array as ba
+from batcharray.utils import apply_to_arrays
+
+if TYPE_CHECKING:
+    from batcharray.utils import T
 
 
-def cumprod_along_batch(data: Any) -> Any:
+def cumprod_along_batch(data: T) -> T:
     r"""Return the cumulative product of elements of input in the batch
     dimension.
 
@@ -47,10 +49,10 @@ def cumprod_along_batch(data: Any) -> Any:
 
         ```
     """
-    return recursive_apply(data, ba.cumprod_along_batch)
+    return apply_to_arrays(data, ba.cumprod_along_batch)
 
 
-def cumprod_along_seq(data: Any) -> Any:
+def cumprod_along_seq(data: T) -> T:
     r"""Return the cumulative product of elements of input in the
     sequence dimension.
 
@@ -81,10 +83,10 @@ def cumprod_along_seq(data: Any) -> Any:
 
         ```
     """
-    return recursive_apply(data, ba.cumprod_along_seq)
+    return apply_to_arrays(data, ba.cumprod_along_seq)
 
 
-def cumsum_along_batch(data: Any) -> Any:
+def cumsum_along_batch(data: T) -> T:
     r"""Return the cumulative sum of elements of input in the batch
     dimension.
 
@@ -115,10 +117,10 @@ def cumsum_along_batch(data: Any) -> Any:
 
         ```
     """
-    return recursive_apply(data, ba.cumsum_along_batch)
+    return apply_to_arrays(data, ba.cumsum_along_batch)
 
 
-def cumsum_along_seq(data: Any) -> Any:
+def cumsum_along_seq(data: T) -> T:
     r"""Return the cumulative sum of elements of input in the sequence
     dimension.
 
@@ -149,4 +151,4 @@ def cumsum_along_seq(data: Any) -> Any:
 
         ```
     """
-    return recursive_apply(data, ba.cumsum_along_seq)
+    return apply_to_arrays(data, ba.cumsum_along_seq)
