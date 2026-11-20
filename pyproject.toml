@@ -243,7 +243,11 @@ include_external_packages = false
 name = "Validation must not import feature packages"
 type = "forbidden"
 source_modules = ["batcharray.validation"]
-forbidden_modules = ["batcharray.array", "batcharray.computation", "batcharray.nested"]
+forbidden_modules = [
+  "batcharray.array",
+  "batcharray.computation",
+  "batcharray.nested",
+]
 
 [[tool.importlinter.contracts]]
 name = "Computation must not import array or nested"
