@@ -694,6 +694,28 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#the-index-family" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The index family
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-size-validators" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The size validators
+      
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -1278,6 +1300,28 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#the-index-family" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The index family
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-size-validators" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The size validators
+      
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -1442,7 +1486,7 @@ equal to <code>index_select_*</code>.</p>
 </tr>
 <tr>
 <td><code>take_along_seq</code> with a 2-D index (per-sample gather)</td>
-<td><code>index_select_along_seq</code> for now (a later step adds <code>gather_along_seq</code>)</td>
+<td><code>gather_along_seq</code></td>
 </tr>
 <tr>
 <td><code>take_along_batch</code> with a 2-D index</td>
@@ -1497,6 +1541,52 @@ equal to <code>index_select_*</code>.</p>
   raises NumPy's <code>AxisError</code> (a <code>ValueError</code> and an <code>IndexError</code>) instead of the <code>ValueError</code> of
   <code>batcharray</code>.</li>
 </ul>
+<h2 id="the-index-family">The index family<a class="headerlink" href="#the-index-family" title="Permanent link">&para;</a></h2>
+<ul>
+<li><code>gather_along_seq(array, indices)</code> is new at both levels: <code>out[b, i] = array[b, indices[b, i]]</code>
+  with a 2-D <code>indices</code> of shape <code>(batch_size, n)</code>. It replaces the 2-D branch of <code>take_along_seq</code>
+  (which was also reachable with <code>index_select_along_seq</code>) and raises a <code>ValueError</code> when the batch
+  size of the indices differs from the one of the array (it returned fewer rows without an error).
+  A typical use is the last valid step of a padded batch:
+  <code>gather_along_seq(x, (lengths - 1)[:, None])</code>.</li>
+<li><code>index_select_along_batch</code> and <code>index_select_along_seq</code> raise a <code>ValueError</code> for an index that is
+  not 1-D (they returned a higher-rank array or, along the sequence axis, did a per-sample gather).</li>
+<li><code>masked_select_along_batch</code> and <code>masked_select_along_seq</code> raise a <code>ValueError</code> for a mask that is
+  not boolean (an integer mask was read as indices).</li>
+</ul>
+<h2 id="the-size-validators">The size validators<a class="headerlink" href="#the-size-validators" title="Permanent link">&para;</a></h2>
+<p><code>validate_first_array</code>, <code>validate_same_batch_size</code> and <code>validate_same_seq_size</code> of
+<code>batcharray.validation</code> were removed (<code>validate_min_ndim</code>, <code>validate_split_sections</code> and
+<code>validate_same_keys</code> stay). <code>batcharray.nested.batch_size(data)</code> and <code>batcharray.nested.seq_len(data)</code>
+do the same check and return the size: all the arrays must have the same size along the axis,
+otherwise (or for a structure without array) a <code>ValueError</code> is raised, and a leaf that is not an
+array raises a <code>TypeError</code>.</p>
+<table>
+<thead>
+<tr>
+<th>Removed</th>
+<th>Replacement</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>validate_same_batch_size(data)</code></td>
+<td><code>batch_size(data)</code></td>
+</tr>
+<tr>
+<td><code>validate_same_seq_size(data)</code></td>
+<td><code>seq_len(data)</code></td>
+</tr>
+<tr>
+<td><code>validate_first_array(data).shape[0]</code></td>
+<td><code>batch_size(data)</code></td>
+</tr>
+</tbody>
+</table>
+<p>The three <code>import-linter</code> contracts are replaced by one <code>layers</code> contract
+(<code>nested</code> &gt; <code>array</code> &gt; <code>utils</code> &gt; <code>validation</code> &gt; <code>constants</code>).</p>
+<p><code>permute_along_batch</code> and <code>permute_along_seq</code> raise a <code>ValueError</code> for a permutation that is not
+1-D (a 2-D permutation with the right first dimension was accepted).</p>
 
 
 

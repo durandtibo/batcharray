@@ -1197,6 +1197,17 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#batcharray.array.gather_along_seq" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        gather_along_seq
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#batcharray.array.index_select_along_batch" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1991,6 +2002,17 @@
     <span class="md-ellipsis">
       
         flip_along_seq
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#batcharray.array.gather_along_seq" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        gather_along_seq
       
     </span>
   </a>
@@ -4600,6 +4622,149 @@ axis.</p>
 <div class="doc doc-object doc-function">
 
 
+<h3 id="batcharray.array.gather_along_seq" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">batcharray.array.gather_along_seq</span>
+
+
+<a href="#batcharray.array.gather_along_seq" class="headerlink" title="Permanent link">&para;</a></h3>
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">gather_along_seq</span><span class="p">(</span>
+    <span class="n">array</span><span class="p">:</span> <span class="n"><span title="numpy.ndarray">ndarray</span></span><span class="p">,</span> <span class="n">indices</span><span class="p">:</span> <span class="n"><span title="numpy.ndarray">ndarray</span></span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n"><span title="numpy.ndarray">ndarray</span></span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Gather different elements of the sequence axis for each sample.</p>
+<p>The output is <code>out[b, i] = array[b, indices[b, i]]</code>. It is
+<code>numpy.take_along_axis</code> with the indices reshaped over the
+feature axes. There is no <code>gather_along_batch</code>: a per-sample
+gather along the batch axis has no meaning, and
+<code>index_select_along_batch</code> is the operation of that axis.</p>
+
+
+<details class="note" open>
+  <summary>Note</summary>
+  <p>This function assumes the sequence axis is the second axis.
+A typical use is the last valid step of a padded batch:
+<code>gather_along_seq(x, (lengths - 1)[:, None])</code>.</p>
+</details>
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>array</code>
+            </td>
+            <td>
+                  <code><span title="numpy.ndarray">ndarray</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The input array, with at least 2 dimensions.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>indices</code>
+            </td>
+            <td>
+                  <code><span title="numpy.ndarray">ndarray</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The 2-D integer array of shape <code>(batch_size, n)</code>
+containing the indices to take. A negative index counts
+from the end.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+    <p><span class="doc-section-title">Returns:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                  <code><span title="numpy.ndarray">ndarray</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The gathered array of shape <code>(batch_size, n, *array.shape[2:])</code>.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+<p><span class="doc-section-title">Raises:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                  <code><span title="ValueError">ValueError</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>if the array has fewer than 2 dimensions, if the
+indices are not a 2-D array, or if the batch size of the
+indices differs from the batch size of the array.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+<details class="example" open>
+  <summary>Example</summary>
+  <div class="highlight"><pre><span></span><code><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">batcharray.array</span><span class="w"> </span><span class="kn">import</span> <span class="n">gather_along_seq</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">]])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">out</span> <span class="o">=</span> <span class="n">gather_along_seq</span><span class="p">(</span><span class="n">array</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">]]))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">out</span>
+<span class="go">array([[0, 4],</span>
+<span class="go">       [6, 8]])</span>
+</code></pre></div>
+</details>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
 <h3 id="batcharray.array.index_select_along_batch" class="doc doc-heading">
             <span class="doc doc-object-name doc-function-name">batcharray.array.index_select_along_batch</span>
 
@@ -4657,8 +4822,7 @@ axis using the entries in <code>indices</code>.</p>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>The 1-D array containing the indices to take. Other
-shapes are passed to <code>np.take</code> and add dimensions.</p>
+                <p>The 1-D array containing the indices to take.</p>
               </div>
             </td>
             <td>
@@ -4685,6 +4849,29 @@ shapes are passed to <code>np.take</code> and add dimensions.</p>
             <td>
               <div class="doc-md-description">
                 <p>The indexed array along the batch axis.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+<p><span class="doc-section-title">Raises:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                  <code><span title="ValueError">ValueError</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>if the indices are not a 1-D array.</p>
               </div>
             </td>
           </tr>
@@ -4775,8 +4962,9 @@ sequence axis using the entries in <code>indices</code>.</p>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>The indices to take, a 1-D array (or a 2-D array of
-shape <code>(batch_size, n)</code> for the sequence axis variants).</p>
+                <p>The 1-D array containing the indices to take. Use
+<code>gather_along_seq</code> to take different indices for each
+sample.</p>
               </div>
             </td>
             <td>
@@ -4803,6 +4991,29 @@ shape <code>(batch_size, n)</code> for the sequence axis variants).</p>
             <td>
               <div class="doc-md-description">
                 <p>The indexed array along the sequence axis.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+<p><span class="doc-section-title">Raises:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                  <code><span title="ValueError">ValueError</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>if the indices are not a 1-D array.</p>
               </div>
             </td>
           </tr>
@@ -4890,7 +5101,7 @@ axis according to the boolean mask <code>mask</code>.</p>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>The 1-D array containing the binary mask to index with.</p>
+                <p>The 1-D boolean array containing the mask to index with.</p>
               </div>
             </td>
             <td>
@@ -4917,6 +5128,29 @@ axis according to the boolean mask <code>mask</code>.</p>
             <td>
               <div class="doc-md-description">
                 <p>The indexed array along the batch axis.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+<p><span class="doc-section-title">Raises:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                  <code><span title="ValueError">ValueError</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>if the mask is not a boolean array.</p>
               </div>
             </td>
           </tr>
@@ -4999,7 +5233,7 @@ sequence axis according to the boolean mask <code>mask</code>.</p>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>The 1-D array containing the binary mask to index with.</p>
+                <p>The 1-D boolean array containing the mask to index with.</p>
               </div>
             </td>
             <td>
@@ -5026,6 +5260,29 @@ sequence axis according to the boolean mask <code>mask</code>.</p>
             <td>
               <div class="doc-md-description">
                 <p>The indexed array along the sequence axis.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+<p><span class="doc-section-title">Raises:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                  <code><span title="ValueError">ValueError</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>if the mask is not a boolean array.</p>
               </div>
             </td>
           </tr>

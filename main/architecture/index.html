@@ -1249,14 +1249,8 @@ array              one NumPy call with the axis fixed
    ^
 nested             one helper call per function
 </code></pre></div>
-<p>!!! note "Current state"</p>
-<div class="highlight"><pre><span></span><code>`utils` has `types` (`NestedArray`, `T`, `SortKind`), `namespace` (`get_namespace`) and
-`structure` (the three helpers and `get_size`), and every `nested` function goes through a
-helper. `nested.batch_size` and `nested.seq_len`, and the `layers` contract of `import-linter`,
-are not done yet. The steps in
-[`review/target_state.md`](https://github.com/durandtibo/batcharray/blob/main/review/target_state.md)
-bring the code to the layers above.
-</code></pre></div>
+<p><code>import-linter</code> enforces the order with one <code>layers</code> contract (<code>inv imports.check-cycles</code>). <code>nested</code>
+also has <code>batch_size</code> and <code>seq_len</code>, which read a size with <code>get_size</code> and have no <code>array</code> twin.</p>
 <h2 id="a-nested-function-is-logic-free">A <code>nested</code> function is logic-free<a class="headerlink" href="#a-nested-function-is-logic-free" title="Permanent link">&para;</a></h2>
 <p>A <code>nested</code> function calls one helper with the <code>array</code> function of the same name:</p>
 <p><code>python notest

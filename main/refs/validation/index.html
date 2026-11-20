@@ -1091,17 +1091,6 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#batcharray.validation.validate_first_array" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        validate_first_array
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
   <a href="#batcharray.validation.validate_min_ndim" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1113,32 +1102,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#batcharray.validation.validate_same_batch_size" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        validate_same_batch_size
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
   <a href="#batcharray.validation.validate_same_keys" class="md-nav__link">
     <span class="md-ellipsis">
       
         validate_same_keys
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#batcharray.validation.validate_same_seq_size" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        validate_same_seq_size
       
     </span>
   </a>
@@ -1243,17 +1210,6 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#batcharray.validation.validate_first_array" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        validate_first_array
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
   <a href="#batcharray.validation.validate_min_ndim" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1265,32 +1221,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#batcharray.validation.validate_same_batch_size" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        validate_same_batch_size
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
   <a href="#batcharray.validation.validate_same_keys" class="md-nav__link">
     <span class="md-ellipsis">
       
         validate_same_keys
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#batcharray.validation.validate_same_seq_size" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        validate_same_seq_size
       
     </span>
   </a>
@@ -1369,113 +1303,6 @@
 
 
 
-
-<div class="doc doc-object doc-function">
-
-
-<h3 id="batcharray.validation.validate_first_array" class="doc doc-heading">
-            <span class="doc doc-object-name doc-function-name">batcharray.validation.validate_first_array</span>
-
-
-<a href="#batcharray.validation.validate_first_array" class="headerlink" title="Permanent link">&para;</a></h3>
-<div class="doc-signature highlight"><pre><span></span><code><span class="nf">validate_first_array</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="n"><span title="typing.Any">Any</span></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n"><span title="numpy.ndarray">ndarray</span></span>
-</code></pre></div>
-
-    <div class="doc doc-contents ">
-
-        <p>Check that the first item of the data is an array and return it.</p>
-
-
-<p><span class="doc-section-title">Parameters:</span></p>
-    <table>
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Type</th>
-          <th>Description</th>
-          <th>Default</th>
-        </tr>
-      </thead>
-      <tbody>
-          <tr class="doc-section-item">
-            <td>
-                <code>data</code>
-            </td>
-            <td>
-                  <code><span title="typing.Any">Any</span></code>
-            </td>
-            <td>
-              <div class="doc-md-description">
-                <p>The data to check. It can be an array or a nested
-structure of arrays.</p>
-              </div>
-            </td>
-            <td>
-                <em>required</em>
-            </td>
-          </tr>
-      </tbody>
-    </table>
-
-
-    <p><span class="doc-section-title">Returns:</span></p>
-    <table>
-      <thead>
-        <tr>
-          <th>Type</th>
-          <th>Description</th>
-        </tr>
-      </thead>
-      <tbody>
-          <tr class="doc-section-item">
-            <td>
-                  <code><span title="numpy.ndarray">ndarray</span></code>
-            </td>
-            <td>
-              <div class="doc-md-description">
-                <p>The first array of the data, in depth-first order.</p>
-              </div>
-            </td>
-          </tr>
-      </tbody>
-    </table>
-
-
-<p><span class="doc-section-title">Raises:</span></p>
-    <table>
-      <thead>
-        <tr>
-          <th>Type</th>
-          <th>Description</th>
-        </tr>
-      </thead>
-      <tbody>
-          <tr class="doc-section-item">
-            <td>
-                  <code><span title="ValueError">ValueError</span></code>
-            </td>
-            <td>
-              <div class="doc-md-description">
-                <p>if the data is empty or its first item is not an array.</p>
-              </div>
-            </td>
-          </tr>
-      </tbody>
-    </table>
-
-
-<details class="example" open>
-  <summary>Example</summary>
-  <div class="highlight"><pre><span></span><code><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">batcharray.validation</span><span class="w"> </span><span class="kn">import</span> <span class="n">validate_first_array</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">validate_first_array</span><span class="p">({</span><span class="s2">"a"</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">)),</span> <span class="s2">"b"</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">2</span><span class="p">)})</span><span class="o">.</span><span class="n">shape</span>
-<span class="go">(2, 3)</span>
-</code></pre></div>
-</details>
-
-    </div>
-
-</div>
 
 <div class="doc doc-object doc-function">
 
@@ -1580,108 +1407,6 @@ structure of arrays.</p>
 <div class="doc doc-object doc-function">
 
 
-<h3 id="batcharray.validation.validate_same_batch_size" class="doc doc-heading">
-            <span class="doc doc-object-name doc-function-name">batcharray.validation.validate_same_batch_size</span>
-
-
-<a href="#batcharray.validation.validate_same_batch_size" class="headerlink" title="Permanent link">&para;</a></h3>
-<div class="doc-signature highlight"><pre><span></span><code><span class="nf">validate_same_batch_size</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="n"><span title="typing.Any">Any</span></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span>
-</code></pre></div>
-
-    <div class="doc doc-contents ">
-
-        <p>Check that all the arrays have the same batch size.</p>
-<p>This check is opt-in: the functions of <code>batcharray.nested</code> do
-not call it, because some valid calls involve arrays with different
-batch sizes (e.g. <code>sum_along_batch</code>).</p>
-
-
-<details class="note" open>
-  <summary>Note</summary>
-  <p>This function assumes the batch axis is the first axis.</p>
-</details>
-
-<p><span class="doc-section-title">Parameters:</span></p>
-    <table>
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Type</th>
-          <th>Description</th>
-          <th>Default</th>
-        </tr>
-      </thead>
-      <tbody>
-          <tr class="doc-section-item">
-            <td>
-                <code>data</code>
-            </td>
-            <td>
-                  <code><span title="typing.Any">Any</span></code>
-            </td>
-            <td>
-              <div class="doc-md-description">
-                <p>The data to check. It can be an array or a nested
-structure of arrays.</p>
-              </div>
-            </td>
-            <td>
-                <em>required</em>
-            </td>
-          </tr>
-      </tbody>
-    </table>
-
-
-<p><span class="doc-section-title">Raises:</span></p>
-    <table>
-      <thead>
-        <tr>
-          <th>Type</th>
-          <th>Description</th>
-        </tr>
-      </thead>
-      <tbody>
-          <tr class="doc-section-item">
-            <td>
-                  <code><span title="TypeError">TypeError</span></code>
-            </td>
-            <td>
-              <div class="doc-md-description">
-                <p>if an item of the data is not an array.</p>
-              </div>
-            </td>
-          </tr>
-          <tr class="doc-section-item">
-            <td>
-                  <code><span title="ValueError">ValueError</span></code>
-            </td>
-            <td>
-              <div class="doc-md-description">
-                <p>if some arrays have different batch sizes or if
-some arrays are 0-d.</p>
-              </div>
-            </td>
-          </tr>
-      </tbody>
-    </table>
-
-
-<details class="example" open>
-  <summary>Example</summary>
-  <div class="highlight"><pre><span></span><code><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">batcharray.validation</span><span class="w"> </span><span class="kn">import</span> <span class="n">validate_same_batch_size</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">validate_same_batch_size</span><span class="p">({</span><span class="s2">"a"</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">)),</span> <span class="s2">"b"</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">2</span><span class="p">)})</span>
-</code></pre></div>
-</details>
-
-    </div>
-
-</div>
-
-<div class="doc doc-object doc-function">
-
-
 <h3 id="batcharray.validation.validate_same_keys" class="doc doc-heading">
             <span class="doc doc-object-name doc-function-name">batcharray.validation.validate_same_keys</span>
 
@@ -1755,107 +1480,6 @@ some arrays are 0-d.</p>
   <summary>Example</summary>
   <div class="highlight"><pre><span></span><code><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">batcharray.validation</span><span class="w"> </span><span class="kn">import</span> <span class="n">validate_same_keys</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">validate_same_keys</span><span class="p">([{</span><span class="s2">"a"</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">"b"</span><span class="p">:</span> <span class="mi">2</span><span class="p">},</span> <span class="p">{</span><span class="s2">"b"</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span> <span class="s2">"a"</span><span class="p">:</span> <span class="mi">4</span><span class="p">}])</span>
-</code></pre></div>
-</details>
-
-    </div>
-
-</div>
-
-<div class="doc doc-object doc-function">
-
-
-<h3 id="batcharray.validation.validate_same_seq_size" class="doc doc-heading">
-            <span class="doc doc-object-name doc-function-name">batcharray.validation.validate_same_seq_size</span>
-
-
-<a href="#batcharray.validation.validate_same_seq_size" class="headerlink" title="Permanent link">&para;</a></h3>
-<div class="doc-signature highlight"><pre><span></span><code><span class="nf">validate_same_seq_size</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="n"><span title="typing.Any">Any</span></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span>
-</code></pre></div>
-
-    <div class="doc doc-contents ">
-
-        <p>Check that all the arrays have the same sequence size.</p>
-<p>This check is opt-in: the functions of <code>batcharray.nested</code> do
-not call it.</p>
-
-
-<details class="note" open>
-  <summary>Note</summary>
-  <p>This function assumes the sequence axis is the second axis.</p>
-</details>
-
-<p><span class="doc-section-title">Parameters:</span></p>
-    <table>
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Type</th>
-          <th>Description</th>
-          <th>Default</th>
-        </tr>
-      </thead>
-      <tbody>
-          <tr class="doc-section-item">
-            <td>
-                <code>data</code>
-            </td>
-            <td>
-                  <code><span title="typing.Any">Any</span></code>
-            </td>
-            <td>
-              <div class="doc-md-description">
-                <p>The data to check. It can be an array or a nested
-structure of arrays.</p>
-              </div>
-            </td>
-            <td>
-                <em>required</em>
-            </td>
-          </tr>
-      </tbody>
-    </table>
-
-
-<p><span class="doc-section-title">Raises:</span></p>
-    <table>
-      <thead>
-        <tr>
-          <th>Type</th>
-          <th>Description</th>
-        </tr>
-      </thead>
-      <tbody>
-          <tr class="doc-section-item">
-            <td>
-                  <code><span title="TypeError">TypeError</span></code>
-            </td>
-            <td>
-              <div class="doc-md-description">
-                <p>if an item of the data is not an array.</p>
-              </div>
-            </td>
-          </tr>
-          <tr class="doc-section-item">
-            <td>
-                  <code><span title="ValueError">ValueError</span></code>
-            </td>
-            <td>
-              <div class="doc-md-description">
-                <p>if some arrays have different sequence sizes or if
-some arrays have fewer than 2 dimensions.</p>
-              </div>
-            </td>
-          </tr>
-      </tbody>
-    </table>
-
-
-<details class="example" open>
-  <summary>Example</summary>
-  <div class="highlight"><pre><span></span><code><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">batcharray.validation</span><span class="w"> </span><span class="kn">import</span> <span class="n">validate_same_seq_size</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">validate_same_seq_size</span><span class="p">({</span><span class="s2">"a"</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">)),</span> <span class="s2">"b"</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">))})</span>
 </code></pre></div>
 </details>
 

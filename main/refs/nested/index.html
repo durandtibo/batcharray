@@ -1115,6 +1115,17 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#batcharray.nested.batch_size" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        batch_size
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#batcharray.nested.chunk_along_batch" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1218,6 +1229,17 @@
     <span class="md-ellipsis">
       
         flip_along_seq
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#batcharray.nested.gather_along_seq" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        gather_along_seq
       
     </span>
   </a>
@@ -1438,6 +1460,17 @@
     <span class="md-ellipsis">
       
         select_along_seq
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#batcharray.nested.seq_len" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        seq_len
       
     </span>
   </a>
@@ -1888,6 +1921,17 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#batcharray.nested.batch_size" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        batch_size
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#batcharray.nested.chunk_along_batch" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1991,6 +2035,17 @@
     <span class="md-ellipsis">
       
         flip_along_seq
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#batcharray.nested.gather_along_seq" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        gather_along_seq
       
     </span>
   </a>
@@ -2211,6 +2266,17 @@
     <span class="md-ellipsis">
       
         select_along_seq
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#batcharray.nested.seq_len" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        seq_len
       
     </span>
   </a>
@@ -3804,6 +3870,140 @@ compatibility.</p>
 <div class="doc doc-object doc-function">
 
 
+<h3 id="batcharray.nested.batch_size" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">batcharray.nested.batch_size</span>
+
+
+<a href="#batcharray.nested.batch_size" class="headerlink" title="Permanent link">&para;</a></h3>
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">batch_size</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-internal" title="batcharray.utils.NestedArray
+
+
+  
+      module-attribute
+  " href="../utils/#batcharray.utils.NestedArray">NestedArray</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n"><span title="int">int</span></span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Return the batch size shared by all the arrays.</p>
+
+
+<details class="note" open>
+  <summary>Note</summary>
+  <p>This function assumes the batch axis is the first
+    axis of the arrays.</p>
+</details>
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>data</code>
+            </td>
+            <td>
+                  <code><a class="autorefs autorefs-internal" title="batcharray.utils.NestedArray
+
+
+  
+      module-attribute
+  " href="../utils/#batcharray.utils.NestedArray">NestedArray</a></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The input data. It can be an array or a nested
+structure of arrays (dictionaries, lists, tuples).</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+    <p><span class="doc-section-title">Returns:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                  <code><span title="int">int</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The batch size.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+<p><span class="doc-section-title">Raises:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                  <code><span title="TypeError">TypeError</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>if a leaf of the data is not an array.</p>
+              </div>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                  <code><span title="ValueError">ValueError</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>if the data has no array, if an array is a 0-d
+array, or if the arrays have different batch sizes.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+<details class="example" open>
+  <summary>Example</summary>
+  <div class="highlight"><pre><span></span><code><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">batcharray.nested</span><span class="w"> </span><span class="kn">import</span> <span class="n">batch_size</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">batch_size</span><span class="p">({</span><span class="s2">"a"</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">)),</span> <span class="s2">"b"</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">2</span><span class="p">)})</span>
+<span class="go">2</span>
+</code></pre></div>
+</details>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
 <h3 id="batcharray.nested.chunk_along_batch" class="doc doc-heading">
             <span class="doc doc-object-name doc-function-name">batcharray.nested.chunk_along_batch</span>
 
@@ -5194,6 +5394,178 @@ structure as the input.</p>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">out</span> <span class="o">=</span> <span class="n">flip_along_seq</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">out</span>
 <span class="go">{'a': array([[4, 3, 2, 1, 0], [9, 8, 7, 6, 5]]), 'b': array([[0, 1, 2, 3, 4], [4, 3, 2, 1, 0]])}</span>
+</code></pre></div>
+</details>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="batcharray.nested.gather_along_seq" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">batcharray.nested.gather_along_seq</span>
+
+
+<a href="#batcharray.nested.gather_along_seq" class="headerlink" title="Permanent link">&para;</a></h3>
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">gather_along_seq</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-internal" title="batcharray.utils.T
+
+
+  
+      module-attribute
+  " href="../utils/#batcharray.utils.T">T</a></span><span class="p">,</span> <span class="n">indices</span><span class="p">:</span> <span class="n"><span title="numpy.ndarray">ndarray</span></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n"><a class="autorefs autorefs-internal" title="batcharray.utils.T
+
+
+  
+      module-attribute
+  " href="../utils/#batcharray.utils.T">T</a></span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Gather different elements of the sequence axis for each sample of
+all the arrays.</p>
+<p>The output of each array is <code>out[b, i] = array[b, indices[b, i]]</code>.
+The indices are one array shared by all the arrays.</p>
+
+
+<details class="note" open>
+  <summary>Note</summary>
+  <p>This function assumes the sequence axis is the second
+    axis of the arrays. All the arrays should have the
+    same batch size and at least 2 dimensions.</p>
+</details>
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>data</code>
+            </td>
+            <td>
+                  <code><a class="autorefs autorefs-internal" title="batcharray.utils.T
+
+
+  
+      module-attribute
+  " href="../utils/#batcharray.utils.T">T</a></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The input data. It can be an array or a nested
+structure of arrays (dictionaries, lists, tuples).</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>indices</code>
+            </td>
+            <td>
+                  <code><span title="numpy.ndarray">ndarray</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The 2-D integer array of shape <code>(batch_size, n)</code>
+containing the indices to take.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+    <p><span class="doc-section-title">Returns:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                  <code><a class="autorefs autorefs-internal" title="batcharray.utils.T
+
+
+  
+      module-attribute
+  " href="../utils/#batcharray.utils.T">T</a></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The gathered data. The output data has the same structure as
+the input data.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+<p><span class="doc-section-title">Raises:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                  <code><span title="TypeError">TypeError</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>if a leaf of the data is not an array.</p>
+              </div>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                  <code><span title="ValueError">ValueError</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>if an array has fewer than 2 dimensions, if the
+indices are not a 2-D array, or if the batch size of the
+indices differs from the batch size of an array.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+<details class="example" open>
+  <summary>Example</summary>
+  <div class="highlight"><pre><span></span><code><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">batcharray.nested</span><span class="w"> </span><span class="kn">import</span> <span class="n">gather_along_seq</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="p">{</span>
+<span class="gp">... </span>    <span class="s2">"a"</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">]]),</span>
+<span class="gp">... </span>    <span class="s2">"b"</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">9</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">5</span><span class="p">]]),</span>
+<span class="gp">... </span><span class="p">}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">out</span> <span class="o">=</span> <span class="n">gather_along_seq</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">]]))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">out</span>
+<span class="go">{'a': array([[0, 4], [6, 8]]), 'b': array([[4, 0], [8, 6]])}</span>
 </code></pre></div>
 </details>
 
@@ -7926,6 +8298,141 @@ sequence axis removed.</p>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">out</span> <span class="o">=</span> <span class="n">select_along_seq</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">out</span>
 <span class="go">{'a': array([2, 7]), 'b': array([2])}</span>
+</code></pre></div>
+</details>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="batcharray.nested.seq_len" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">batcharray.nested.seq_len</span>
+
+
+<a href="#batcharray.nested.seq_len" class="headerlink" title="Permanent link">&para;</a></h3>
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">seq_len</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-internal" title="batcharray.utils.NestedArray
+
+
+  
+      module-attribute
+  " href="../utils/#batcharray.utils.NestedArray">NestedArray</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n"><span title="int">int</span></span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Return the sequence length shared by all the arrays.</p>
+
+
+<details class="note" open>
+  <summary>Note</summary>
+  <p>This function assumes the sequence axis is the second
+    axis of the arrays.</p>
+</details>
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>data</code>
+            </td>
+            <td>
+                  <code><a class="autorefs autorefs-internal" title="batcharray.utils.NestedArray
+
+
+  
+      module-attribute
+  " href="../utils/#batcharray.utils.NestedArray">NestedArray</a></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The input data. It can be an array or a nested
+structure of arrays (dictionaries, lists, tuples).</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+    <p><span class="doc-section-title">Returns:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                  <code><span title="int">int</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The sequence length.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+<p><span class="doc-section-title">Raises:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                  <code><span title="TypeError">TypeError</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>if a leaf of the data is not an array.</p>
+              </div>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                  <code><span title="ValueError">ValueError</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>if the data has no array, if an array has fewer
+than 2 dimensions, or if the arrays have different
+sequence lengths.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+<details class="example" open>
+  <summary>Example</summary>
+  <div class="highlight"><pre><span></span><code><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">batcharray.nested</span><span class="w"> </span><span class="kn">import</span> <span class="n">seq_len</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">seq_len</span><span class="p">({</span><span class="s2">"a"</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">)),</span> <span class="s2">"b"</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">))})</span>
+<span class="go">3</span>
 </code></pre></div>
 </details>
 

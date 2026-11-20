@@ -1060,6 +1060,17 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#size" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Size
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#comparison-and-sorting" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1588,6 +1599,17 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#size" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Size
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#comparison-and-sorting" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1905,6 +1927,11 @@ sequence axis. Apply any function to all the arrays of a structure with <code>re
 <h2 id="function-reference">Function Reference<a class="headerlink" href="#function-reference" title="Permanent link">&para;</a></h2>
 <p>The <code>nested</code> module provides all operations from the <code>array</code> module, but for nested structures.
 Here's a non comprehensive list organized by category:</p>
+<h3 id="size">Size<a class="headerlink" href="#size" title="Permanent link">&para;</a></h3>
+<ul>
+<li><code>batch_size()</code> - Batch size shared by all the arrays</li>
+<li><code>seq_len()</code> - Sequence length shared by all the arrays</li>
+</ul>
 <h3 id="comparison-and-sorting">Comparison and Sorting<a class="headerlink" href="#comparison-and-sorting" title="Permanent link">&para;</a></h3>
 <ul>
 <li><code>argsort_along_batch()</code> - Get sorting indices (batch)</li>
@@ -1914,6 +1941,7 @@ Here's a non comprehensive list organized by category:</p>
 </ul>
 <h3 id="indexing-and-selection_1">Indexing and Selection<a class="headerlink" href="#indexing-and-selection_1" title="Permanent link">&para;</a></h3>
 <ul>
+<li><code>gather_along_seq()</code> - Gather different indices for each sample (sequence)</li>
 <li><code>index_select_along_batch()</code> - Select using indices (batch)</li>
 <li><code>index_select_along_seq()</code> - Select using indices (sequence)</li>
 <li><code>masked_select_along_batch()</code> - Select using mask (batch)</li>
