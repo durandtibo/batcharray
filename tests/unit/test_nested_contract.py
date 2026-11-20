@@ -64,6 +64,7 @@ MAP_FUNCTIONS: dict[str, tuple[Any, ...]] = {
     "index_select_along_seq": (np.array([0]),),
     "masked_select_along_batch": (np.array([True]),),
     "masked_select_along_seq": (np.array([True]),),
+    "gather_along_seq": (np.array([[0]]),),
     "permute_along_batch": (np.array([0]),),
     "permute_along_seq": (np.array([0]),),
     "shuffle_along_batch": (),

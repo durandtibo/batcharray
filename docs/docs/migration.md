@@ -67,7 +67,7 @@ equal to `index_select_*`.
 | `amax_along_batch`, `amax_along_seq`                    | `max_along_batch`, `max_along_seq`                                |
 | `amin_along_batch`, `amin_along_seq`                    | `min_along_batch`, `min_along_seq`                                |
 | `take_along_batch`, `take_along_seq` with a 1-D index   | `index_select_along_batch`, `index_select_along_seq`              |
-| `take_along_seq` with a 2-D index (per-sample gather)   | `index_select_along_seq` for now (a later step adds `gather_along_seq`) |
+| `take_along_seq` with a 2-D index (per-sample gather)   | `gather_along_seq`                                                |
 | `take_along_batch` with a 2-D index                     | `np.take(array, indices, axis=0)`                                 |
 
 ## Keyword-only options and the deprecation shim
@@ -97,3 +97,16 @@ equal to `index_select_*`.
 - `flip_along_seq` and `repeat_along_seq` no longer check the number of dimensions: a 1-D array
   raises NumPy's `AxisError` (a `ValueError` and an `IndexError`) instead of the `ValueError` of
   `batcharray`.
+
+## The index family
+
+- `gather_along_seq(array, indices)` is new at both levels: `out[b, i] = array[b, indices[b, i]]`
+  with a 2-D `indices` of shape `(batch_size, n)`. It replaces the 2-D branch of `take_along_seq`
+  (which was also reachable with `index_select_along_seq`) and raises a `ValueError` when the batch
+  size of the indices differs from the one of the array (it returned fewer rows without an error).
+  A typical use is the last valid step of a padded batch:
+  `gather_along_seq(x, (lengths - 1)[:, None])`.
+- `index_select_along_batch` and `index_select_along_seq` raise a `ValueError` for an index that is
+  not 1-D (they returned a higher-rank array or, along the sequence axis, did a per-sample gather).
+- `masked_select_along_batch` and `masked_select_along_seq` raise a `ValueError` for a mask that is
+  not boolean (an integer mask was read as indices).

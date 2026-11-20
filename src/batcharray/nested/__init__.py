@@ -23,6 +23,7 @@ __all__ = [
     "cumsum_along_seq",
     "flip_along_batch",
     "flip_along_seq",
+    "gather_along_seq",
     "index_select_along_batch",
     "index_select_along_seq",
     "masked_select_along_batch",
@@ -67,6 +68,7 @@ from batcharray.nested.comparison import (
     sort_along_seq,
 )
 from batcharray.nested.indexing import (
+    gather_along_seq,
     index_select_along_batch,
     index_select_along_seq,
     masked_select_along_batch,

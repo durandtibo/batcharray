@@ -3,6 +3,7 @@ r"""Contain some indexing functions for arrays."""
 from __future__ import annotations
 
 __all__ = [
+    "gather_along_seq",
     "index_select_along_batch",
     "index_select_along_seq",
     "masked_select_along_batch",
@@ -12,6 +13,7 @@ __all__ = [
 import numpy as np
 
 from batcharray.constants import BATCH_AXIS, SEQ_AXIS
+from batcharray.validation import validate_min_ndim
 
 
 def index_select_along_batch(array: np.ndarray, indices: np.ndarray) -> np.ndarray:
@@ -23,11 +25,13 @@ def index_select_along_batch(array: np.ndarray, indices: np.ndarray) -> np.ndarr
 
     Args:
         array: The input array.
-        indices: The 1-D array containing the indices to take. Other
-            shapes are passed to ``np.take`` and add dimensions.
+        indices: The 1-D array containing the indices to take.
 
     Returns:
         The indexed array along the batch axis.
+
+    Raises:
+        ValueError: if the indices are not a 1-D array.
 
     Example:
         ```pycon
@@ -48,6 +52,7 @@ def index_select_along_batch(array: np.ndarray, indices: np.ndarray) -> np.ndarr
 
         ```
     """
+    _validate_1d_indices(indices)
     return np.take(array, indices, axis=BATCH_AXIS)
 
 
@@ -60,11 +65,15 @@ def index_select_along_seq(array: np.ndarray, indices: np.ndarray) -> np.ndarray
 
     Args:
         array: The input array.
-        indices: The indices to take, a 1-D array (or a 2-D array of
-            shape `(batch_size, n)` for the sequence axis variants).
+        indices: The 1-D array containing the indices to take. Use
+            ``gather_along_seq`` to take different indices for each
+            sample.
 
     Returns:
         The indexed array along the sequence axis.
+
+    Raises:
+        ValueError: if the indices are not a 1-D array.
 
     Example:
         ```pycon
@@ -82,11 +91,8 @@ def index_select_along_seq(array: np.ndarray, indices: np.ndarray) -> np.ndarray
 
         ```
     """
-    if indices.ndim == 1:
-        return np.take(array, indices, axis=SEQ_AXIS)
-    batch_size, seq_len = indices.shape[:2]
-    batch_indices = np.arange(batch_size).repeat(seq_len)
-    return array[batch_indices, indices.flatten()].reshape(batch_size, seq_len, *array.shape[2:])
+    _validate_1d_indices(indices)
+    return np.take(array, indices, axis=SEQ_AXIS)
 
 
 def masked_select_along_batch(array: np.ndarray, mask: np.ndarray) -> np.ndarray:
@@ -98,10 +104,13 @@ def masked_select_along_batch(array: np.ndarray, mask: np.ndarray) -> np.ndarray
 
     Args:
         array: The input array.
-        mask: The 1-D array containing the binary mask to index with.
+        mask: The 1-D boolean array containing the mask to index with.
 
     Returns:
         The indexed array along the batch axis.
+
+    Raises:
+        ValueError: if the mask is not a boolean array.
 
     Example:
         ```pycon
@@ -114,6 +123,7 @@ def masked_select_along_batch(array: np.ndarray, mask: np.ndarray) -> np.ndarray
 
         ```
     """
+    _validate_bool_mask(mask)
     return array[mask]
 
 
@@ -126,10 +136,13 @@ def masked_select_along_seq(array: np.ndarray, mask: np.ndarray) -> np.ndarray:
 
     Args:
         array: The input array.
-        mask: The 1-D array containing the binary mask to index with.
+        mask: The 1-D boolean array containing the mask to index with.
 
     Returns:
         The indexed array along the sequence axis.
+
+    Raises:
+        ValueError: if the mask is not a boolean array.
 
     Example:
         ```pycon
@@ -142,4 +155,89 @@ def masked_select_along_seq(array: np.ndarray, mask: np.ndarray) -> np.ndarray:
 
         ```
     """
+    _validate_bool_mask(mask)
     return array[:, mask]
+
+
+def gather_along_seq(array: np.ndarray, indices: np.ndarray) -> np.ndarray:
+    r"""Gather different elements of the sequence axis for each sample.
+
+    The output is ``out[b, i] = array[b, indices[b, i]]``. It is
+    ``numpy.take_along_axis`` with the indices reshaped over the
+    feature axes. There is no ``gather_along_batch``: a per-sample
+    gather along the batch axis has no meaning, and
+    ``index_select_along_batch`` is the operation of that axis.
+
+    Note:
+        This function assumes the sequence axis is the second axis.
+        A typical use is the last valid step of a padded batch:
+        ``gather_along_seq(x, (lengths - 1)[:, None])``.
+
+    Args:
+        array: The input array, with at least 2 dimensions.
+        indices: The 2-D integer array of shape ``(batch_size, n)``
+            containing the indices to take. A negative index counts
+            from the end.
+
+    Returns:
+        The gathered array of shape ``(batch_size, n, *array.shape[2:])``.
+
+    Raises:
+        ValueError: if the array has fewer than 2 dimensions, if the
+            indices are not a 2-D array, or if the batch size of the
+            indices differs from the batch size of the array.
+
+    Example:
+        ```pycon
+        >>> import numpy as np
+        >>> from batcharray.array import gather_along_seq
+        >>> array = np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]])
+        >>> out = gather_along_seq(array, np.array([[0, 4], [1, 3]]))
+        >>> out
+        array([[0, 4],
+               [6, 8]])
+
+        ```
+    """
+    validate_min_ndim(array)
+    if indices.ndim != 2:
+        msg = f"indices must be a 2-D array, but got {indices.ndim} dimension(s)"
+        raise ValueError(msg)
+    if indices.shape[0] != array.shape[0]:
+        msg = (
+            f"the batch size of the indices ({indices.shape[0]}) must be equal to the batch "
+            f"size of the array ({array.shape[0]})"
+        )
+        raise ValueError(msg)
+    indices = indices.reshape(*indices.shape, *([1] * (array.ndim - 2)))
+    return np.take_along_axis(array, indices, axis=SEQ_AXIS)
+
+
+def _validate_1d_indices(indices: np.ndarray) -> None:
+    r"""Check that the indices are a 1-D array.
+
+    Args:
+        indices: The indices to check.
+
+    Raises:
+        ValueError: if the indices are not a 1-D array.
+    """
+    if indices.ndim != 1:
+        msg = f"indices must be a 1-D array, but got {indices.ndim} dimension(s)"
+        raise ValueError(msg)
+
+
+def _validate_bool_mask(mask: np.ndarray) -> None:
+    r"""Check that the mask is a boolean array.
+
+    An integer array would be read as indices by NumPy.
+
+    Args:
+        mask: The mask to check.
+
+    Raises:
+        ValueError: if the mask is not a boolean array.
+    """
+    if mask.dtype != np.bool_:
+        msg = f"mask must be a boolean array, but got dtype {mask.dtype}"
+        raise ValueError(msg)
