@@ -1,3 +1,6 @@
 tasklib:
   package:
     name: batcharray
+  groups:
+    install: dev,docs
+    update: dev,docs

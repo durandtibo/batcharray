@@ -37,11 +37,11 @@ def arccos(data: Any) -> Any:
         ```pycon
         >>> import numpy as np
         >>> from batcharray.nested import arccos
-        >>> data = {"a": np.ones((2, 3)), "b": np.arange(5)}
+        >>> data = {"a": np.ones((2, 3)), "b": np.linspace(0, 1, 5)}
         >>> out = arccos(data)
         >>> out
         {'a': array([[0., 0., 0.], [0., 0., 0.]]),
-         'b': array([1.57079633, 0.        ,        nan,        nan,        nan])}
+         'b': array([1.57079633, 1.31811607, 1.04719755, 0.72273425, 0.        ])}
 
         ```
     """
@@ -63,11 +63,11 @@ def arccosh(data: Any) -> Any:
         ```pycon
         >>> import numpy as np
         >>> from batcharray.nested import arccosh
-        >>> data = {"a": np.ones((2, 3)), "b": np.arange(5)}
+        >>> data = {"a": np.ones((2, 3)), "b": np.arange(1, 6)}
         >>> out = arccosh(data)
         >>> out
         {'a': array([[0., 0., 0.], [0., 0., 0.]]),
-         'b': array([       nan, 0.        , 1.3169579 , 1.76274717, 2.06343707])}
+         'b': array([0.        , 1.3169579 , 1.76274717, 2.06343707, 2.29243167])}
 
         ```
     """
@@ -88,11 +88,11 @@ def arcsin(data: Any) -> Any:
         ```pycon
         >>> import numpy as np
         >>> from batcharray.nested import arcsin
-        >>> data = {"a": np.ones((2, 3)), "b": np.arange(5)}
+        >>> data = {"a": np.ones((2, 3)), "b": np.linspace(0, 1, 5)}
         >>> out = arcsin(data)
         >>> out
         {'a': array([[1.57079633, 1.57079633, 1.57079633], [1.57079633, 1.57079633, 1.57079633]]),
-         'b': array([0.        , 1.57079633,        nan,        nan,        nan])}
+         'b': array([0.        , 0.25268026, 0.52359878, 0.84806208, 1.57079633])}
 
         ```
     """

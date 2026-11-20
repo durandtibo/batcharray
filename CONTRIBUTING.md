@@ -22,7 +22,7 @@ We actively welcome your pull requests.
 4. If you've changed APIs, update the documentation.
 5. Ensure the test suite passes. You can use the following command to run the tests:
    ```shell
-   invoke unit-test --cov
+   inv test.unit --cov
    ```
 6. Make sure your code lints. The following commands can help you to format the code:
    ```shell
@@ -59,13 +59,20 @@ Please refer to the [uv installation documentation](https://docs.astral.sh/uv/ge
 
 ### Available invoke commands
 
-- `inv install --no-optional-deps` - Install only core dependencies
-- `inv install --docs-deps` - Install all dependencies including docs
-- `inv check-lint` - Check code with ruff
-- `inv check-format` - Check code formatting with black
-- `inv unit-test` - Run unit tests
-- `inv unit-test --cov` - Run unit tests with coverage
-- `inv doctest-src` - Run doctests in source code
+- `inv env.install` - Install the dependencies and the package in editable mode
+- `inv format.fix-python` - Format the code with ruff
+- `inv format.fix-docstrings` - Format the docstrings with docformatter
+- `inv lint.check-python` - Check the code with ruff
+- `inv types.check` - Check the type hints with ty
+- `inv imports.check-cycles` - Check that there is no cyclic import
+- `inv test.unit` - Run unit tests
+- `inv test.unit --cov` - Run unit tests with coverage
+- `inv test.integration` - Run integration tests
+- `inv test.doctest` - Run doctests in source code and Markdown files
+- `inv check` - Run the main checks of the project
+- `inv fix` - Fix the lint and format issues of the project
+
+Run `inv --list` to list all the available tasks.
 
 ## Issues
 
