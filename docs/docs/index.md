@@ -4,9 +4,6 @@
     <a href="https://github.com/durandtibo/batcharray/actions/workflows/ci.yaml">
         <img alt="CI" src="https://github.com/durandtibo/batcharray/actions/workflows/ci.yaml/badge.svg">
     </a>
-    <a href="https://github.com/durandtibo/batcharray/actions/workflows/nightly-tests.yaml">
-        <img alt="Nightly Tests" src="https://github.com/durandtibo/batcharray/actions/workflows/nightly-tests.yaml/badge.svg">
-    </a>
     <a href="https://github.com/durandtibo/batcharray/actions/workflows/nightly-package.yaml">
         <img alt="Nightly Package Tests" src="https://github.com/durandtibo/batcharray/actions/workflows/nightly-package.yaml/badge.svg">
     </a>
@@ -15,15 +12,12 @@
     </a>
     <br/>
     <a href="https://durandtibo.github.io/batcharray/">
-        <img alt="Documentation" src="https://github.com/durandtibo/batcharray/actions/workflows/docs.yaml/badge.svg">
+        <img alt="Documentation" src="https://github.com/durandtibo/batcharray/actions/workflows/release-docs.yaml/badge.svg">
     </a>
     <a href="https://durandtibo.github.io/batcharray/dev/">
-        <img alt="Documentation" src="https://github.com/durandtibo/batcharray/actions/workflows/docs-dev.yaml/badge.svg">
+        <img alt="Documentation" src="https://github.com/durandtibo/batcharray/actions/workflows/release-docs-dev.yaml/badge.svg">
     </a>
     <br/>
-    <a href="https://github.com/psf/black">
-        <img  alt="Code style: black" src="https://img.shields.io/badge/code%20style-black-000000.svg">
-    </a>
     <a href="https://google.github.io/styleguide/pyguide.html#s3.8-comments-and-docstrings">
         <img  alt="Doc style: google" src="https://img.shields.io/badge/%20style-google-3666d6.svg">
     </a>
@@ -68,7 +62,7 @@ is the batch axis and the second axis is the sequence axis.
 - **Nested Structures**: Work with dictionaries and lists of arrays seamlessly
 - **Masked Arrays**: Built-in support for handling missing or invalid data
 - **Type Safety**: Computation models for different array types
-- **Zero Dependencies**: Lightweight with only NumPy as a core dependency
+- **Minimal Dependencies**: Lightweight with only NumPy and coola as required dependencies
 
 ## Quick Links
 
@@ -132,6 +126,8 @@ Please check the documentation to see all the implemented functions.
 - **[User Guide: Array Operations](uguide/array.md)** - Complete guide to array functions
 - **[User Guide: Nested Structures](uguide/nested.md)** - Working with nested data
 - **[User Guide: Computation Models](uguide/computation.md)** - Low-level abstractions
+- **[Design Principles](design_principles.md)** - The rules of the package
+- **[Architecture](architecture.md)** - The layers and how to add an operation
 
 ### API Reference
 
