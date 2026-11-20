@@ -683,6 +683,17 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#reductions-on-a-1-d-array-and-flip_along_seq-repeat_along_seq" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Reductions on a 1-D array and flip_along_seq, repeat_along_seq
+      
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -1256,6 +1267,17 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#reductions-on-a-1-d-array-and-flip_along_seq-repeat_along_seq" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Reductions on a 1-D array and flip_along_seq, repeat_along_seq
+      
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -1464,6 +1486,17 @@ equal to <code>index_select_*</code>.</p>
 <p><code>shuffle_along_*</code> now passes <code>rng</code> to <code>numpy.random.default_rng</code>: a <code>Generator</code>, an integer seed or
 <code>None</code>. <code>split_along_*</code> accepts NumPy integers as the split size and rejects a <code>bool</code> with a
 <code>ValueError</code>.</p>
+<h2 id="reductions-on-a-1-d-array-and-flip_along_seq-repeat_along_seq">Reductions on a 1-D array and <code>flip_along_seq</code>, <code>repeat_along_seq</code><a class="headerlink" href="#reductions-on-a-1-d-array-and-flip_along_seq-repeat_along_seq" title="Permanent link">&para;</a></h2>
+<ul>
+<li>The <code>*_along_batch</code> reductions (<code>all</code>, <code>any</code>, <code>argmax</code>, <code>argmin</code>, <code>max</code>, <code>mean</code>, <code>median</code>, <code>min</code>,
+  <code>prod</code>, <code>std</code>, <code>sum</code>, <code>var</code>) and <code>select_along_batch</code> return a 0-d array where NumPy returns a
+  scalar (<code>np.float64</code>, <code>np.int64</code>, <code>np.bool_</code>), so the output of any function is a valid input of
+  <code>batcharray.nested</code>. A 0-d array behaves like a scalar in arithmetic, and <code>float(x)</code> and
+  <code>x.item()</code> work.</li>
+<li><code>flip_along_seq</code> and <code>repeat_along_seq</code> no longer check the number of dimensions: a 1-D array
+  raises NumPy's <code>AxisError</code> (a <code>ValueError</code> and an <code>IndexError</code>) instead of the <code>ValueError</code> of
+  <code>batcharray</code>.</li>
+</ul>
 
 
 
