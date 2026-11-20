@@ -436,10 +436,21 @@ def test_shuffle_along_seq_same_permutation_for_all_arrays() -> None:
 
 
 @pytest.mark.parametrize("func", [shuffle_along_batch, shuffle_along_seq])
-@pytest.mark.parametrize("data", [{}, {"a": 1}])
-def test_shuffle_invalid_data_raises(func: Callable, data: object) -> None:
+def test_shuffle_empty_data_raises(func: Callable) -> None:
     with pytest.raises(ValueError, match="at least one array"):
-        func(data)
+        func({})
+
+
+@pytest.mark.parametrize("func", [shuffle_along_batch, shuffle_along_seq])
+def test_shuffle_non_array_leaf_raises(func: Callable) -> None:
+    with pytest.raises(TypeError, match="object of type int"):
+        func({"a": 1})
+
+
+@pytest.mark.parametrize("func", [shuffle_along_batch, shuffle_along_seq])
+def test_shuffle_different_sizes_raises(func: Callable) -> None:
+    with pytest.raises(ValueError, match=r"same .* size"):
+        func({"a": np.ones((4, 4)), "b": np.ones((3, 3))})
 
 
 ######################################

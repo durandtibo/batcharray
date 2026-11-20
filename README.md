@@ -102,10 +102,13 @@ Please check the documentation to see all the implemented functions.
 - `nested`: Functions to manipulate nested data structures (dicts, lists) containing arrays
   - Apply operations to all arrays in a structure simultaneously
   - Maintain relationships between related arrays
-  - Any other function can be applied to all the arrays with `coola.recursive.recursive_apply`
+  - Any other function can be applied to all the arrays with `batcharray.utils.apply_to_arrays`
   - All operations from `array` module, but for nested structures
 - `utils`: Helpers shared by the other packages
+  - `apply_to_arrays`, `split_arrays`, `combine_arrays` and `get_size`: the helpers that traverse nested
+    structures of arrays (use `apply_to_arrays` to apply any other function to all the arrays)
   - `get_namespace`: choose between `numpy` and `numpy.ma` for an array
+  - `NestedArray` and `T`: the types of the nested structures
 
 ## Documentation
 

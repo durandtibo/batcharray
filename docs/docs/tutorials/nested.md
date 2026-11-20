@@ -59,11 +59,11 @@ sliced_data = nested.slice_along_batch(data, stop=2)
 
 `batcharray.nested` does not wrap the element-wise NumPy functions (`np.abs`, `np.exp`,
 `np.log`, `np.sin`, ...): they have no batch or sequence axis. Apply any function to all the arrays
-of a structure with `recursive_apply` of `coola`:
+of a structure with `apply_to_arrays` of `batcharray.utils`:
 
 ```python
 import numpy as np
-from coola.recursive import recursive_apply
+from batcharray.utils import apply_to_arrays
 
 data = {
     "values": np.array([[-2.0, 3.0], [1.0, -4.0]]),
@@ -71,7 +71,7 @@ data = {
 }
 
 # Absolute values
-abs_data = recursive_apply(data, np.abs)
+abs_data = apply_to_arrays(data, np.abs)
 # {
 #     'values': array([[2., 3.],
 #                      [1., 4.]]),
@@ -80,13 +80,13 @@ abs_data = recursive_apply(data, np.abs)
 # }
 
 # Exponential
-exp_data = recursive_apply(data, np.exp)
+exp_data = apply_to_arrays(data, np.exp)
 
 # Logarithm (of absolute values to avoid errors)
-log_data = recursive_apply(abs_data, np.log)
+log_data = apply_to_arrays(abs_data, np.log)
 
 # Clipping
-clipped_data = recursive_apply(data, lambda x: np.clip(x, -1.0, 1.0))
+clipped_data = apply_to_arrays(data, lambda x: np.clip(x, -1.0, 1.0))
 # {
 #     'values': array([[-1.,  1.],
 #                      [ 1., -1.]]),
@@ -457,7 +457,7 @@ sort_indices = nested.argsort_along_batch(data["scores"])
 
 ```python
 import numpy as np
-from coola.recursive import recursive_apply
+from batcharray.utils import apply_to_arrays
 
 data = {
     "features": np.array([[1, 2], [3, 4]]),
@@ -466,7 +466,7 @@ data = {
 }
 
 # Convert to native Python lists
-python_data = recursive_apply(data, np.ndarray.tolist)
+python_data = apply_to_arrays(data, np.ndarray.tolist)
 # {
 #     'features': [[1, 2], [3, 4]],
 #     'labels': [0, 1],

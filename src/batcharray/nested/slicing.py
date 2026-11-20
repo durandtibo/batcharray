@@ -14,19 +14,19 @@ __all__ = [
 ]
 
 from functools import partial
-from typing import TYPE_CHECKING, Any
-
-from coola.recursive import recursive_apply
+from typing import TYPE_CHECKING
 
 from batcharray import array as ba
 from batcharray.constants import BATCH_AXIS, SEQ_AXIS
-from batcharray.nested.structure import split_structure
+from batcharray.utils import apply_to_arrays, split_arrays
 
 if TYPE_CHECKING:
     from collections.abc import Sequence
 
+    from batcharray.utils import T
 
-def chunk_along_batch(data: Any, chunks: int) -> list[Any]:
+
+def chunk_along_batch(data: T, chunks: int) -> list[T]:
     r"""Split all the arrays into chunks along the batch axis.
 
     Each chunk is a view of the input array.
@@ -68,10 +68,10 @@ def chunk_along_batch(data: Any, chunks: int) -> list[Any]:
 
         ```
     """
-    return split_structure(data, lambda array: ba.chunk_along_batch(array, chunks), axis=BATCH_AXIS)
+    return split_arrays(data, lambda array: ba.chunk_along_batch(array, chunks), axis=BATCH_AXIS)
 
 
-def chunk_along_seq(data: Any, chunks: int) -> list[Any]:
+def chunk_along_seq(data: T, chunks: int) -> list[T]:
     r"""Split all the arrays into chunks along the sequence axis.
 
     Each chunk is a view of the input array.
@@ -113,10 +113,10 @@ def chunk_along_seq(data: Any, chunks: int) -> list[Any]:
 
         ```
     """
-    return split_structure(data, lambda array: ba.chunk_along_seq(array, chunks), axis=SEQ_AXIS)
+    return split_arrays(data, lambda array: ba.chunk_along_seq(array, chunks), axis=SEQ_AXIS)
 
 
-def select_along_batch(data: Any, index: int) -> Any:
+def select_along_batch(data: T, index: int) -> T:
     r"""Slice the arrays along the batch axis at the given index.
 
     This function returns a view of the original array with the batch
@@ -148,10 +148,10 @@ def select_along_batch(data: Any, index: int) -> Any:
 
         ```
     """
-    return recursive_apply(data, partial(ba.select_along_batch, index=index))
+    return apply_to_arrays(data, partial(ba.select_along_batch, index=index))
 
 
-def select_along_seq(data: Any, index: int) -> Any:
+def select_along_seq(data: T, index: int) -> T:
     r"""Slice the arrays along the sequence axis at the given index.
 
     This function returns a view of the original array with the
@@ -183,10 +183,10 @@ def select_along_seq(data: Any, index: int) -> Any:
 
         ```
     """
-    return recursive_apply(data, partial(ba.select_along_seq, index=index))
+    return apply_to_arrays(data, partial(ba.select_along_seq, index=index))
 
 
-def slice_along_batch(data: Any, start: int = 0, stop: int | None = None, *, step: int = 1) -> Any:
+def slice_along_batch(data: T, start: int = 0, stop: int | None = None, *, step: int = 1) -> T:
     r"""Slice all the arrays along the batch axis.
 
     Note:
@@ -224,10 +224,10 @@ def slice_along_batch(data: Any, start: int = 0, stop: int | None = None, *, ste
 
         ```
     """
-    return recursive_apply(data, partial(ba.slice_along_batch, start=start, stop=stop, step=step))
+    return apply_to_arrays(data, partial(ba.slice_along_batch, start=start, stop=stop, step=step))
 
 
-def slice_along_seq(data: Any, start: int = 0, stop: int | None = None, *, step: int = 1) -> Any:
+def slice_along_seq(data: T, start: int = 0, stop: int | None = None, *, step: int = 1) -> T:
     r"""Slice all the arrays along the sequence axis.
 
     Note:
@@ -265,10 +265,10 @@ def slice_along_seq(data: Any, start: int = 0, stop: int | None = None, *, step:
 
         ```
     """
-    return recursive_apply(data, partial(ba.slice_along_seq, start=start, stop=stop, step=step))
+    return apply_to_arrays(data, partial(ba.slice_along_seq, start=start, stop=stop, step=step))
 
 
-def split_along_batch(data: Any, split_size_or_sections: int | Sequence[int]) -> list[Any]:
+def split_along_batch(data: T, split_size_or_sections: int | Sequence[int]) -> list[T]:
     r"""Split all the arrays into chunks along the batch axis.
 
     Each chunk is a view of the original array.
@@ -308,12 +308,12 @@ def split_along_batch(data: Any, split_size_or_sections: int | Sequence[int]) ->
 
         ```
     """
-    return split_structure(
+    return split_arrays(
         data, lambda array: ba.split_along_batch(array, split_size_or_sections), axis=BATCH_AXIS
     )
 
 
-def split_along_seq(data: Any, split_size_or_sections: int | Sequence[int]) -> list[Any]:
+def split_along_seq(data: T, split_size_or_sections: int | Sequence[int]) -> list[T]:
     r"""Split all the arrays into chunks along the sequence axis.
 
     Each chunk is a view of the original array.
@@ -353,6 +353,6 @@ def split_along_seq(data: Any, split_size_or_sections: int | Sequence[int]) -> l
 
         ```
     """
-    return split_structure(
+    return split_arrays(
         data, lambda array: ba.split_along_seq(array, split_size_or_sections), axis=SEQ_AXIS
     )

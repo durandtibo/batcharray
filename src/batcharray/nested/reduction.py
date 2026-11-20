@@ -30,14 +30,16 @@ __all__ = [
 ]
 
 from functools import partial
-from typing import Any
-
-from coola.recursive import recursive_apply
+from typing import TYPE_CHECKING
 
 from batcharray import array as ba
+from batcharray.utils import apply_to_arrays
+
+if TYPE_CHECKING:
+    from batcharray.utils import T
 
 
-def argmax_along_batch(data: Any, *, keepdims: bool = False) -> Any:
+def argmax_along_batch(data: T, *, keepdims: bool = False) -> T:
     r"""Return the indices of the maximum value of all elements along the
     batch dimension.
 
@@ -71,10 +73,10 @@ def argmax_along_batch(data: Any, *, keepdims: bool = False) -> Any:
 
         ```
     """
-    return recursive_apply(data, partial(ba.argmax_along_batch, keepdims=keepdims))
+    return apply_to_arrays(data, partial(ba.argmax_along_batch, keepdims=keepdims))
 
 
-def argmax_along_seq(data: Any, *, keepdims: bool = False) -> Any:
+def argmax_along_seq(data: T, *, keepdims: bool = False) -> T:
     r"""Return the indices of the maximum value of all elements along the
     sequence dimension.
 
@@ -108,10 +110,10 @@ def argmax_along_seq(data: Any, *, keepdims: bool = False) -> Any:
 
         ```
     """
-    return recursive_apply(data, partial(ba.argmax_along_seq, keepdims=keepdims))
+    return apply_to_arrays(data, partial(ba.argmax_along_seq, keepdims=keepdims))
 
 
-def argmin_along_batch(data: Any, *, keepdims: bool = False) -> Any:
+def argmin_along_batch(data: T, *, keepdims: bool = False) -> T:
     r"""Return the indices of the minimum value of all elements along the
     batch dimension.
 
@@ -145,10 +147,10 @@ def argmin_along_batch(data: Any, *, keepdims: bool = False) -> Any:
 
         ```
     """
-    return recursive_apply(data, partial(ba.argmin_along_batch, keepdims=keepdims))
+    return apply_to_arrays(data, partial(ba.argmin_along_batch, keepdims=keepdims))
 
 
-def argmin_along_seq(data: Any, *, keepdims: bool = False) -> Any:
+def argmin_along_seq(data: T, *, keepdims: bool = False) -> T:
     r"""Return the indices of the minimum value of all elements along the
     sequence dimension.
 
@@ -182,10 +184,10 @@ def argmin_along_seq(data: Any, *, keepdims: bool = False) -> Any:
 
         ```
     """
-    return recursive_apply(data, partial(ba.argmin_along_seq, keepdims=keepdims))
+    return apply_to_arrays(data, partial(ba.argmin_along_seq, keepdims=keepdims))
 
 
-def max_along_batch(data: Any, *, keepdims: bool = False) -> Any:
+def max_along_batch(data: T, *, keepdims: bool = False) -> T:
     r"""Return the maximum of all elements along the batch dimension.
 
     Note:
@@ -217,10 +219,10 @@ def max_along_batch(data: Any, *, keepdims: bool = False) -> Any:
 
         ```
     """
-    return recursive_apply(data, partial(ba.max_along_batch, keepdims=keepdims))
+    return apply_to_arrays(data, partial(ba.max_along_batch, keepdims=keepdims))
 
 
-def max_along_seq(data: Any, *, keepdims: bool = False) -> Any:
+def max_along_seq(data: T, *, keepdims: bool = False) -> T:
     r"""Return the maximum of all elements along the sequence dimension.
 
     Note:
@@ -252,10 +254,10 @@ def max_along_seq(data: Any, *, keepdims: bool = False) -> Any:
 
         ```
     """
-    return recursive_apply(data, partial(ba.max_along_seq, keepdims=keepdims))
+    return apply_to_arrays(data, partial(ba.max_along_seq, keepdims=keepdims))
 
 
-def mean_along_batch(data: Any, *, keepdims: bool = False) -> Any:
+def mean_along_batch(data: T, *, keepdims: bool = False) -> T:
     r"""Return the mean of all elements along the batch dimension.
 
     Note:
@@ -287,10 +289,10 @@ def mean_along_batch(data: Any, *, keepdims: bool = False) -> Any:
 
         ```
     """
-    return recursive_apply(data, partial(ba.mean_along_batch, keepdims=keepdims))
+    return apply_to_arrays(data, partial(ba.mean_along_batch, keepdims=keepdims))
 
 
-def mean_along_seq(data: Any, *, keepdims: bool = False) -> Any:
+def mean_along_seq(data: T, *, keepdims: bool = False) -> T:
     r"""Return the mean of all elements along the sequence dimension.
 
     Note:
@@ -322,10 +324,10 @@ def mean_along_seq(data: Any, *, keepdims: bool = False) -> Any:
 
         ```
     """
-    return recursive_apply(data, partial(ba.mean_along_seq, keepdims=keepdims))
+    return apply_to_arrays(data, partial(ba.mean_along_seq, keepdims=keepdims))
 
 
-def median_along_batch(data: Any, *, keepdims: bool = False) -> Any:
+def median_along_batch(data: T, *, keepdims: bool = False) -> T:
     r"""Return the median of all elements along the batch dimension.
 
     Note:
@@ -360,10 +362,10 @@ def median_along_batch(data: Any, *, keepdims: bool = False) -> Any:
 
         ```
     """
-    return recursive_apply(data, partial(ba.median_along_batch, keepdims=keepdims))
+    return apply_to_arrays(data, partial(ba.median_along_batch, keepdims=keepdims))
 
 
-def median_along_seq(data: Any, *, keepdims: bool = False) -> Any:
+def median_along_seq(data: T, *, keepdims: bool = False) -> T:
     r"""Return the median of all elements along the sequence dimension.
 
     Note:
@@ -398,10 +400,10 @@ def median_along_seq(data: Any, *, keepdims: bool = False) -> Any:
 
         ```
     """
-    return recursive_apply(data, partial(ba.median_along_seq, keepdims=keepdims))
+    return apply_to_arrays(data, partial(ba.median_along_seq, keepdims=keepdims))
 
 
-def min_along_batch(data: Any, *, keepdims: bool = False) -> Any:
+def min_along_batch(data: T, *, keepdims: bool = False) -> T:
     r"""Return the minimum of all elements along the batch dimension.
 
     Note:
@@ -433,10 +435,10 @@ def min_along_batch(data: Any, *, keepdims: bool = False) -> Any:
 
         ```
     """
-    return recursive_apply(data, partial(ba.min_along_batch, keepdims=keepdims))
+    return apply_to_arrays(data, partial(ba.min_along_batch, keepdims=keepdims))
 
 
-def min_along_seq(data: Any, *, keepdims: bool = False) -> Any:
+def min_along_seq(data: T, *, keepdims: bool = False) -> T:
     r"""Return the minimum of all elements along the sequence dimension.
 
     Note:
@@ -468,10 +470,10 @@ def min_along_seq(data: Any, *, keepdims: bool = False) -> Any:
 
         ```
     """
-    return recursive_apply(data, partial(ba.min_along_seq, keepdims=keepdims))
+    return apply_to_arrays(data, partial(ba.min_along_seq, keepdims=keepdims))
 
 
-def prod_along_batch(data: Any, *, keepdims: bool = False) -> Any:
+def prod_along_batch(data: T, *, keepdims: bool = False) -> T:
     r"""Return the product of all elements along the batch dimension.
 
     Note:
@@ -503,10 +505,10 @@ def prod_along_batch(data: Any, *, keepdims: bool = False) -> Any:
 
         ```
     """
-    return recursive_apply(data, partial(ba.prod_along_batch, keepdims=keepdims))
+    return apply_to_arrays(data, partial(ba.prod_along_batch, keepdims=keepdims))
 
 
-def prod_along_seq(data: Any, *, keepdims: bool = False) -> Any:
+def prod_along_seq(data: T, *, keepdims: bool = False) -> T:
     r"""Return the product of all elements along the sequence dimension.
 
     Note:
@@ -538,10 +540,10 @@ def prod_along_seq(data: Any, *, keepdims: bool = False) -> Any:
 
         ```
     """
-    return recursive_apply(data, partial(ba.prod_along_seq, keepdims=keepdims))
+    return apply_to_arrays(data, partial(ba.prod_along_seq, keepdims=keepdims))
 
 
-def sum_along_batch(data: Any, *, keepdims: bool = False) -> Any:
+def sum_along_batch(data: T, *, keepdims: bool = False) -> T:
     r"""Return the sum of all elements along the batch dimension.
 
     Note:
@@ -573,10 +575,10 @@ def sum_along_batch(data: Any, *, keepdims: bool = False) -> Any:
 
         ```
     """
-    return recursive_apply(data, partial(ba.sum_along_batch, keepdims=keepdims))
+    return apply_to_arrays(data, partial(ba.sum_along_batch, keepdims=keepdims))
 
 
-def sum_along_seq(data: Any, *, keepdims: bool = False) -> Any:
+def sum_along_seq(data: T, *, keepdims: bool = False) -> T:
     r"""Return the sum of all elements along the sequence dimension.
 
     Note:
@@ -608,10 +610,10 @@ def sum_along_seq(data: Any, *, keepdims: bool = False) -> Any:
 
         ```
     """
-    return recursive_apply(data, partial(ba.sum_along_seq, keepdims=keepdims))
+    return apply_to_arrays(data, partial(ba.sum_along_seq, keepdims=keepdims))
 
 
-def std_along_batch(data: Any, *, keepdims: bool = False, ddof: int = 0) -> Any:
+def std_along_batch(data: T, *, keepdims: bool = False, ddof: int = 0) -> T:
     r"""Return the standard deviation along the batch axis for all arrays.
 
     Note:
@@ -641,10 +643,10 @@ def std_along_batch(data: Any, *, keepdims: bool = False, ddof: int = 0) -> Any:
 
         ```
     """
-    return recursive_apply(data, partial(ba.std_along_batch, keepdims=keepdims, ddof=ddof))
+    return apply_to_arrays(data, partial(ba.std_along_batch, keepdims=keepdims, ddof=ddof))
 
 
-def std_along_seq(data: Any, *, keepdims: bool = False, ddof: int = 0) -> Any:
+def std_along_seq(data: T, *, keepdims: bool = False, ddof: int = 0) -> T:
     r"""Return the standard deviation along the sequence axis for all arrays.
 
     Note:
@@ -674,10 +676,10 @@ def std_along_seq(data: Any, *, keepdims: bool = False, ddof: int = 0) -> Any:
 
         ```
     """
-    return recursive_apply(data, partial(ba.std_along_seq, keepdims=keepdims, ddof=ddof))
+    return apply_to_arrays(data, partial(ba.std_along_seq, keepdims=keepdims, ddof=ddof))
 
 
-def var_along_batch(data: Any, *, keepdims: bool = False, ddof: int = 0) -> Any:
+def var_along_batch(data: T, *, keepdims: bool = False, ddof: int = 0) -> T:
     r"""Return the variance along the batch axis for all arrays.
 
     Note:
@@ -707,10 +709,10 @@ def var_along_batch(data: Any, *, keepdims: bool = False, ddof: int = 0) -> Any:
 
         ```
     """
-    return recursive_apply(data, partial(ba.var_along_batch, keepdims=keepdims, ddof=ddof))
+    return apply_to_arrays(data, partial(ba.var_along_batch, keepdims=keepdims, ddof=ddof))
 
 
-def var_along_seq(data: Any, *, keepdims: bool = False, ddof: int = 0) -> Any:
+def var_along_seq(data: T, *, keepdims: bool = False, ddof: int = 0) -> T:
     r"""Return the variance along the sequence axis for all arrays.
 
     Note:
@@ -740,10 +742,10 @@ def var_along_seq(data: Any, *, keepdims: bool = False, ddof: int = 0) -> Any:
 
         ```
     """
-    return recursive_apply(data, partial(ba.var_along_seq, keepdims=keepdims, ddof=ddof))
+    return apply_to_arrays(data, partial(ba.var_along_seq, keepdims=keepdims, ddof=ddof))
 
 
-def any_along_batch(data: Any, *, keepdims: bool = False) -> Any:
+def any_along_batch(data: T, *, keepdims: bool = False) -> T:
     r"""Return the logical OR (whether any element is true) along the batch axis for all arrays.
 
     Note:
@@ -772,10 +774,10 @@ def any_along_batch(data: Any, *, keepdims: bool = False) -> Any:
 
         ```
     """
-    return recursive_apply(data, partial(ba.any_along_batch, keepdims=keepdims))
+    return apply_to_arrays(data, partial(ba.any_along_batch, keepdims=keepdims))
 
 
-def any_along_seq(data: Any, *, keepdims: bool = False) -> Any:
+def any_along_seq(data: T, *, keepdims: bool = False) -> T:
     r"""Return the logical OR (whether any element is true) along the sequence axis for all arrays.
 
     Note:
@@ -804,10 +806,10 @@ def any_along_seq(data: Any, *, keepdims: bool = False) -> Any:
 
         ```
     """
-    return recursive_apply(data, partial(ba.any_along_seq, keepdims=keepdims))
+    return apply_to_arrays(data, partial(ba.any_along_seq, keepdims=keepdims))
 
 
-def all_along_batch(data: Any, *, keepdims: bool = False) -> Any:
+def all_along_batch(data: T, *, keepdims: bool = False) -> T:
     r"""Return the logical AND (whether all elements are true) along the batch axis for all arrays.
 
     Note:
@@ -836,10 +838,10 @@ def all_along_batch(data: Any, *, keepdims: bool = False) -> Any:
 
         ```
     """
-    return recursive_apply(data, partial(ba.all_along_batch, keepdims=keepdims))
+    return apply_to_arrays(data, partial(ba.all_along_batch, keepdims=keepdims))
 
 
-def all_along_seq(data: Any, *, keepdims: bool = False) -> Any:
+def all_along_seq(data: T, *, keepdims: bool = False) -> T:
     r"""Return the logical AND (whether all elements are true) along the sequence axis for all arrays.
 
     Note:
@@ -868,4 +870,4 @@ def all_along_seq(data: Any, *, keepdims: bool = False) -> Any:
 
         ```
     """
-    return recursive_apply(data, partial(ba.all_along_seq, keepdims=keepdims))
+    return apply_to_arrays(data, partial(ba.all_along_seq, keepdims=keepdims))

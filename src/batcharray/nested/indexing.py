@@ -11,17 +11,18 @@ __all__ = [
 
 
 from functools import partial
-from typing import TYPE_CHECKING, Any
-
-from coola.recursive import recursive_apply
+from typing import TYPE_CHECKING
 
 from batcharray import array
+from batcharray.utils import apply_to_arrays
 
 if TYPE_CHECKING:
     import numpy as np
 
+    from batcharray.utils import T
 
-def index_select_along_batch(data: Any, indices: np.ndarray) -> Any:
+
+def index_select_along_batch(data: T, indices: np.ndarray) -> T:
     r"""Return the arrays which index the arrays along the batch axis
     using the entries in ``indices``.
 
@@ -54,10 +55,10 @@ def index_select_along_batch(data: Any, indices: np.ndarray) -> Any:
 
         ```
     """
-    return recursive_apply(data, partial(array.index_select_along_batch, indices=indices))
+    return apply_to_arrays(data, partial(array.index_select_along_batch, indices=indices))
 
 
-def index_select_along_seq(data: Any, indices: np.ndarray) -> Any:
+def index_select_along_seq(data: T, indices: np.ndarray) -> T:
     r"""Return the arrays which index the arrays along the sequence axis
     using the entries in ``indices``.
 
@@ -90,10 +91,10 @@ def index_select_along_seq(data: Any, indices: np.ndarray) -> Any:
 
         ```
     """
-    return recursive_apply(data, partial(array.index_select_along_seq, indices=indices))
+    return apply_to_arrays(data, partial(array.index_select_along_seq, indices=indices))
 
 
-def masked_select_along_batch(data: Any, mask: np.ndarray) -> Any:
+def masked_select_along_batch(data: T, mask: np.ndarray) -> T:
     r"""Return the arrays which index the arrays along the batch axis
     according to the boolean mask ``mask``.
 
@@ -123,10 +124,10 @@ def masked_select_along_batch(data: Any, mask: np.ndarray) -> Any:
 
         ```
     """
-    return recursive_apply(data, partial(array.masked_select_along_batch, mask=mask))
+    return apply_to_arrays(data, partial(array.masked_select_along_batch, mask=mask))
 
 
-def masked_select_along_seq(data: Any, mask: np.ndarray) -> Any:
+def masked_select_along_seq(data: T, mask: np.ndarray) -> T:
     r"""Return the arrays which index the arrays along the sequence axis
     according to the boolean mask ``mask``.
 
@@ -156,4 +157,4 @@ def masked_select_along_seq(data: Any, mask: np.ndarray) -> Any:
 
         ```
     """
-    return recursive_apply(data, partial(array.masked_select_along_seq, mask=mask))
+    return apply_to_arrays(data, partial(array.masked_select_along_seq, mask=mask))

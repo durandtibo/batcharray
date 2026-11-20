@@ -11,24 +11,24 @@ __all__ = [
 ]
 
 from functools import partial
-from typing import TYPE_CHECKING, Any
-
-from coola.recursive import recursive_apply
+from typing import TYPE_CHECKING
 
 from batcharray import array as ba
-from batcharray.nested.structure import concatenate_structures
+from batcharray.utils import apply_to_arrays, combine_arrays
 
 if TYPE_CHECKING:
     from collections.abc import Sequence
 
     from numpy.typing import DTypeLike
 
+    from batcharray.utils import T
+
 
 def concatenate_along_batch(
-    data: Sequence[Any],
+    data: Sequence[T],
     *,
     dtype: DTypeLike | None = None,
-) -> Any:
+) -> T:
     r"""Concatenate the given arrays in the batch axis.
 
     All arrays must either have the same data type and shape (except
@@ -76,16 +76,16 @@ def concatenate_along_batch(
 
         ```
     """
-    return concatenate_structures(
+    return combine_arrays(
         data, lambda arrays: ba.concatenate_along_batch(list(arrays), dtype=dtype)
     )
 
 
 def concatenate_along_seq(
-    data: Sequence[Any],
+    data: Sequence[T],
     *,
     dtype: DTypeLike | None = None,
-) -> Any:
+) -> T:
     r"""Concatenate the given arrays in the sequence axis.
 
     All arrays must either have the same data type and shape (except
@@ -133,12 +133,10 @@ def concatenate_along_seq(
 
         ```
     """
-    return concatenate_structures(
-        data, lambda arrays: ba.concatenate_along_seq(list(arrays), dtype=dtype)
-    )
+    return combine_arrays(data, lambda arrays: ba.concatenate_along_seq(list(arrays), dtype=dtype))
 
 
-def tile_along_seq(data: Any, reps: int) -> Any:
+def tile_along_seq(data: T, reps: int) -> T:
     r"""Repeat all the arrays along the sequence axis.
 
     Note:
@@ -169,10 +167,10 @@ def tile_along_seq(data: Any, reps: int) -> Any:
 
         ```
     """
-    return recursive_apply(data, partial(ba.tile_along_seq, reps=reps))
+    return apply_to_arrays(data, partial(ba.tile_along_seq, reps=reps))
 
 
-def repeat_along_batch(data: Any, repeats: int) -> Any:
+def repeat_along_batch(data: T, repeats: int) -> T:
     r"""Repeat each element of all the arrays along the batch axis.
 
     Note:
@@ -198,10 +196,10 @@ def repeat_along_batch(data: Any, repeats: int) -> Any:
 
         ```
     """
-    return recursive_apply(data, partial(ba.repeat_along_batch, repeats=repeats))
+    return apply_to_arrays(data, partial(ba.repeat_along_batch, repeats=repeats))
 
 
-def repeat_along_seq(data: Any, repeats: int) -> Any:
+def repeat_along_seq(data: T, repeats: int) -> T:
     r"""Repeat each element of all the arrays along the sequence axis.
 
     Note:
@@ -227,4 +225,4 @@ def repeat_along_seq(data: Any, repeats: int) -> Any:
 
         ```
     """
-    return recursive_apply(data, partial(ba.repeat_along_seq, repeats=repeats))
+    return apply_to_arrays(data, partial(ba.repeat_along_seq, repeats=repeats))
