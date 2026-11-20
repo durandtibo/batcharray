@@ -68,11 +68,3 @@ def test_reduction_keyword_keepdims_does_not_warn(
 ) -> None:
     getattr(array, name)(np.ones((2, 2)), keepdims=True)
     assert not [w for w in recwarn if issubclass(w.category, DeprecationWarning)]
-
-
-def test_clip_bounds() -> None:
-    data = {"a": np.array([[0, 5], [10, 20]])}
-    assert objects_are_equal(
-        nested.clip(data, a_min=2, a_max=10), {"a": np.array([[2, 5], [10, 10]])}
-    )
-    assert objects_are_equal(nested.clip(data, a_max=7), {"a": np.array([[0, 5], [7, 7]])})

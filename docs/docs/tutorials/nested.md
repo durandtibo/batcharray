@@ -55,15 +55,15 @@ sliced_data = nested.slice_along_batch(data, stop=2)
 # Both features and labels are sliced to 2 items
 ```
 
-## Mathematical Operations on Nested Structures
+## Element-wise Operations on Nested Structures
 
-### Element-wise Operations
-
-Apply mathematical functions to all arrays in a structure:
+`batcharray.nested` does not wrap the element-wise NumPy functions (`np.abs`, `np.exp`,
+`np.log`, `np.sin`, ...): they have no batch or sequence axis. Apply any function to all the arrays
+of a structure with `recursive_apply` of `coola`:
 
 ```python
 import numpy as np
-from batcharray import nested
+from coola.recursive import recursive_apply
 
 data = {
     "values": np.array([[-2.0, 3.0], [1.0, -4.0]]),
@@ -71,7 +71,7 @@ data = {
 }
 
 # Absolute values
-abs_data = nested.abs(data)
+abs_data = recursive_apply(data, np.abs)
 # {
 #     'values': array([[2., 3.],
 #                      [1., 4.]]),
@@ -80,13 +80,13 @@ abs_data = nested.abs(data)
 # }
 
 # Exponential
-exp_data = nested.exp(data)
+exp_data = recursive_apply(data, np.exp)
 
 # Logarithm (of absolute values to avoid errors)
-log_data = nested.log(nested.abs(data))
+log_data = recursive_apply(abs_data, np.log)
 
 # Clipping
-clipped_data = nested.clip(data, a_min=-1.0, a_max=1.0)
+clipped_data = recursive_apply(data, lambda x: np.clip(x, -1.0, 1.0))
 # {
 #     'values': array([[-1.,  1.],
 #                      [ 1., -1.]]),
@@ -95,96 +95,9 @@ clipped_data = nested.clip(data, a_min=-1.0, a_max=1.0)
 # }
 ```
 
-### Exponential and Logarithmic Functions
-
-```python
-import numpy as np
-from batcharray import nested
-
-# Use positive values to avoid log(0) errors
-data = {
-    "x": np.array([[0.1, 1.0], [2.0, 3.0]]),
-    "y": np.array([[0.5, 1.5], [2.5, 3.5]]),
-}
-
-# Standard exponential
-exp_result = nested.exp(data)
-
-# Base-2 exponential
-exp2_result = nested.exp2(data)
-
-# exp(x) - 1 (more accurate for small values)
-expm1_result = nested.expm1(data)
-
-# Natural logarithm
-log_result = nested.log(data)
-
-# Base-2 logarithm
-log2_result = nested.log2(data)
-
-# Base-10 logarithm
-log10_result = nested.log10(data)
-
-# log(1 + x) (more accurate for small values)
-log1p_result = nested.log1p(data)
-```
-
-### Trigonometric Functions
-
-```python
-import numpy as np
-from batcharray import nested
-
-# Angles in radians
-angles = {
-    "theta": np.array([[0.0, np.pi / 4], [np.pi / 2, np.pi]]),
-    "phi": np.array([[0.0, np.pi / 6], [np.pi / 3, np.pi / 2]]),
-}
-
-# Sine
-sin_result = nested.sin(angles)
-# [[0.        0.70710678]
-#  [1.        0.        ]]
-
-# Cosine
-cos_result = nested.cos(angles)
-
-# Tangent
-tan_result = nested.tan(angles)
-
-# Hyperbolic functions
-sinh_result = nested.sinh(angles)
-cosh_result = nested.cosh(angles)
-tanh_result = nested.tanh(angles)
-
-# Inverse trigonometric functions (arcsin, arccos require values in [-1, 1])
-values_trig = {
-    "x": np.array([[0.0, 0.5], [0.7, 1.0]]),
-    "y": np.array([[0.0, 0.3], [0.6, 0.9]]),
-}
-
-arcsin_result = nested.arcsin(values_trig)
-arccos_result = nested.arccos(values_trig)
-arctan_result = nested.arctan(values_trig)
-
-# Inverse hyperbolic functions
-# arcsinh works for all values
-arcsinh_result = nested.arcsinh(values_trig)
-
-# arccosh requires values >= 1
-values_cosh = {
-    "x": np.array([[1.0, 1.5], [2.0, 3.0]]),
-    "y": np.array([[1.0, 1.2], [1.8, 2.5]]),
-}
-arccosh_result = nested.arccosh(values_cosh)
-
-# arctanh requires -1 < values < 1 (strictly between, not including -1 and 1)
-values_tanh = {
-    "x": np.array([[0.0, 0.5], [0.7, 0.9]]),
-    "y": np.array([[0.0, 0.3], [0.6, 0.8]]),
-}
-arctanh_result = nested.arctanh(values_tanh)
-```
+The same works for the other functions (`np.exp2`, `np.expm1`, `np.log2`, `np.log10`, `np.log1p`,
+`np.sin`, `np.cos`, `np.tanh`, `np.arcsin`, `np.sqrt`, `np.round`, ...). See the
+[migration guide](../migration.md) for the list of the removed functions.
 
 ## Advanced Indexing and Selection
 
@@ -546,7 +459,7 @@ sort_indices = nested.argsort_along_batch(data["scores"])
 
 ```python
 import numpy as np
-from batcharray import nested
+from coola.recursive import recursive_apply
 
 data = {
     "features": np.array([[1, 2], [3, 4]]),
@@ -555,7 +468,7 @@ data = {
 }
 
 # Convert to native Python lists
-python_data = nested.to_list(data)
+python_data = recursive_apply(data, np.ndarray.tolist)
 # {
 #     'features': [[1, 2], [3, 4]],
 #     'labels': [0, 1],

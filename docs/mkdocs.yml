@@ -26,6 +26,7 @@ nav:
   - Get Started: get_started.md
   - Design Principles: design_principles.md
   - Architecture: architecture.md
+  - Migration: migration.md
   - Tutorials:
       - Working with Batches: tutorials/batches.md
       - Working with Sequences: tutorials/sequences.md

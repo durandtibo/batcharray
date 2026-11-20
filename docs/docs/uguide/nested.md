@@ -137,34 +137,28 @@ means = nested.mean_along_batch(batch)
 maxes = nested.amax_along_batch(batch)
 ```
 
-## Mathematical Operations
+## Element-wise Operations
 
-Apply mathematical operations element-wise to all arrays:
+`batcharray.nested` does not wrap the element-wise NumPy functions, because they have no batch or
+sequence axis. Apply any function to all the arrays of a structure with `recursive_apply` of
+`coola`:
 
 ```python
 import numpy as np
-from batcharray import nested
+from coola.recursive import recursive_apply
 
 data = {
     "angles": np.array([[0.1, np.pi / 2], [np.pi, 3 * np.pi / 2]]),
     "values": np.array([[1, -2], [3, -4]]),
 }
 
-# Apply trigonometric functions
-sines = nested.sin(data["angles"])
-cosines = nested.cos(data["angles"])
-
-# Apply other math functions
-absolute = nested.abs(data)
-# Result: {
-#     "angles": [[0.1, π/2], [π, 3π/2]],
-#     "values": [[1, 2], [3, 4]]  # Absolute values
-# }
-
-exponential = nested.exp(data)
-logarithm = nested.log(nested.abs(data))
-clipped = nested.clip(data, -2, 2)
+sines = recursive_apply(data["angles"], np.sin)
+absolute = recursive_apply(data, np.abs)
+exponential = recursive_apply(data, np.exp)
+clipped = recursive_apply(data, lambda x: np.clip(x, -2, 2))
 ```
+
+See the [migration guide](../migration.md) for the functions that were removed.
 
 ## Shuffling and Permutation
 
@@ -211,16 +205,16 @@ sorted_batch = nested.take_along_batch(batch, indices=indices)
 
 ## Converting to Lists
 
-Convert nested structures to native Python lists:
+Convert nested structures to native Python lists with `recursive_apply`:
 
 ```python
 import numpy as np
-from batcharray import nested
+from coola.recursive import recursive_apply
 
 batch = {"data": np.array([[1, 2], [3, 4]]), "info": np.array([True, False])}
 
 # Convert to lists recursively
-as_lists = nested.to_list(batch)
+as_lists = recursive_apply(batch, np.ndarray.tolist)
 # Result: {
 #     "data": [[1, 2], [3, 4]],
 #     "info": [True, False]
@@ -275,10 +269,6 @@ Here's a non comprehensive list organized by category:
 - `sort_along_batch()` - Sort nested arrays (batch)
 - `sort_along_seq()` - Sort nested arrays (sequence)
 
-### Conversion
-
-- `to_list()` - Convert arrays to native Python lists
-
 ### Indexing and Selection
 
 - `index_select_along_batch()` - Select using indices (batch)
@@ -311,25 +301,6 @@ Here's a non comprehensive list organized by category:
 - `permute_along_seq()` - Apply permutation (sequence)
 - `shuffle_along_batch()` - Random shuffle (batch)
 - `shuffle_along_seq()` - Random shuffle (sequence)
-
-### Pointwise Operations
-
-- `abs()` - Absolute value
-- `ceil()` - Round up
-- `clip()` - Clip values to range
-- `exp()` - Exponential (base e)
-- `exp2()` - Exponential (base 2)
-- `expm1()` - exp(x) - 1
-- `floor()` - Round down
-- `isnan()` - Test for NaN
-- `log()` - Natural logarithm
-- `log1p()` - log(1 + x)
-- `log2()` - Base-2 logarithm
-- `log10()` - Base-10 logarithm
-- `round()` - Round to the nearest integer
-- `sign()` - Sign
-- `sqrt()` - Square root
-- `square()` - Square
 
 ### Reduction Operations
 
@@ -368,20 +339,5 @@ Here's a non comprehensive list organized by category:
 - `slice_along_seq()` - Slice range (sequence)
 - `split_along_batch()` - Split into sections (batch)
 - `split_along_seq()` - Split into sections (sequence)
-
-### Trigonometric Functions
-
-- `sin()` - Sine
-- `cos()` - Cosine
-- `tan()` - Tangent
-- `arcsin()` - Inverse sine
-- `arccos()` - Inverse cosine
-- `arctan()` - Inverse tangent
-- `sinh()` - Hyperbolic sine
-- `cosh()` - Hyperbolic cosine
-- `tanh()` - Hyperbolic tangent
-- `arcsinh()` - Inverse hyperbolic sine
-- `arccosh()` - Inverse hyperbolic cosine
-- `arctanh()` - Inverse hyperbolic tangent
 
 For detailed API documentation, see the [nested API reference](../refs/nested.md).
