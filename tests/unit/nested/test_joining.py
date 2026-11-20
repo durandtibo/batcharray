@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from collections import OrderedDict
 from typing import TYPE_CHECKING
 
 import numpy as np
@@ -53,8 +54,9 @@ def test_concatenate_along_batch(data: Sequence[dict[Hashable, np.ndarray]]) -> 
     )
 
 
-def test_concatenate_along_batch_empty() -> None:
-    assert objects_are_equal(concatenate_along_batch([]), {})
+def test_concatenate_along_batch_empty_raises() -> None:
+    with pytest.raises(ValueError, match="empty sequence"):
+        concatenate_along_batch([])
 
 
 def test_concatenate_along_batch_masked_array() -> None:
@@ -133,8 +135,9 @@ def test_concatenate_along_seq(data: Sequence[dict[Hashable, np.ndarray]]) -> No
     )
 
 
-def test_concatenate_along_seq_empty() -> None:
-    assert objects_are_equal(concatenate_along_seq([]), {})
+def test_concatenate_along_seq_empty_raises() -> None:
+    with pytest.raises(ValueError, match="empty sequence"):
+        concatenate_along_seq([])
 
 
 def test_concatenate_along_seq_masked_array() -> None:
@@ -424,7 +427,6 @@ def test_concatenate_different_lengths_raises(func: Callable) -> None:
 @pytest.mark.parametrize(
     "data",
     [
-        [{"a": np.zeros((2, 2))}, [np.zeros((2, 2))]],
         [{"a": np.zeros((2, 2))}, {"a": 1}],
         [{"a": 1}, {"a": 2}],
     ],
@@ -432,6 +434,34 @@ def test_concatenate_different_lengths_raises(func: Callable) -> None:
 def test_concatenate_incompatible_items_raises(func: Callable, data: list) -> None:
     with pytest.raises(TypeError, match="Expected"):
         func(data)
+
+
+@pytest.mark.parametrize("func", [concatenate_along_batch, concatenate_along_seq])
+@pytest.mark.parametrize(
+    "data",
+    [
+        [{"a": np.zeros((2, 2))}, [np.zeros((2, 2))]],
+        [[np.zeros((2, 2))], {"a": np.zeros((2, 2))}],
+    ],
+)
+def test_concatenate_mapping_and_sequence_raises(func: Callable, data: list) -> None:
+    with pytest.raises(ValueError, match="dictionary with a sequence"):
+        func(data)
+
+
+def test_concatenate_along_batch_list_and_tuple_keeps_type_of_first_item() -> None:
+    out = concatenate_along_batch([[np.zeros((2, 2))], (np.zeros((1, 2)),)])
+    assert objects_are_equal(out, [np.zeros((3, 2))])
+
+
+def test_concatenate_along_seq_list_and_tuple_keeps_type_of_first_item() -> None:
+    out = concatenate_along_seq([[np.zeros((2, 2))], (np.zeros((2, 1)),)])
+    assert objects_are_equal(out, [np.zeros((2, 3))])
+
+
+def test_concatenate_dict_and_ordered_dict_keeps_type_of_first_item() -> None:
+    out = concatenate_along_batch([{"a": np.zeros((2, 2))}, OrderedDict(a=np.zeros((1, 2)))])
+    assert type(out) is dict
 
 
 ########################################

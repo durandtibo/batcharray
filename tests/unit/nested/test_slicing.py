@@ -813,6 +813,15 @@ def test_split_non_array_raises(func: Callable) -> None:
         func({"a": 1}, 2)
 
 
-def test_split_different_number_of_pieces_raises() -> None:
-    with pytest.raises(ValueError, match="same number of pieces"):
-        split_along_batch({"a": np.zeros((4, 2)), "b": np.zeros((6, 2))}, 2)
+@pytest.mark.parametrize("func", [chunk_along_batch, split_along_batch])
+@pytest.mark.parametrize("size", [3, 4, 6])
+def test_chunk_split_different_batch_sizes_raises(func: Callable, size: int) -> None:
+    with pytest.raises(ValueError, match="same batch size"):
+        func({"a": np.zeros((5, 2)), "b": np.zeros((size, 2))}, 3 if size == 6 else 2)
+
+
+@pytest.mark.parametrize("func", [chunk_along_seq, split_along_seq])
+@pytest.mark.parametrize("size", [3, 4, 6])
+def test_chunk_split_different_seq_sizes_raises(func: Callable, size: int) -> None:
+    with pytest.raises(ValueError, match="same sequence size"):
+        func({"a": np.zeros((2, 5)), "b": np.zeros((2, size))}, 3 if size == 6 else 2)
