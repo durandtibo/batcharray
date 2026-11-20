@@ -348,11 +348,55 @@ def test_concatenate_masked_arrays_dtype() -> None:
     )
 
 
-def test_concatenate_plain_array_first_drops_mask() -> None:
+def test_concatenate_plain_array_first_keeps_mask() -> None:
     out = _concatenate(
         [np.array([[0, 1]]), np.ma.masked_array(data=[[2, 3]], mask=[[True, False]])], axis=0
     )
-    assert objects_are_equal(np.ma.getmaskarray(out), np.array([[False, False], [False, False]]))
+    assert objects_are_equal(
+        out, np.ma.masked_array(data=[[0, 1], [2, 3]], mask=[[False, False], [True, False]])
+    )
+
+
+def test_concatenate_plain_array_last_keeps_mask() -> None:
+    out = _concatenate(
+        [np.ma.masked_array(data=[[2, 3]], mask=[[True, False]]), np.array([[0, 1]])], axis=0
+    )
+    assert objects_are_equal(
+        out, np.ma.masked_array(data=[[2, 3], [0, 1]], mask=[[True, False], [False, False]])
+    )
+
+
+def test_concatenate_masked_array_in_the_middle_keeps_mask() -> None:
+    out = _concatenate(
+        [
+            np.array([[0, 1]]),
+            np.ma.masked_array(data=[[2, 3]], mask=[[True, False]]),
+            np.array([[4, 5]]),
+        ],
+        axis=0,
+    )
+    assert objects_are_equal(
+        out,
+        np.ma.masked_array(
+            data=[[0, 1], [2, 3], [4, 5]],
+            mask=[[False, False], [True, False], [False, False]],
+        ),
+    )
+
+
+def test_concatenate_plain_array_first_masked_array_dtype() -> None:
+    out = _concatenate(
+        [np.array([[0, 1]]), np.ma.masked_array(data=[[2, 3]], mask=[[True, False]])],
+        axis=0,
+        dtype=np.float32,
+    )
+    assert objects_are_equal(
+        out,
+        np.ma.masked_array(
+            data=np.array([[0, 1], [2, 3]], dtype=np.float32),
+            mask=[[False, False], [True, False]],
+        ),
+    )
 
 
 def test_concatenate_empty_raises() -> None:

@@ -35,7 +35,7 @@ transposed first. A `_along_seq` function needs an array with at least 2 dimensi
 | P8  | One error contract      | A bad leaf type is a `TypeError`. An argument that `batcharray` validates is a `ValueError`. Anything else is the NumPy error, unchanged.                                                                                                         |
 | P9  | Explicit randomness     | Randomness comes only from `rng`, which is passed to `numpy.random.default_rng`. One permutation is shared by all the leaves.                                                                                                                     |
 | P10 | No cast, no conversion  | No function casts or converts what the caller passes. The `dtype` of `concatenate_*` is an explicit option that NumPy defines.                                                                                                                    |
-| P11 | Masked arrays           | A `numpy.ma.MaskedArray` input gives a `MaskedArray` output with the semantics of `numpy.ma`, except for the functions that return indices (`argsort`, `argmax`, `argmin`).                                                                       |
+| P11 | Masked arrays           | A `numpy.ma.MaskedArray` input gives a `MaskedArray` output with the semantics of `numpy.ma`, except for the functions that return indices (`argsort`, `argmax`, `argmin`). When a function takes several arrays (`concatenate_*`), one masked array in any position makes the output masked and keeps every mask. |
 | P12 | Array in, array out     | A function that receives an `ndarray` returns an `ndarray`. Where NumPy returns a scalar, the result is a 0-d array, so the output of any function is a valid input of any other.                                                                 |
 | P13 | Keyword-only options    | The positional arguments are the data and the arguments that define the operation. Options (`keepdims`, `ddof`, `kind`, `step`, `rng`, `dtype`) are keyword-only.                                                                                 |
 | P14 | Typed                   | A map function has the type `T -> T` with `T` bound to the nested array type: dict in, dict out, array in, array out.                                                                                                                             |
@@ -58,7 +58,7 @@ transposed first. A `_along_seq` function needs an array with at least 2 dimensi
 | P8       | `tests/unit/test_error_contract.py` (one row per line of the error table)                                    |
 | P9       | `tests/unit/test_rng.py`                                                                                     |
 | P10      | the dtype tests of `concatenate_*` and of the reductions in `tests/unit/array`                               |
-| P11      | `tests/unit/test_masked_arrays.py` (every function on a masked array equals the `numpy.ma` result)           |
+| P11      | `tests/unit/test_masked_arrays.py` (every function on a masked array equals the `numpy.ma` result, and `concatenate_*` with a masked array in every position) |
 | P12      | `tests/unit/test_array_in_array_out.py`                                                                      |
 | P13      | `tests/unit/test_signatures.py` (options are keyword-only, no `**kwargs`)                                    |
 | P14      | `ty` in CI and `tests/unit/test_nested_contract.py` (the annotations are `T -> T`)                           |
@@ -116,7 +116,9 @@ array.
 
 A reduction, a cumulative function, `argmax`, `argmin`, `any` and `all` use the method of the array,
 which `MaskedArray` overrides. `median`, `sort`, `argsort` and `concatenate` use `numpy.ma` for a
-masked array and `numpy` otherwise. A subclass of `MaskedArray` is dispatched as a masked array, a
+masked array and `numpy` otherwise. `concatenate` takes several arrays, so `get_namespace(*arrays)`
+chooses `numpy.ma` when any of them is masked, whatever its position: `numpy.concatenate` drops the
+mask of a masked array that is not first, and a list of plain arrays stays plain. A subclass of `MaskedArray` is dispatched as a masked array, a
 subclass of `ndarray` is a plain array, and an array type with other semantics is not supported.
 
 A function that NumPy does not support on a masked array is not added to the package until it has a
