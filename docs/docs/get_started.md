@@ -22,4 +22,7 @@ uv pip install 'batcharray[all]'
 
 ## Installing from source
 
-To install `batcharray` from source for development purposes, please refer to the development setup instructions in the [CONTRIBUTING.md](https://github.com/durandtibo/batcharray/blob/main/CONTRIBUTING.md) file in the repository.
+To install `batcharray` from source for development purposes, please refer to the development
+setup instructions in the
+[CONTRIBUTING.md](https://github.com/durandtibo/batcharray/blob/main/CONTRIBUTING.md) file in the
+repository.

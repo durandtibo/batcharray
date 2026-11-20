@@ -1,16 +1,20 @@
 # Computation Models
 
-The `batcharray.computation` module provides a flexible computation abstraction that allows operations to work with different array types (regular arrays, masked arrays, etc.) through a common interface.
+The `batcharray.computation` module provides a flexible computation abstraction that allows
+operations to work with different array types (regular arrays, masked arrays, etc.) through a
+common interface.
 
 ## Overview
 
-Computation models abstract away the details of different array types, allowing you to write code that works with:
+Computation models abstract away the details of different array types, allowing you to write code
+that works with:
 
 - Standard NumPy arrays
 - NumPy masked arrays
 - Future array types
 
-The computation model automatically selects the appropriate implementation based on the input array type.
+The computation model automatically selects the appropriate implementation based on the input
+array type.
 
 ## Basic Usage
 
@@ -407,7 +411,8 @@ Use computation models when:
 3. **Abstraction** - Building libraries that should work with multiple array backends
 4. **Testing** - Mocking array operations for unit tests
 
-For most use cases, prefer the higher-level `array` and `nested` modules which internally use computation models.
+For most use cases, prefer the higher-level `array` and `nested` modules which internally use
+computation models.
 
 ## Integration with Array Module
 
