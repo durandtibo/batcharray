@@ -88,7 +88,12 @@ INDEX_CALLS = [
     "permute_along_seq",
     "gather_along_seq",
 ]
-CONCATENATE = ["concatenate_along_batch", "concatenate_along_seq"]
+CONCATENATE = [
+    "concatenate_along_batch",
+    "concatenate_along_seq",
+    "stack_along_batch",
+    "stack_along_seq",
+]
 
 # The data passed to the function: an array (array level) or a dict (nested level).
 LEVELS: dict[str, tuple[Any, Callable[[np.ndarray], Any]]] = {

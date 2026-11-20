@@ -59,6 +59,8 @@ __all__ = [
     "sort_along_seq",
     "split_along_batch",
     "split_along_seq",
+    "stack_along_batch",
+    "stack_along_seq",
     "std_along_batch",
     "std_along_seq",
     "sum_along_batch",
@@ -86,6 +88,8 @@ from batcharray.nested.joining import (
     concatenate_along_seq,
     repeat_along_batch,
     repeat_along_seq,
+    stack_along_batch,
+    stack_along_seq,
     tile_along_seq,
 )
 from batcharray.nested.math import (

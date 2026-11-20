@@ -146,6 +146,21 @@ def test_concatenate_along_batch_of_empty_arrays() -> None:
     assert ba.concatenate_along_batch([np.ones((0, 3)), np.ones((0, 3))]).shape == (0, 3)
 
 
+def test_stack_along_batch_of_empty_list_raises() -> None:
+    with pytest.raises(ValueError, match="need at least one array to stack"):
+        ba.stack_along_batch([])
+
+
+def test_stack_along_seq_of_empty_list_raises() -> None:
+    with pytest.raises(ValueError, match="need at least one array to stack"):
+        ba.stack_along_seq([])
+
+
+def test_nested_stack_of_empty_list_raises() -> None:
+    with pytest.raises(ValueError, match="at least one structure"):
+        bn.stack_along_batch([])
+
+
 #######################################################
 #     Tests for a fully masked row or column          #
 #######################################################

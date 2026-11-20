@@ -7,6 +7,8 @@ __all__ = [
     "concatenate_along_seq",
     "repeat_along_batch",
     "repeat_along_seq",
+    "stack_along_batch",
+    "stack_along_seq",
     "tile_along_seq",
 ]
 
@@ -95,6 +97,77 @@ def concatenate_along_seq(
         ```
     """
     return _concatenate(arrays, axis=SEQ_AXIS, dtype=dtype)
+
+
+def stack_along_batch(arrays: list[np.ndarray] | tuple[np.ndarray, ...]) -> np.ndarray:
+    r"""Stack the given arrays in a new batch axis.
+
+    All arrays must have the same shape. The items have no batch axis:
+    the output has one more dimension than each item, and the batch
+    axis is the new first axis. If one array is a masked array, the
+    output is a masked array that keeps every mask.
+
+    Args:
+        arrays: The arrays to stack.
+
+    Returns:
+        The stacked arrays, with the new batch axis. Its batch size is
+            the number of arrays.
+
+    Raises:
+        ValueError: if no array is given, or if the arrays do not have
+            the same shape.
+
+    Example:
+        ```pycon
+        >>> import numpy as np
+        >>> from batcharray.array import stack_along_batch
+        >>> arrays = [np.array([0, 1, 2]), np.array([4, 5, 6])]
+        >>> out = stack_along_batch(arrays)
+        >>> out
+        array([[0, 1, 2],
+               [4, 5, 6]])
+
+        ```
+    """
+    return get_namespace(*arrays).stack(arrays, axis=BATCH_AXIS)
+
+
+def stack_along_seq(arrays: list[np.ndarray] | tuple[np.ndarray, ...]) -> np.ndarray:
+    r"""Stack the given arrays in a new sequence axis.
+
+    All arrays must have the same shape ``(batch_size, *)``. The
+    sequence axis is the new second axis, so the output has the shape
+    ``(batch_size, len(arrays), *)``. If one array is a masked array,
+    the output is a masked array that keeps every mask.
+
+    Args:
+        arrays: The arrays to stack.
+
+    Returns:
+        The stacked arrays, with the new sequence axis. Its sequence
+            length is the number of arrays.
+
+    Raises:
+        ValueError: if no array is given, or if the arrays do not have
+            the same shape.
+
+    Example:
+        ```pycon
+        >>> import numpy as np
+        >>> from batcharray.array import stack_along_seq
+        >>> arrays = [np.array([[0, 1], [2, 3]]), np.array([[4, 5], [6, 7]])]
+        >>> out = stack_along_seq(arrays)
+        >>> out
+        array([[[0, 1],
+                [4, 5]],
+        <BLANKLINE>
+               [[2, 3],
+                [6, 7]]])
+
+        ```
+    """
+    return get_namespace(*arrays).stack(arrays, axis=SEQ_AXIS)
 
 
 def tile_along_seq(array: np.ndarray, reps: int) -> np.ndarray:

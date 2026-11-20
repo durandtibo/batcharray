@@ -39,7 +39,7 @@ Three shapes exist, and only three. A new operation uses one of them:
 | ------ | --------------------------------- | ----------------------------------------------------------------------------------------- |
 | 1 -> 1 | `apply_to_arrays(data, fn)`       | reductions, indexing, slicing (`select`, `slice`), permutation, sorting, `tile`, `repeat` |
 | 1 -> N | `split_arrays(data, fn, *, axis)` | `chunk_*`, `split_*`                                                                      |
-| N -> 1 | `combine_arrays(items, fn)`       | `concatenate_*`                                                                           |
+| N -> 1 | `combine_arrays(items, fn)`       | `concatenate_*`, `stack_*`                                                                |
 
 A function that does not fit one of these shapes is not a `nested` wrapper and does not belong in
 `nested`. It is a helper of `utils.structure`, like `get_size`. `shuffle_*` is the one composition:

@@ -37,6 +37,8 @@ NOT_ONE_NUMPY_CALL = {
     "split_along_seq",
     "concatenate_along_batch",
     "concatenate_along_seq",
+    "stack_along_batch",
+    "stack_along_seq",
     "index_select_along_batch",
     "index_select_along_seq",
     "masked_select_along_batch",

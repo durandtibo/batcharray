@@ -119,9 +119,9 @@ def test_masked_array_index_function_equals_numpy_ma(name: str) -> None:
     assert objects_are_equal(np.asarray(func(x)), np.asarray(reference(x)))
 
 
-##########################################################
-#     Tests for concatenate with a masked array (F1)     #
-##########################################################
+###############################################################
+#     Tests for concatenate and stack with a masked array     #
+###############################################################
 
 
 def make_plain_array() -> np.ndarray:
@@ -139,47 +139,53 @@ def make_items(position: int) -> list[np.ndarray]:
     return items
 
 
-CONCATENATE_AXES = {"concatenate_along_batch": BATCH_AXIS, "concatenate_along_seq": SEQ_AXIS}
+# The functions that take several arrays: (axis, reference built with numpy.ma).
+JOIN_FUNCTIONS = {
+    "concatenate_along_batch": (BATCH_AXIS, np.ma.concatenate),
+    "concatenate_along_seq": (SEQ_AXIS, np.ma.concatenate),
+    "stack_along_batch": (BATCH_AXIS, np.ma.stack),
+    "stack_along_seq": (SEQ_AXIS, np.ma.stack),
+}
 
 
 @pytest.mark.parametrize("position", POSITIONS.values(), ids=POSITIONS.keys())
-@pytest.mark.parametrize("name", CONCATENATE_AXES)
-def test_concatenate_array_equals_numpy_ma(name: str, position: int) -> None:
+@pytest.mark.parametrize("name", JOIN_FUNCTIONS)
+def test_join_array_equals_numpy_ma(name: str, position: int) -> None:
+    axis, reference = JOIN_FUNCTIONS[name]
     items = make_items(position)
-    assert objects_are_equal(
-        getattr(ba, name)(items), np.ma.concatenate(items, axis=CONCATENATE_AXES[name])
-    )
+    assert objects_are_equal(getattr(ba, name)(items), reference(items, axis=axis))
 
 
 @pytest.mark.parametrize("position", POSITIONS.values(), ids=POSITIONS.keys())
-@pytest.mark.parametrize("name", CONCATENATE_AXES)
-def test_concatenate_array_keeps_the_mask(name: str, position: int) -> None:
+@pytest.mark.parametrize("name", JOIN_FUNCTIONS)
+def test_join_array_keeps_the_mask(name: str, position: int) -> None:
     out = getattr(ba, name)(make_items(position))
     assert int(np.ma.getmaskarray(out).sum()) == 6
 
 
 @pytest.mark.parametrize("position", POSITIONS.values(), ids=POSITIONS.keys())
-@pytest.mark.parametrize("name", CONCATENATE_AXES)
-def test_concatenate_nested_equals_numpy_ma(name: str, position: int) -> None:
+@pytest.mark.parametrize("name", JOIN_FUNCTIONS)
+def test_join_nested_equals_numpy_ma(name: str, position: int) -> None:
+    axis, reference = JOIN_FUNCTIONS[name]
     items = make_items(position)
     out = getattr(nested, name)([{"a": x} for x in items])
-    assert objects_are_equal(out, {"a": np.ma.concatenate(items, axis=CONCATENATE_AXES[name])})
+    assert objects_are_equal(out, {"a": reference(items, axis=axis)})
 
 
 @pytest.mark.parametrize("position", POSITIONS.values(), ids=POSITIONS.keys())
-@pytest.mark.parametrize("name", CONCATENATE_AXES)
-def test_concatenate_nested_keeps_the_mask(name: str, position: int) -> None:
+@pytest.mark.parametrize("name", JOIN_FUNCTIONS)
+def test_join_nested_keeps_the_mask(name: str, position: int) -> None:
     out = getattr(nested, name)([{"a": x} for x in make_items(position)])
     assert int(np.ma.getmaskarray(out["a"]).sum()) == 6
 
 
-@pytest.mark.parametrize("name", ["concatenate_along_batch", "concatenate_along_seq"])
-def test_concatenate_plain_arrays_stay_plain_array(name: str) -> None:
+@pytest.mark.parametrize("name", JOIN_FUNCTIONS)
+def test_join_plain_arrays_stay_plain_array(name: str) -> None:
     out = getattr(ba, name)([make_plain_array(), make_plain_array()])
     assert type(out) is np.ndarray
 
 
-@pytest.mark.parametrize("name", ["concatenate_along_batch", "concatenate_along_seq"])
-def test_concatenate_plain_arrays_stay_plain_nested(name: str) -> None:
+@pytest.mark.parametrize("name", JOIN_FUNCTIONS)
+def test_join_plain_arrays_stay_plain_nested(name: str) -> None:
     out = getattr(nested, name)([{"a": make_plain_array()}, {"a": make_plain_array()}])
     assert type(out["a"]) is np.ndarray

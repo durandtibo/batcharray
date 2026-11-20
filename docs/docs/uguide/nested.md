@@ -286,6 +286,8 @@ Here's a non comprehensive list organized by category:
 
 - `concatenate_along_batch()` - Concatenate nested structures (batch)
 - `concatenate_along_seq()` - Concatenate nested structures (sequence)
+- `stack_along_batch()` - Stack nested structures in a new batch axis
+- `stack_along_seq()` - Stack nested structures in a new sequence axis
 - `repeat_along_batch()` - Repeat each item (batch)
 - `repeat_along_seq()` - Repeat each item (sequence)
 - `tile_along_seq()` - Tile nested arrays along sequence

@@ -12,6 +12,8 @@ from batcharray.nested import (
     concatenate_along_seq,
     repeat_along_batch,
     repeat_along_seq,
+    stack_along_batch,
+    stack_along_seq,
     tile_along_seq,
 )
 from tests.unit.array.test_joining import DTYPES
@@ -537,3 +539,188 @@ def test_repeat_along_seq_dict(dtype: DTypeLike) -> None:
             ),
         },
     )
+
+
+########################################
+#     Tests for stack_along_batch      #
+########################################
+
+
+def test_stack_along_batch_array() -> None:
+    assert objects_are_equal(
+        stack_along_batch([np.array([0, 1]), np.array([2, 3])]), np.array([[0, 1], [2, 3]])
+    )
+
+
+def test_stack_along_batch_dict() -> None:
+    assert objects_are_equal(
+        stack_along_batch(
+            [
+                {"a": np.array([0, 1, 2]), "b": np.array([10, 11])},
+                {"a": np.array([4, 5, 6]), "b": np.array([12, 13])},
+            ]
+        ),
+        {"a": np.array([[0, 1, 2], [4, 5, 6]]), "b": np.array([[10, 11], [12, 13]])},
+    )
+
+
+def test_stack_along_batch_nested_structure() -> None:
+    data = [
+        {"a": {"b": np.ones(2)}, "c": [np.zeros(2)], "d": (np.ones(2),)},
+        {"a": {"b": np.ones(2) * 2}, "c": [np.zeros(2) + 1], "d": (np.ones(2) * 3,)},
+    ]
+    assert objects_are_equal(
+        stack_along_batch(data),
+        {
+            "a": {"b": np.array([[1.0, 1.0], [2.0, 2.0]])},
+            "c": [np.array([[0.0, 0.0], [1.0, 1.0]])],
+            "d": (np.array([[1.0, 1.0], [3.0, 3.0]]),),
+        },
+    )
+
+
+def test_stack_along_batch_keeps_the_key_order_of_the_first_item() -> None:
+    out = stack_along_batch(
+        [{"b": np.ones(2), "a": np.ones(2)}, {"a": np.ones(2), "b": np.ones(2)}]
+    )
+    assert list(out) == ["b", "a"]
+
+
+def test_stack_along_batch_masked_array() -> None:
+    assert objects_are_equal(
+        stack_along_batch(
+            [
+                {"a": np.array([0, 1, 2])},
+                {"a": np.ma.masked_array(data=[4, 5, 6], mask=[True, False, False])},
+            ]
+        ),
+        {
+            "a": np.ma.masked_array(
+                data=[[0, 1, 2], [4, 5, 6]], mask=[[False, False, False], [True, False, False]]
+            )
+        },
+    )
+
+
+def test_stack_along_batch_empty_raises() -> None:
+    with pytest.raises(ValueError, match="at least one structure"):
+        stack_along_batch([])
+
+
+def test_stack_along_batch_different_keys_raises() -> None:
+    with pytest.raises(ValueError, match="same keys"):
+        stack_along_batch([{"a": np.ones(2)}, {"b": np.ones(2)}])
+
+
+def test_stack_along_batch_different_lengths_raises() -> None:
+    with pytest.raises(ValueError, match="same length"):
+        stack_along_batch([[np.ones(2)], [np.ones(2), np.ones(2)]])
+
+
+def test_stack_along_batch_mapping_and_sequence_raises() -> None:
+    with pytest.raises(ValueError, match="same kind"):
+        stack_along_batch([{"a": np.ones(2)}, [np.ones(2)]])
+
+
+def test_stack_along_batch_different_shapes_raises() -> None:
+    with pytest.raises(ValueError, match="all input arrays must have the same shape"):
+        stack_along_batch([{"a": np.ones(2)}, {"a": np.ones(3)}])
+
+
+def test_stack_along_batch_non_array_leaf_raises() -> None:
+    with pytest.raises(TypeError, match="object of type int"):
+        stack_along_batch([{"a": 1}, {"a": 2}])
+
+
+def test_stack_along_batch_list_and_tuple_keeps_type_of_first_item() -> None:
+    out = stack_along_batch([[np.zeros(2)], (np.ones(2),)])
+    assert objects_are_equal(out, [np.array([[0.0, 0.0], [1.0, 1.0]])])
+
+
+def test_stack_along_batch_dict_and_ordered_dict_keeps_type_of_first_item() -> None:
+    out = stack_along_batch([{"a": np.zeros(2)}, OrderedDict(a=np.ones(2))])
+    assert type(out) is dict
+
+
+######################################
+#     Tests for stack_along_seq      #
+######################################
+
+
+def test_stack_along_seq_array() -> None:
+    assert objects_are_equal(
+        stack_along_seq([np.array([[0], [1]]), np.array([[2], [3]])]),
+        np.array([[[0], [2]], [[1], [3]]]),
+    )
+
+
+def test_stack_along_seq_dict() -> None:
+    assert objects_are_equal(
+        stack_along_seq(
+            [
+                {"a": np.array([[0, 1], [2, 3]]), "b": np.array([0, 1])},
+                {"a": np.array([[4, 5], [6, 7]]), "b": np.array([2, 3])},
+            ]
+        ),
+        {"a": np.array([[[0, 1], [4, 5]], [[2, 3], [6, 7]]]), "b": np.array([[0, 2], [1, 3]])},
+    )
+
+
+def test_stack_along_seq_nested_structure() -> None:
+    data = [
+        {"a": {"b": np.ones((2, 1))}, "c": [np.zeros((2, 1))]},
+        {"a": {"b": np.ones((2, 1)) * 2}, "c": [np.zeros((2, 1)) + 1]},
+    ]
+    assert objects_are_equal(
+        stack_along_seq(data),
+        {
+            "a": {"b": np.array([[[1.0], [2.0]], [[1.0], [2.0]]])},
+            "c": [np.array([[[0.0], [1.0]], [[0.0], [1.0]]])],
+        },
+    )
+
+
+def test_stack_along_seq_masked_array() -> None:
+    assert objects_are_equal(
+        stack_along_seq(
+            [
+                {"a": np.ma.masked_array(data=[[0], [1]], mask=[[True], [False]])},
+                {"a": np.array([[2], [3]])},
+            ]
+        ),
+        {
+            "a": np.ma.masked_array(
+                data=[[[0], [2]], [[1], [3]]], mask=[[[True], [False]], [[False], [False]]]
+            )
+        },
+    )
+
+
+def test_stack_along_seq_empty_raises() -> None:
+    with pytest.raises(ValueError, match="at least one structure"):
+        stack_along_seq([])
+
+
+def test_stack_along_seq_different_keys_raises() -> None:
+    with pytest.raises(ValueError, match="same keys"):
+        stack_along_seq([{"a": np.ones((2, 1))}, {"b": np.ones((2, 1))}])
+
+
+def test_stack_along_seq_mapping_and_sequence_raises() -> None:
+    with pytest.raises(ValueError, match="same kind"):
+        stack_along_seq([{"a": np.ones((2, 1))}, [np.ones((2, 1))]])
+
+
+def test_stack_along_seq_different_shapes_raises() -> None:
+    with pytest.raises(ValueError, match="all input arrays must have the same shape"):
+        stack_along_seq([{"a": np.ones((2, 1))}, {"a": np.ones((2, 2))}])
+
+
+def test_stack_along_seq_non_array_leaf_raises() -> None:
+    with pytest.raises(TypeError, match="object of type int"):
+        stack_along_seq([{"a": 1}, {"a": 2}])
+
+
+def test_stack_along_seq_list_and_tuple_keeps_type_of_first_item() -> None:
+    out = stack_along_seq([[np.zeros((2, 1))], (np.ones((2, 1)),)])
+    assert objects_are_equal(out, [np.array([[[0.0], [1.0]], [[0.0], [1.0]]])])

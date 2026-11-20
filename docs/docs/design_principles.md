@@ -41,7 +41,7 @@ that takes a `mask`, an `indices` or a `permutation` (`masked_select_*`, `index_
 | P8  | One error contract      | A bad leaf type is a `TypeError`. An argument that `batcharray` validates is a `ValueError`. Anything else is the NumPy error, unchanged. Every check is a function of `batcharray.validation`.                                                                                                         |
 | P9  | Explicit randomness     | Randomness comes only from `rng`, which is passed to `numpy.random.default_rng`. One permutation is shared by all the leaves.                                                                                                                     |
 | P10 | No cast, no conversion  | No function casts or converts what the caller passes. The `dtype` of `concatenate_*` is an explicit option that NumPy defines.                                                                                                                    |
-| P11 | Masked arrays           | A `numpy.ma.MaskedArray` input gives a `MaskedArray` output with the semantics of `numpy.ma`, except for the functions that return indices (`argsort`, `argmax`, `argmin`). When a function takes several arrays (`concatenate_*`), one masked array in any position makes the output masked and keeps every mask. |
+| P11 | Masked arrays           | A `numpy.ma.MaskedArray` input gives a `MaskedArray` output with the semantics of `numpy.ma`, except for the functions that return indices (`argsort`, `argmax`, `argmin`). When a function takes several arrays (`concatenate_*`, `stack_*`), one masked array in any position makes the output masked and keeps every mask. |
 | P12 | Array in, array out     | A function that receives an `ndarray` returns an `ndarray`. Where NumPy returns a scalar, the result is a 0-d array, so the output of any function is a valid input of any other.                                                                 |
 | P13 | Keyword-only options    | The positional arguments are the data and the arguments that define the operation. Options (`keepdims`, `ddof`, `kind`, `step`, `rng`, `dtype`) are keyword-only.                                                                                 |
 | P14 | Typed                   | A map function has the type `T -> T` with `T` bound to the nested array type: dict in, dict out, array in, array out.                                                                                                                             |
@@ -66,7 +66,7 @@ that takes a `mask`, an `indices` or a `permutation` (`masked_select_*`, `index_
 | P19      | `tests/unit/test_error_contract.py` (a boolean index, a 2-D mask, a list index and a list mask)              |
 | P9       | `tests/unit/test_rng.py`                                                                                     |
 | P10      | the dtype tests of `concatenate_*` and of the reductions in `tests/unit/array`                               |
-| P11      | `tests/unit/test_masked_arrays.py` (every function on a masked array equals the `numpy.ma` result, and `concatenate_*` with a masked array in every position) |
+| P11      | `tests/unit/test_masked_arrays.py` (every function on a masked array equals the `numpy.ma` result, and `concatenate_*` and `stack_*` with a masked array in every position) |
 | P12      | `tests/unit/test_array_in_array_out.py`                                                                      |
 | P13      | `tests/unit/test_signatures.py` (options are keyword-only, no `**kwargs`)                                    |
 | P14      | `ty` in CI and `tests/unit/test_nested_contract.py` (the annotations are `T -> T`)                           |
@@ -84,14 +84,14 @@ that takes a `mask`, an `indices` or a `permutation` (`masked_select_*`, `index_
 - 0-d arrays. A 0-d array has no batch axis, so it is outside the contract and no test pins the result. The result is NumPy's and differs from one function to another: `sum_along_batch(np.array(1.0))` returns the 0-d array, `cumsum_along_batch` and `index_select_along_batch` return an array of shape `(1,)`, `sort_along_batch`, `flip_along_batch` and `sum_along_seq` raise `AxisError`, and `select_along_batch`, `slice_along_batch`, `masked_select_along_batch` and `chunk_along_batch` raise `IndexError`.
 - Dataclasses and sets as containers.
 - That an index or a `permutation` argument is a valid permutation (only its length is checked).
-- A generator or a lazy iterable as `items` of `concatenate_*`. It takes a `Sequence`.
+- A generator or a lazy iterable as `items` of `concatenate_*` and `stack_*`. It takes a `Sequence`.
 
 ## Containers
 
 The supported structures are `dict`, `list`, `tuple` and their subclasses (named tuple,
 `OrderedDict`, `defaultdict`). Sets and dataclasses are outside the contract.
 
-For `concatenate_*`, the output containers are the ones of the first item and the other items must
+For `concatenate_*` and `stack_*`, the output containers are the ones of the first item and the other items must
 have the same keys and lengths. A `list` and a `tuple` can be combined (the output has the type of
 the first item), as can a `dict` and an `OrderedDict`. A mapping combined with a sequence raises a
 `ValueError`.
@@ -108,7 +108,7 @@ view NumPy returns.
 | --------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------- |
 | `*_along_batch` reductions and `select_along_batch` | the NumPy call is wrapped in `np.asanyarray`, because NumPy returns a scalar on a 1-D input (P12)                    |
 | `split_*`                                           | `np.split` with indices computed from a size or sections (`np.split(x, 2)` means 2 sections, not size 2)             |
-| `concatenate_*` with `dtype` on a masked array      | `np.ma.concatenate` has no `dtype`: `astype` after it                                                                |
+| `concatenate_*`, `stack_*`                          | `get_namespace(*arrays)` picks `np.ma` when any item is masked (P11); `concatenate_*` with `dtype` on a masked array uses `astype` (`np.ma.concatenate` has no `dtype`) |
 | `index_select_*`                                    | `np.take` and the validation of the index (NumPy accepts a boolean and any rank)                       |
 | `masked_select_*`                                   | boolean indexing and the validation of the mask (NumPy accepts any rank, and an integer mask is read as indices)                           |
 | `gather_along_seq`                                  | `np.take_along_axis` with the index reshaped over the feature axes, and a check of the batch size (NumPy broadcasts) |
@@ -123,10 +123,11 @@ array.
 ## Masked arrays
 
 A reduction, a cumulative function, `argmax`, `argmin`, `any` and `all` use the method of the array,
-which `MaskedArray` overrides. `median`, `sort`, `argsort` and `concatenate` use `numpy.ma` for a
-masked array and `numpy` otherwise. `concatenate` takes several arrays, so `get_namespace(*arrays)`
+which `MaskedArray` overrides. `median`, `sort`, `argsort`, `concatenate` and `stack` use `numpy.ma` for a
+masked array and `numpy` otherwise. `concatenate` and `stack` take several arrays, so `get_namespace(*arrays)`
 chooses `numpy.ma` when any of them is masked, whatever its position: `numpy.concatenate` drops the
-mask of a masked array that is not first, and a list of plain arrays stays plain. A subclass of `MaskedArray` is dispatched as a masked array, a
+mask of a masked array that is not first, and so does `numpy.stack`. A list of plain arrays stays
+plain (`numpy.ma.stack` would turn it into a masked array). A subclass of `MaskedArray` is dispatched as a masked array, a
 subclass of `ndarray` is a plain array, and an array type with other semantics is not supported.
 
 A function that NumPy does not support on a masked array is not added to the package until it has a
@@ -140,8 +141,8 @@ It never repeats a check NumPy makes.
 | Situation                                                                                                                                                                | Exception                           |
 | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ----------------------------------- |
 | A leaf is not an `ndarray`                                                                                                                                               | `TypeError`                         |
-| `concatenate` receives no item, or structures with a different layout (keys, lengths)                                                                                    | `ValueError`                        |
-| `concatenate` combines a mapping with a sequence                                                                                                                         | `ValueError`                        |
+| `concatenate` or `stack` receives no item, or structures with a different layout (keys, lengths)                                                                                    | `ValueError`                        |
+| `concatenate` or `stack` combines a mapping with a sequence                                                                                                                         | `ValueError`                        |
 | Leaves disagree on the size of the axis of `chunk_*`, `split_*`, `shuffle_*`, `batch_size`, `seq_len`                                                                    | `ValueError`                        |
 | A split size that is not positive, sections that are negative or do not sum to the size                                                                                  | `ValueError`                        |
 | An index or a mask is not an `ndarray` (a list, ...)                                                                                                                     | `TypeError`                         |
