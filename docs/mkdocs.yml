@@ -34,13 +34,11 @@ nav:
   - User Guide:
       - Array Operations: uguide/array.md
       - Nested Structures: uguide/nested.md
-      - Computation Models: uguide/computation.md
   - API Reference:
       - array: refs/array.md
-      - computation: refs/computation.md
       - nested: refs/nested.md
       - constants: refs/constants.md
-      - types: refs/types.md
+      - utils: refs/utils.md
       - validation: refs/validation.md
   - GitHub: https://github.com/durandtibo/batcharray
 

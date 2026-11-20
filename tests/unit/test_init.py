@@ -13,7 +13,7 @@ import batcharray
 ##############################
 
 
-@pytest.mark.parametrize("name", ["array", "computation", "nested"])
+@pytest.mark.parametrize("name", ["array", "nested", "utils"])
 def test_lazy_subpackage_import(name: str) -> None:
     code = f"import batcharray; assert batcharray.{name}.__name__ == 'batcharray.{name}'"
     subprocess.run([sys.executable, "-I", "-c", code], check=True)  # noqa: S603

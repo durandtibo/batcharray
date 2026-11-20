@@ -513,5 +513,5 @@ normalized = {
 ## Next Steps
 
 - Review the [nested API reference](../refs/nested.md) for all available functions
-- Learn about [computation models](../uguide/computation.md) for low-level operations
+- Read the [design principles](../design_principles.md) for the rules of the package
 - See [batch operations tutorial](batches.md) for simpler cases

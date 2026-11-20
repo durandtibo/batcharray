@@ -245,15 +245,17 @@ type = "forbidden"
 source_modules = ["batcharray.validation"]
 forbidden_modules = [
   "batcharray.array",
-  "batcharray.computation",
   "batcharray.nested",
 ]
 
 [[tool.importlinter.contracts]]
-name = "Computation must not import array or nested"
+name = "Utils must not import feature packages"
 type = "forbidden"
-source_modules = ["batcharray.computation"]
-forbidden_modules = ["batcharray.array", "batcharray.nested"]
+source_modules = ["batcharray.utils"]
+forbidden_modules = [
+  "batcharray.array",
+  "batcharray.nested",
+]
 
 [[tool.importlinter.contracts]]
 name = "Array must not import nested"

@@ -22,17 +22,6 @@ def check_array() -> None:
     )
 
 
-def check_computation() -> None:
-    logger.info("Checking batcharray.computation package...")
-
-    from batcharray.computation import concatenate
-
-    assert objects_are_equal(
-        concatenate([np.array([[0, 1], [2, 3]]), np.array([[4, 5], [6, 7], [8, 9]])], axis=0),
-        np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]]),
-    )
-
-
 def check_nested() -> None:
     logger.info("Checking batcharray.nested package...")
 
@@ -55,7 +44,6 @@ def check_nested() -> None:
 
 def main() -> None:
     check_array()
-    check_computation()
     check_nested()
 
 

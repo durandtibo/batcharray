@@ -61,7 +61,7 @@ is the batch axis and the second axis is the sequence axis.
 - **Sequence Support**: Handle time-series and sequential data efficiently
 - **Nested Structures**: Work with dictionaries and lists of arrays seamlessly
 - **Masked Arrays**: Built-in support for handling missing or invalid data
-- **Type Safety**: Computation models for different array types
+- **Masked arrays**: the dispatch between `numpy` and `numpy.ma` is done by the array itself
 - **Minimal Dependencies**: Lightweight with only NumPy and coola as required dependencies
 
 ## Quick Links
@@ -125,7 +125,6 @@ Please check the documentation to see all the implemented functions.
 - **[Advanced Nested Operations Tutorial](tutorials/nested.md)** - Master complex structures
 - **[User Guide: Array Operations](uguide/array.md)** - Complete guide to array functions
 - **[User Guide: Nested Structures](uguide/nested.md)** - Working with nested data
-- **[User Guide: Computation Models](uguide/computation.md)** - Low-level abstractions
 - **[Design Principles](design_principles.md)** - The rules of the package
 - **[Architecture](architecture.md)** - The layers and how to add an operation
 - **[Migration guide](migration.md)** - The removed names and their replacement
@@ -134,9 +133,8 @@ Please check the documentation to see all the implemented functions.
 
 - **[array module](refs/array.md)** - Single array operations
 - **[nested module](refs/nested.md)** - Nested structure operations
-- **[computation module](refs/computation.md)** - Computation models
 - **[constants module](refs/constants.md)** - Package constants
-- **[types module](refs/types.md)** - Type definitions
+- **[utils module](refs/utils.md)** - Shared helpers and types
 
 ## API stability
 
