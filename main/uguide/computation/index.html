@@ -1754,15 +1754,19 @@
 
 
 <h1 id="computation-models">Computation Models<a class="headerlink" href="#computation-models" title="Permanent link">&para;</a></h1>
-<p>The <code>batcharray.computation</code> module provides a flexible computation abstraction that allows operations to work with different array types (regular arrays, masked arrays, etc.) through a common interface.</p>
+<p>The <code>batcharray.computation</code> module provides a flexible computation abstraction that allows
+operations to work with different array types (regular arrays, masked arrays, etc.) through a
+common interface.</p>
 <h2 id="overview">Overview<a class="headerlink" href="#overview" title="Permanent link">&para;</a></h2>
-<p>Computation models abstract away the details of different array types, allowing you to write code that works with:</p>
+<p>Computation models abstract away the details of different array types, allowing you to write code
+that works with:</p>
 <ul>
 <li>Standard NumPy arrays</li>
 <li>NumPy masked arrays</li>
 <li>Future array types</li>
 </ul>
-<p>The computation model automatically selects the appropriate implementation based on the input array type.</p>
+<p>The computation model automatically selects the appropriate implementation based on the input
+array type.</p>
 <h2 id="basic-usage">Basic Usage<a class="headerlink" href="#basic-usage" title="Permanent link">&para;</a></h2>
 <h3 id="automatic-model-selection">Automatic Model Selection<a class="headerlink" href="#automatic-model-selection" title="Permanent link">&para;</a></h3>
 <p>The easiest way to use computation models is through the interface functions with <code>AutoComputationModel</code>:</p>
@@ -2091,7 +2095,8 @@ Use computation models when:
 3. **Abstraction** - Building libraries that should work with multiple array backends
 4. **Testing** - Mocking array operations for unit tests
 
-For most use cases, prefer the higher-level `array` and `nested` modules which internally use computation models.
+For most use cases, prefer the higher-level `array` and `nested` modules which internally use
+computation models.
 
 ## Integration with Array Module
 

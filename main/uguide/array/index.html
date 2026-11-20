@@ -1520,12 +1520,15 @@
 
 
 <h1 id="array-operations">Array Operations<a class="headerlink" href="#array-operations" title="Permanent link">&para;</a></h1>
-<p>The <code>batcharray.array</code> module provides functions to manipulate NumPy arrays representing batches of data and sequences.</p>
+<p>The <code>batcharray.array</code> module provides functions to manipulate NumPy arrays representing batches
+of data and sequences.</p>
 <h2 id="overview">Overview<a class="headerlink" href="#overview" title="Permanent link">&para;</a></h2>
 <p><code>batcharray</code> provides two main categories of array operations:</p>
 <ol>
-<li><strong>Batch operations</strong>: Work on arrays with shape <code>(batch_size, ...)</code> where the first axis is the batch dimension</li>
-<li><strong>Sequence operations</strong>: Work on arrays with shape <code>(batch_size, seq_len, ...)</code> where the first axis is batch and second is sequence</li>
+<li><strong>Batch operations</strong>: Work on arrays with shape <code>(batch_size, ...)</code> where the first axis is the
+   batch dimension</li>
+<li><strong>Sequence operations</strong>: Work on arrays with shape <code>(batch_size, seq_len, ...)</code> where the first
+   axis is batch and second is sequence</li>
 </ol>
 <h2 id="batch-operations">Batch Operations<a class="headerlink" href="#batch-operations" title="Permanent link">&para;</a></h2>
 <p>Batch operations work along the first axis (batch dimension) of arrays.
@@ -1577,7 +1580,8 @@ All functions that operate on the batch dimension have the suffix <code>_along_b
 <span class="n">shuffled</span> <span class="o">=</span> <span class="n">array</span><span class="o">.</span><span class="n">shuffle_along_batch</span><span class="p">(</span><span class="n">batch</span><span class="p">)</span>
 </code></pre></div>
 <h2 id="sequence-operations">Sequence Operations<a class="headerlink" href="#sequence-operations" title="Permanent link">&para;</a></h2>
-<p>Sequence operations work along the second axis (sequence dimension). All functions that operate on sequences have the suffix <code>_along_seq</code>.</p>
+<p>Sequence operations work along the second axis (sequence dimension). All functions that operate on
+sequences have the suffix <code>_along_seq</code>.</p>
 <h3 id="sequence-manipulation">Sequence Manipulation<a class="headerlink" href="#sequence-manipulation" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">batcharray</span><span class="w"> </span><span class="kn">import</span> <span class="n">array</span>
@@ -1634,7 +1638,8 @@ All functions that operate on the batch dimension have the suffix <code>_along_b
 <span class="n">mean</span> <span class="o">=</span> <span class="n">array</span><span class="o">.</span><span class="n">mean_along_seq</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>  <span class="c1"># Average over time for each batch</span>
 </code></pre></div>
 <h2 id="working-with-masked-arrays">Working with Masked Arrays<a class="headerlink" href="#working-with-masked-arrays" title="Permanent link">&para;</a></h2>
-<p>All functions in <code>batcharray.array</code> support NumPy masked arrays, allowing you to handle missing or invalid data:</p>
+<p>All functions in <code>batcharray.array</code> support NumPy masked arrays, allowing you to handle missing or
+invalid data:</p>
 <div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">numpy.ma</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">ma</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">batcharray</span><span class="w"> </span><span class="kn">import</span> <span class="n">array</span>
