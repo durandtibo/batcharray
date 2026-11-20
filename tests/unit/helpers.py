@@ -2,9 +2,11 @@ r"""Contain helpers shared across the unit tests."""
 
 from __future__ import annotations
 
-__all__ = ["MyArray", "MyMaskedArray"]
+__all__ = ["SORT_KINDS", "MyArray", "MyMaskedArray"]
 
 import numpy as np
+
+SORT_KINDS = ["quicksort", "mergesort", "heapsort", "stable"]
 
 
 class MyArray(np.ndarray):

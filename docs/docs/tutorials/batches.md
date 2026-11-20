@@ -303,7 +303,7 @@ sorted_data = array.sort_along_batch(data)
 
 - Learn about [sequence operations](sequences.md) for time-series data
 - Explore [advanced nested operations](nested.md)
-- See [computation models](../uguide/computation.md) for low-level operations
+- Read the [design principles](../design_principles.md) for the rules of the package
 
 ## Common Patterns
 

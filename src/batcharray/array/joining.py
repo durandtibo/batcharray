@@ -15,7 +15,6 @@ from typing import TYPE_CHECKING
 
 import numpy as np
 
-from batcharray import computation as cmpt
 from batcharray.constants import BATCH_AXIS, SEQ_AXIS
 from batcharray.validation import validate_min_ndim
 
@@ -62,7 +61,7 @@ def concatenate_along_batch(
 
         ```
     """
-    return cmpt.concatenate(arrays, axis=BATCH_AXIS, dtype=dtype)
+    return _concatenate(arrays, axis=BATCH_AXIS, dtype=dtype)
 
 
 def concatenate_along_seq(
@@ -102,7 +101,7 @@ def concatenate_along_seq(
 
         ```
     """
-    return cmpt.concatenate(arrays, axis=SEQ_AXIS, dtype=dtype)
+    return _concatenate(arrays, axis=SEQ_AXIS, dtype=dtype)
 
 
 def tile_along_seq(array: np.ndarray, reps: int) -> np.ndarray:
@@ -195,3 +194,30 @@ def repeat_along_seq(array: np.ndarray, repeats: int) -> np.ndarray:
     """
     validate_min_ndim(array)
     return np.repeat(array, repeats, axis=SEQ_AXIS)
+
+
+def _concatenate(
+    arrays: list[np.ndarray] | tuple[np.ndarray, ...],
+    axis: int,
+    dtype: DTypeLike | None = None,
+) -> np.ndarray:
+    r"""Concatenate the given arrays along an axis.
+
+    The namespace is chosen with the first array: ``numpy.ma`` if it is
+    a masked array, otherwise ``numpy``. ``numpy.ma.concatenate`` has
+    no ``dtype`` argument, so the output is cast after the
+    concatenation.
+
+    Args:
+        arrays: The arrays to concatenate.
+        axis: The axis along which the arrays are concatenated.
+        dtype: If provided, the destination array will have this
+            data type.
+
+    Returns:
+        The concatenated arrays.
+    """
+    if len(arrays) > 0 and isinstance(arrays[0], np.ma.MaskedArray):
+        out = np.ma.concatenate(arrays, axis=axis)
+        return out if dtype is None else out.astype(dtype)
+    return np.concatenate(arrays, axis=axis, dtype=dtype)

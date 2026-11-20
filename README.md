@@ -104,10 +104,8 @@ Please check the documentation to see all the implemented functions.
   - Maintain relationships between related arrays
   - Any other function can be applied to all the arrays with `coola.recursive.recursive_apply`
   - All operations from `array` module, but for nested structures
-- `computation`: Computation models for abstracting array operations
-  - Automatic selection of appropriate implementation based on array type
-  - Support for regular arrays and masked arrays
-  - Extensible for custom array types
+- `utils`: Helpers shared by the other packages
+  - `get_namespace`: choose between `numpy` and `numpy.ma` for an array
 
 ## Documentation
 

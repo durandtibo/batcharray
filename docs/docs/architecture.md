@@ -23,8 +23,8 @@ nested             one helper call per function
 
 !!! note "Current state"
 
-    The `utils` package and the `computation` removal are not done yet: the code still has the
-    `computation` and `types` packages. The steps in
+    `utils` has `types` (`SortKind`) and `namespace` (`get_namespace`), and `computation` is
+    removed. `utils.structure` and the `NestedArray` type are not done yet. The steps in
     [`review/target_state.md`](https://github.com/durandtibo/batcharray/blob/main/review/target_state.md)
     bring the code to the layers above.
 

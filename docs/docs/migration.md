@@ -41,3 +41,22 @@ out = recursive_apply(data, np.sqrt)
     `recursive_apply` does not check the type of a leaf: a leaf that is not an array is passed to the
     function. A later step of the refactoring adds `batcharray.utils.apply_to_arrays`, which
     raises a `TypeError` for a leaf that is not an array. This page will then use it.
+
+## The `computation` package
+
+`batcharray.computation` (the computation models, the registry and the 14 functions of the
+interface) was removed. A masked array is dispatched by the method of the array (`x.sum(axis=0)`),
+or by `numpy.ma` for `median`, `sort`, `argsort` and `concatenate`. The one helper is
+`batcharray.utils.get_namespace`, which returns `numpy.ma` for a masked array and `numpy` otherwise.
+
+| Removed                                                          | Replacement                                          |
+| ---------------------------------------------------------------- | ---------------------------------------------------- |
+| `computation.sum(x, axis=0)`, `prod`, `mean`, `std`, `var`, `min`, `max`, `argmax`, `argmin` | `x.sum(axis=0)`, ... (the method of the array) |
+| `computation.median(x, axis=0)`, `sort`, `argsort`              | `get_namespace(x).median(x, axis=0)`, ...            |
+| `computation.concatenate(arrays, axis=0)`                        | `get_namespace(arrays[0]).concatenate(arrays, axis=0)` |
+| `ArrayComputationModel`, `MaskedArrayComputationModel`, `AutoComputationModel`, `BaseComputationModel`, and `register_computation_models` | none: an array type with other semantics is not supported |
+
+## The `types` module
+
+`batcharray.types` moved to `batcharray.utils.types`. `ArrayT` and `SORT_KINDS` were removed;
+`SortKind` stays and is exported by `batcharray.utils`.

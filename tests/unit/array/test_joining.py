@@ -13,6 +13,7 @@ from batcharray.array import (
     repeat_along_seq,
     tile_along_seq,
 )
+from batcharray.array.joining import _concatenate
 
 if TYPE_CHECKING:
     from numpy.typing import DTypeLike
@@ -296,3 +297,64 @@ def test_repeat_along_seq(dtype: DTypeLike) -> None:
 def test_repeat_along_seq_1d_raises() -> None:
     with pytest.raises(ValueError, match="at least 2 dimensions"):
         repeat_along_seq(np.arange(3), repeats=2)
+
+
+##################################
+#     Tests for _concatenate     #
+##################################
+
+
+def test_concatenate_plain_arrays() -> None:
+    assert objects_are_equal(
+        _concatenate([np.array([[0, 1]]), np.array([[2, 3]])], axis=0), np.array([[0, 1], [2, 3]])
+    )
+
+
+def test_concatenate_plain_arrays_dtype() -> None:
+    assert objects_are_equal(
+        _concatenate([np.array([[0, 1]]), np.array([[2, 3]])], axis=1, dtype=np.float32),
+        np.array([[0, 1, 2, 3]], dtype=np.float32),
+    )
+
+
+def test_concatenate_masked_arrays_keeps_mask() -> None:
+    out = _concatenate(
+        [
+            np.ma.masked_array(data=[[0, 1]], mask=[[False, True]]),
+            np.ma.masked_array(data=[[2, 3]], mask=[[True, False]]),
+        ],
+        axis=0,
+    )
+    assert objects_are_equal(
+        out, np.ma.masked_array(data=[[0, 1], [2, 3]], mask=[[False, True], [True, False]])
+    )
+
+
+def test_concatenate_masked_arrays_dtype() -> None:
+    out = _concatenate(
+        [
+            np.ma.masked_array(data=[[0, 1]], mask=[[False, True]]),
+            np.ma.masked_array(data=[[2, 3]], mask=[[True, False]]),
+        ],
+        axis=1,
+        dtype=np.float32,
+    )
+    assert objects_are_equal(
+        out,
+        np.ma.masked_array(
+            data=np.array([[0, 1, 2, 3]], dtype=np.float32),
+            mask=[[False, True, True, False]],
+        ),
+    )
+
+
+def test_concatenate_plain_array_first_drops_mask() -> None:
+    out = _concatenate(
+        [np.array([[0, 1]]), np.ma.masked_array(data=[[2, 3]], mask=[[True, False]])], axis=0
+    )
+    assert objects_are_equal(np.ma.getmaskarray(out), np.array([[False, False], [False, False]]))
+
+
+def test_concatenate_empty_raises() -> None:
+    with pytest.raises(ValueError, match="need at least one array to concatenate"):
+        _concatenate([], axis=0)

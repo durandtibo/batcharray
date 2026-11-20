@@ -17,7 +17,7 @@ from coola.recursive import recursive_apply
 from batcharray import array as ba
 
 if TYPE_CHECKING:
-    from batcharray.types import SortKind
+    from batcharray.utils import SortKind
 
 
 def argsort_along_batch(data: Any, kind: SortKind | None = None) -> Any:

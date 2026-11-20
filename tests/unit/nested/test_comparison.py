@@ -12,10 +12,10 @@ from batcharray.nested import (
     sort_along_batch,
     sort_along_seq,
 )
-from batcharray.types import SORT_KINDS
+from tests.unit.helpers import SORT_KINDS
 
 if TYPE_CHECKING:
-    from batcharray.types import SortKind
+    from batcharray.utils import SortKind
 
 #########################################
 #     Tests for argsort_along_batch     #

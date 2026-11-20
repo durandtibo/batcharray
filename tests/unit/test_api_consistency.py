@@ -2,8 +2,6 @@ r"""Tests that related public functions behave consistently."""
 
 from __future__ import annotations
 
-from unittest.mock import patch
-
 import numpy as np
 import pytest
 from coola.equality import objects_are_equal
@@ -25,15 +23,6 @@ def test_amax_amin_equal_max_min(axis_name: str, keepdims: bool, x: np.ndarray) 
         out = getattr(bn, f"{alias}_along_{axis_name}")({"a": x}, keepdims=keepdims)
         expected = getattr(bn, f"{name}_along_{axis_name}")({"a": x}, keepdims=keepdims)
         assert objects_are_equal(out, expected)
-
-
-@pytest.mark.parametrize("name", ["amax", "amin"])
-@pytest.mark.parametrize("axis_name", ["batch", "seq"])
-def test_amax_amin_use_computation_model(name: str, axis_name: str) -> None:
-    target = "max" if name == "amax" else "min"
-    with patch(f"batcharray.array.reduction.cmpt.{target}") as mock:
-        getattr(ba, f"{name}_along_{axis_name}")(ARRAY)
-    mock.assert_called_once()
 
 
 @pytest.mark.parametrize("axis_name", ["batch", "seq"])
