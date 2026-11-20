@@ -32,6 +32,23 @@ We actively welcome your pull requests.
    pre-commit run --all-files
    ```
 
+## Adding a new operation
+
+An operation enters `array` and `nested` only if all of these hold:
+
+1. It needs the fixed axis (`np.f(x, axis=BATCH_AXIS)`), or it composes NumPy calls in a way that is
+   easy to get wrong (a per-sample gather, `split_*`). A pointwise function (`exp`, `clip`) does
+   not: use `apply_to_arrays(data, np.exp)`.
+2. It has a `nested` twin of shape 1 -> 1, 1 -> N or N -> 1 (see
+   [the architecture](docs/docs/architecture.md)).
+3. It comes with the four functions (batch and sequence, `array` and `nested`), or a stated reason
+   why only one axis makes sense.
+4. It works on a masked array or the docstring says why it cannot.
+5. If it is not one NumPy call, it is added to the list of exceptions of
+   [the design principles](docs/docs/design_principles.md).
+6. It has a runnable example, a documented edge-case result, and a test for each property it
+   touches.
+
 ## Installation
 
 ### Prerequisites

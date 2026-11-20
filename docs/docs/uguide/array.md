@@ -184,6 +184,8 @@ The `array` module provides the following categories of functions:
 
 - `concatenate_along_batch()` - Concatenate arrays along batch
 - `concatenate_along_seq()` - Concatenate arrays along sequence
+- `repeat_along_batch()` - Repeat each item along batch
+- `repeat_along_seq()` - Repeat each item along sequence
 - `tile_along_seq()` - Repeat array along sequence dimension
 
 ### Mathematical Operations
@@ -195,6 +197,8 @@ The `array` module provides the following categories of functions:
 
 ### Permutation and Shuffling
 
+- `flip_along_batch()` - Reverse the order along batch
+- `flip_along_seq()` - Reverse the order along sequence
 - `permute_along_batch()` - Apply permutation to batch
 - `permute_along_seq()` - Apply permutation to sequence
 - `shuffle_along_batch()` - Random shuffle along batch
@@ -202,6 +206,10 @@ The `array` module provides the following categories of functions:
 
 ### Reduction Operations
 
+- `all_along_batch()` - Logical and along batch
+- `all_along_seq()` - Logical and along sequence
+- `any_along_batch()` - Logical or along batch
+- `any_along_seq()` - Logical or along sequence
 - `amax_along_batch()` / `max_along_batch()` - Maximum along batch
 - `amax_along_seq()` / `max_along_seq()` - Maximum along sequence
 - `amin_along_batch()` / `min_along_batch()` - Minimum along batch
@@ -216,8 +224,12 @@ The `array` module provides the following categories of functions:
 - `median_along_seq()` - Median along sequence
 - `prod_along_batch()` - Product along batch
 - `prod_along_seq()` - Product along sequence
+- `std_along_batch()` - Standard deviation along batch
+- `std_along_seq()` - Standard deviation along sequence
 - `sum_along_batch()` - Sum along batch
 - `sum_along_seq()` - Sum along sequence
+- `var_along_batch()` - Variance along batch
+- `var_along_seq()` - Variance along sequence
 
 ### Slicing Operations
 

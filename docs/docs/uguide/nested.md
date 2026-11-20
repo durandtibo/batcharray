@@ -292,6 +292,8 @@ Here's a non comprehensive list organized by category:
 
 - `concatenate_along_batch()` - Concatenate nested structures (batch)
 - `concatenate_along_seq()` - Concatenate nested structures (sequence)
+- `repeat_along_batch()` - Repeat each item (batch)
+- `repeat_along_seq()` - Repeat each item (sequence)
 - `tile_along_seq()` - Tile nested arrays along sequence
 
 ### Mathematical Operations
@@ -303,6 +305,8 @@ Here's a non comprehensive list organized by category:
 
 ### Permutation and Shuffling
 
+- `flip_along_batch()` - Reverse the order (batch)
+- `flip_along_seq()` - Reverse the order (sequence)
 - `permute_along_batch()` - Apply permutation (batch)
 - `permute_along_seq()` - Apply permutation (sequence)
 - `shuffle_along_batch()` - Random shuffle (batch)
@@ -311,17 +315,28 @@ Here's a non comprehensive list organized by category:
 ### Pointwise Operations
 
 - `abs()` - Absolute value
+- `ceil()` - Round up
 - `clip()` - Clip values to range
 - `exp()` - Exponential (base e)
 - `exp2()` - Exponential (base 2)
 - `expm1()` - exp(x) - 1
+- `floor()` - Round down
+- `isnan()` - Test for NaN
 - `log()` - Natural logarithm
 - `log1p()` - log(1 + x)
 - `log2()` - Base-2 logarithm
 - `log10()` - Base-10 logarithm
+- `round()` - Round to the nearest integer
+- `sign()` - Sign
+- `sqrt()` - Square root
+- `square()` - Square
 
 ### Reduction Operations
 
+- `all_along_batch()` - Logical and (batch)
+- `all_along_seq()` - Logical and (sequence)
+- `any_along_batch()` - Logical or (batch)
+- `any_along_seq()` - Logical or (sequence)
 - `amax_along_batch()` / `max_along_batch()` - Maximum (batch)
 - `amax_along_seq()` / `max_along_seq()` - Maximum (sequence)
 - `amin_along_batch()` / `min_along_batch()` - Minimum (batch)
@@ -336,8 +351,12 @@ Here's a non comprehensive list organized by category:
 - `median_along_seq()` - Median (sequence)
 - `prod_along_batch()` - Product (batch)
 - `prod_along_seq()` - Product (sequence)
+- `std_along_batch()` - Standard deviation (batch)
+- `std_along_seq()` - Standard deviation (sequence)
 - `sum_along_batch()` - Sum (batch)
 - `sum_along_seq()` - Sum (sequence)
+- `var_along_batch()` - Variance (batch)
+- `var_along_seq()` - Variance (sequence)
 
 ### Slicing Operations
 

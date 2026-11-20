@@ -24,6 +24,8 @@ theme:
 nav:
   - Home: index.md
   - Get Started: get_started.md
+  - Design Principles: design_principles.md
+  - Architecture: architecture.md
   - Tutorials:
       - Working with Batches: tutorials/batches.md
       - Working with Sequences: tutorials/sequences.md
