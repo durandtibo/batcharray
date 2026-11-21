@@ -138,6 +138,28 @@ def test_chunk_along_seq_masked_array() -> None:
 
 
 ########################################
+#     Tests for chunk and array_split   #
+########################################
+
+
+@pytest.mark.parametrize("chunks", [1, 2, 3, 4, 5, 7])
+def test_chunk_along_batch_follows_array_split(chunks: int) -> None:
+    x = np.arange(10).reshape(5, 2)
+    assert objects_are_equal(chunk_along_batch(x, chunks=chunks), np.array_split(x, chunks, axis=0))
+
+
+@pytest.mark.parametrize("chunks", [1, 2, 3, 4, 5, 7])
+def test_chunk_along_seq_follows_array_split(chunks: int) -> None:
+    x = np.arange(10).reshape(2, 5)
+    assert objects_are_equal(chunk_along_seq(x, chunks=chunks), np.array_split(x, chunks, axis=1))
+
+
+def test_chunk_along_batch_returns_the_requested_number_of_chunks() -> None:
+    # torch.chunk(torch.arange(5), 4) returns 3 chunks; array_split returns 4.
+    assert len(chunk_along_batch(np.arange(5), chunks=4)) == 4
+
+
+########################################
 #     Tests for select_along_batch     #
 ########################################
 
