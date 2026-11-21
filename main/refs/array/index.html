@@ -4732,13 +4732,24 @@ from the end.</p>
       <tbody>
           <tr class="doc-section-item">
             <td>
+                  <code><span title="TypeError">TypeError</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>if the indices are not a <code>numpy.ndarray</code>.</p>
+              </div>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
                   <code><span title="ValueError">ValueError</span></code>
             </td>
             <td>
               <div class="doc-md-description">
                 <p>if the array has fewer than 2 dimensions, if the
-indices are not a 2-D array, or if the batch size of the
-indices differs from the batch size of the array.</p>
+indices are not a 2-D array or are a boolean array, or if
+the batch size of the indices differs from the batch size
+of the array.</p>
               </div>
             </td>
           </tr>
@@ -4867,11 +4878,22 @@ axis using the entries in <code>indices</code>.</p>
       <tbody>
           <tr class="doc-section-item">
             <td>
+                  <code><span title="TypeError">TypeError</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>if the indices are not a <code>numpy.ndarray</code>.</p>
+              </div>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
                   <code><span title="ValueError">ValueError</span></code>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>if the indices are not a 1-D array.</p>
+                <p>if the indices are not a 1-D array or are a
+boolean array.</p>
               </div>
             </td>
           </tr>
@@ -5009,11 +5031,22 @@ sample.</p>
       <tbody>
           <tr class="doc-section-item">
             <td>
+                  <code><span title="TypeError">TypeError</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>if the indices are not a <code>numpy.ndarray</code>.</p>
+              </div>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
                   <code><span title="ValueError">ValueError</span></code>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>if the indices are not a 1-D array.</p>
+                <p>if the indices are not a 1-D array or are a
+boolean array.</p>
               </div>
             </td>
           </tr>
@@ -5146,11 +5179,21 @@ axis according to the boolean mask <code>mask</code>.</p>
       <tbody>
           <tr class="doc-section-item">
             <td>
+                  <code><span title="TypeError">TypeError</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>if the mask is not a <code>numpy.ndarray</code>.</p>
+              </div>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
                   <code><span title="ValueError">ValueError</span></code>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>if the mask is not a boolean array.</p>
+                <p>if the mask is not a 1-D boolean array.</p>
               </div>
             </td>
           </tr>
@@ -5278,11 +5321,21 @@ sequence axis according to the boolean mask <code>mask</code>.</p>
       <tbody>
           <tr class="doc-section-item">
             <td>
+                  <code><span title="TypeError">TypeError</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>if the mask is not a <code>numpy.ndarray</code>.</p>
+              </div>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
                   <code><span title="ValueError">ValueError</span></code>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>if the mask is not a boolean array.</p>
+                <p>if the mask is not a 1-D boolean array.</p>
               </div>
             </td>
           </tr>
@@ -6314,12 +6367,22 @@ of the array.</p>
       <tbody>
           <tr class="doc-section-item">
             <td>
+                  <code><span title="TypeError">TypeError</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>if the permutation is not a <code>numpy.ndarray</code>.</p>
+              </div>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
                   <code><span title="ValueError">ValueError</span></code>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>if the shape of the permutation does not match
-the batch axis of the array.</p>
+                <p>if the permutation is a boolean array, is not 1-D
+or its length does not match the batch axis of the array.</p>
               </div>
             </td>
           </tr>
@@ -6453,12 +6516,23 @@ of the array.</p>
       <tbody>
           <tr class="doc-section-item">
             <td>
+                  <code><span title="TypeError">TypeError</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>if the permutation is not a <code>numpy.ndarray</code>.</p>
+              </div>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
                   <code><span title="ValueError">ValueError</span></code>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>if the shape of the permutation does not match
-the sequence axis of the array.</p>
+                <p>if the array has fewer than 2 dimensions, if the
+permutation is a boolean array, is not 1-D or its length
+does not match the sequence axis of the array.</p>
               </div>
             </td>
           </tr>

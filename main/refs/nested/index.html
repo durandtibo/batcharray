@@ -7324,12 +7324,22 @@ The output data has the same structure as the input data.</p>
       <tbody>
           <tr class="doc-section-item">
             <td>
+                  <code><span title="TypeError">TypeError</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>if the permutation is not a <code>numpy.ndarray</code>.</p>
+              </div>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
                   <code><span title="ValueError">ValueError</span></code>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>if the shape of the permutation does not match
-the batch axis of the array.</p>
+                <p>if the permutation is a boolean array, is not 1-D
+or its length does not match the batch axis of the array.</p>
               </div>
             </td>
           </tr>
@@ -7482,12 +7492,23 @@ The output data has the same structure as the input data.</p>
       <tbody>
           <tr class="doc-section-item">
             <td>
+                  <code><span title="TypeError">TypeError</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>if the permutation is not a <code>numpy.ndarray</code>.</p>
+              </div>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
                   <code><span title="ValueError">ValueError</span></code>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>if the shape of the permutation does not match
-the sequence axis of the array.</p>
+                <p>if the permutation is a boolean array, is not 1-D
+or its length does not match the sequence axis of the
+array.</p>
               </div>
             </td>
           </tr>

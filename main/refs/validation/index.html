@@ -1091,10 +1091,10 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#batcharray.validation.validate_min_ndim" class="md-nav__link">
+  <a href="#batcharray.validation.validate_indices" class="md-nav__link">
     <span class="md-ellipsis">
       
-        validate_min_ndim
+        validate_indices
       
     </span>
   </a>
@@ -1102,10 +1102,21 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#batcharray.validation.validate_same_keys" class="md-nav__link">
+  <a href="#batcharray.validation.validate_mask" class="md-nav__link">
     <span class="md-ellipsis">
       
-        validate_same_keys
+        validate_mask
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#batcharray.validation.validate_min_ndim" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        validate_min_ndim
       
     </span>
   </a>
@@ -1210,10 +1221,10 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#batcharray.validation.validate_min_ndim" class="md-nav__link">
+  <a href="#batcharray.validation.validate_indices" class="md-nav__link">
     <span class="md-ellipsis">
       
-        validate_min_ndim
+        validate_indices
       
     </span>
   </a>
@@ -1221,10 +1232,21 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#batcharray.validation.validate_same_keys" class="md-nav__link">
+  <a href="#batcharray.validation.validate_mask" class="md-nav__link">
     <span class="md-ellipsis">
       
-        validate_same_keys
+        validate_mask
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#batcharray.validation.validate_min_ndim" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        validate_min_ndim
       
     </span>
   </a>
@@ -1303,6 +1325,236 @@
 
 
 
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="batcharray.validation.validate_indices" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">batcharray.validation.validate_indices</span>
+
+
+<a href="#batcharray.validation.validate_indices" class="headerlink" title="Permanent link">&para;</a></h3>
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">validate_indices</span><span class="p">(</span>
+    <span class="n">indices</span><span class="p">:</span> <span class="n"><span title="numpy.ndarray">ndarray</span></span><span class="p">,</span>
+    <span class="o">*</span><span class="p">,</span>
+    <span class="n">ndim</span><span class="p">:</span> <span class="n"><span title="int">int</span></span><span class="p">,</span>
+    <span class="n">length</span><span class="p">:</span> <span class="n"><span title="int">int</span></span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Check that the indices are an integer array with the given rank.</p>
+<p>A boolean array is rejected because NumPy reads it as the integers
+0 and 1. The values of the indices (bounds, negative values, float
+dtype) are checked by NumPy.</p>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>indices</code>
+            </td>
+            <td>
+                  <code><span title="numpy.ndarray">ndarray</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The indices to check.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>ndim</code>
+            </td>
+            <td>
+                  <code><span title="int">int</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The expected number of dimensions of the indices.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>length</code>
+            </td>
+            <td>
+                  <code><span title="int">int</span> | None</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The expected size of the first axis of the indices.
+<code>None</code> means that the size is not checked.</p>
+              </div>
+            </td>
+            <td>
+                  <code>None</code>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+<p><span class="doc-section-title">Raises:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                  <code><span title="TypeError">TypeError</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>if the indices are not a <code>numpy.ndarray</code>.</p>
+              </div>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                  <code><span title="ValueError">ValueError</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>if the indices are a boolean array, if they do not
+have <code>ndim</code> dimensions, or if the size of their first
+axis is not <code>length</code>.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+<details class="example" open>
+  <summary>Example</summary>
+  <div class="highlight"><pre><span></span><code><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">batcharray.validation</span><span class="w"> </span><span class="kn">import</span> <span class="n">validate_indices</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">validate_indices</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]),</span> <span class="n">ndim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">validate_indices</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]),</span> <span class="n">ndim</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">length</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+</code></pre></div>
+</details>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="batcharray.validation.validate_mask" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">batcharray.validation.validate_mask</span>
+
+
+<a href="#batcharray.validation.validate_mask" class="headerlink" title="Permanent link">&para;</a></h3>
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">validate_mask</span><span class="p">(</span><span class="n">mask</span><span class="p">:</span> <span class="n"><span title="numpy.ndarray">ndarray</span></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Check that the mask is a 1-D boolean array.</p>
+<p>An integer array would be read as indices by NumPy, and a 2-D mask
+would index several axes.</p>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>mask</code>
+            </td>
+            <td>
+                  <code><span title="numpy.ndarray">ndarray</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The mask to check.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+<p><span class="doc-section-title">Raises:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                  <code><span title="TypeError">TypeError</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>if the mask is not a <code>numpy.ndarray</code>.</p>
+              </div>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                  <code><span title="ValueError">ValueError</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>if the mask is not a boolean array or is not 1-D.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+<details class="example" open>
+  <summary>Example</summary>
+  <div class="highlight"><pre><span></span><code><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">batcharray.validation</span><span class="w"> </span><span class="kn">import</span> <span class="n">validate_mask</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">validate_mask</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">True</span><span class="p">]))</span>
+</code></pre></div>
+</details>
+
+    </div>
+
+</div>
 
 <div class="doc doc-object doc-function">
 
@@ -1397,89 +1649,6 @@
   <div class="highlight"><pre><span></span><code><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">batcharray.validation</span><span class="w"> </span><span class="kn">import</span> <span class="n">validate_min_ndim</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">validate_min_ndim</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">)))</span>
-</code></pre></div>
-</details>
-
-    </div>
-
-</div>
-
-<div class="doc doc-object doc-function">
-
-
-<h3 id="batcharray.validation.validate_same_keys" class="doc doc-heading">
-            <span class="doc doc-object-name doc-function-name">batcharray.validation.validate_same_keys</span>
-
-
-<a href="#batcharray.validation.validate_same_keys" class="headerlink" title="Permanent link">&para;</a></h3>
-<div class="doc-signature highlight"><pre><span></span><code><span class="nf">validate_same_keys</span><span class="p">(</span>
-    <span class="n">data</span><span class="p">:</span> <span class="n"><span title="collections.abc.Sequence">Sequence</span></span><span class="p">[</span><span class="n"><span title="dict">dict</span></span><span class="p">[</span><span class="n"><span title="collections.abc.Hashable">Hashable</span></span><span class="p">,</span> <span class="n"><span title="typing.Any">Any</span></span><span class="p">]],</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span>
-</code></pre></div>
-
-    <div class="doc doc-contents ">
-
-        <p>Check that all the dictionaries have the same keys.</p>
-
-
-<p><span class="doc-section-title">Parameters:</span></p>
-    <table>
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Type</th>
-          <th>Description</th>
-          <th>Default</th>
-        </tr>
-      </thead>
-      <tbody>
-          <tr class="doc-section-item">
-            <td>
-                <code>data</code>
-            </td>
-            <td>
-                  <code><span title="collections.abc.Sequence">Sequence</span>[<span title="dict">dict</span>[<span title="collections.abc.Hashable">Hashable</span>, <span title="typing.Any">Any</span>]]</code>
-            </td>
-            <td>
-              <div class="doc-md-description">
-                <p>The dictionaries to check.</p>
-              </div>
-            </td>
-            <td>
-                <em>required</em>
-            </td>
-          </tr>
-      </tbody>
-    </table>
-
-
-<p><span class="doc-section-title">Raises:</span></p>
-    <table>
-      <thead>
-        <tr>
-          <th>Type</th>
-          <th>Description</th>
-        </tr>
-      </thead>
-      <tbody>
-          <tr class="doc-section-item">
-            <td>
-                  <code><span title="ValueError">ValueError</span></code>
-            </td>
-            <td>
-              <div class="doc-md-description">
-                <p>if some dictionaries have different keys.</p>
-              </div>
-            </td>
-          </tr>
-      </tbody>
-    </table>
-
-
-<details class="example" open>
-  <summary>Example</summary>
-  <div class="highlight"><pre><span></span><code><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">batcharray.validation</span><span class="w"> </span><span class="kn">import</span> <span class="n">validate_same_keys</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">validate_same_keys</span><span class="p">([{</span><span class="s2">"a"</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">"b"</span><span class="p">:</span> <span class="mi">2</span><span class="p">},</span> <span class="p">{</span><span class="s2">"b"</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span> <span class="s2">"a"</span><span class="p">:</span> <span class="mi">4</span><span class="p">}])</span>
 </code></pre></div>
 </details>
 

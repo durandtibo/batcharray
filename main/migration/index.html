@@ -1556,8 +1556,9 @@ equal to <code>index_select_*</code>.</p>
 </ul>
 <h2 id="the-size-validators">The size validators<a class="headerlink" href="#the-size-validators" title="Permanent link">&para;</a></h2>
 <p><code>validate_first_array</code>, <code>validate_same_batch_size</code> and <code>validate_same_seq_size</code> of
-<code>batcharray.validation</code> were removed (<code>validate_min_ndim</code>, <code>validate_split_sections</code> and
-<code>validate_same_keys</code> stay). <code>batcharray.nested.batch_size(data)</code> and <code>batcharray.nested.seq_len(data)</code>
+<code>batcharray.validation</code> were removed (<code>validate_min_ndim</code> and <code>validate_split_sections</code> stay,
+<code>validate_indices</code> and <code>validate_mask</code> are new, and <code>validate_same_keys</code> is removed: <code>coola</code> checks
+the keys of the items of <code>concatenate_*</code>). <code>batcharray.nested.batch_size(data)</code> and <code>batcharray.nested.seq_len(data)</code>
 do the same check and return the size: all the arrays must have the same size along the axis,
 otherwise (or for a structure without array) a <code>ValueError</code> is raised, and a leaf that is not an
 array raises a <code>TypeError</code>.</p>

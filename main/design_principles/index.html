@@ -1429,7 +1429,7 @@ transposed first. A <code>_along_seq</code> function needs an array with at leas
 <tr>
 <td>P8</td>
 <td>One error contract</td>
-<td>A bad leaf type is a <code>TypeError</code>. An argument that <code>batcharray</code> validates is a <code>ValueError</code>. Anything else is the NumPy error, unchanged.</td>
+<td>A bad leaf type is a <code>TypeError</code>. An argument that <code>batcharray</code> validates is a <code>ValueError</code>. Anything else is the NumPy error, unchanged. Every check is a function of <code>batcharray.validation</code>.</td>
 </tr>
 <tr>
 <td>P9</td>
@@ -1481,6 +1481,11 @@ transposed first. A <code>_along_seq</code> function needs an array with at leas
 <td>Documented claims exist</td>
 <td>Every file, workflow or module that the README and the docs point to exists, and the description of the package matches <code>pyproject.toml</code>.</td>
 </tr>
+<tr>
+<td>P19</td>
+<td>Unambiguous indices</td>
+<td>An index is an integer array and a mask is a boolean array, and no function reads one as the other. An index or a mask that is not an <code>ndarray</code> is a <code>TypeError</code>; one with the wrong rank, or a boolean index, is a <code>ValueError</code>. Index values (bounds, negative, float dtype) are NumPy's rules.</td>
+</tr>
 </tbody>
 </table>
 <h2 id="gates">Gates<a class="headerlink" href="#gates" title="Permanent link">&para;</a></h2>
@@ -1522,7 +1527,11 @@ transposed first. A <code>_along_seq</code> function needs an array with at leas
 </tr>
 <tr>
 <td>P8</td>
-<td><code>tests/unit/test_error_contract.py</code> (one row per line of the error table)</td>
+<td><code>tests/unit/test_error_contract.py</code> (one row per line of the error table) and <code>tests/unit/test_no_inline_raise_in_array.py</code> (no <code>raise</code> in <code>array</code>)</td>
+</tr>
+<tr>
+<td>P19</td>
+<td><code>tests/unit/test_error_contract.py</code> (a boolean index, a 2-D mask, a list index and a list mask)</td>
 </tr>
 <tr>
 <td>P9</td>
@@ -1611,11 +1620,11 @@ view NumPy returns.</p>
 </tr>
 <tr>
 <td><code>index_select_*</code></td>
-<td><code>np.take</code> and a check that the index is 1-D (NumPy accepts any shape and returns another rank)</td>
+<td><code>np.take</code> and the validation of the index (NumPy accepts a boolean and any rank)</td>
 </tr>
 <tr>
 <td><code>masked_select_*</code></td>
-<td>boolean indexing and a check that the mask is boolean (an integer mask is read as indices)</td>
+<td>boolean indexing and the validation of the mask (NumPy accepts any rank, and an integer mask is read as indices)</td>
 </tr>
 <tr>
 <td><code>gather_along_seq</code></td>
@@ -1627,7 +1636,7 @@ view NumPy returns.</p>
 </tr>
 <tr>
 <td><code>permute_*</code></td>
-<td><code>index_select</code> and a length check (NumPy would accept a shorter index)</td>
+<td><code>np.take</code> and the validation of the length (NumPy would accept a shorter index)</td>
 </tr>
 <tr>
 <td><code>shuffle_*</code></td>
@@ -1679,15 +1688,15 @@ It never repeats a check NumPy makes.</p>
 <td><code>ValueError</code></td>
 </tr>
 <tr>
-<td><code>index_select_*</code> with an index that is not 1-D; <code>masked_select_*</code> with a mask that is not boolean</td>
+<td>An index or a mask is not an <code>ndarray</code> (a list, ...)</td>
+<td><code>TypeError</code></td>
+</tr>
+<tr>
+<td>An index that has the wrong rank or that is boolean (<code>index_select_*</code>, <code>permute_*</code>, <code>gather_along_seq</code>); a mask that is not 1-D boolean</td>
 <td><code>ValueError</code></td>
 </tr>
 <tr>
-<td><code>gather_along_seq</code> with an index that is not 2-D or whose batch size differs</td>
-<td><code>ValueError</code></td>
-</tr>
-<tr>
-<td><code>permute_*</code> with a permutation of the wrong rank or length</td>
+<td><code>permute_*</code> with a permutation of the wrong length; <code>gather_along_seq</code> with an index whose batch size differs</td>
 <td><code>ValueError</code></td>
 </tr>
 <tr>
@@ -1711,39 +1720,48 @@ It never repeats a check NumPy makes.</p>
 <thead>
 <tr>
 <th>Function</th>
-<th>Index</th>
+<th>Index or mask</th>
 <th>Checked by <code>batcharray</code></th>
+<th>Validator</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td><code>index_select_along_*</code></td>
 <td>1-D integer array</td>
-<td><code>ndim == 1</code></td>
+<td><code>ndarray</code>, not boolean, <code>ndim == 1</code></td>
+<td><code>validate_indices</code></td>
 </tr>
 <tr>
 <td><code>permute_*</code></td>
 <td>1-D integer array of length = size of axis</td>
-<td><code>ndim</code> and length</td>
+<td><code>ndarray</code>, not boolean, <code>ndim == 1</code>, length</td>
+<td><code>validate_indices</code></td>
 </tr>
 <tr>
 <td><code>shuffle_*</code></td>
 <td>drawn by <code>rng.permutation</code></td>
 <td>n/a</td>
+<td>n/a</td>
 </tr>
 <tr>
 <td><code>gather_along_seq</code></td>
 <td>2-D integer array <code>(batch_size, n)</code></td>
-<td><code>ndim</code> and batch size</td>
+<td><code>ndarray</code>, not boolean, <code>ndim == 2</code>, batch size</td>
+<td><code>validate_indices</code></td>
 </tr>
 <tr>
 <td><code>masked_select_*</code></td>
 <td>1-D boolean array</td>
-<td>dtype is <code>bool</code></td>
+<td><code>ndarray</code>, dtype is <code>bool</code>, <code>ndim == 1</code></td>
+<td><code>validate_mask</code></td>
 </tr>
 </tbody>
 </table>
-<p>The dtype of the index, the bounds and the negative values are NumPy's rules.</p>
+<p>An index is an integer array and a mask is a boolean array, and no function reads one as the other.
+The dtype of the index (an integer or a float), the bounds and the negative values are NumPy's
+rules. The only dtype <code>batcharray</code> rejects is the boolean one, because NumPy accepts it and reads it
+as the integers 0 and 1. An index or a mask is never converted: a list is a <code>TypeError</code>.</p>
 <h2 id="edge-cases">Edge cases<a class="headerlink" href="#edge-cases" title="Permanent link">&para;</a></h2>
 <p>The result on an empty or degenerate input is NumPy's, and is pinned by a test:</p>
 <table>
