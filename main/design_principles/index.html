@@ -1391,11 +1391,11 @@
 is specific to a function (its edge cases, its exceptions and its example) and link here for the
 rules.</p>
 <p>!!! note "Status"</p>
-<div class="highlight"><pre><span></span><code>Each property has a gate: a test or a CI job that fails when it breaks (see the table
-[Gates](#gates)). A property without a gate is given one or removed.
+<div class="highlight"><pre><span></span><code>Each property has a gate: a test or a CI job that fails when it breaks (see the
+table [Gates](#gates)). A property without a gate is given one or removed.
 [`review/target_state.md`](https://github.com/durandtibo/batcharray/blob/main/review/target_state.md)
-records how the code reached this state. The package is pre-1.0: the API can change between
-releases.
+records how the code reached this state. The package is pre-1.0: the API can
+change between releases.
 </code></pre></div>
 <h2 id="layout">Layout<a class="headerlink" href="#layout" title="Permanent link">&para;</a></h2>
 <p>A batch array has the shape <code>(batch_size, seq_len, *)</code>. The batch axis is axis 0 and the sequence
@@ -1608,8 +1608,17 @@ that takes a <code>mask</code>, an <code>indices</code> or a <code>permutation</
 <li>Memory sharing between input and output, except for the views listed below.</li>
 <li>The order of the leaves inside a set.</li>
 <li>Dim-last or sequence-first layouts. Transpose first.</li>
-<li>0-d arrays. A 0-d array has no batch axis, so it is outside the contract and no test pins the result. The result is NumPy's and differs from one function to another: <code>sum_along_batch(np.array(1.0))</code> returns the 0-d array, <code>cumsum_along_batch</code> and <code>index_select_along_batch</code> return an array of shape <code>(1,)</code>, <code>sort_along_batch</code>, <code>flip_along_batch</code> and <code>sum_along_seq</code> raise <code>AxisError</code>, and <code>select_along_batch</code>, <code>slice_along_batch</code>, <code>masked_select_along_batch</code> and <code>chunk_along_batch</code> raise <code>IndexError</code>.</li>
-<li>A non-array argument at the <code>array</code> level (a list, a scalar). The annotation is <code>numpy.ndarray</code> and <code>ty</code> rejects the call. No check is made and no test pins the result, which is NumPy's and differs from one function to another: <code>sum_along_batch([[1, 2], [3, 4]])</code> raises <code>AttributeError</code>, <code>sort_along_batch</code> converts the list to an array, and <code>slice_along_batch</code> returns a list. Use <code>nested</code>, which raises a <code>TypeError</code> for a leaf that is not an array.</li>
+<li>0-d arrays. A 0-d array has no batch axis, so it is outside the contract and no test pins the
+  result. The result is NumPy's and differs from one function to another:
+  <code>sum_along_batch(np.array(1.0))</code> returns the 0-d array, <code>cumsum_along_batch</code> and
+  <code>index_select_along_batch</code> return an array of shape <code>(1,)</code>, <code>sort_along_batch</code>, <code>flip_along_batch</code>
+  and <code>sum_along_seq</code> raise <code>AxisError</code>, and <code>select_along_batch</code>, <code>slice_along_batch</code>,
+  <code>masked_select_along_batch</code> and <code>chunk_along_batch</code> raise <code>IndexError</code>.</li>
+<li>A non-array argument at the <code>array</code> level (a list, a scalar). The annotation is <code>numpy.ndarray</code>
+  and <code>ty</code> rejects the call. No check is made and no test pins the result, which is NumPy's and
+  differs from one function to another: <code>sum_along_batch([[1, 2], [3, 4]])</code> raises <code>AttributeError</code>,
+  <code>sort_along_batch</code> converts the list to an array, and <code>slice_along_batch</code> returns a list. Use
+  <code>nested</code>, which raises a <code>TypeError</code> for a leaf that is not an array.</li>
 <li>Dataclasses and sets as containers.</li>
 <li>That an index or a <code>permutation</code> argument is a valid permutation (only its length is checked).</li>
 <li>A generator or a lazy iterable as <code>items</code> of <code>concatenate_*</code> and <code>stack_*</code>. It takes a <code>Sequence</code>.</li>
@@ -1617,10 +1626,10 @@ that takes a <code>mask</code>, an <code>indices</code> or a <code>permutation</
 <h2 id="containers">Containers<a class="headerlink" href="#containers" title="Permanent link">&para;</a></h2>
 <p>The supported structures are <code>dict</code>, <code>list</code>, <code>tuple</code> and their subclasses (named tuple,
 <code>OrderedDict</code>, <code>defaultdict</code>). Sets and dataclasses are outside the contract.</p>
-<p>For <code>concatenate_*</code> and <code>stack_*</code>, the output containers are the ones of the first item and the other items must
-have the same keys and lengths. A <code>list</code> and a <code>tuple</code> can be combined (the output has the type of
-the first item), as can a <code>dict</code> and an <code>OrderedDict</code>. A mapping combined with a sequence raises a
-<code>ValueError</code>.</p>
+<p>For <code>concatenate_*</code> and <code>stack_*</code>, the output containers are the ones of the first item and the
+other items must have the same keys and lengths. A <code>list</code> and a <code>tuple</code> can be combined (the output
+has the type of the first item), as can a <code>dict</code> and an <code>OrderedDict</code>. A mapping combined with a
+sequence raises a <code>ValueError</code>.</p>
 <p>For <code>chunk_*</code> and <code>split_*</code>, all the leaves must have the same size along the split axis, otherwise
 the pieces of different leaves are not aligned and a <code>ValueError</code> is raised.</p>
 <h2 id="exceptions-to-the-thin-wrappers">Exceptions to the thin wrappers<a class="headerlink" href="#exceptions-to-the-thin-wrappers" title="Permanent link">&para;</a></h2>
@@ -1677,12 +1686,13 @@ returns a new array. <code>sort_*</code>, <code>cumsum_*</code>, <code>repeat_*<
 array.</p>
 <h2 id="masked-arrays">Masked arrays<a class="headerlink" href="#masked-arrays" title="Permanent link">&para;</a></h2>
 <p>A reduction, a cumulative function, <code>argmax</code>, <code>argmin</code>, <code>any</code> and <code>all</code> use the method of the array,
-which <code>MaskedArray</code> overrides. <code>median</code>, <code>sort</code>, <code>argsort</code>, <code>concatenate</code> and <code>stack</code> use <code>numpy.ma</code> for a
-masked array and <code>numpy</code> otherwise. <code>concatenate</code> and <code>stack</code> take several arrays, so <code>get_namespace(*arrays)</code>
-chooses <code>numpy.ma</code> when any of them is masked, whatever its position: <code>numpy.concatenate</code> drops the
-mask of a masked array that is not first, and so does <code>numpy.stack</code>. A list of plain arrays stays
-plain (<code>numpy.ma.stack</code> would turn it into a masked array). A subclass of <code>MaskedArray</code> is dispatched as a masked array, a
-subclass of <code>ndarray</code> is a plain array, and an array type with other semantics is not supported.</p>
+which <code>MaskedArray</code> overrides. <code>median</code>, <code>sort</code>, <code>argsort</code>, <code>concatenate</code> and <code>stack</code> use <code>numpy.ma</code>
+for a masked array and <code>numpy</code> otherwise. <code>concatenate</code> and <code>stack</code> take several arrays, so
+<code>get_namespace(*arrays)</code> chooses <code>numpy.ma</code> when any of them is masked, whatever its position:
+<code>numpy.concatenate</code> drops the mask of a masked array that is not first, and so does <code>numpy.stack</code>. A
+list of plain arrays stays plain (<code>numpy.ma.stack</code> would turn it into a masked array). A subclass of
+<code>MaskedArray</code> is dispatched as a masked array, a subclass of <code>ndarray</code> is a plain array, and an
+array type with other semantics is not supported.</p>
 <p>A function that NumPy does not support on a masked array is not added to the package until it has a
 masked implementation.</p>
 <h2 id="errors">Errors<a class="headerlink" href="#errors" title="Permanent link">&para;</a></h2>
