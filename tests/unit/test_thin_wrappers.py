@@ -100,10 +100,12 @@ REDUCTIONS_ROW = "*_along_batch` reductions"
 
 
 def get_documented_closed_list() -> set[str]:
-    r"""Return the functions of the table "Exceptions to the thin wrappers".
+    r"""Return the functions of the table "Exceptions to the thin
+    wrappers".
 
     The row of the reductions is expanded to the ``*_along_batch``
-    reductions, and the ``_*`` forms to the batch and sequence functions.
+    reductions, and the ``_*`` forms to the batch and sequence
+    functions.
     """
     text = DESIGN_PRINCIPLES.read_text(encoding="utf-8")
     section = text.split("## Exceptions to the thin wrappers", maxsplit=1)[1]

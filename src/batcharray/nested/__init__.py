@@ -1,8 +1,8 @@
 r"""Contain functions to manipulate nested data.
 
-The layout (the batch axis is 0 and the sequence axis is 1) and the other
-rules of the functions are stated once in the page ``design_principles`` of
-the documentation.
+The layout (the batch axis is 0 and the sequence axis is 1) and the
+other rules of the functions are stated once in the page
+``design_principles`` of the documentation.
 """
 
 from __future__ import annotations

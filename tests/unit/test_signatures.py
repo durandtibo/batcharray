@@ -28,7 +28,8 @@ def get_parameters(func: Callable) -> list[inspect.Parameter]:
 
 
 def get_options(func: Callable) -> list[tuple[str, object, object]]:
-    r"""Return the (name, kind, default) of the parameters after the data."""
+    r"""Return the (name, kind, default) of the parameters after the
+    data."""
     return [(p.name, p.kind, p.default) for p in get_parameters(func)[1:]]
 
 
@@ -108,7 +109,8 @@ def test_nested_function_has_no_var_args(name: str) -> None:
 
 
 def get_parameters_named(name: str) -> list[inspect.Parameter]:
-    r"""Return the parameters with this name in all the public functions."""
+    r"""Return the parameters with this name in all the public
+    functions."""
     return [
         p
         for module in (ba, bn)

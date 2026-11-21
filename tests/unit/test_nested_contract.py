@@ -82,7 +82,8 @@ LEAVES = [(1, "int"), ("x", "str"), (None, "NoneType"), (np.float64(1.0), "float
 
 
 def call_with_leaf(name: str, leaf: object) -> object:
-    r"""Call a ``nested`` function on a structure with a non-array leaf."""
+    r"""Call a ``nested`` function on a structure with a non-array
+    leaf."""
     func = getattr(bn, name)
     data = {"a": leaf}
     if name in COMBINE_FUNCTIONS:

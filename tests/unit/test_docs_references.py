@@ -24,7 +24,8 @@ MODULE_PATTERN = re.compile(r"^::: ([\w.]+)$", re.MULTILINE)
 
 
 def get_workflow_references() -> list[tuple[str, str]]:
-    r"""Return the ``(file, workflow)`` pairs of the workflows linked in the docs."""
+    r"""Return the ``(file, workflow)`` pairs of the workflows linked in
+    the docs."""
     files = [ROOT / "README.md", *sorted(DOCS.glob("*.md"))]
     return [
         (file.relative_to(ROOT).as_posix(), name)
@@ -34,7 +35,8 @@ def get_workflow_references() -> list[tuple[str, str]]:
 
 
 def get_module_references() -> list[tuple[str, str]]:
-    r"""Return the ``(file, module)`` pairs of the modules documented in the API reference."""
+    r"""Return the ``(file, module)`` pairs of the modules documented in
+    the API reference."""
     return [
         (file.relative_to(ROOT).as_posix(), name)
         for file in sorted((DOCS / "refs").glob("*.md"))
@@ -43,7 +45,8 @@ def get_module_references() -> list[tuple[str, str]]:
 
 
 def get_top_level_modules() -> list[str]:
-    r"""Return the modules of the package documented in the API reference."""
+    r"""Return the modules of the package documented in the API
+    reference."""
     return sorted(
         {
             name.split(".")[1]
@@ -61,18 +64,21 @@ def get_requirements() -> list[Requirement]:
 
 
 def get_required_dependencies() -> list[str]:
-    r"""Return the names of the required dependencies of ``pyproject.toml``."""
+    r"""Return the names of the required dependencies of
+    ``pyproject.toml``."""
     return [requirement.name for requirement in get_requirements()]
 
 
 def get_tested_versions(name: str) -> list[str]:
-    r"""Return the versions of a dependency installed by the dependency CI."""
+    r"""Return the versions of a dependency installed by the dependency
+    CI."""
     path = ROOT / "dev" / "config" / "package_versions.json"
     return json.loads(path.read_text())[name]
 
 
 def get_readme_main_row() -> list[str]:
-    r"""Return the cells of the row ``main`` of the table of versions of the README."""
+    r"""Return the cells of the row ``main`` of the table of versions of
+    the README."""
     for line in (ROOT / "README.md").read_text().splitlines():
         cells = [cell.strip() for cell in line.strip("|").split("|")]
         if line.startswith("|") and cells[0] == "`main`":
