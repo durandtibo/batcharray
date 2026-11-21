@@ -1,4 +1,5 @@
-r"""Contain utilities shared by the ``array`` and ``nested`` packages."""
+r"""Contain utilities shared by the ``array`` and ``nested``
+packages."""
 
 from __future__ import annotations
 

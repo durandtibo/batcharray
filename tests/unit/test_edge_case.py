@@ -1,6 +1,9 @@
 r"""Tests of P17: the result on an empty or degenerate input is
-documented. One test per row of the edge-case table of
-``docs/docs/design_principles.md``."""
+documented.
+
+One test per row of the edge-case table of
+``docs/docs/design_principles.md``.
+"""
 
 from __future__ import annotations
 

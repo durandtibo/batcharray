@@ -13,8 +13,8 @@ if TYPE_CHECKING:
 
 
 def get_namespace(*arrays: np.ndarray) -> ModuleType:
-    r"""Return the NumPy namespace that implements the operations of
-    some arrays.
+    r"""Return the NumPy namespace that implements the operations of some
+    arrays.
 
     A subclass of ``numpy.ma.MaskedArray`` is dispatched as a masked
     array. A subclass of ``numpy.ndarray`` is a plain array. When

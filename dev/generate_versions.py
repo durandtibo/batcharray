@@ -26,7 +26,8 @@ logger: logging.Logger = logging.getLogger(__name__)
 def restrict_to_bounds(
     requirement: Requirement, versions: list[str], available: tuple[str, ...]
 ) -> list[str]:
-    r"""Restrict the versions of a package to the ones its requirement accepts.
+    r"""Restrict the versions of a package to the ones its requirement
+    accepts.
 
     The generator skips the pre-releases, so a pre-release lower bound (for
     example ``coola>=2.0.0a4``) is missing and the versions it returns can be
