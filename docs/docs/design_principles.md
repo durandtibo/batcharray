@@ -32,7 +32,7 @@ transposed first. A `_along_seq` function needs an array with at least 2 dimensi
 | P5  | Structure-preserving    | A map function returns the input structure with every leaf replaced. Supported containers: `dict`, `list`, `tuple` and their subclasses.                                                                                                          |
 | P6  | Array leaves only       | A leaf that is not a `numpy.ndarray` raises a `TypeError` that names the leaf type. Nothing is skipped silently and no leaf is converted.                                                                                                         |
 | P7  | Pure                    | Inputs are never modified. The output never aliases the input, except where NumPy returns a view (see the list of views below).                                                                                                                   |
-| P8  | One error contract      | A bad leaf type is a `TypeError`. An argument that `batcharray` validates is a `ValueError`. Anything else is the NumPy error, unchanged.                                                                                                         |
+| P8  | One error contract      | A bad leaf type is a `TypeError`. An argument that `batcharray` validates is a `ValueError`. Anything else is the NumPy error, unchanged. Every check is a function of `batcharray.validation`.                                                                                                         |
 | P9  | Explicit randomness     | Randomness comes only from `rng`, which is passed to `numpy.random.default_rng`. One permutation is shared by all the leaves.                                                                                                                     |
 | P10 | No cast, no conversion  | No function casts or converts what the caller passes. The `dtype` of `concatenate_*` is an explicit option that NumPy defines.                                                                                                                    |
 | P11 | Masked arrays           | A `numpy.ma.MaskedArray` input gives a `MaskedArray` output with the semantics of `numpy.ma`, except for the functions that return indices (`argsort`, `argmax`, `argmin`). When a function takes several arrays (`concatenate_*`), one masked array in any position makes the output masked and keeps every mask. |
@@ -43,6 +43,7 @@ transposed first. A `_along_seq` function needs an array with at least 2 dimensi
 | P16 | Documented by example   | Every public function has a docstring with a runnable `pycon` example. Each rule is stated once, on this page.                                                                                                                                    |
 | P17 | Defined on edge cases   | Every function has a documented result on empty and degenerate input. "NumPy's behaviour" is an answer, "undefined" is not.                                                                                                                       |
 | P18 | Documented claims exist | Every file, workflow or module that the README and the docs point to exists, and the description of the package matches `pyproject.toml`.                                                                                                         |
+| P19 | Unambiguous indices     | An index is an integer array and a mask is a boolean array, and no function reads one as the other. An index or a mask that is not an `ndarray` is a `TypeError`; one with the wrong rank, or a boolean index, is a `ValueError`. Index values (bounds, negative, float dtype) are NumPy's rules. |
 
 ## Gates
 
@@ -55,7 +56,8 @@ transposed first. A `_along_seq` function needs an array with at least 2 dimensi
 | P5       | `tests/unit/test_nested_contract.py` and `tests/unit/utils/test_structure.py` (the container types are kept) |
 | P6       | `tests/unit/test_nested_contract.py` (every `nested` function raises a `TypeError` for a non-array leaf)     |
 | P7       | `tests/unit/test_purity.py` (inputs are not modified, no aliasing except the views)                          |
-| P8       | `tests/unit/test_error_contract.py` (one row per line of the error table)                                    |
+| P8       | `tests/unit/test_error_contract.py` (one row per line of the error table) and `tests/unit/test_no_inline_raise_in_array.py` (no `raise` in `array`) |
+| P19      | `tests/unit/test_error_contract.py` (a boolean index, a 2-D mask, a list index and a list mask)              |
 | P9       | `tests/unit/test_rng.py`                                                                                     |
 | P10      | the dtype tests of `concatenate_*` and of the reductions in `tests/unit/array`                               |
 | P11      | `tests/unit/test_masked_arrays.py` (every function on a masked array equals the `numpy.ma` result, and `concatenate_*` with a masked array in every position) |
@@ -101,11 +103,11 @@ view NumPy returns.
 | `*_along_batch` reductions and `select_along_batch` | the NumPy call is wrapped in `np.asanyarray`, because NumPy returns a scalar on a 1-D input (P12)                    |
 | `split_*`                                           | `np.split` with indices computed from a size or sections (`np.split(x, 2)` means 2 sections, not size 2)             |
 | `concatenate_*` with `dtype` on a masked array      | `np.ma.concatenate` has no `dtype`: `astype` after it                                                                |
-| `index_select_*`                                    | `np.take` and a check that the index is 1-D (NumPy accepts any shape and returns another rank)                       |
-| `masked_select_*`                                   | boolean indexing and a check that the mask is boolean (an integer mask is read as indices)                           |
+| `index_select_*`                                    | `np.take` and the validation of the index (NumPy accepts a boolean and any rank)                       |
+| `masked_select_*`                                   | boolean indexing and the validation of the mask (NumPy accepts any rank, and an integer mask is read as indices)                           |
 | `gather_along_seq`                                  | `np.take_along_axis` with the index reshaped over the feature axes, and a check of the batch size (NumPy broadcasts) |
 | `tile_along_seq`                                    | `np.tile` with the repetitions built from the rank, and a check of the rank (NumPy promotes a 1-D array)             |
-| `permute_*`                                         | `index_select` and a length check (NumPy would accept a shorter index)                                               |
+| `permute_*`                                         | `np.take` and the validation of the length (NumPy would accept a shorter index)                                               |
 | `shuffle_*`                                         | draws the permutation with `np.random.default_rng(rng)`, then `permute_*`                                            |
 
 Views (aliasing allowed): `slice_*`, `select_*`, `chunk_*`, `split_*`, `flip_*`. Everything else
@@ -136,9 +138,9 @@ It never repeats a check NumPy makes.
 | `concatenate` combines a mapping with a sequence                                                                                                                         | `ValueError`                        |
 | Leaves disagree on the size of the axis of `chunk_*`, `split_*`, `shuffle_*`, `batch_size`, `seq_len`                                                                    | `ValueError`                        |
 | A split size that is not positive, sections that are negative or do not sum to the size                                                                                  | `ValueError`                        |
-| `index_select_*` with an index that is not 1-D; `masked_select_*` with a mask that is not boolean                                                                        | `ValueError`                        |
-| `gather_along_seq` with an index that is not 2-D or whose batch size differs                                                                                             | `ValueError`                        |
-| `permute_*` with a permutation of the wrong rank or length                                                                                                               | `ValueError`                        |
+| An index or a mask is not an `ndarray` (a list, ...)                                                                                                                     | `TypeError`                         |
+| An index that has the wrong rank or that is boolean (`index_select_*`, `permute_*`, `gather_along_seq`); a mask that is not 1-D boolean                                  | `ValueError`                        |
+| `permute_*` with a permutation of the wrong length; `gather_along_seq` with an index whose batch size differs                                                            | `ValueError`                        |
 | `tile_along_seq`, `shuffle_along_seq`, `permute_along_seq`, `gather_along_seq`, `chunk_along_seq`, `split_along_seq`, `seq_len` on an array with fewer than 2 dimensions | `ValueError`                        |
 | Another `_along_seq` function on a 1-D array (`slice`, `select`, `sum`, `flip`, `repeat`, `sort`, ...)                                                                   | NumPy's `AxisError` or `IndexError` |
 | An out-of-range or a float index, a negative count, a bad `kind`, a bad `ddof`                                                                                           | NumPy's own error                   |
@@ -149,15 +151,18 @@ A NumPy `AxisError` is both a `ValueError` and an `IndexError`, so a caller can 
 
 An index argument is handled the same way in every function, and is never cast or moved:
 
-| Function               | Index                                      | Checked by `batcharray` |
-| ---------------------- | ------------------------------------------ | ----------------------- |
-| `index_select_along_*` | 1-D integer array                          | `ndim == 1`             |
-| `permute_*`            | 1-D integer array of length = size of axis | `ndim` and length       |
-| `shuffle_*`            | drawn by `rng.permutation`                 | n/a                     |
-| `gather_along_seq`     | 2-D integer array `(batch_size, n)`        | `ndim` and batch size   |
-| `masked_select_*`      | 1-D boolean array                          | dtype is `bool`         |
+| Function               | Index or mask                              | Checked by `batcharray`                      | Validator          |
+| ---------------------- | ------------------------------------------ | -------------------------------------------- | ------------------ |
+| `index_select_along_*` | 1-D integer array                          | `ndarray`, not boolean, `ndim == 1`          | `validate_indices` |
+| `permute_*`            | 1-D integer array of length = size of axis | `ndarray`, not boolean, `ndim == 1`, length  | `validate_indices` |
+| `shuffle_*`            | drawn by `rng.permutation`                 | n/a                                          | n/a                |
+| `gather_along_seq`     | 2-D integer array `(batch_size, n)`        | `ndarray`, not boolean, `ndim == 2`, batch size | `validate_indices` |
+| `masked_select_*`      | 1-D boolean array                          | `ndarray`, dtype is `bool`, `ndim == 1`      | `validate_mask`    |
 
-The dtype of the index, the bounds and the negative values are NumPy's rules.
+An index is an integer array and a mask is a boolean array, and no function reads one as the other.
+The dtype of the index (an integer or a float), the bounds and the negative values are NumPy's
+rules. The only dtype `batcharray` rejects is the boolean one, because NumPy accepts it and reads it
+as the integers 0 and 1. An index or a mask is never converted: a list is a `TypeError`.
 
 ## Edge cases
 

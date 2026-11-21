@@ -151,10 +151,30 @@ ROWS: dict[str, tuple[Callable[[], object], type[Exception], str]] = {
         ValueError,
         r"indices must be a 1-D array",
     ),
+    "index_select with a boolean index": (
+        lambda: ba.index_select_along_batch(X, np.array([True, False, True, False])),
+        ValueError,
+        r"indices must be an integer array",
+    ),
+    "index_select with a list index": (
+        lambda: ba.index_select_along_batch(X, [0, 1]),  # ty: ignore[invalid-argument-type]
+        TypeError,
+        r"indices must be a numpy.ndarray, but got an object of type list",
+    ),
     "masked_select with a mask that is not boolean": (
         lambda: ba.masked_select_along_batch(X, np.array([0, 1, 2, 3])),
         ValueError,
         r"mask must be a boolean array",
+    ),
+    "masked_select with a 2-D mask": (
+        lambda: ba.masked_select_along_batch(X, np.ones((4, 3), dtype=bool)),
+        ValueError,
+        r"mask must be a 1-D array",
+    ),
+    "masked_select with a list mask": (
+        lambda: ba.masked_select_along_batch(X, [True, False]),  # ty: ignore[invalid-argument-type]
+        TypeError,
+        r"mask must be a numpy.ndarray, but got an object of type list",
     ),
     "gather with an index that is not 2-D": (
         lambda: ba.gather_along_seq(X, np.array([0, 1, 2, 0])),
@@ -164,17 +184,27 @@ ROWS: dict[str, tuple[Callable[[], object], type[Exception], str]] = {
     "gather with a different batch size": (
         lambda: ba.gather_along_seq(X, np.zeros((3, 1), dtype=int)),
         ValueError,
-        r"batch size of the indices",
+        r"indices must have 4 elements along the first axis",
+    ),
+    "gather with a boolean index": (
+        lambda: ba.gather_along_seq(X, np.ones((4, 1), dtype=bool)),
+        ValueError,
+        r"indices must be an integer array",
     ),
     "permute with a permutation of the wrong length": (
         lambda: ba.permute_along_batch(X, np.array([0, 1])),
         ValueError,
-        r"permutation shape",
+        r"indices must have 4 elements along the first axis",
     ),
     "permute with a permutation of the wrong rank": (
         lambda: ba.permute_along_batch(X, np.zeros((4, 1), dtype=int)),
         ValueError,
-        r"permutation shape",
+        r"indices must be a 1-D array",
+    ),
+    "permute with a boolean permutation": (
+        lambda: ba.permute_along_batch(X, np.array([True, False, True, False])),
+        ValueError,
+        r"indices must be an integer array",
     ),
     "out-of-range index": (
         lambda: ba.index_select_along_batch(X, np.array([4])),

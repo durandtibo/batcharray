@@ -44,8 +44,9 @@ def permute_along_batch(data: T, permutation: np.ndarray) -> T:
             The output data has the same structure as the input data.
 
     Raises:
-        ValueError: if the shape of the permutation does not match
-            the batch axis of the array.
+        TypeError: if the permutation is not a ``numpy.ndarray``.
+        ValueError: if the permutation is a boolean array, is not 1-D
+            or its length does not match the batch axis of the array.
 
     Example:
         ```pycon
@@ -83,8 +84,10 @@ def permute_along_seq(data: T, permutation: np.ndarray) -> T:
             The output data has the same structure as the input data.
 
     Raises:
-        ValueError: if the shape of the permutation does not match
-            the sequence axis of the array.
+        TypeError: if the permutation is not a ``numpy.ndarray``.
+        ValueError: if the permutation is a boolean array, is not 1-D
+            or its length does not match the sequence axis of the
+            array.
 
     Example:
         ```pycon

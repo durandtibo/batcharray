@@ -225,7 +225,7 @@ def test_masked_select_along_seq_masked_array() -> None:
 @pytest.mark.parametrize("func", [index_select_along_batch, index_select_along_seq])
 @pytest.mark.parametrize("indices", [np.ones((2, 2), dtype=int), np.array(1)])
 def test_index_select_indices_not_1d_raises(func: Callable, indices: np.ndarray) -> None:
-    with pytest.raises(ValueError, match="indices must be a 1-D array"):
+    with pytest.raises(ValueError, match=r"indices must be a 1-D array"):
         func(np.ones((2, 3)), indices)
 
 
@@ -252,13 +252,43 @@ def test_index_select_does_not_modify_indices(func: Callable) -> None:
     "mask", [np.array([0, 1, 2]), np.array([1.0, 0.0, 1.0]), np.array([1, 0, 1], dtype=np.uint8)]
 )
 def test_masked_select_mask_not_bool_raises(func: Callable, mask: np.ndarray) -> None:
-    with pytest.raises(ValueError, match="mask must be a boolean array"):
+    with pytest.raises(ValueError, match=r"mask must be a boolean array"):
         func(np.ones((3, 3)), mask)
+
+
+@pytest.mark.parametrize("func", [index_select_along_batch, index_select_along_seq])
+def test_index_select_bool_indices_raises(func: Callable) -> None:
+    # A boolean index was read as the integers 0 and 1: rows 1, 0, 1.
+    with pytest.raises(ValueError, match=r"indices must be an integer array"):
+        func(np.ones((3, 3)), np.array([True, False, True]))
+
+
+@pytest.mark.parametrize("func", [index_select_along_batch, index_select_along_seq])
+def test_index_select_list_indices_raises(func: Callable) -> None:
+    with pytest.raises(
+        TypeError, match=r"indices must be a numpy.ndarray, but got an object of type list"
+    ):
+        func(np.ones((3, 3)), [0, 1])
+
+
+@pytest.mark.parametrize("func", [masked_select_along_batch, masked_select_along_seq])
+def test_masked_select_mask_not_1d_raises(func: Callable) -> None:
+    # A 2-D mask of the shape of the array was accepted and gave a flat array.
+    with pytest.raises(ValueError, match=r"mask must be a 1-D array"):
+        func(np.ones((3, 3)), np.ones((3, 3), dtype=bool))
+
+
+@pytest.mark.parametrize("func", [masked_select_along_batch, masked_select_along_seq])
+def test_masked_select_list_mask_raises(func: Callable) -> None:
+    with pytest.raises(
+        TypeError, match=r"mask must be a numpy.ndarray, but got an object of type list"
+    ):
+        func(np.ones((3, 3)), [True, False, True])
 
 
 def test_masked_select_along_batch_integer_mask_regression() -> None:
     # An integer mask was read as indices: rows 0, 1 and 2 of the array.
-    with pytest.raises(ValueError, match="mask must be a boolean array"):
+    with pytest.raises(ValueError, match=r"mask must be a boolean array"):
         masked_select_along_batch(np.arange(6).reshape(3, 2), np.array([0, 1, 2]))
 
 
@@ -359,14 +389,24 @@ def test_gather_along_seq_does_not_modify_indices() -> None:
 
 def test_gather_along_seq_batch_size_mismatch_raises() -> None:
     # take_along_seq(np.arange(6).reshape(2, 3), np.array([[0, 1]])) dropped the row 1.
-    with pytest.raises(ValueError, match="batch size of the indices"):
+    with pytest.raises(ValueError, match=r"indices must have 2 elements along the first axis"):
         gather_along_seq(np.arange(6).reshape(2, 3), np.array([[0, 1]]))
 
 
 @pytest.mark.parametrize("indices", [np.array([0, 1]), np.zeros((2, 1, 1), dtype=int)])
 def test_gather_along_seq_indices_not_2d_raises(indices: np.ndarray) -> None:
-    with pytest.raises(ValueError, match="indices must be a 2-D array"):
+    with pytest.raises(ValueError, match=r"indices must be a 2-D array"):
         gather_along_seq(np.ones((2, 3)), indices)
+
+
+def test_gather_along_seq_bool_indices_raises() -> None:
+    with pytest.raises(ValueError, match=r"indices must be an integer array"):
+        gather_along_seq(np.ones((2, 3)), np.ones((2, 1), dtype=bool))
+
+
+def test_gather_along_seq_list_indices_raises() -> None:
+    with pytest.raises(TypeError, match=r"indices must be a numpy.ndarray"):
+        gather_along_seq(np.ones((2, 3)), [[0], [1]])  # ty: ignore[invalid-argument-type]
 
 
 def test_gather_along_seq_1d_array_raises() -> None:

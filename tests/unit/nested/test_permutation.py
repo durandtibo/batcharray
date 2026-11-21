@@ -98,10 +98,7 @@ def test_permute_along_batch_nested() -> None:
 
 
 def test_permute_along_batch_incorrect_shape() -> None:
-    with pytest.raises(
-        ValueError,
-        match=r"permutation shape \(.*\) is not compatible with array shape \(.*\)",
-    ):
+    with pytest.raises(ValueError, match=r"indices must have .* elements along the first axis"):
         permute_along_batch(
             {
                 "a": np.array([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9]]),
@@ -181,10 +178,7 @@ def test_permute_along_seq_nested() -> None:
 
 
 def test_permute_along_seq_incorrect_shape() -> None:
-    with pytest.raises(
-        ValueError,
-        match=r"permutation shape \(.*\) is not compatible with array shape \(.*\)",
-    ):
+    with pytest.raises(ValueError, match=r"indices must have .* elements along the first axis"):
         permute_along_seq(
             {
                 "a": np.array([[0, 1, 2, 3, 4], [5, 6, 7, 8, 9]]),

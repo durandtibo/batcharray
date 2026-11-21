@@ -15,7 +15,7 @@ __all__ = [
 import numpy as np
 
 from batcharray.constants import BATCH_AXIS, SEQ_AXIS
-from batcharray.validation import validate_min_ndim
+from batcharray.validation import validate_indices, validate_min_ndim
 
 
 def permute_along_batch(array: np.ndarray, permutation: np.ndarray) -> np.ndarray:
@@ -35,8 +35,9 @@ def permute_along_batch(array: np.ndarray, permutation: np.ndarray) -> np.ndarra
         The array with permuted data along the batch axis.
 
     Raises:
-        ValueError: if the shape of the permutation does not match
-            the batch axis of the array.
+        TypeError: if the permutation is not a ``numpy.ndarray``.
+        ValueError: if the permutation is a boolean array, is not 1-D
+            or its length does not match the batch axis of the array.
 
     Example:
         ```pycon
@@ -53,12 +54,7 @@ def permute_along_batch(array: np.ndarray, permutation: np.ndarray) -> np.ndarra
 
         ```
     """
-    if permutation.ndim != 1 or permutation.shape[0] != array.shape[BATCH_AXIS]:
-        msg = (
-            f"permutation shape ({permutation.shape}) is not compatible with array shape "
-            f"({array.shape})"
-        )
-        raise ValueError(msg)
+    validate_indices(permutation, ndim=1, length=array.shape[BATCH_AXIS])
     return np.take(array, permutation, axis=BATCH_AXIS)
 
 
@@ -79,8 +75,10 @@ def permute_along_seq(array: np.ndarray, permutation: np.ndarray) -> np.ndarray:
         The array with permuted data along the sequence axis.
 
     Raises:
-        ValueError: if the shape of the permutation does not match
-            the sequence axis of the array.
+        TypeError: if the permutation is not a ``numpy.ndarray``.
+        ValueError: if the array has fewer than 2 dimensions, if the
+            permutation is a boolean array, is not 1-D or its length
+            does not match the sequence axis of the array.
 
     Example:
         ```pycon
@@ -95,12 +93,7 @@ def permute_along_seq(array: np.ndarray, permutation: np.ndarray) -> np.ndarray:
         ```
     """
     validate_min_ndim(array)
-    if permutation.ndim != 1 or permutation.shape[0] != array.shape[SEQ_AXIS]:
-        msg = (
-            f"permutation shape ({permutation.shape}) is not compatible with array shape "
-            f"({array.shape})"
-        )
-        raise ValueError(msg)
+    validate_indices(permutation, ndim=1, length=array.shape[SEQ_AXIS])
     return np.take(array, permutation, axis=SEQ_AXIS)
 
 

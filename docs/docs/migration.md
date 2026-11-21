@@ -114,8 +114,9 @@ equal to `index_select_*`.
 ## The size validators
 
 `validate_first_array`, `validate_same_batch_size` and `validate_same_seq_size` of
-`batcharray.validation` were removed (`validate_min_ndim`, `validate_split_sections` and
-`validate_same_keys` stay). `batcharray.nested.batch_size(data)` and `batcharray.nested.seq_len(data)`
+`batcharray.validation` were removed (`validate_min_ndim` and `validate_split_sections` stay,
+`validate_indices` and `validate_mask` are new, and `validate_same_keys` is removed: `coola` checks
+the keys of the items of `concatenate_*`). `batcharray.nested.batch_size(data)` and `batcharray.nested.seq_len(data)`
 do the same check and return the size: all the arrays must have the same size along the axis,
 otherwise (or for a structure without array) a `ValueError` is raised, and a leaf that is not an
 array raises a `TypeError`.
