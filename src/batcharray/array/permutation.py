@@ -21,10 +21,6 @@ from batcharray.validation import validate_indices, validate_min_ndim
 def permute_along_batch(array: np.ndarray, permutation: np.ndarray) -> np.ndarray:
     r"""Permute the array along the batch axis.
 
-    Note:
-        This function assumes the batch axis is the first
-            axis.
-
     Args:
         array: The array to split.
         permutation: The 1-D array containing the indices of the
@@ -60,10 +56,6 @@ def permute_along_batch(array: np.ndarray, permutation: np.ndarray) -> np.ndarra
 
 def permute_along_seq(array: np.ndarray, permutation: np.ndarray) -> np.ndarray:
     r"""Permute the array along the sequence axis.
-
-    Note:
-        This function assumes the sequence axis is the second
-            axis.
 
     Args:
         array: The array to split.
@@ -102,10 +94,6 @@ def shuffle_along_batch(
 ) -> np.ndarray:
     r"""Shuffle the array along the batch dimension.
 
-    Note:
-        This function assumes the batch axis is the first
-            dimension.
-
     Args:
         array: The array to split.
         rng: A random number generator, a seed or ``None``. It is
@@ -137,10 +125,6 @@ def shuffle_along_seq(
 ) -> np.ndarray:
     r"""Shuffle the array along the batch dimension.
 
-    Note:
-        This function assumes the sequence axis is the second
-            dimension.
-
     Args:
         array: The array to split.
         rng: A random number generator, a seed or ``None``. It is
@@ -171,10 +155,6 @@ def shuffle_along_seq(
 def flip_along_batch(array: np.ndarray) -> np.ndarray:
     r"""Reverse the order of the elements along the batch axis.
 
-    Note:
-        This function assumes the batch axis is the first
-            axis.
-
     Args:
         array: The input array.
 
@@ -197,10 +177,6 @@ def flip_along_batch(array: np.ndarray) -> np.ndarray:
 
 def flip_along_seq(array: np.ndarray) -> np.ndarray:
     r"""Reverse the order of the elements along the sequence axis.
-
-    Note:
-        This function assumes the sequence axis is the second
-            axis.
 
     Args:
         array: The input array.

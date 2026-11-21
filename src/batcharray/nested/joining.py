@@ -34,11 +34,6 @@ def concatenate_along_batch(
     All arrays must either have the same data type and shape (except
     in the concatenating axis) or be empty.
 
-    Note:
-        This function assumes the batch axis is the first
-            axis of the arrays. All the arrays should have the
-            same batch size.
-
     Args:
         data: The input data to concatenate. It can be arrays or nested
             structures of arrays (dictionaries, lists, tuples). All the
@@ -91,11 +86,6 @@ def concatenate_along_seq(
     All arrays must either have the same data type and shape (except
     in the concatenating axis) or be empty.
 
-    Note:
-        This function assumes the sequence axis is the second
-            axis of the arrays. All the arrays should have the
-            same sequence size.
-
     Args:
         data: The input data to concatenate. It can be arrays or nested
             structures of arrays (dictionaries, lists, tuples). All the
@@ -139,11 +129,6 @@ def concatenate_along_seq(
 def tile_along_seq(data: T, reps: int) -> T:
     r"""Repeat all the arrays along the sequence axis.
 
-    Note:
-        This function assumes the sequence axis is the second
-            axis of the arrays. All the arrays should have the
-            same sequence size.
-
     Args:
         data: The input data. Each item must be an array.
         reps: The number of repetitions data along the
@@ -173,10 +158,6 @@ def tile_along_seq(data: T, reps: int) -> T:
 def repeat_along_batch(data: T, repeats: int) -> T:
     r"""Repeat each element of all the arrays along the batch axis.
 
-    Note:
-        This function assumes the batch axis is the first
-            axis of the arrays.
-
     Args:
         data: The input data. Each item must be an array.
         repeats: The number of repetitions of each element.
@@ -201,10 +182,6 @@ def repeat_along_batch(data: T, repeats: int) -> T:
 
 def repeat_along_seq(data: T, repeats: int) -> T:
     r"""Repeat each element of all the arrays along the sequence axis.
-
-    Note:
-        This function assumes the sequence axis is the second
-            axis of the arrays.
 
     Args:
         data: The input data. Each item must be an array.

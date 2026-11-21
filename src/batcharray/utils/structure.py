@@ -39,7 +39,11 @@ def apply_to_arrays(data: T, fn: Callable[[np.ndarray], Any]) -> T:
     (``dict``, ``list``, ``tuple`` and their subclasses) are kept and
     every array is replaced by the output of the function. This is also
     the tool to apply a function that the package does not wrap, like
-    a pointwise function.
+    a pointwise function. The structure of the output is the one of the
+    input, but the leaves are what ``fn`` returns: they are not arrays
+    if ``fn`` does not return arrays (for example
+    ``np.ndarray.tolist``), and the type of the output is still the
+    type of the input.
 
     Args:
         data: The input data. It can be an array or a nested

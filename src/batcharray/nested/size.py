@@ -17,10 +17,6 @@ if TYPE_CHECKING:
 def batch_size(data: NestedArray) -> int:
     r"""Return the batch size shared by all the arrays.
 
-    Note:
-        This function assumes the batch axis is the first
-            axis of the arrays.
-
     Args:
         data: The input data. It can be an array or a nested
             structure of arrays (dictionaries, lists, tuples).
@@ -47,10 +43,6 @@ def batch_size(data: NestedArray) -> int:
 
 def seq_len(data: NestedArray) -> int:
     r"""Return the sequence length shared by all the arrays.
-
-    Note:
-        This function assumes the sequence axis is the second
-            axis of the arrays.
 
     Args:
         data: The input data. It can be an array or a nested

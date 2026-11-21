@@ -28,11 +28,6 @@ if TYPE_CHECKING:
 def permute_along_batch(data: T, permutation: np.ndarray) -> T:
     r"""Permute all the arrays along the batch axis.
 
-    Note:
-        This function assumes the batch axis is the first
-            axis of the arrays. All the arrays should have the
-            same batch size.
-
     Args:
         data: The input data. Each item must be an array.
         permutation: The 1-D array containing the indices of the
@@ -67,11 +62,6 @@ def permute_along_batch(data: T, permutation: np.ndarray) -> T:
 
 def permute_along_seq(data: T, permutation: np.ndarray) -> T:
     r"""Permute all the arrays along the sequence axis.
-
-    Note:
-        This function assumes the sequence axis is the second
-            axis of the arrays. All the arrays should have the
-            same sequence size.
 
     Args:
         data: The input data. Each item must be an array.
@@ -109,11 +99,6 @@ def permute_along_seq(data: T, permutation: np.ndarray) -> T:
 def shuffle_along_batch(data: T, *, rng: np.random.Generator | int | None = None) -> T:
     r"""Shuffle all the arrays along the batch axis.
 
-    Note:
-        This function assumes the batch axis is the first
-            axis of the arrays. All the arrays should have the
-            same batch size.
-
     Args:
         data: The input data. Each item must be an array.
         rng: A random number generator, a seed or ``None``. It is
@@ -146,11 +131,6 @@ def shuffle_along_batch(data: T, *, rng: np.random.Generator | int | None = None
 
 def shuffle_along_seq(data: T, *, rng: np.random.Generator | int | None = None) -> T:
     r"""Shuffle all the arrays along the batch axis.
-
-    Note:
-        This function assumes the sequence axis is the second
-            axis of the arrays. All the arrays should have the
-            same sequence size.
 
     Args:
         data: The input data. Each item must be an array.
@@ -185,10 +165,6 @@ def shuffle_along_seq(data: T, *, rng: np.random.Generator | int | None = None) 
 def flip_along_batch(data: T) -> T:
     r"""Reverse the order of the elements of all the arrays along the batch axis.
 
-    Note:
-        This function assumes the batch axis is the first
-            axis of the arrays.
-
     Args:
         data: The input data. Each item must be an array.
 
@@ -212,10 +188,6 @@ def flip_along_batch(data: T) -> T:
 
 def flip_along_seq(data: T) -> T:
     r"""Reverse the order of the elements of all the arrays along the sequence axis.
-
-    Note:
-        This function assumes the sequence axis is the second
-            axis of the arrays.
 
     Args:
         data: The input data. Each item must be an array.

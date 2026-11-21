@@ -20,9 +20,6 @@ def index_select_along_batch(array: np.ndarray, indices: np.ndarray) -> np.ndarr
     r"""Return a new array which indexes the input array along the batch
     axis using the entries in ``indices``.
 
-    Note:
-        This function assumes the batch axis is the first axis.
-
     Args:
         array: The input array.
         indices: The 1-D array containing the indices to take.
@@ -62,9 +59,6 @@ def index_select_along_seq(array: np.ndarray, indices: np.ndarray) -> np.ndarray
     r"""Return a new array which indexes the input array along the
     sequence axis using the entries in ``indices``.
 
-    Note:
-        This function assumes the sequence axis is the second axis.
-
     Args:
         array: The input array.
         indices: The 1-D array containing the indices to take. Use
@@ -103,9 +97,6 @@ def masked_select_along_batch(array: np.ndarray, mask: np.ndarray) -> np.ndarray
     r"""Return a new array which indexes the input array along the batch
     axis according to the boolean mask ``mask``.
 
-    Note:
-        This function assumes the batch axis is the first axis.
-
     Args:
         array: The input array.
         mask: The 1-D boolean array containing the mask to index with.
@@ -135,9 +126,6 @@ def masked_select_along_batch(array: np.ndarray, mask: np.ndarray) -> np.ndarray
 def masked_select_along_seq(array: np.ndarray, mask: np.ndarray) -> np.ndarray:
     r"""Return a new array which indexes the input array along the
     sequence axis according to the boolean mask ``mask``.
-
-    Note:
-        This function assumes the sequence axis is the second axis.
 
     Args:
         array: The input array.
@@ -174,10 +162,8 @@ def gather_along_seq(array: np.ndarray, indices: np.ndarray) -> np.ndarray:
     gather along the batch axis has no meaning, and
     ``index_select_along_batch`` is the operation of that axis.
 
-    Note:
-        This function assumes the sequence axis is the second axis.
-        A typical use is the last valid step of a padded batch:
-        ``gather_along_seq(x, (lengths - 1)[:, None])``.
+    A typical use is the last valid step of a padded batch:
+    ``gather_along_seq(x, (lengths - 1)[:, None])``.
 
     Args:
         array: The input array, with at least 2 dimensions.

@@ -21,6 +21,12 @@ axis is axis 1. The axes come only from `batcharray.constants.BATCH_AXIS` and
 No function of `array` or `nested` takes an `axis` argument. Data laid out as `(seq, batch, ...)` is
 transposed first. A `_along_seq` function needs an array with at least 2 dimensions.
 
+A `nested` function applies the same layout to every leaf. The leaves of a structure are expected to
+have the same batch size and the same sequence size, and this is checked only where the alignment of
+the output depends on it (`chunk_*`, `split_*`, `shuffle_*`, `batch_size`, `seq_len`). A function
+that takes a `mask`, an `indices` or a `permutation` (`masked_select_*`, `index_select_*`,
+`permute_*`, `gather_along_seq`) takes one array shared by all the leaves.
+
 ## Properties
 
 | #   | Property                | Statement                                                                                                                                                                                                                                         |
@@ -40,8 +46,8 @@ transposed first. A `_along_seq` function needs an array with at least 2 dimensi
 | P13 | Keyword-only options    | The positional arguments are the data and the arguments that define the operation. Options (`keepdims`, `ddof`, `kind`, `step`, `rng`, `dtype`) are keyword-only.                                                                                 |
 | P14 | Typed                   | A map function has the type `T -> T` with `T` bound to the nested array type: dict in, dict out, array in, array out.                                                                                                                             |
 | P15 | Layered                 | `constants` <- `validation` <- `utils` <- `array` <- `nested`. No import in the other direction. `numpy` and `coola` are the only required dependencies.                                                                                          |
-| P16 | Documented by example   | Every public function has a docstring with a runnable `pycon` example. Each rule is stated once, on this page.                                                                                                                                    |
-| P17 | Defined on edge cases   | Every function has a documented result on empty and degenerate input. "NumPy's behaviour" is an answer, "undefined" is not.                                                                                                                       |
+| P16 | Documented by example   | Every public function has a docstring with a runnable `pycon` example. Each rule is stated once, on this page and not repeated in a function docstring: a docstring states what is specific to the function (its edge cases, its `Raises` and its example).                                                                                                                                 |
+| P17 | Defined on edge cases   | Every function has a documented result on empty and degenerate input. "NumPy's behaviour" is an answer, "undefined" is not. A 0-d array is outside the contract: it has no batch axis, and the result is NumPy's, which differs from one function to another.                                                                                                                    |
 | P18 | Documented claims exist | Every file, workflow or module that the README and the docs point to exists, and the description of the package matches `pyproject.toml`.                                                                                                         |
 | P19 | Unambiguous indices     | An index is an integer array and a mask is a boolean array, and no function reads one as the other. An index or a mask that is not an `ndarray` is a `TypeError`; one with the wrong rank, or a boolean index, is a `ValueError`. Index values (bounds, negative, float dtype) are NumPy's rules. |
 
@@ -65,7 +71,7 @@ transposed first. A `_along_seq` function needs an array with at least 2 dimensi
 | P13      | `tests/unit/test_signatures.py` (options are keyword-only, no `**kwargs`)                                    |
 | P14      | `ty` in CI and `tests/unit/test_nested_contract.py` (the annotations are `T -> T`)                           |
 | P15      | the `layers` contract of `import-linter` (`ci-cyclic-imports`)                                               |
-| P16      | `ci-doctest` (the examples run)                                                                              |
+| P16      | `ci-doctest` (the examples run) and `tests/unit/test_docstring_does_not_repeat_layout.py` (no layout note in a docstring) |
 | P17      | `tests/unit/test_edge_case.py` (one test per row of the edge-case table)                                     |
 | P18      | `tests/unit/test_docs_references.py`                                                                         |
 
@@ -75,7 +81,7 @@ transposed first. A `_along_seq` function needs an array with at least 2 dimensi
 - Memory sharing between input and output, except for the views listed below.
 - The order of the leaves inside a set.
 - Dim-last or sequence-first layouts. Transpose first.
-- 0-d arrays: `sum_along_batch(np.array(1.0))` raises NumPy's error. A 0-d array has no batch axis.
+- 0-d arrays. A 0-d array has no batch axis, so it is outside the contract and no test pins the result. The result is NumPy's and differs from one function to another: `sum_along_batch(np.array(1.0))` returns the 0-d array, `cumsum_along_batch` and `index_select_along_batch` return an array of shape `(1,)`, `sort_along_batch`, `flip_along_batch` and `sum_along_seq` raise `AxisError`, and `select_along_batch`, `slice_along_batch`, `masked_select_along_batch` and `chunk_along_batch` raise `IndexError`.
 - Dataclasses and sets as containers.
 - That an index or a `permutation` argument is a valid permutation (only its length is checked).
 - A generator or a lazy iterable as `items` of `concatenate_*`. It takes a `Sequence`.
@@ -179,6 +185,7 @@ The result on an empty or degenerate input is NumPy's, and is pinned by a test:
 | `permute_*`                                                  | a repeated index             | not checked: only the length is         |
 | `tile_along_seq`                                             | `reps == 0`                  | a zero-length sequence axis             |
 | `*_along_batch` reductions and `select_along_batch`          | a 1-D array                  | a 0-d array (P12)                       |
+| any function                                                 | a 0-d array                  | outside the contract: NumPy's result, which differs per function |
 | a masked reduction                                           | a fully masked row or column | what `numpy.ma` returns (`masked`)      |
 
 A function that would need the values of an array to validate it does not validate it.

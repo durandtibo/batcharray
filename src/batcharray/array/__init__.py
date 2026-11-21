@@ -1,4 +1,9 @@
-r"""Contain functions to manipulate arrays."""
+r"""Contain functions to manipulate arrays.
+
+The layout (the batch axis is 0 and the sequence axis is 1) and the other
+rules of the functions are stated once in the page ``design_principles`` of
+the documentation.
+"""
 
 from __future__ import annotations
 

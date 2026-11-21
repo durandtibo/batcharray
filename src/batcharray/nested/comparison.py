@@ -23,11 +23,6 @@ def argsort_along_batch(data: T, *, kind: SortKind | None = None) -> T:
     r"""Return the indices that sort each array along the batch dimension
     in ascending order by value.
 
-    Note:
-        This function assumes the batch dimension is the first
-            dimension of the arrays. All the arrays should have the
-            same batch size.
-
     Args:
         data: The input data. Each item must be an array.
         kind: Sorting algorithm. The default is `quicksort`.
@@ -60,11 +55,6 @@ def argsort_along_batch(data: T, *, kind: SortKind | None = None) -> T:
 def argsort_along_seq(data: T, *, kind: SortKind | None = None) -> T:
     r"""Return the indices that sort each array along the sequence
     dimension in ascending order by value.
-
-    Note:
-        This function assumes the sequence dimension is the second
-            dimension of the arrays. All the arrays should have the
-            same sequence size.
 
     Args:
         data: The input data. Each item must be an array.
@@ -99,11 +89,6 @@ def sort_along_batch(data: T, *, kind: SortKind | None = None) -> T:
     r"""Sort the elements of the input array along the batch dimension in
     ascending order by value.
 
-    Note:
-        This function assumes the batch dimension is the first
-            dimension of the arrays. All the arrays should have the
-            same batch size.
-
     Args:
         data: The input data. Each item must be an array.
         kind: Sorting algorithm. The default is `quicksort`.
@@ -137,11 +122,6 @@ def sort_along_batch(data: T, *, kind: SortKind | None = None) -> T:
 def sort_along_seq(data: T, *, kind: SortKind | None = None) -> T:
     r"""Sort the elements of the input array along the sequence dimension
     in ascending order by value.
-
-    Note:
-        This function assumes the sequence dimension is the second
-            dimension of the arrays. All the arrays should have the
-            same sequence size.
 
     Args:
         data: The input data. Each item must be an array.

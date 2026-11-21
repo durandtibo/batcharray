@@ -27,11 +27,6 @@ def index_select_along_batch(data: T, indices: np.ndarray) -> T:
     r"""Return the arrays which index the arrays along the batch axis
     using the entries in ``indices``.
 
-    Note:
-        This function assumes the batch axis is the first
-            axis of the arrays. All the arrays should have the
-            same batch size.
-
     Args:
         data: The input data. Each item must be an array.
         indices: The 1-D array containing the indices to take.
@@ -62,11 +57,6 @@ def index_select_along_batch(data: T, indices: np.ndarray) -> T:
 def index_select_along_seq(data: T, indices: np.ndarray) -> T:
     r"""Return the arrays which index the arrays along the sequence axis
     using the entries in ``indices``.
-
-    Note:
-        This function assumes the sequence axis is the second
-            axis of the arrays. All the arrays should have the
-            same sequence size.
 
     Args:
         data: The input data. Each item must be an array.
@@ -99,11 +89,6 @@ def masked_select_along_batch(data: T, mask: np.ndarray) -> T:
     r"""Return the arrays which index the arrays along the batch axis
     according to the boolean mask ``mask``.
 
-    Note:
-        This function assumes the batch axis is the first
-            axis of the arrays. All the arrays should have the
-            same batch size.
-
     Args:
         data: The input data. Each item must be an array.
         mask: The 1-D array containing the binary mask to index with.
@@ -131,11 +116,6 @@ def masked_select_along_batch(data: T, mask: np.ndarray) -> T:
 def masked_select_along_seq(data: T, mask: np.ndarray) -> T:
     r"""Return the arrays which index the arrays along the sequence axis
     according to the boolean mask ``mask``.
-
-    Note:
-        This function assumes the sequence axis is the second
-            axis of the arrays. All the arrays should have the
-            same sequence size.
 
     Args:
         data: The input data. Each item must be an array.
@@ -167,11 +147,6 @@ def gather_along_seq(data: T, indices: np.ndarray) -> T:
 
     The output of each array is ``out[b, i] = array[b, indices[b, i]]``.
     The indices are one array shared by all the arrays.
-
-    Note:
-        This function assumes the sequence axis is the second
-            axis of the arrays. All the arrays should have the
-            same batch size and at least 2 dimensions.
 
     Args:
         data: The input data. It can be an array or a nested

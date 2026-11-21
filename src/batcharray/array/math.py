@@ -21,10 +21,6 @@ def cumprod_along_batch(array: np.ndarray) -> np.ndarray:
     r"""Return the cumulative product of elements of input in the batch
     axis.
 
-    Note:
-        This function assumes the batch axis is the first
-            axis.
-
     Args:
         array: The input array.
 
@@ -49,10 +45,6 @@ def cumprod_along_batch(array: np.ndarray) -> np.ndarray:
 def cumprod_along_seq(array: np.ndarray) -> np.ndarray:
     r"""Return the cumulative product of elements of input in the
     sequence axis.
-
-    Note:
-        This function assumes the sequence axis is the second
-            axis.
 
     Args:
         array: The input array.
@@ -79,10 +71,6 @@ def cumprod_along_seq(array: np.ndarray) -> np.ndarray:
 def cumsum_along_batch(array: np.ndarray) -> np.ndarray:
     r"""Return the cumulative sum of elements of input in the batch axis.
 
-    Note:
-        This function assumes the batch axis is the first
-            axis.
-
     Args:
         array: The input array.
 
@@ -107,10 +95,6 @@ def cumsum_along_batch(array: np.ndarray) -> np.ndarray:
 def cumsum_along_seq(array: np.ndarray) -> np.ndarray:
     r"""Return the cumulative sum of elements of input in the sequence
     axis.
-
-    Note:
-        This function assumes the sequence axis is the second
-            axis.
 
     Args:
         array: The input array.
