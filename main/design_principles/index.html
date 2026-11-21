@@ -1424,7 +1424,7 @@ that takes a <code>mask</code>, an <code>indices</code> or a <code>permutation</
 <tr>
 <td>P6</td>
 <td>Array leaves only</td>
-<td>A leaf that is not a <code>numpy.ndarray</code> raises a <code>TypeError</code> that names the leaf type. Nothing is skipped silently and no leaf is converted.</td>
+<td>A leaf that is not a <code>numpy.ndarray</code> raises a <code>TypeError</code> that names the leaf type. Nothing is skipped silently and no leaf is converted. The <code>array</code> level takes a <code>numpy.ndarray</code> (the annotation): a non-array argument is outside the contract.</td>
 </tr>
 <tr>
 <td>P7</td>
@@ -1479,7 +1479,7 @@ that takes a <code>mask</code>, an <code>indices</code> or a <code>permutation</
 <tr>
 <td>P17</td>
 <td>Defined on edge cases</td>
-<td>Every function has a documented result on empty and degenerate input. "NumPy's behaviour" is an answer, "undefined" is not. A 0-d array is outside the contract: it has no batch axis, and the result is NumPy's, which differs from one function to another.</td>
+<td>Every function has a documented result on empty and degenerate input. "NumPy's behaviour" is an answer, "undefined" is not. A 0-d array and a non-array argument of an <code>array</code> function are outside the contract: the result is NumPy's, which differs from one function to another.</td>
 </tr>
 <tr>
 <td>P18</td>
@@ -1587,6 +1587,7 @@ that takes a <code>mask</code>, an <code>indices</code> or a <code>permutation</
 <li>The order of the leaves inside a set.</li>
 <li>Dim-last or sequence-first layouts. Transpose first.</li>
 <li>0-d arrays. A 0-d array has no batch axis, so it is outside the contract and no test pins the result. The result is NumPy's and differs from one function to another: <code>sum_along_batch(np.array(1.0))</code> returns the 0-d array, <code>cumsum_along_batch</code> and <code>index_select_along_batch</code> return an array of shape <code>(1,)</code>, <code>sort_along_batch</code>, <code>flip_along_batch</code> and <code>sum_along_seq</code> raise <code>AxisError</code>, and <code>select_along_batch</code>, <code>slice_along_batch</code>, <code>masked_select_along_batch</code> and <code>chunk_along_batch</code> raise <code>IndexError</code>.</li>
+<li>A non-array argument at the <code>array</code> level (a list, a scalar). The annotation is <code>numpy.ndarray</code> and <code>ty</code> rejects the call. No check is made and no test pins the result, which is NumPy's and differs from one function to another: <code>sum_along_batch([[1, 2], [3, 4]])</code> raises <code>AttributeError</code>, <code>sort_along_batch</code> converts the list to an array, and <code>slice_along_batch</code> returns a list. Use <code>nested</code>, which raises a <code>TypeError</code> for a leaf that is not an array.</li>
 <li>Dataclasses and sets as containers.</li>
 <li>That an index or a <code>permutation</code> argument is a valid permutation (only its length is checked).</li>
 <li>A generator or a lazy iterable as <code>items</code> of <code>concatenate_*</code> and <code>stack_*</code>. It takes a <code>Sequence</code>.</li>
@@ -1827,6 +1828,11 @@ as the integers 0 and 1. An index or a mask is never converted: a list is a <cod
 <tr>
 <td>any function</td>
 <td>a 0-d array</td>
+<td>outside the contract: NumPy's result, which differs per function</td>
+</tr>
+<tr>
+<td>any <code>array</code> function</td>
+<td>a non-array argument</td>
 <td>outside the contract: NumPy's result, which differs per function</td>
 </tr>
 <tr>
