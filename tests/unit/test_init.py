@@ -31,6 +31,11 @@ def test_all_lists_the_modules_and_the_version() -> None:
     assert sorted(batcharray.__all__) == sorted([*MODULES, "__version__"])
 
 
+@pytest.mark.parametrize("name", MODULES)
+def test_getattr_returns_the_module(name: str) -> None:
+    assert batcharray.__getattr__(name).__name__ == f"batcharray.{name}"
+
+
 def test_getattr_unknown_attribute() -> None:
     with pytest.raises(AttributeError, match=r"has no attribute 'missing'"):
         _ = batcharray.missing
