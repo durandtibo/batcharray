@@ -192,3 +192,27 @@ The result on an empty or degenerate input is NumPy's, and is pinned by a test:
 | a masked reduction                                           | a fully masked row or column | what `numpy.ma` returns (`masked`)      |
 
 A function that would need the values of an array to validate it does not validate it.
+
+## Differences with `batchtensor`
+
+[`batchtensor`](https://github.com/durandtibo/batchtensor) is the package for PyTorch and has the
+same properties, the same helpers and the same names where NumPy and PyTorch use the same name. The
+rule: a function has the name of the NumPy or PyTorch function it wraps, and a function that has no
+equivalent in the other library exists in one package only. The differences at the `nested` level
+are not drift:
+
+| Only in `batchtensor`                                            | Why                                                                         |
+| ---------------------------------------------------------------- | --------------------------------------------------------------------------- |
+| `cat_*`                                                          | PyTorch name; `batcharray` has `concatenate_*` (NumPy name)                 |
+| `amax_*`, `amin_*`                                               | NumPy `max` and `min` already reduce an axis (removed in #694)              |
+| `roll_*`, `pad_*`, `pad_sequences`                               | not admitted: `roll` is one NumPy call, `pad` drops the mask (P11)          |
+| `topk_*`, `logsumexp_*`, `masked_{amax,amin,mean,sum}_along_seq` | no NumPy function; `numpy.ma` covers the masked reductions (P11)           |
+| `clone`, `contiguous`, `detach`, `pin_memory`, `to`, `from_numpy`, `to_numpy` | PyTorch device, dtype and graph; `apply_to_arrays` covers a cast |
+
+| Only in `batcharray` | Why                                                  |
+| -------------------- | ---------------------------------------------------- |
+| `masked_select_*`    | boolean indexing with the validation of the mask (P19) |
+| `tile_along_seq`     | `np.tile` with the repetitions built from the rank   |
+| `concatenate_*`      | NumPy name of `cat_*`                                |
+
+`gather_along_seq` is in `batcharray` and is planned in `batchtensor`.
