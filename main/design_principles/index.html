@@ -673,6 +673,17 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#differences-with-batchtensor" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Differences with batchtensor
+      
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -1344,6 +1355,17 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#differences-with-batchtensor" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Differences with batchtensor
+      
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -1843,6 +1865,65 @@ as the integers 0 and 1. An index or a mask is never converted: a list is a <cod
 </tbody>
 </table>
 <p>A function that would need the values of an array to validate it does not validate it.</p>
+<h2 id="differences-with-batchtensor">Differences with <code>batchtensor</code><a class="headerlink" href="#differences-with-batchtensor" title="Permanent link">&para;</a></h2>
+<p><a href="https://github.com/durandtibo/batchtensor"><code>batchtensor</code></a> is the package for PyTorch and has the
+same properties, the same helpers and the same names where NumPy and PyTorch use the same name. The
+rule: a function has the name of the NumPy or PyTorch function it wraps, and a function that has no
+equivalent in the other library exists in one package only. The differences at the <code>nested</code> level
+are not drift:</p>
+<table>
+<thead>
+<tr>
+<th>Only in <code>batchtensor</code></th>
+<th>Why</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>cat_*</code></td>
+<td>PyTorch name; <code>batcharray</code> has <code>concatenate_*</code> (NumPy name)</td>
+</tr>
+<tr>
+<td><code>amax_*</code>, <code>amin_*</code></td>
+<td>NumPy <code>max</code> and <code>min</code> already reduce an axis (removed in #694)</td>
+</tr>
+<tr>
+<td><code>roll_*</code>, <code>pad_*</code>, <code>pad_sequences</code></td>
+<td>not admitted: <code>roll</code> is one NumPy call, <code>pad</code> drops the mask (P11)</td>
+</tr>
+<tr>
+<td><code>topk_*</code>, <code>logsumexp_*</code>, <code>masked_{amax,amin,mean,sum}_along_seq</code></td>
+<td>no NumPy function; <code>numpy.ma</code> covers the masked reductions (P11)</td>
+</tr>
+<tr>
+<td><code>clone</code>, <code>contiguous</code>, <code>detach</code>, <code>pin_memory</code>, <code>to</code>, <code>from_numpy</code>, <code>to_numpy</code></td>
+<td>PyTorch device, dtype and graph; <code>apply_to_arrays</code> covers a cast</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th>Only in <code>batcharray</code></th>
+<th>Why</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>masked_select_*</code></td>
+<td>boolean indexing with the validation of the mask (P19)</td>
+</tr>
+<tr>
+<td><code>tile_along_seq</code></td>
+<td><code>np.tile</code> with the repetitions built from the rank</td>
+</tr>
+<tr>
+<td><code>concatenate_*</code></td>
+<td>NumPy name of <code>cat_*</code></td>
+</tr>
+</tbody>
+</table>
+<p><code>gather_along_seq</code> is in <code>batcharray</code> and is planned in <code>batchtensor</code>.</p>
 
 
 
