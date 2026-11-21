@@ -1483,7 +1483,11 @@ structure as its input.</p>
 (<code>dict</code>, <code>list</code>, <code>tuple</code> and their subclasses) are kept and
 every array is replaced by the output of the function. This is also
 the tool to apply a function that the package does not wrap, like
-a pointwise function.</p>
+a pointwise function. The structure of the output is the one of the
+input, but the leaves are what <code>fn</code> returns: they are not arrays
+if <code>fn</code> does not return arrays (for example
+<code>np.ndarray.tolist</code>), and the type of the output is still the
+type of the input.</p>
 
 
 <p><span class="doc-section-title">Parameters:</span></p>

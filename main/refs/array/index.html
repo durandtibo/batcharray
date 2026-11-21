@@ -2444,6 +2444,9 @@
     <div class="doc doc-contents first">
 
         <p>Contain functions to manipulate arrays.</p>
+<p>The layout (the batch axis is 0 and the sequence axis is 1) and the other
+rules of the functions are stated once in the page <code>design_principles</code> of
+the documentation.</p>
 
 
 
@@ -2482,12 +2485,6 @@
 
         <p>Return the logical AND (whether all elements are true) along the batch axis.</p>
 
-
-<details class="note" open>
-  <summary>Note</summary>
-  <p>This function assumes the batch axis is the first
-    axis.</p>
-</details>
 
 <p><span class="doc-section-title">Parameters:</span></p>
     <table>
@@ -2595,12 +2592,6 @@
         <p>Return the logical AND (whether all elements are true) along the sequence axis.</p>
 
 
-<details class="note" open>
-  <summary>Note</summary>
-  <p>This function assumes the sequence axis is the second
-    axis.</p>
-</details>
-
 <p><span class="doc-section-title">Parameters:</span></p>
     <table>
       <thead>
@@ -2706,12 +2697,6 @@
 
         <p>Return the logical OR (whether any element is true) along the batch axis.</p>
 
-
-<details class="note" open>
-  <summary>Note</summary>
-  <p>This function assumes the batch axis is the first
-    axis.</p>
-</details>
 
 <p><span class="doc-section-title">Parameters:</span></p>
     <table>
@@ -2819,12 +2804,6 @@
         <p>Return the logical OR (whether any element is true) along the sequence axis.</p>
 
 
-<details class="note" open>
-  <summary>Note</summary>
-  <p>This function assumes the sequence axis is the second
-    axis.</p>
-</details>
-
 <p><span class="doc-section-title">Parameters:</span></p>
     <table>
       <thead>
@@ -2931,12 +2910,6 @@
         <p>Return the indices of the maximum value of all elements along the
 batch axis.</p>
 
-
-<details class="note" open>
-  <summary>Note</summary>
-  <p>This function assumes the batch axis is the first
-    axis.</p>
-</details>
 
 <p><span class="doc-section-title">Parameters:</span></p>
     <table>
@@ -3046,12 +3019,6 @@ batch axis.</p>
 sequence axis.</p>
 
 
-<details class="note" open>
-  <summary>Note</summary>
-  <p>This function assumes the sequence axis is the second
-    axis.</p>
-</details>
-
 <p><span class="doc-section-title">Parameters:</span></p>
     <table>
       <thead>
@@ -3159,12 +3126,6 @@ sequence axis.</p>
         <p>Return the indices of the minimum value of all elements along the
 batch axis.</p>
 
-
-<details class="note" open>
-  <summary>Note</summary>
-  <p>This function assumes the batch axis is the first
-    axis.</p>
-</details>
 
 <p><span class="doc-section-title">Parameters:</span></p>
     <table>
@@ -3274,12 +3235,6 @@ batch axis.</p>
 sequence axis.</p>
 
 
-<details class="note" open>
-  <summary>Note</summary>
-  <p>This function assumes the sequence axis is the second
-    axis.</p>
-</details>
-
 <p><span class="doc-section-title">Parameters:</span></p>
     <table>
       <thead>
@@ -3387,12 +3342,6 @@ sequence axis.</p>
         <p>Return the indices that sort an array along the batch axis in
 ascending order by value.</p>
 
-
-<details class="note" open>
-  <summary>Note</summary>
-  <p>This function assumes the batch axis is the first
-    axis.</p>
-</details>
 
 <p><span class="doc-section-title">Parameters:</span></p>
     <table>
@@ -3502,12 +3451,6 @@ compatibility.</p>
         <p>Return the indices that sort an array along the sequence axis in
 ascending order by value.</p>
 
-
-<details class="note" open>
-  <summary>Note</summary>
-  <p>This function assumes the sequence axis is the second
-    axis.</p>
-</details>
 
 <p><span class="doc-section-title">Parameters:</span></p>
     <table>
@@ -3619,12 +3562,6 @@ compatibility.</p>
 <p>Each chunk is a view of the input array.</p>
 
 
-<details class="note" open>
-  <summary>Note</summary>
-  <p>This function assumes the batch axis is the first
-    axis.</p>
-</details>
-
 <p><span class="doc-section-title">Parameters:</span></p>
     <table>
       <thead>
@@ -3731,12 +3668,6 @@ compatibility.</p>
         <p>Split the array into chunks along the sequence axis.</p>
 <p>Each chunk is a view of the input array.</p>
 
-
-<details class="note" open>
-  <summary>Note</summary>
-  <p>This function assumes the sequence axis is the second
-    axis.</p>
-</details>
 
 <p><span class="doc-section-title">Parameters:</span></p>
     <table>
@@ -3847,12 +3778,6 @@ compatibility.</p>
 <p>All arrays must either have the same data type and shape (except
 in the concatenating axis) or be empty.</p>
 
-
-<details class="note" open>
-  <summary>Note</summary>
-  <p>This function assumes the batch axis is the first
-    axis.</p>
-</details>
 
 <p><span class="doc-section-title">Parameters:</span></p>
     <table>
@@ -3968,12 +3893,6 @@ data type.</p>
 in the concatenating axis) or be empty.</p>
 
 
-<details class="note" open>
-  <summary>Note</summary>
-  <p>This function assumes the sequence axis is the second
-    axis.</p>
-</details>
-
 <p><span class="doc-section-title">Parameters:</span></p>
     <table>
       <thead>
@@ -4081,12 +4000,6 @@ data type.</p>
 axis.</p>
 
 
-<details class="note" open>
-  <summary>Note</summary>
-  <p>This function assumes the batch axis is the first
-    axis.</p>
-</details>
-
 <p><span class="doc-section-title">Parameters:</span></p>
     <table>
       <thead>
@@ -4173,12 +4086,6 @@ axis.</p>
         <p>Return the cumulative product of elements of input in the
 sequence axis.</p>
 
-
-<details class="note" open>
-  <summary>Note</summary>
-  <p>This function assumes the sequence axis is the second
-    axis.</p>
-</details>
 
 <p><span class="doc-section-title">Parameters:</span></p>
     <table>
@@ -4267,12 +4174,6 @@ axis.</p>
         <p>Return the cumulative sum of elements of input in the batch axis.</p>
 
 
-<details class="note" open>
-  <summary>Note</summary>
-  <p>This function assumes the batch axis is the first
-    axis.</p>
-</details>
-
 <p><span class="doc-section-title">Parameters:</span></p>
     <table>
       <thead>
@@ -4359,12 +4260,6 @@ axis.</p>
         <p>Return the cumulative sum of elements of input in the sequence
 axis.</p>
 
-
-<details class="note" open>
-  <summary>Note</summary>
-  <p>This function assumes the sequence axis is the second
-    axis.</p>
-</details>
 
 <p><span class="doc-section-title">Parameters:</span></p>
     <table>
@@ -4453,12 +4348,6 @@ axis.</p>
         <p>Reverse the order of the elements along the batch axis.</p>
 
 
-<details class="note" open>
-  <summary>Note</summary>
-  <p>This function assumes the batch axis is the first
-    axis.</p>
-</details>
-
 <p><span class="doc-section-title">Parameters:</span></p>
     <table>
       <thead>
@@ -4543,12 +4432,6 @@ axis.</p>
 
         <p>Reverse the order of the elements along the sequence axis.</p>
 
-
-<details class="note" open>
-  <summary>Note</summary>
-  <p>This function assumes the sequence axis is the second
-    axis.</p>
-</details>
 
 <p><span class="doc-section-title">Parameters:</span></p>
     <table>
@@ -4640,14 +4523,9 @@ axis.</p>
 feature axes. There is no <code>gather_along_batch</code>: a per-sample
 gather along the batch axis has no meaning, and
 <code>index_select_along_batch</code> is the operation of that axis.</p>
-
-
-<details class="note" open>
-  <summary>Note</summary>
-  <p>This function assumes the sequence axis is the second axis.
-A typical use is the last valid step of a padded batch:
+<p>A typical use is the last valid step of a padded batch:
 <code>gather_along_seq(x, (lengths - 1)[:, None])</code>.</p>
-</details>
+
 
 <p><span class="doc-section-title">Parameters:</span></p>
     <table>
@@ -4791,11 +4669,6 @@ of the array.</p>
         <p>Return a new array which indexes the input array along the batch
 axis using the entries in <code>indices</code>.</p>
 
-
-<details class="note" open>
-  <summary>Note</summary>
-  <p>This function assumes the batch axis is the first axis.</p>
-</details>
 
 <p><span class="doc-section-title">Parameters:</span></p>
     <table>
@@ -4943,11 +4816,6 @@ boolean array.</p>
 sequence axis using the entries in <code>indices</code>.</p>
 
 
-<details class="note" open>
-  <summary>Note</summary>
-  <p>This function assumes the sequence axis is the second axis.</p>
-</details>
-
 <p><span class="doc-section-title">Parameters:</span></p>
     <table>
       <thead>
@@ -5093,11 +4961,6 @@ boolean array.</p>
 axis according to the boolean mask <code>mask</code>.</p>
 
 
-<details class="note" open>
-  <summary>Note</summary>
-  <p>This function assumes the batch axis is the first axis.</p>
-</details>
-
 <p><span class="doc-section-title">Parameters:</span></p>
     <table>
       <thead>
@@ -5235,11 +5098,6 @@ axis according to the boolean mask <code>mask</code>.</p>
 sequence axis according to the boolean mask <code>mask</code>.</p>
 
 
-<details class="note" open>
-  <summary>Note</summary>
-  <p>This function assumes the sequence axis is the second axis.</p>
-</details>
-
 <p><span class="doc-section-title">Parameters:</span></p>
     <table>
       <thead>
@@ -5376,12 +5234,6 @@ sequence axis according to the boolean mask <code>mask</code>.</p>
         <p>Return the maximum of all elements along the batch axis.</p>
 
 
-<details class="note" open>
-  <summary>Note</summary>
-  <p>This function assumes the batch axis is the first
-    axis.</p>
-</details>
-
 <p><span class="doc-section-title">Parameters:</span></p>
     <table>
       <thead>
@@ -5487,12 +5339,6 @@ sequence axis according to the boolean mask <code>mask</code>.</p>
 
         <p>Return the maximum of all elements along the sequence axis.</p>
 
-
-<details class="note" open>
-  <summary>Note</summary>
-  <p>This function assumes the sequence axis is the second
-    axis.</p>
-</details>
 
 <p><span class="doc-section-title">Parameters:</span></p>
     <table>
@@ -5600,12 +5446,6 @@ sequence axis according to the boolean mask <code>mask</code>.</p>
         <p>Return the mean of all elements along the batch axis.</p>
 
 
-<details class="note" open>
-  <summary>Note</summary>
-  <p>This function assumes the batch axis is the first
-    axis.</p>
-</details>
-
 <p><span class="doc-section-title">Parameters:</span></p>
     <table>
       <thead>
@@ -5712,12 +5552,6 @@ sequence axis according to the boolean mask <code>mask</code>.</p>
         <p>Return the mean of all elements along the sequence axis.</p>
 
 
-<details class="note" open>
-  <summary>Note</summary>
-  <p>This function assumes the sequence axis is the second
-    axis.</p>
-</details>
-
 <p><span class="doc-section-title">Parameters:</span></p>
     <table>
       <thead>
@@ -5823,12 +5657,6 @@ sequence axis according to the boolean mask <code>mask</code>.</p>
 
         <p>Return the median of all elements along the batch axis.</p>
 
-
-<details class="note" open>
-  <summary>Note</summary>
-  <p>This function assumes the batch axis is the first
-    axis.</p>
-</details>
 
 <p><span class="doc-section-title">Parameters:</span></p>
     <table>
@@ -5939,12 +5767,6 @@ the output is the same as that of the input.</p>
         <p>Return the median of all elements along the sequence axis.</p>
 
 
-<details class="note" open>
-  <summary>Note</summary>
-  <p>This function assumes the sequence axis is the second
-    axis.</p>
-</details>
-
 <p><span class="doc-section-title">Parameters:</span></p>
     <table>
       <thead>
@@ -6054,12 +5876,6 @@ the output is the same as that of the input.</p>
         <p>Return the minimum of all elements along the batch axis.</p>
 
 
-<details class="note" open>
-  <summary>Note</summary>
-  <p>This function assumes the batch axis is the first
-    axis.</p>
-</details>
-
 <p><span class="doc-section-title">Parameters:</span></p>
     <table>
       <thead>
@@ -6166,12 +5982,6 @@ the output is the same as that of the input.</p>
         <p>Return the minimum of all elements along the sequence axis.</p>
 
 
-<details class="note" open>
-  <summary>Note</summary>
-  <p>This function assumes the sequence axis is the second
-    axis.</p>
-</details>
-
 <p><span class="doc-section-title">Parameters:</span></p>
     <table>
       <thead>
@@ -6277,12 +6087,6 @@ the output is the same as that of the input.</p>
 
         <p>Permute the array along the batch axis.</p>
 
-
-<details class="note" open>
-  <summary>Note</summary>
-  <p>This function assumes the batch axis is the first
-    axis.</p>
-</details>
 
 <p><span class="doc-section-title">Parameters:</span></p>
     <table>
@@ -6427,12 +6231,6 @@ or its length does not match the batch axis of the array.</p>
         <p>Permute the array along the sequence axis.</p>
 
 
-<details class="note" open>
-  <summary>Note</summary>
-  <p>This function assumes the sequence axis is the second
-    axis.</p>
-</details>
-
 <p><span class="doc-section-title">Parameters:</span></p>
     <table>
       <thead>
@@ -6574,12 +6372,6 @@ does not match the sequence axis of the array.</p>
         <p>Return the product of all elements along the batch axis.</p>
 
 
-<details class="note" open>
-  <summary>Note</summary>
-  <p>This function assumes the batch axis is the first
-    axis.</p>
-</details>
-
 <p><span class="doc-section-title">Parameters:</span></p>
     <table>
       <thead>
@@ -6686,12 +6478,6 @@ does not match the sequence axis of the array.</p>
         <p>Return the product of all elements along the sequence axis.</p>
 
 
-<details class="note" open>
-  <summary>Note</summary>
-  <p>This function assumes the sequence axis is the second
-    axis.</p>
-</details>
-
 <p><span class="doc-section-title">Parameters:</span></p>
     <table>
       <thead>
@@ -6796,12 +6582,6 @@ does not match the sequence axis of the array.</p>
         <p>Repeat each element along the batch axis.</p>
 
 
-<details class="note" open>
-  <summary>Note</summary>
-  <p>This function assumes the batch axis is the first
-    axis.</p>
-</details>
-
 <p><span class="doc-section-title">Parameters:</span></p>
     <table>
       <thead>
@@ -6902,12 +6682,6 @@ does not match the sequence axis of the array.</p>
 
         <p>Repeat each element along the sequence axis.</p>
 
-
-<details class="note" open>
-  <summary>Note</summary>
-  <p>This function assumes the sequence axis is the second
-    axis.</p>
-</details>
 
 <p><span class="doc-section-title">Parameters:</span></p>
     <table>
@@ -7011,12 +6785,6 @@ does not match the sequence axis of the array.</p>
 <p>This function returns a view of the original array with the batch axis removed.</p>
 
 
-<details class="note" open>
-  <summary>Note</summary>
-  <p>This function assumes the batch axis is the first
-    axis.</p>
-</details>
-
 <p><span class="doc-section-title">Parameters:</span></p>
     <table>
       <thead>
@@ -7118,12 +6886,6 @@ does not match the sequence axis of the array.</p>
         <p>Slice the input array along the sequence axis at the given index.</p>
 <p>This function returns a view of the original array with the sequence axis removed.</p>
 
-
-<details class="note" open>
-  <summary>Note</summary>
-  <p>This function assumes the sequence axis is the second
-    axis.</p>
-</details>
 
 <p><span class="doc-section-title">Parameters:</span></p>
     <table>
@@ -7228,12 +6990,6 @@ does not match the sequence axis of the array.</p>
         <p>Shuffle the array along the batch dimension.</p>
 
 
-<details class="note" open>
-  <summary>Note</summary>
-  <p>This function assumes the batch axis is the first
-    dimension.</p>
-</details>
-
 <p><span class="doc-section-title">Parameters:</span></p>
     <table>
       <thead>
@@ -7337,12 +7093,6 @@ passed to <code>numpy.random.default_rng</code>.</p>
 
         <p>Shuffle the array along the batch dimension.</p>
 
-
-<details class="note" open>
-  <summary>Note</summary>
-  <p>This function assumes the sequence axis is the second
-    dimension.</p>
-</details>
 
 <p><span class="doc-section-title">Parameters:</span></p>
     <table>
@@ -7451,12 +7201,6 @@ passed to <code>numpy.random.default_rng</code>.</p>
 
         <p>Slice the array along the batch axis.</p>
 
-
-<details class="note" open>
-  <summary>Note</summary>
-  <p>This function assumes the batch axis is the first
-    axis.</p>
-</details>
 
 <p><span class="doc-section-title">Parameters:</span></p>
     <table>
@@ -7604,12 +7348,6 @@ passed to <code>numpy.random.default_rng</code>.</p>
         <p>Slice the array along the sequence axis.</p>
 
 
-<details class="note" open>
-  <summary>Note</summary>
-  <p>This function assumes the sequence axis is the second
-    axis.</p>
-</details>
-
 <p><span class="doc-section-title">Parameters:</span></p>
     <table>
       <thead>
@@ -7753,12 +7491,6 @@ passed to <code>numpy.random.default_rng</code>.</p>
 ascending order by value.</p>
 
 
-<details class="note" open>
-  <summary>Note</summary>
-  <p>This function assumes the batch axis is the first
-    axis.</p>
-</details>
-
 <p><span class="doc-section-title">Parameters:</span></p>
     <table>
       <thead>
@@ -7867,12 +7599,6 @@ compatibility.</p>
         <p>Sort the elements of the input array along the sequence axis in
 ascending order by value.</p>
 
-
-<details class="note" open>
-  <summary>Note</summary>
-  <p>This function assumes the sequence axis is the second
-    axis.</p>
-</details>
 
 <p><span class="doc-section-title">Parameters:</span></p>
     <table>
@@ -7984,12 +7710,6 @@ compatibility.</p>
 <p>Each chunk is a view of the original array.</p>
 
 
-<details class="note" open>
-  <summary>Note</summary>
-  <p>This function assumes the batch axis is the first
-    axis.</p>
-</details>
-
 <p><span class="doc-section-title">Parameters:</span></p>
     <table>
       <thead>
@@ -8096,12 +7816,6 @@ sizes for each chunk</p>
 <p>Each chunk is a view of the original array.</p>
 
 
-<details class="note" open>
-  <summary>Note</summary>
-  <p>This function assumes the sequence axis is the second
-    axis.</p>
-</details>
-
 <p><span class="doc-section-title">Parameters:</span></p>
     <table>
       <thead>
@@ -8205,12 +7919,6 @@ sizes for each chunk</p>
 
         <p>Return the standard deviation along the batch axis.</p>
 
-
-<details class="note" open>
-  <summary>Note</summary>
-  <p>This function assumes the batch axis is the first
-    axis.</p>
-</details>
 
 <p><span class="doc-section-title">Parameters:</span></p>
     <table>
@@ -8334,12 +8042,6 @@ sizes for each chunk</p>
         <p>Return the standard deviation along the sequence axis.</p>
 
 
-<details class="note" open>
-  <summary>Note</summary>
-  <p>This function assumes the sequence axis is the second
-    axis.</p>
-</details>
-
 <p><span class="doc-section-title">Parameters:</span></p>
     <table>
       <thead>
@@ -8462,12 +8164,6 @@ sizes for each chunk</p>
         <p>Return the sum of all elements along the batch axis.</p>
 
 
-<details class="note" open>
-  <summary>Note</summary>
-  <p>This function assumes the batch axis is the first
-    axis.</p>
-</details>
-
 <p><span class="doc-section-title">Parameters:</span></p>
     <table>
       <thead>
@@ -8574,12 +8270,6 @@ sizes for each chunk</p>
         <p>Return the sum of all elements along the sequence axis.</p>
 
 
-<details class="note" open>
-  <summary>Note</summary>
-  <p>This function assumes the sequence axis is the second
-    axis.</p>
-</details>
-
 <p><span class="doc-section-title">Parameters:</span></p>
     <table>
       <thead>
@@ -8684,12 +8374,6 @@ sizes for each chunk</p>
         <p>Construct an array by repeating the input array along the
 sequence axis.</p>
 
-
-<details class="note" open>
-  <summary>Note</summary>
-  <p>This function assumes the sequence axis is the second
-    axis.</p>
-</details>
 
 <p><span class="doc-section-title">Parameters:</span></p>
     <table>
@@ -8796,12 +8480,6 @@ axis.</p>
 
         <p>Return the variance along the batch axis.</p>
 
-
-<details class="note" open>
-  <summary>Note</summary>
-  <p>This function assumes the batch axis is the first
-    axis.</p>
-</details>
 
 <p><span class="doc-section-title">Parameters:</span></p>
     <table>
@@ -8924,12 +8602,6 @@ axis.</p>
 
         <p>Return the variance along the sequence axis.</p>
 
-
-<details class="note" open>
-  <summary>Note</summary>
-  <p>This function assumes the sequence axis is the second
-    axis.</p>
-</details>
 
 <p><span class="doc-section-title">Parameters:</span></p>
     <table>

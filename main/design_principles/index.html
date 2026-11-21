@@ -1381,6 +1381,11 @@ axis is axis 1. The axes come only from <code>batcharray.constants.BATCH_AXIS</c
 <code>batcharray.constants.SEQ_AXIS</code>.</p>
 <p>No function of <code>array</code> or <code>nested</code> takes an <code>axis</code> argument. Data laid out as <code>(seq, batch, ...)</code> is
 transposed first. A <code>_along_seq</code> function needs an array with at least 2 dimensions.</p>
+<p>A <code>nested</code> function applies the same layout to every leaf. The leaves of a structure are expected to
+have the same batch size and the same sequence size, and this is checked only where the alignment of
+the output depends on it (<code>chunk_*</code>, <code>split_*</code>, <code>shuffle_*</code>, <code>batch_size</code>, <code>seq_len</code>). A function
+that takes a <code>mask</code>, an <code>indices</code> or a <code>permutation</code> (<code>masked_select_*</code>, <code>index_select_*</code>,
+<code>permute_*</code>, <code>gather_along_seq</code>) takes one array shared by all the leaves.</p>
 <h2 id="properties">Properties<a class="headerlink" href="#properties" title="Permanent link">&para;</a></h2>
 <table>
 <thead>
@@ -1469,17 +1474,17 @@ transposed first. A <code>_along_seq</code> function needs an array with at leas
 <tr>
 <td>P16</td>
 <td>Documented by example</td>
-<td>Every public function has a docstring with a runnable <code>pycon</code> example. Each rule is stated once, on this page.</td>
+<td>Every public function has a docstring with a runnable <code>pycon</code> example. Each rule is stated once, on this page and not repeated in a function docstring: a docstring states what is specific to the function (its edge cases, its <code>Raises</code> and its example).</td>
 </tr>
 <tr>
 <td>P17</td>
 <td>Defined on edge cases</td>
-<td>Every function has a documented result on empty and degenerate input. "NumPy's behaviour" is an answer, "undefined" is not.</td>
+<td>Every function has a documented result on empty and degenerate input. "NumPy's behaviour" is an answer, "undefined" is not. A 0-d array is outside the contract: it has no batch axis, and the result is NumPy's, which differs from one function to another.</td>
 </tr>
 <tr>
 <td>P18</td>
 <td>Documented claims exist</td>
-<td>Every file, workflow or module that the README and the docs point to exists, and the description of the package matches <code>pyproject.toml</code>.</td>
+<td>Every file, workflow or module that the README and the docs point to exists, the description of the package matches <code>pyproject.toml</code>, and every module the docs name as part of the package is reachable as <code>batcharray.&lt;module&gt;</code> after <code>import batcharray</code>.</td>
 </tr>
 <tr>
 <td>P19</td>
@@ -1563,7 +1568,7 @@ transposed first. A <code>_along_seq</code> function needs an array with at leas
 </tr>
 <tr>
 <td>P16</td>
-<td><code>ci-doctest</code> (the examples run)</td>
+<td><code>ci-doctest</code> (the examples run) and <code>tests/unit/test_docstring_does_not_repeat_layout.py</code> (no layout note in a docstring)</td>
 </tr>
 <tr>
 <td>P17</td>
@@ -1571,7 +1576,7 @@ transposed first. A <code>_along_seq</code> function needs an array with at leas
 </tr>
 <tr>
 <td>P18</td>
-<td><code>tests/unit/test_docs_references.py</code></td>
+<td><code>tests/unit/test_docs_references.py</code> and <code>tests/unit/test_init.py</code> (the five modules in a fresh interpreter)</td>
 </tr>
 </tbody>
 </table>
@@ -1581,7 +1586,7 @@ transposed first. A <code>_along_seq</code> function needs an array with at leas
 <li>Memory sharing between input and output, except for the views listed below.</li>
 <li>The order of the leaves inside a set.</li>
 <li>Dim-last or sequence-first layouts. Transpose first.</li>
-<li>0-d arrays: <code>sum_along_batch(np.array(1.0))</code> raises NumPy's error. A 0-d array has no batch axis.</li>
+<li>0-d arrays. A 0-d array has no batch axis, so it is outside the contract and no test pins the result. The result is NumPy's and differs from one function to another: <code>sum_along_batch(np.array(1.0))</code> returns the 0-d array, <code>cumsum_along_batch</code> and <code>index_select_along_batch</code> return an array of shape <code>(1,)</code>, <code>sort_along_batch</code>, <code>flip_along_batch</code> and <code>sum_along_seq</code> raise <code>AxisError</code>, and <code>select_along_batch</code>, <code>slice_along_batch</code>, <code>masked_select_along_batch</code> and <code>chunk_along_batch</code> raise <code>IndexError</code>.</li>
 <li>Dataclasses and sets as containers.</li>
 <li>That an index or a <code>permutation</code> argument is a valid permutation (only its length is checked).</li>
 <li>A generator or a lazy iterable as <code>items</code> of <code>concatenate_*</code>. It takes a <code>Sequence</code>.</li>
@@ -1817,6 +1822,11 @@ as the integers 0 and 1. An index or a mask is never converted: a list is a <cod
 <td><code>*_along_batch</code> reductions and <code>select_along_batch</code></td>
 <td>a 1-D array</td>
 <td>a 0-d array (P12)</td>
+</tr>
+<tr>
+<td>any function</td>
+<td>a 0-d array</td>
+<td>outside the contract: NumPy's result, which differs per function</td>
 </tr>
 <tr>
 <td>a masked reduction</td>
