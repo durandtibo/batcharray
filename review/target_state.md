@@ -1,42 +1,27 @@
 # `batcharray`: target state and the changes to reach it
 
 **Scope.** This document defines the properties of `batcharray` (`constants`, `validation`,
-`utils`, `array`, `nested`), compares them with `main` (`f1c3654`), and lists the changes that
+`utils`, `array`, `nested`), compares them with `main` (`c0a950e`), and lists the changes that
 remain to reach the target state. It changes no code. It replaces the previous version, whose steps
-1 to 9 are merged (#690 to #699, plus #700 and #701; Appendix B). It follows the structure of
-`review/target_state.md` of [`batchtensor`](https://github.com/durandtibo/batchtensor), the sibling
-package for PyTorch tensors, and keeps the two packages aligned: the same properties, the same
-names, the same helpers. Each finding is tagged **[verified]** (a command or a probe shows it,
-Section 6.2) or **[reading]** (found by reading the code, not run).
+1 to 6 are merged (#703 to #708; Appendix B). It follows the structure of
+`review/target_state.md` of [`batchtensor`](https://github.com/durandtibo/batchtensor) (`main` at
+`8d133c8`) and of `review/recursive.md` of [`coola`](https://github.com/durandtibo/coola): the
+properties first, then the findings, the architecture, the steps and the decisions. The two
+packages stay aligned: the same properties, the same helpers, and the same names where NumPy and
+PyTorch use the same name (Appendix A). Each finding is tagged **[verified]** (a command or a probe
+shows it, Section 6.2) or **[reading]** (found by reading the code, not run).
 
-**Where the package stands.** The architecture is at its target. `src` is 5 155 lines (7 840 before
-the previous steps), `ruff`, `ty` and `lint-imports` are clean, 2 788 tests and the 71 tests of the
-Markdown code blocks pass. Every `nested` function is one call to one of three helpers
-(`shuffle_*` is the one composition), the package has one error contract, and every one of the
-18 properties has a gate. What is left is small, and it is about **trust in the properties**, not
-about structure:
-
-1. **Two silent wrong results.** `concatenate_*` drops the masks of the masked arrays that are not
-   first (F1). `index_select_*` and `permute_*` read a boolean index as the integers 0 and 1, and
-   `masked_select_along_batch` flattens a 2-D mask (F2).
-2. **The validation is in three places**, and a validator leaks an `AttributeError` for a list (F3).
-   One public validator has no caller (F3).
-3. **Two claims of the documentation are false**, and no gate catches them: "each rule is stated
-   once" (94 copies of the layout note, F4) and "a 0-d array raises NumPy's error" (F5).
-4. **The package entry point and the documentation lag behind the code** (F6).
-5. **One operation is missing for the masked-array promise**: `stack_*` (F7). `np.stack` drops
-   masks as `np.concatenate` does, so a caller who writes it by hand meets F1 again.
-6. **The release is blocked** by an alpha dependency (F8).
-
-This is a pre-1.0 release (`0.4.0a0`). Breaking changes are allowed when they make the package
-simpler or the behaviour more predictable.
+**The aim** is a small package that is easy to maintain: **one NumPy call per `array` function, one
+helper call per `nested` function, one validation module, one statement of each rule, and a gate for
+every claim**. Breaking changes are accepted and the future state matters more than the past one.
 
 ## 1. Properties of the package
 
 These are the properties the package guarantees by construction. Each has an owner (the code that
-enforces it) and a gate (the test or job that fails when it breaks). **`P8`, `P11`, `P16`, `P17` and
-`P18` change** (the change is in the statement). **`P19` is new.** The gates exist on `main` unless
-they are marked "new" (Section 8). Section 3 lists where `main` differs from the properties.
+enforces it) and a gate (the test or job that fails when it breaks). All 19 gates exist on `main`. **`P6`, `P17` and `P18` change** in this version (the change is in the
+statement): `P6` says where the leaf contract starts (the `nested` level), `P17` lists the inputs
+outside the contract, and `P18` covers the dependency bounds. Section 3 lists where `main` differs
+from the properties.
 
 | #   | Property                | Statement                                                                                                                                                                                                                                                                                                                                                                     | Owner                          | Gate                                                                             |
 | --- | ----------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------ | -------------------------------------------------------------------------------- |
@@ -45,7 +30,7 @@ they are marked "new" (Section 8). Section 3 lists where `main` differs from the
 | P3  | Two symmetric levels    | Every `array` function has a `nested` twin with the same name, options and defaults, and every `nested` function has an `array` twin. The exceptions are `batch_size` and `seq_len` (`nested` only: they read a shape). In `nested`, a `mask`, an `indices` or a `permutation` is one array shared by all the leaves.                                                         | Parity test                    | `test_signatures`                                                                |
 | P4  | One traversal           | Every `nested` function goes through `apply_to_arrays`, `split_arrays` or `combine_arrays` of `batcharray.utils`. No `nested` function walks a container or calls `recursive_apply`.                                                                                                                                                                                          | `utils/structure.py`           | `test_nested_contract`                                                           |
 | P5  | Structure-preserving    | A map function returns the input structure with every leaf replaced. Supported containers: `dict`, `list`, `tuple` and their subclasses (named tuple, `OrderedDict`, `defaultdict`). For `concatenate_*` and `stack_*` the container types of the output are the ones of the first item.                                                                                      | `apply_to_arrays`              | `test_nested_contract`                                                           |
-| P6  | Array leaves only       | A leaf that is not a `numpy.ndarray` raises a `TypeError` that names the leaf type. Nothing is skipped silently and no leaf is converted.                                                                                                                                                                                                                                     | `utils/structure.py`           | `test_nested_contract`                                                           |
+| P6  | Array leaves only       | At the `nested` level, a leaf that is not a `numpy.ndarray` raises a `TypeError` that names the leaf type. Nothing is skipped silently and no leaf is converted. **The `array` level takes `numpy.ndarray` (the annotation); a non-array argument is outside the contract.** |
 | P7  | Pure                    | Inputs are never modified. The output never aliases the input, except where NumPy returns a view (`slice`, `select`, `chunk`, `split`, `flip`). A function adds no shortcut that returns its input.                                                                                                                                                                           | Thin wrappers                  | `test_purity`                                                                    |
 | P8  | One error contract      | A bad leaf type is a `TypeError`. An argument that `batcharray` validates is a `ValueError`. Anything else is the NumPy error, unchanged. **`batcharray` validates only what NumPy cannot see or what NumPy accepts but means something else, and every check it makes is a function of `batcharray.validation`.** It never repeats a check NumPy makes. The table is in Section 4.6. | **`validation` (changes)**     | `test_error_contract`, **`test_no_inline_raise_in_array` (new)**                 |
 | P9  | Explicit randomness     | Randomness comes only from `rng`, which is passed to `numpy.random.default_rng` (a `Generator`, an `int` seed or `None`). One permutation is shared by all the leaves.                                                                                                                                                                                                        | `shuffle_*`                    | `test_rng`                                                                       |
@@ -56,8 +41,8 @@ they are marked "new" (Section 8). Section 3 lists where `main` differs from the
 | P14 | Typed                   | A map function has the type `T -> T` with `T` bound to `NestedArray`: dict in, dict out, array in, array out. Checked by `ty`.                                                                                                                                                                                                                                                | Annotations                    | `ty` in CI, `test_nested_contract`                                               |
 | P15 | Layered                 | `constants` <- `validation` <- `utils` <- `array` <- `nested`. No import in the other direction. `numpy` and `coola` are the only required dependencies and no optional library is imported at module level.                                                                                                                                                                  | `import-linter`                | `ci-cyclic-imports`                                                              |
 | P16 | Documented once         | Every public function has a docstring with a runnable `pycon` example. **Each rule is stated once, in `docs/docs/design_principles.md`, and is not repeated in a function docstring. A docstring states what is specific to the function: its edge cases, its `Raises` and its example.**                                                                                     | Docstrings, docs               | `ci-doctest`, **`test_docstring_does_not_repeat_layout` (new)**                  |
-| P17 | Defined on edge cases   | Every function has a documented result on empty and degenerate input: a zero batch size, a zero sequence length, a structure without array, a fully masked row. "Undefined" is not an answer; "NumPy's behaviour" is. **A 0-d array is outside the contract (it has no batch axis); the result is NumPy's and differs from one function to another (F5).**                    | Docstrings, `design_principles` | `test_edge_case`                                                                 |
-| P18 | Documented claims exist | Every file, workflow or module that the README and the docs point to exists, the description of the package (dependencies, modules, tooling) matches `pyproject.toml`, **and every module the docs name as part of the package is reachable as `batcharray.<module>`**.                                                                                                       | Docs, `__init__`               | `test_docs_references`, **`test_init` (extended)**                               |
+| P17 | Defined on edge cases   | Every function has a documented result on empty and degenerate input: a zero batch size, a zero sequence length, a structure without array, a fully masked row. "Undefined" is not an answer; "NumPy's behaviour" is. **A 0-d array and a non-array argument of an `array` function are outside the contract: the result is NumPy's and differs from one function to another.**                    | Docstrings, `design_principles` | `test_edge_case`                                                                 |
+| P18 | Documented claims exist | Every file, workflow or module that the README and the docs point to exists, the description of the package (dependencies and their bounds, modules, tooling) matches `pyproject.toml`, every version the dependency CI installs satisfies the bounds of `pyproject.toml`, and every module the docs name as part of the package is reachable as `batcharray.<module>`. |
 | P19 | Unambiguous indices     | **An index is an integer array and a mask is a boolean array, and no function reads one as the other.** An index or a mask that is not an `ndarray` is a `TypeError`; one with the wrong rank, or a boolean index, is a `ValueError`. Index values (bounds, negative, float dtype) are NumPy's rules.                                                                           | `validation`                   | **`test_error_contract` (rows added)**                                           |
 
 **Not guaranteed:**
@@ -69,7 +54,7 @@ they are marked "new" (Section 8). Section 3 lists where `main` differs from the
 - Cross-leaf validation, except where the output alignment depends on it (`chunk_*`, `split_*`,
   `shuffle_*`, `batch_size`, `seq_len`). `slice_*`, `select_*` and `index_select_*` do not compare
   the sizes of the leaves.
-- 0-d arrays (F5, D4).
+- 0-d arrays.
 - Dataclasses and sets as containers. Dataclasses work today through `coola`; no test, doc or type
   promises it.
 - That an index or a `permutation` argument is a valid permutation (a repeated index is not
@@ -78,6 +63,29 @@ they are marked "new" (Section 8). Section 3 lists where `main` differs from the
   `Sequence`.
 - The result on a fully masked row, beyond what `numpy.ma` returns.
 - Array-likes. An index, a mask or a leaf is an `ndarray` (P6, P19).
+
+
+## Where the package stands
+
+The architecture is at its target. `src` is 4 862 lines, `ruff`, `ty` and `lint-imports` are clean,
+3 126 tests and the 72 tests of the Markdown code blocks pass, and the whole suite also passes on
+NumPy 2.0.2 (the lower bound; Python 3.12) **[verified]**. Coverage is 99 %: the only line not
+covered is `raise AttributeError` in `batcharray/__init__.py` (F3). Every `nested` function is one
+call to one of three helpers (`shuffle_*` is the one composition), the package has one error
+contract and one validation module, and every one of the 19 properties has a gate. The two silent
+wrong results of the previous version (masks dropped by `concatenate_*`, a boolean index read as
+integers) are fixed. What is left is about **the dependencies and the edges of the contract**:
+
+1. **The dependency claims are false.** The README says `coola>=1.0,<2.0` for `main`,
+   `pyproject.toml` says `coola>=2.0.0a4,<3.0`, and the dependency CI matrix tests `coola` 1.0.0,
+   1.0.1 and 1.1.10, with which `import batcharray.nested` raises `ImportError` (F1).
+2. **The `array` level has no stated rule for a non-array argument** and the behaviour differs from
+   one function to another (F2).
+3. **One line is not covered** (F3).
+4. **The release is blocked** by the alpha of `coola` (F4).
+
+This is a pre-1.0 release (`0.4.0a0`). Breaking changes are allowed when they make the package
+simpler or the behaviour more predictable.
 
 ## 2. Constraints
 
@@ -95,50 +103,45 @@ they are marked "new" (Section 8). Section 3 lists where `main` differs from the
    6.1). No step of Section 7 adds work to a hot path except one `isinstance` per item in
    `concatenate_*` and `stack_*`.
 6. **A claim has a gate.** A property written in the docs is enforced by a test or a CI job that
-   fails when it breaks. A property without a gate is given one or removed (F4, F5).
+   fails when it breaks. A property without a gate is given one or removed.
 7. **No hidden conversion.** A function does not cast or reinterpret what the caller passes. It
    forwards it to NumPy and lets NumPy decide (P8, P10). The one rule that goes beyond NumPy is the
    one that NumPy cannot see: a boolean index is read as integers, so it is rejected (P19).
 
+
 ## 3. What differs today
 
-Surface: 56 names in `array`, 58 in `nested` (the 56 of `array`, `batch_size` and `seq_len`), 3 in
-`validation` and 8 in `utils` (Appendix A). 5 155 lines in `src`, 9 542 in `tests`, 2 399 in
-`docs/docs`. The findings are ordered by their effect on a result: F1 and F2 are wrong results
-without an error, F3 to F6 are consistency and trust, F7 is the one missing operation, F8 is the
-release.
+Surface: 58 names in `array`, 60 in `nested`, 4 in `validation`, 8 in `utils` (Appendix A). The
+findings are ordered by their effect on users: F1 breaks the dependency CI and misleads the
+readers, F2 is an undefined area, F3 is a gap in a gate, F4 is the release.
 
-| #   | Finding                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       | Tag        | Property         |
-| --- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------- | ---------------- |
-| F1  | **`concatenate_*` drops the masks of the masked arrays that are not first.** `_concatenate` picks `np.ma` only when `arrays[0]` is masked. `concatenate_along_batch([x, m])` with `m` a `MaskedArray` with 3 masked cells returns a `MaskedArray` with **0** masked cells (`np.concatenate` wraps the result in a `MaskedArray` and loses the mask), and `[m, x]` keeps 3. The nested twin does the same: `nested.concatenate_along_batch([{"a": x}, {"a": m}])["a"]` has 0 masked cells. `test_masked_arrays` only tests a masked array in the first position, so P11 is green and wrong. The docstring of the removed `AutoComputationModel` documented this ("a plain array first silently drops the masks"); the property P11 does not.                                                                                                                                                                                                                                                                | [verified] | P11              |
-| F2  | **An index or a mask is read as something else, without an error.** `index_select_along_batch(x, np.array([True, False, True]))` returns rows 1, 0, 1 (a boolean array is read as the integers 0 and 1, with the shape of the index); `permute_along_batch(x, np.array([True, False, True]))` accepts it as a permutation of length 3 and returns rows `[1, 0, 1]`. `masked_select_along_batch(x, np.ones((3, 2), bool))` accepts a 2-D mask of the shape of the array and returns a flat array of shape `(6,)` (a 2-D mask indexes both axes), while `masked_select_along_seq` with a 2-D mask raises `IndexError: too many indices`. The mask check is `dtype == bool` only, and the index check is `ndim == 1` only. `design_principles.md` says "1-D boolean array" for the mask and the checks of the table do not do it.                                                                                                                                                                                                       | [verified] | P8, P19          |
-| F3  | **The validation is in three places, and one validator is dead.** `validation` has three functions. `array/indexing.py` has two private validators (`_validate_1d_indices`, `_validate_bool_mask`) and two inline `raise ValueError` in `gather_along_seq`, and `array/permutation.py` has two inline `raise ValueError` (`permute_*`): 6 `raise` sites in `array` that `CLAUDE.md` asks to be in `batcharray.validation`. They call `.ndim` on their argument, so `index_select_along_batch(x, [0, 1])` raises `AttributeError: 'list' object has no attribute 'ndim'`, while `np.take(x, [0, 1], axis=0)` accepts a list. `validation.validate_same_keys` has no caller in `src` (`grep`): `combine_arrays` delegates the key check to `coola`. P8 names `validation` as the owner; it owns the `ndim` check and the split check, not the index, mask, permutation and gather checks.                                                                                                                                                                                                            | [verified] | P8               |
-| F4  | **"Each rule is stated once" is false and has no gate.** `design_principles.md` P16 says each rule is stated on that page and not repeated in the docstrings. 94 docstrings in `src` repeat `Note: This function assumes the batch axis is the first axis` (or the sequence one). `batchtensor` plans the gate `test_docstring_does_not_repeat_layout` for the same property. The repeated note is the rule P1, which `array/__init__.py` and `design_principles.md` already state.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              | [verified] | P16              |
-| F5  | **"A 0-d array raises NumPy's error" is false.** `design_principles.md` says `sum_along_batch(np.array(1.0))` raises NumPy's error. It returns `array(1.)`. On a 0-d array: `sum_along_batch` returns the 0-d array, `cumsum_along_batch` and `index_select_along_batch` return an array of shape `(1,)`, `sort_along_batch`, `flip_along_batch` and `sum_along_seq` raise `AxisError`, and `select_along_batch`, `slice_along_batch`, `masked_select_along_batch` and `chunk_along_batch` raise `IndexError` (the last one `tuple index out of range`). Four outcomes for the same input; NumPy accepts `axis=0` on a 0-d array in some functions.                                                                                                                                                                                                                                                                                                                                                                      | [verified] | P17              |
-| F6  | **The entry point and the docs do not list the same modules.** `batcharray/__init__.py` lazily imports `array`, `nested` and `utils` only. In a fresh interpreter `import batcharray; batcharray.validation` and `batcharray.constants` raise `AttributeError` (they work only after another import loaded them). The module docstring and the README list three modules (`array`, `nested`, `utils`), while the docs have a page for `constants` and `validation` too, and `docs/docs/index.md` links `constants` and `utils` but not `validation`. `index.md` has two bullets for masked arrays ("Masked Arrays" and "Masked arrays: the dispatch ... is done by the array itself"). The user guides and the references cover every name (checked: 0 missing).                                                                                                                                                                                                                                                                               | [verified] | P18              |
-| F7  | **There is no `stack_*`, and a hand-written one loses the masks.** `batchtensor` has `stack_along_batch` and `stack_along_seq`; `batcharray` has `concatenate_*` only. A per-sample collate (`np.stack(items, axis=0)`) is the most common way to build a batch, and `combine_arrays` already has the shape (N -> 1). `np.stack` has the bug of F1 in every position: `np.stack([m, m])` returns a `MaskedArray` with 0 masked cells, while `np.ma.stack([m, m])` keeps them (6 for 3 masked cells twice). `np.ma.stack` turns a list of plain arrays into a `MaskedArray`, so the dispatch must be "one masked item", not "`np.ma` always".                                                                                                                                                                                                                                                                                                                                                                 | [verified] | P11, admission   |
-| F8  | **The release is blocked by an alpha dependency, and the metadata is ahead of PyPI.** `dependencies = ["coola>=2.0.0a4,<3.0", ...]`; PyPI has `coola` 1.1.10 as the latest stable and `2.0.0` only as `a0` to `a4`. The specifier names a pre-release, so `pip` accepts it, but a breaking change in a later `coola` alpha reaches the users of a stable `batcharray`. PyPI has `batcharray` 0.3.0; `main` is `0.4.0a0` with the classifier `4 - Beta`, after nine breaking steps (Appendix B). `migration.md` lists them.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   | [verified] | P15, P18         |
-| F9  | **Some gates overlap or cannot see a drift between the docs and the tests.** `test_api_consistency.py` (59 lines) tests `keepdims` keyword-only, which `test_signatures.py` also tests (P13), and `chunk` against `np.array_split`. The closed list of the exceptions to P2 is written twice: the table of `design_principles.md` and `NOT_ONE_NUMPY_CALL` in `test_thin_wrappers.py`. Nothing checks that they agree, so a function added to one list only passes. The Indices table of `design_principles.md` and the rows of `test_error_contract` have the same problem: the table says "1-D boolean array" for a mask, no test checks the 1-D part, and F2 passed both.                                                                                                                                                                                                                                                                                                                                                                                                         | [reading]  | P2, P8           |
-| F10 | **`apply_to_arrays` is typed `T -> T` for a function that changes the leaf type.** The docs advertise `apply_to_arrays(data, np.ndarray.tolist)` and `np.exp`. For `tolist` the output has lists at the leaves, not arrays, and `ty` still sees `T`. The structure is the one of the input (P5), the leaves are not. This is accepted: a precise type needs a higher-kinded type. It is a sentence in the docstring.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         | [reading]  | P14              |
+| #   | Finding | Tag | Property |
+| --- | ------- | --- | -------- |
+| F1  | **The dependency claims disagree with `pyproject.toml`, and the dependency CI tests versions the package refuses.** `pyproject.toml`: `coola>=2.0.0a4,<3.0`. The README table, row `main`: `coola >=1.0,<2.0`. `dev/config/package_versions.json`: `coola` `["1.0.0", "1.0.1", "1.1.10"]`, which `ci-test-deps` installs. With `coola` 1.1.10, `import batcharray.nested` raises `ImportError: cannot import name 'recursive_zip_apply'` and the suite stops with 28 collection errors. The generator (`dev/generate_versions.py`) cannot return a 2.0 version because PyPI has only `2.0.0a0` to `a4` (pre-releases are skipped). `test_docs_references` checks the names of the dependencies, not their bounds. NumPy is fine: the matrix lists `2.0.2` to `2.5.5` and the whole suite passes on 2.0.2. | [verified] | P18, P15 |
+| F2  | **A non-array argument has no rule at the `array` level.** The leaf contract (P6) is implemented by `nested`. A list given to `array` gives four outcomes: `AttributeError` (`sum_along_batch`, `mean`, `argmax`, `cumsum`, `tile_along_seq`), a silent conversion to an `ndarray` (`sort`, `flip`, `select`, `repeat`, `concatenate`), a `list` (`slice_along_batch` returns a list, `chunk_along_batch` returns a list of lists), and a `TypeError` of NumPy. The annotation is `np.ndarray` and `ty` rejects the call, so this is the same situation as a 0-d array: an input outside the contract that the documentation does not name. | [verified] | P6, P12, P17 |
+| F3  | **`__getattr__` of `batcharray/__init__.py` has an uncovered branch** (`raise AttributeError` for an unknown name, line 55). `CLAUDE.md` asks for 100 % of the code that is changed; the file was changed in #706. | [verified] | P18 |
+| F4  | **The release is blocked by an alpha dependency.** PyPI has `coola` 1.1.10 as the latest stable and `2.0.0a4` as the latest alpha; `batcharray` is `0.3.0` on PyPI and `0.4.0a0` on `main` (classifier `4 - Beta`). The breaking steps of Appendix B have waited since #690. | [verified] | P15 |
+| F5  | **The two sibling packages differ in names that look like drift.** `batchtensor` has `cat_*`, `amax_*`, `amin_*`, `roll_*`, `pad_*`, `topk_*`, `logsumexp_*`, the `masked_*_along_seq` reductions, `clone`, `to`, `from_numpy`; `batcharray` has `concatenate_*`, `masked_select_*`, `tile_along_seq`. Each difference has a reason (the name of the NumPy or torch function, or a function that exists in one library only), but the reason is written nowhere, so the next review rediscovers it. Appendix A is the table. | [reading] | P3 |
 
-**Checked and found correct** (no action): `ruff`, `ty`, `lint-imports` (one `layers` contract) and
-the 2 788 tests pass; `chunk_*` and `split_*` raise on leaves of different sizes (`ValueError`,
-checked for equal and for different piece counts); a non-array leaf (`int`, `str`, `None`,
-`np.float64`) raises a `TypeError` that names the type; a named tuple is kept by `chunk_*`;
-`concatenate_*` on two dicts with the same keys in another order keeps the order of the first, and
-raises `ValueError` on a key mismatch, an empty list or a shape mismatch; `sort`, `median`,
-`cumsum`, `index_select`, `take`, `take_along_axis`, `flip`, `roll`, `tile` and `repeat` keep the
-mask of a masked array; every reduction along batch on a 1-D array returns a 0-d `ndarray` (12
-functions probed); `shuffle_*` on a zero batch size returns a zero batch size and `rng="a"` raises
-the `TypeError` of `numpy.random.default_rng`; `chunk_*` and `split_*` of the `nested` level on a
-leaf with fewer dimensions than the axis raise a `ValueError` that names the item; `chunk_*` costs
-1.2 times a hand-written loop (Section 6.1).
+**Checked and found correct** (no action): `ruff`, `ty`, `lint-imports` and 3 126 tests pass; the
+suite passes on NumPy 2.0.2; the masked-array rule holds for 20 functions probed on a masked input
+(`gather_along_seq`, `tile_along_seq`, `repeat`, `chunk`, `split`, `permute`, `shuffle`,
+`index_select`, `masked_select`, `flip`, `cumsum`, `cumprod`, `sort`, `median`, `sum`, `std`, `any`,
+`select`, `slice`, `max`: every one returns a `MaskedArray` with the expected masked cells); a
+non-array leaf (`str`, `np.float64`, `int`) at the `nested` level raises a `TypeError` that names the
+type; `batch_size` on leaves of different ranks works and `seq_len` on a 1-D leaf raises a
+`ValueError`; a mean, a median and a std of integers return `float64`; a sum of booleans returns
+`int64`; `stack_*` of arrays with different shapes raises NumPy's `ValueError`; `chunk_along_batch`
+and `split_along_batch` of 200 leaves cost 0.9 ms (4 pieces) and 4.3 ms (32 pieces), linear in the
+size of the output; `array.sum_along_batch` costs the same as `x.sum(axis=0)` (1.1 us) and a nested
+call on two leaves costs 4.8 us.
 
 **Behaviours that must not regress:** the container types of the input are kept; one permutation is
 shared by all the leaves of `shuffle_*`; masked arrays keep their mask in every function that keeps
-it today; a cycle raises `ValueError`; a non-array leaf raises a `TypeError` that names the type;
-`chunk_*` and `split_*` raise on leaves of different sizes; the dtype of every function is NumPy's;
-the doctests run.
+it today, in every position of `concatenate_*` and `stack_*`; a cycle raises `ValueError`; a
+non-array leaf raises a `TypeError` that names the type; `chunk_*` and `split_*` raise on leaves of
+different sizes; a boolean index raises `ValueError`; the dtype of every function is NumPy's; the
+doctests run.
 
 ## 4. Architecture
 
@@ -185,7 +188,7 @@ shared by all the leaves: a keyword of the `partial`, not a leaf.
 
 `apply_to_arrays(data, fn)` is also the tool for what the package does not wrap: a pointwise
 function (`apply_to_arrays(data, np.exp)`), a conversion or a cast. The structure of the output is
-the one of the input; the leaves are what `fn` returns (F10).
+the one of the input; the leaves are what `fn` returns.
 
 ### 4.2 The container rule
 
@@ -201,7 +204,7 @@ a mapping combined with a sequence raises a `ValueError`; `[list, tuple]` gives 
   rule (Section 4.5), the error table (Section 4.6) and the index rule (Section 4.7) are in
   `docs/docs/design_principles.md` and nowhere else. The module docstrings of `array` and `nested`
   link to it.
-- **The 94 notes `This function assumes the batch axis is the first axis` are removed (F4).** A
+- **The 94 notes `This function assumes the batch axis is the first axis` are removed.** A
   function docstring states only what is specific to the function: its edge cases (P17), its
   `Raises` and its example. A function whose first parameter is not a batch (a `mask` or an
   `indices`) says what that parameter is in `Args`.
@@ -212,7 +215,7 @@ a mapping combined with a sequence raises a `ValueError`; `[list, tuple]` gives 
 
 A function outside this list is one NumPy call with the axis fixed, and returns a new array or the
 view NumPy returns. The table is in `design_principles.md`; **`test_closed_list_matches_docs` makes
-the table and `NOT_ONE_NUMPY_CALL` one list (F9)**. The list after the change:
+the table and `NOT_ONE_NUMPY_CALL` one list**. The list after the change:
 
 | Function                                            | Why it is not one NumPy call                                                                                                      |
 | --------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------- |
@@ -241,7 +244,7 @@ def get_namespace(*arrays: np.ndarray) -> ModuleType:
 A function with one array calls `get_namespace(array)`, as it does today. `concatenate_*` and
 `stack_*` call `get_namespace(*arrays)`: **one masked item anywhere gives a masked output that keeps
 every mask**, and a list of plain arrays stays plain (`np.ma.stack` would turn it into a
-`MaskedArray`, F7). `_concatenate` loses its own `isinstance` on `arrays[0]` and the rule exists
+`MaskedArray`). `_concatenate` loses its own `isinstance` on `arrays[0]` and the rule exists
 once. A subclass of `MaskedArray` is dispatched as a masked array, a subclass of `ndarray` is a
 plain array, and an array type with other semantics is not supported.
 
@@ -252,7 +255,7 @@ because they are functions of the module. `take`, `take_along_axis`, `flip`, `ti
 
 A function that NumPy does not support on a masked array is not added to the package until it has a
 masked implementation. `np.pad` returns a plain `ndarray` for a masked array (checked), which is
-one reason why `pad_*` is not added (D3).
+one reason why `pad_*` is not added.
 
 ### 4.6 The error contract (P8, P19)
 
@@ -284,7 +287,7 @@ The table of situations, in `design_principles.md`:
 
 A NumPy `AxisError` is both a `ValueError` and an `IndexError`, so a caller can catch either. The
 new rows are the ones of F2 and F3. The validators do not cast or convert their argument (P10).
-`validate_same_keys` is removed (D5).
+`validate_same_keys` is removed.
 
 ### 4.7 Indices: one rule (P19)
 
@@ -307,7 +310,7 @@ The result on an empty or degenerate input is NumPy's, and is documented and pin
 
 | Function                                                   | Case                         | Result                                                                  |
 | ---------------------------------------------------------- | ---------------------------- | ----------------------------------------------------------------------- |
-| any function                                               | a 0-d array                  | **outside the contract; NumPy's result, which differs per function (F5)** |
+| any function                                               | a 0-d array                  | **outside the contract; NumPy's result, which differs per function** |
 | `*_along_batch` reductions and `select_along_batch`        | a 1-D array                  | a 0-d array (P12)                                                       |
 | a masked reduction                                         | a fully masked row or column | what `numpy.ma` returns (`masked`)                                      |
 
@@ -330,24 +333,12 @@ An operation enters `array` and `nested` only if all of these hold. It is in `CO
 6. It has a runnable example, a documented edge-case result (P17), and a gate for each property it
    touches.
 
-## 5. Public API after the change
+## 5. Public API
 
-Compared with `main` (56 `array` names, 58 `nested` names, 3 `validation` names). After: `array` 58
-(+2), `nested` 60 (+2), `validation` 4, and the type `NestedArray`. The full inventory is Appendix A.
-
-| Name                                                                         | Change                                                                                                                                                                                                                                                       | Breaking         |
-| ---------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ---------------- |
-| `array.concatenate_*`, `nested.concatenate_*`                                | One masked item in any position gives a masked output that keeps every mask (F1). `_concatenate` uses `get_namespace(*arrays)`.                                                                                                                              | Yes (silent bug) |
-| `utils.get_namespace`                                                        | Takes `*arrays`: `numpy.ma` if any array is masked (F1, F7). A call with one array is unchanged.                                                                                                                                                             | No               |
-| `array.index_select_*`, `array.permute_*`, `array.gather_along_seq`          | A boolean index raises `ValueError`; a non-array index raises `TypeError` (F2, F3).                                                                                                                                                                          | Yes (rare)       |
-| `array.masked_select_*`                                                      | A mask that is not 1-D raises `ValueError` (F2); a non-array mask raises `TypeError`.                                                                                                                                                                        | Yes (rare)       |
-| `validation.validate_indices`, `validation.validate_mask` (new)              | The checks of `array/indexing.py` and `array/permutation.py` move here (F3). The private validators and the 6 `raise` sites of `array` are removed.                                                                                                         | No               |
-| `validation.validate_same_keys`                                              | Removed: no caller; `coola` checks the keys of `combine_arrays` (F3, D5).                                                                                                                                                                                    | Yes              |
-| `array.stack_along_batch`, `stack_along_seq`, `nested.stack_*` (new, 4 names) | `np.stack` with the axis fixed and the dispatch of P11. `stack_along_batch` creates the batch axis from items without one; `stack_along_seq` creates the sequence axis from items `(batch_size, *)`. No `dtype` option (D1). Shape N -> 1 on `combine_arrays`. | No               |
-| `batcharray` (module)                                                        | Lazily imports `constants` and `validation` as well as `array`, `nested` and `utils`, and lists them in `__all__` and in the module docstring (F6).                                                                                                          | No               |
-| 94 docstrings                                                                | The layout note is removed (F4).                                                                                                                                                                                                                             | No               |
-| `design_principles.md`, `index.md`, `README.md`, `architecture.md`           | 0-d claim, the indices table, the validators table, the closed list (`stack_*`) and the module lists are corrected (F4, F5, F6). The duplicate "Masked arrays" bullet is removed.                                                                             | No               |
-| `pyproject.toml`                                                             | Version and classifier are set together at the release; the `coola` lower bound is a stable release (F8).                                                                                                                                                    | No               |
+No name is added, removed or renamed by the steps of Section 7. The inventory is Appendix A: 58
+`array` names, 60 `nested` names, 4 `validation` names and 8 `utils` names. The changes of this
+version are to `pyproject`-related files (the README table, `dev/config/package_versions.json`),
+to the documentation (`design_principles.md`) and to the tests.
 
 ## 6. Dependents and evidence
 
@@ -355,8 +346,8 @@ Compared with `main` (56 `array` names, 58 `nested` names, 3 `validation` names)
 
 | Package              | Change                                                                                                                                                                         |
 | -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `coola`              | Nothing to request. `recursive_apply` and `recursive_zip_apply` exist in `2.0.0a4`. The stable `2.0` is the blocker of the release (F8).                                      |
-| `batchtensor`        | Nothing. It is the model: the `stack_*` names are the ones it has (`stack_along_batch`, `stack_along_seq`), without a `dtype` option (D1). |
+| `coola`              | Nothing to request. `recursive_apply` and `recursive_zip_apply` exist in `2.0.0a4`. The stable `2.0` is the blocker of the release.                                      |
+| `batchtensor`        | Nothing. It is the model: the `stack_*` names are the ones it has (`stack_along_batch`, `stack_along_seq`), without a `dtype` option. |
 | Other local packages | None. No package of `~/workspace/code/2024` imports `batcharray` (`grep` over `pyproject.toml` and `src`). Public users are unknown; `migration.md` lists each removal.        |
 
 ### 6.1 Cost
@@ -380,62 +371,36 @@ Section 7 add one `isinstance` per item to `concatenate_*` and `stack_*` and not
 so constraint 5 holds. The numbers were taken once, on a laptop; they show an order of magnitude,
 not a benchmark.
 
-### 6.2 Probes of behaviour (this review, `main` at `f1c3654`, NumPy 2.5.5)
+### 6.2 Probes of behaviour (this review, `main` at `c0a950e`, NumPy 2.5.5 and 2.0.2)
 
-| Probe                                                                                                                               | Result                                                                                                    |
-| ----------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------- |
-| `array.concatenate_along_batch([x, m])`, `([m, x])` with 3 masked cells in `m`                                                      | `MaskedArray` with 0 masked cells; 3 (F1)                                                                 |
-| `nested.concatenate_along_batch([{"a": x}, {"a": m}])["a"]`                                                                         | 0 masked cells (F1)                                                                                       |
-| `np.concatenate([x, m])`, `np.ma.concatenate([x, m])`                                                                               | 0 masked cells; 3 (F1)                                                                                    |
-| `np.stack([x, m])`, `np.stack([m, m])`, `np.ma.stack([x, m])`                                                                       | 0; 0; 3 masked cells per `m` (F7)                                                                         |
-| `type(np.ma.stack([x, x]))`                                                                                                         | `MaskedArray`, although no item is masked (F7: the dispatch is "one masked item")                         |
-| `np.roll(m, 1, axis=0)`, `np.take`, `np.take_along_axis`, `np.flip` on a masked array                                              | `MaskedArray`, mask kept                                                                                  |
-| `np.pad(m, ((0, 1), (0, 0)))`                                                                                                       | plain `ndarray`: the mask is lost (D3)                                                                    |
-| `array.index_select_along_batch(x, np.array([True, False, True]))`                                                                  | shape `(3, 2)`, rows 1, 0, 1 (F2)                                                                         |
-| `array.permute_along_batch(x, np.array([True, False, True]))`                                                                       | accepted, rows 1, 0, 1 (F2)                                                                               |
-| `array.masked_select_along_batch(x, np.ones((3, 2), bool))`, `masked_select_along_seq(x, np.ones((4, 3), bool))`                    | shape `(6,)`; `IndexError: too many indices` (F2)                                                         |
-| `array.index_select_along_batch(x, [0, 1])`, `np.take(x, [0, 1], axis=0)`                                                           | `AttributeError: 'list' object has no attribute 'ndim'`; works (F3)                                       |
-| `grep -rn validate_same_keys src`                                                                                                   | the definition and `validation/__init__.py` only (F3)                                                     |
-| `grep -rn "assumes the" src \| wc -l`                                                                                               | 94 (F4)                                                                                                   |
-| `array.sum_along_batch(np.array(1.))`                                                                                               | `array(1.)`, no error (F5)                                                                                |
-| the 0-d array on `cumsum`, `index_select`, `sort`, `flip`, `sum_along_seq`, `select`, `slice`, `masked_select`, `chunk`             | shape `(1,)`; shape `(1,)`; `AxisError` x3; `IndexError` x4 (F5)                                          |
-| fresh interpreter: `import batcharray; batcharray.validation`, `batcharray.constants`                                               | `AttributeError` for both (F6)                                                                            |
-| PyPI: `batcharray`; `coola`                                                                                                         | latest 0.3.0; latest stable 1.1.10, `2.0.0a0` to `2.0.0a4` (F8)                                           |
-| `nested.sum_along_batch({"a": np.float64(1)})`, `None`, `"abc"`, `{b"x"}`                                                           | `TypeError: Expected an array, but got an object of type float64` (and `NoneType`, `str`, `bytes`)        |
-| `nested.chunk_along_batch({"a": arange(5), "b": arange(3)}, 2)`; `split_along_batch({"a": arange(5), "b": arange(6)}, 3)`          | `ValueError: All the arrays must have the same batch size, but got [3, 5]`; `[5, 6]`                      |
-| `nested.chunk_along_seq({"a": x, "b": arange(4)}, 2)`                                                                               | `ValueError: Cannot get the sequence size of item 1: it has 1 dimension(s)`                               |
-| `nested.shuffle_along_batch({"a": x, "b": x[:2]})`, `({})`                                                                          | `ValueError` (sizes `[2, 4]`); `ValueError: ... at least one array`                                       |
-| `nested.concatenate_along_batch([{"a": x}, {"b": x}])`, `[]`                                                                        | `ValueError: The mappings must have the same keys ...`; `ValueError` from NumPy                           |
-| `array.shuffle_along_batch(x, rng="a")`                                                                                             | `TypeError` from `numpy.random.default_rng`                                                               |
-| `array.chunk_along_batch(x, True)`, `(x, 2.0)`, `(x, 0)`; `split_along_batch(x, True)`                                              | one chunk; two chunks; `ValueError`; `ValueError` from `validate_split_sections` (NumPy's rule, D6)       |
-| `array.sort_along_batch(x, kind="foo")`, `std_along_batch(x, ddof=10)`                                                              | NumPy's `ValueError`; `inf` and NumPy's `RuntimeWarning`                                                  |
-| `array.tile_along_seq(x, 0)`, `(x, [2, 2])`                                                                                         | shape `(4, 0)`; NumPy's broadcast `ValueError`                                                            |
-| `array.gather_along_seq(x, np.array([[-1]] * 4))`, with a float index                                                               | shape `(4, 1)` (negative from the end); NumPy's `IndexError`                                              |
+Scripts are kept outside the repository. Results:
 
-Commands: `ruff check src tests` clean, `ty check` clean, `lint-imports` 1 contract kept,
-`pytest tests -q` 2 788 passed, `pytest docs README.md -q` 71 passed. The probes ran on NumPy 2.5.5
-only; the behaviour of F1, F2 and F7 on NumPy 2.0, the lowest supported version, is **not**
-checked here. The CI matrix runs the tests, so the new gates (Section 8) are the check.
+| Probe | Result |
+| ----- | ------ |
+| Full suite on NumPy 2.0.2 / Python 3.12 with `coola` 2.0.0a4 | 3 126 passed |
+| Full suite with `coola` 1.1.10 (the version the dependency matrix installs) | `ImportError` at import of `batcharray.nested`: 28 collection errors (F1) |
+| `ba.sum_along_batch([[1, 2], [3, 4]])` | `AttributeError: 'list' object has no attribute 'sum'` (F2) |
+| `ba.sort_along_batch(list)`, `flip`, `select`, `repeat`, `concatenate` | an `ndarray` (a conversion; F2) |
+| `ba.slice_along_batch(list, 0, 1)` | a `list` (F2) |
+| `bn.sum_along_batch([[1, 2], [3, 4]])` | `TypeError: Expected an array, but got an object of type int` (P6 holds at `nested`) |
+| 20 functions on a masked array | `MaskedArray` with the masked cells of the `numpy.ma` semantics |
+| `pytest --cov=batcharray` | 99 %; only `__init__.py:55` is missing (F3) |
+| `nested.chunk_along_batch` on 200 leaves, 4 and 32 pieces | 0.9 ms and 4.3 ms |
 
 ## 7. Changes to reach the target state
 
-One pull request per step, each releasable and small enough to review alone. Step 1 fixes a wrong
-result and goes first. Step 2 is the other wrong result. Steps 3 to 6 do not change a result.
+One pull request per step (`CLAUDE.md`), each releasable and small enough to review alone. Step 1
+fixes a false claim and a broken CI job and goes first. Steps 2 and 3 change no result.
 
-| Step | Change                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 | Breaking         | Status                           |
-| ---- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------- | -------------------------------- |
-| 1    | **Fix F1.** `get_namespace(*arrays)`; `_concatenate` uses it and loses its `arrays[0]` test. Extend `test_masked_arrays` so that a masked array is tested in the first, the last and the middle position, at both levels. Regression tests (`[x, m]`, `[{"a": x}, {"a": m}]`, three items) that fail without the fix (`git stash push src`). Update P11 and the masked section of `design_principles.md`.                                                                              | Yes (silent bug) | PR #703                          |
-| 2    | **Fix F2 and F3: one validation module.** Add `validate_indices` and `validate_mask`, use them in `index_select_*`, `permute_*`, `gather_along_seq` and `masked_select_*`, delete the two private validators and the inline `raise` sites (6 in total), delete `validate_same_keys`. Add `test_no_inline_raise_in_array` and the rows of `test_error_contract` (boolean index, 2-D mask, list index, one row per validator). Regression tests for the three cases of F2 fail without the fix. Update the tables of Sections 4.6 and 4.7 in `design_principles.md`. | Yes (rare)       | PR #704                          |
-| 3    | **Fix F4 and F5.** Remove the 94 layout notes from the docstrings; add `test_docstring_does_not_repeat_layout`. Correct the 0-d claim in `design_principles.md` (P17, edge-case table); add the "not guaranteed" line. Add the sentence of F10 to the docstring of `apply_to_arrays`.                                                                                                                                                                                                     | No               | PR #705                          |
-| 4    | **Fix F6.** `_SUBPACKAGES` and `__all__` list the five modules; the module docstring, the README features and `index.md` (the `validation` link, the duplicate bullet) follow. Extend `test_init` (every documented module is an attribute of `batcharray` in a fresh interpreter) and `test_docs_references`.                                                                                                                                                                         | No               | PR #706                          |
-| 5    | **Add `stack_*` (F7).** `array.stack_along_batch`, `stack_along_seq` and the `nested` twins on `combine_arrays`, with `get_namespace(*arrays)`. Add the functions to the closed list and to the user guides (`migration.md` is unchanged: nothing is removed). Gate: `test_masked_arrays` (every position), `test_signatures`, `test_purity` (a new array), the edge-case rows (empty list raises `ValueError`).                                                                                                    | No               | PR #707                          |
-| 6    | **Merge the overlapping gates (F9).** Move the two tests of `test_api_consistency.py` that are not in `test_signatures.py` (`chunk` against `np.array_split`) to `tests/unit/array/test_slicing.py`, delete the file. Add `test_closed_list_matches_docs`: the table "Exceptions to the thin wrappers" of `design_principles.md` equals `NOT_ONE_NUMPY_CALL`.                                                                                                                              | No               | PR #708                          |
-| 7    | **Release (F8).** Set the version and the classifier together, with a stable `coola` lower bound. Remove "the API is not stable" from `design_principles.md` and `index.md` only when D7 is answered.                                                                                                                                                                                                                                                                                   | No               | Blocked: D7 and `coola` 2.0 stable |
+| Step | Change | Breaking | Status |
+| ---- | ------ | -------- | ------ |
+| 1 | **Fix F1.** Set the README row of `main` to the bounds of `pyproject.toml`. Make `dev/generate_versions.py` and `package_versions.json` agree with the bound (a pre-release lower bound is tested with `--pre`, or the matrix lists the lower bound explicitly; the version `1.x` is removed). Extend `test_docs_references`: the `main` row of the README table equals the bounds of `pyproject.toml`, and every version of `package_versions.json` satisfies the specifier of its package (one test per dependency). Regression: the new test fails on `main`. Update the table of P18. | No (CI and docs) | Open |
+| 2 | **Fix F2 and F3.** State the rule: the `array` level takes `numpy.ndarray` (the annotation), a non-array argument is outside the contract (P6 starts at `nested`, D1). Add it to P6, P17 and the "Not guaranteed" list of `design_principles.md`. Add a test for the unknown attribute of `batcharray` (`pytest.raises(AttributeError, match=...)`). No check is added to the 58 functions. | No | Open |
+| 3 | **Write the alignment table (F5).** Add Appendix A of this document to `design_principles.md` (a short section "Differences with `batchtensor`"), and keep it in sync in `batchtensor`. Documentation only. | No | Open |
+| 4 | **Release (F4).** Set the version and the classifier together with a stable `coola` lower bound once `coola` 2.0 is stable. Remove "the API is not stable" from `design_principles.md`, `index.md` and the README only when D2 is answered. | No | Blocked: D2 and `coola` 2.0 stable |
 
-Steps 1 and 2 are independent and can ship now. Steps 3, 4 and 6 are documentation and tests and
-can ship in any order. Step 5 needs step 1 (it uses the helper that step 1 changes). Estimated size
-after the steps: `src` about 5 100 lines (the 94 notes are 188 lines, the validators move, `stack_*`
-adds about 200 lines with docstrings), `tests` about 9 800. This is an estimate, not a measure.
+Steps 1 to 3 are independent. Estimated size after the steps: `src` unchanged, `tests` +30 lines,
+`docs` +25 lines. This is an estimate, not a measure.
 
 ## 8. Tests and gates
 
@@ -444,62 +409,65 @@ adds about 200 lines with docstrings), `tests` about 9 800. This is an estimate,
   100% coverage of the code added or changed. A bug fix adds a regression test that fails without
   the fix (`git stash push src`).
 - **Removed with their code:** the tests of `validate_same_keys`, of the two private validators of
-  `array/indexing.py`, and `test_api_consistency.py` (step 6).
+  `array/indexing.py`, and `test_api_consistency.py`.
 - **T1. `test_masked_arrays` (extended).** For `concatenate_*` and `stack_*`: a masked array in the
   first, the middle and the last position, plain arrays only (stays plain), at both levels. The
-  result equals the `numpy.ma` function on the same data, mask included. Gate for P11, F1, F7.
+  result equals the `numpy.ma` function on the same data, mask included. Gate for P11.
 - **T2. `test_error_contract` (rows added).** One row per line of the table of Section 4.6: a
   boolean index for each of `index_select_*`, `permute_*`, `gather_along_seq`; a 2-D mask for
   `masked_select_*`; a list index and a list mask (`TypeError` with the type name); one row per
-  validator of `validation`. Gate for P8, P19, F2, F3.
+  validator of `validation`. Gate for P8, P19.
 - **T3. `test_no_inline_raise_in_array`.** No module of `array` contains `raise ValueError` or
-  `raise TypeError` (AST). Every check is a call to `batcharray.validation`. Gate for P8, F3.
+  `raise TypeError` (AST). Every check is a call to `batcharray.validation`. Gate for P8.
 - **T4. `test_docstring_does_not_repeat_layout`.** No docstring of `array` or `nested` contains
-  `assumes the batch axis` or `assumes the sequence axis`. Gate for P16, F4.
+  `assumes the batch axis` or `assumes the sequence axis`. Gate for P16.
 - **T5. `test_init` (extended).** In a fresh interpreter (`subprocess` with `-I`), each of the five
   modules is an attribute of `batcharray` after `import batcharray`, and `batcharray.__all__`
-  lists them. Gate for P18, F6.
+  lists them. Gate for P18.
 - **T6. `test_closed_list_matches_docs`.** The function names in the table "Exceptions to the thin
   wrappers" of `design_principles.md` equal `NOT_ONE_NUMPY_CALL`, once the `*_along_batch`
-  reductions and the `_*` forms are expanded. Gate for P2, F9.
+  reductions and the `_*` forms are expanded. Gate for P2.
 - **T7. `test_stack_*`.** `stack_along_batch` and `stack_along_seq` on 1-D, 2-D and 3-D items, plain
   and masked, equal to `np.stack` (plain) and `np.ma.stack` (masked) on seeded data; an empty list
   raises `ValueError`; the nested twin keeps the container types of the first item. Gate for P2,
   P3, P5, P11.
-- **No test** pins the result of a 0-d array (P17, D4) and none says that sets or dataclasses are
+- **No test** pins the result of a 0-d array (P17) and none says that sets or dataclasses are
   supported.
+
+
+**Added by this version.** `test_docs_references`: the README row of `main` and the versions of
+`dev/config/package_versions.json` agree with `pyproject.toml` (step 1); a test of the unknown
+attribute of `batcharray` (step 2). A regression test fails without its fix
+(`git stash push src` for code, a revert of the file for the docs).
 
 ## 9. Decisions for the maintainer
 
-| #   | Decision                                                                                                       | Recommendation                                                                                                                                                                                                                                                                                                                                                                     |
-| --- | -------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| D1  | Add `stack_along_batch` and `stack_along_seq`? With a `dtype` option?                                          | **Yes, without `dtype`.** Admission rule 1 holds because `np.stack` loses the masks (F7), `batchtensor` has the same names, and the nested twin is one `combine_arrays` call. `np.ma.stack` has no useful `dtype`, and a cast is `astype` (P10); `concatenate_*` keeps its `dtype` only because it exists today.                                                                    |
-| D2  | Add `roll_along_*` (`batchtensor` has it)?                                                                     | **No.** It is one NumPy call (`np.roll(x, shift, axis=0)`) that keeps the mask and has no trap, so rule 1 does not hold. Revisit on a request with a use case.                                                                                                                                                                                                                     |
-| D3  | Add `pad_along_*`, `pad_sequences`, `lengths_to_mask` (they are in `batchtensor`)?                             | **Not now.** `np.pad` drops the mask (probe), so `pad_*` needs a masked implementation to satisfy P11. `lengths_to_mask` is `np.arange(n) < lengths[:, None]`. `pad_sequences` is the one function with no NumPy equivalent. Revisit with a use case, a masked implementation and a gate; it would be `combine_arrays` with a padding function.                                    |
-| D4  | 0-d arrays: validate (`ValueError`) or document?                                                               | **Document.** Four outcomes today (F5), but a check in 28 functions repeats what NumPy does in most of them and the input has no meaning. The claim of the docs is corrected, P17 says "outside the contract", and no test pins an accident of NumPy. Alternative: `validate_min_ndim(array, 1)` in every `_along_batch` function, which adds 28 call sites.                       |
-| D5  | Remove `validate_same_keys`?                                                                                   | **Yes.** No caller in `src` or in the docs; `coola` raises the `ValueError` of the key mismatch of `combine_arrays`. A public function with no caller is a promise the package does not need. A caller of the package can import it from `coola`.                                                                                                                                   |
-| D6  | Make `chunk_*` strict on its argument (`True`, `2.0`) as `split_*` is?                                         | **No.** `chunk_*` is `np.array_split`, and the number of sections is NumPy's argument (P8). `split_*` validates because it computes indices from the size, which NumPy does not do. The docstring of `chunk_*` says that it follows `np.array_split`.                                                                                                                              |
-| D7  | When is the API stable, and when is the release made?                                                          | After `coola` 2.0 is stable and one release with no change. Until then keep "pre-1.0". Alternative: release `0.4.0` now with `coola>=2.0.0a4` as the dependency, as the breaking steps (Appendix B) have waited since #690; the cost is that users of `0.4.0` follow the alpha of `coola`.                                                                                          |
-| D8  | A non-array index or mask: `TypeError`, or accept array-likes with `np.asarray`?                               | **`TypeError`.** The annotation is `np.ndarray`, the leaf rule (P6) is `TypeError`, and a conversion is a cast (P10): `np.asarray([True, 0])` changes the dtype that the check reads. The message names the type.                                                                                                                                                                  |
-| D9  | Mixed masked and plain items in `concatenate_*` and `stack_*`: promote, or raise?                              | **Promote** (P11): the output is masked and every mask is kept; a plain item has no masked cell. Raising would reject data that has one obvious meaning, and the previous behaviour depended on the order of the items (F1).                                                                                                                                                         |
-| D10 | Keep the module names `comparison.py` (sort, argsort), `math.py` (cumulative), `joining.py` (tile, repeat)?    | **Yes.** They are the names of `batchtensor`, so a function has the same module in both packages. A rename costs the docs and the gates for no change of behaviour.                                                                                                                                                                                                              |
-| D11 | Generate the `nested` twins instead of writing them?                                                           | **No.** Generation hides the signature from the type checkers and the docs, and a `nested` function is already one line.                                                                                                                                                                                                                                                          |
+| #   | Decision | Recommendation |
+| --- | -------- | -------------- |
+| D1  | A non-array argument at the `array` level (F2): validate (`TypeError`), convert (`np.asarray`), or document? | **Document.** A check in 58 functions repeats `ty` and the annotation, a conversion is a cast (P10), and `nested` already raises the `TypeError` of P6 for a leaf. The result stays NumPy's and no test pins it, as for the 0-d array (D4 of the previous version). Alternative: `validate_array` in every `array` function (58 call sites, about 60 lines). |
+| D2  | When is the API stable, and when is the release made? | After `coola` 2.0 is stable and one release with no change. Alternative: release `0.4.0` now with `coola>=2.0.0a4`; the cost is that users of `0.4.0` follow the alpha of `coola`, and `pip` needs `--pre`. |
+| D3  | The dependency matrix (F1): test the lower bound of a pre-release, or wait for `coola` 2.0? | **Test the lower bound explicitly** (`2.0.0a4`) and the latest alpha, so the CI tests what the package declares. A matrix of versions the package refuses tests nothing. |
+| D4  | Add `roll_*`, `pad_*`, `topk_*`, `logsumexp_*`, `clone`? | **No**, for the reasons of the admission rule (Section 4.9): `roll` is one NumPy call without a trap, `pad` drops the mask (P11), `topk` and `logsumexp` have no NumPy function, `clone` is `x.copy()`. Revisit on a request with a use case. |
+| D5  | Keep `concatenate_*` (NumPy name) while `batchtensor` has `cat_*` (torch name)? | **Yes.** The name of the wrapped function wins (P2); the alignment table (Appendix A) records it. |
 
-Decisions taken in the previous target states and kept: dataclasses and sets are outside the
-contract; the pointwise functions and `to_list` are not wrapped (`apply_to_arrays(data, np.exp)`);
-`computation` is removed; `index_select_*` is kept and `take_*` removed; `amax_*` and `amin_*`
-are removed; a reduction on a 1-D array returns a 0-d array; `concatenate_*` follows the first-item
-container rule; `chunk_*` and `split_*` keep the names of `batchtensor`; fully masked rows follow
-`numpy.ma` (Appendix B).
+Decisions taken in the previous target states and kept: `stack_*` has no `dtype`; `validate_same_keys`
+is removed; a non-array index or mask is a `TypeError`; mixed masked and plain items are promoted;
+dataclasses and sets are outside the contract; the pointwise functions and `to_list` are not
+wrapped (`apply_to_arrays(data, np.exp)`); `computation` is removed; `index_select_*` is kept and
+`take_*` removed; `amax_*` and `amin_*` are removed; a reduction on a 1-D array returns a 0-d array;
+`concatenate_*` follows the first-item container rule; `chunk_*` and `split_*` keep the names of
+`batchtensor`; 0-d arrays are outside the contract; fully masked rows follow `numpy.ma`;
+the `nested` twins are written, not generated; the module names `comparison.py`, `math.py` and
+`joining.py` are kept (Appendix B).
 
 ## 10. Not covered
 
-- New operations beyond `stack_*`. The admission rule (Section 4.9) is the process (D2, D3).
+- New operations beyond `stack_*`. The admission rule (Section 4.9) is the process.
 - Array libraries other than NumPy (CuPy, JAX, `torch`): `batchtensor` is the package for PyTorch,
   and P11 supports `numpy.ma` only.
 - Structured arrays, `object` arrays, sparse arrays and `np.matrix` (`nested.sum_along_batch` of an
   `np.matrix` raises `TypeError: matrix.sum() got an unexpected keyword argument 'keepdims'`).
-- Ragged data (lists of arrays of different lengths) and `pad_sequences` (D3).
+- Ragged data (lists of arrays of different lengths) and `pad_sequences`.
 - A configurable layout (P1 says no).
 - Data loaders, datasets or collate functions (`concatenate_*` and `stack_*` are the building
   blocks).
@@ -510,31 +478,43 @@ container rule; `chunk_*` and `split_*` keep the names of `batchtensor`; fully m
 - A `pyright` run of the type alias. Only `ty` runs in CI.
 - The workflows, the dependency bots and the documentation theme.
 
-## Appendix A. API inventory
+## Appendix A. API inventory and alignment with `batchtensor`
 
-**`array` (56 names on `main`, 58 after).** Reductions (`max`, `min`, `mean`, `median`, `sum`,
-`prod`, `std`, `var`, `any`, `all`, `argmax`, `argmin`: 24 names), cumulative (`cumsum`, `cumprod`: 4),
-sorting (`sort`, `argsort`: 4), indexing (`index_select`, `masked_select`: 4, and `gather_along_seq`:
-1), slicing (`slice`, `select`, `chunk`, `split`: 8), joining (`concatenate`, `repeat`: 4, and
+**`array` (58 names).** Reductions (`max`, `min`, `mean`, `median`, `sum`, `prod`, `std`, `var`,
+`any`, `all`, `argmax`, `argmin`: 24 names), cumulative (`cumsum`, `cumprod`: 4), sorting (`sort`,
+`argsort`: 4), indexing (`index_select`, `masked_select`: 4, and `gather_along_seq`: 1), slicing
+(`slice`, `select`, `chunk`, `split`: 8), joining (`concatenate`, `stack`, `repeat`: 6, and
 `tile_along_seq`: 1) and permutation (`permute`, `shuffle`, `flip`: 6), each `_along_batch` and
-`_along_seq`, except `gather_along_seq` and `tile_along_seq`. Added: `stack_along_batch` and
-`stack_along_seq`, which makes 7 joining names.
+`_along_seq`, except `gather_along_seq` and `tile_along_seq`.
 
-**`nested` (58 names on `main`, 60 after).** The same names as `array`, plus `batch_size` and
-`seq_len` (the two of `nested.size`). The type `NestedArray` is in `utils`. Added:
-`stack_along_batch` and `stack_along_seq`.
+**`nested` (60 names).** The same names as `array`, plus `batch_size` and `seq_len`.
 
-**`utils` (8 names).** `types` (`NestedArray`, `T`, `SortKind`), `namespace` (`get_namespace`, which
-takes `*arrays` after step 1), `structure` (`apply_to_arrays`, `split_arrays`, `combine_arrays`,
-`get_size`).
+**`utils` (8 names).** `NestedArray`, `T`, `SortKind`, `get_namespace`, `apply_to_arrays`,
+`split_arrays`, `combine_arrays`, `get_size`. **`validation` (4 names).** `validate_min_ndim`,
+`validate_split_sections`, `validate_indices`, `validate_mask`. **`constants`.** `BATCH_AXIS`,
+`SEQ_AXIS`.
 
-**`validation` (3 names on `main`, 4 after).** `validate_min_ndim`, `validate_split_sections`, and
-the new `validate_indices` and `validate_mask`. Removed: `validate_same_keys`.
+**Differences with `batchtensor`** (`nested` level; 81 names there, 60 here). The rule: a function
+has the name of the NumPy or torch function it wraps, and a function that has no equivalent in the
+other library exists in one package only.
 
-**`constants`.** `BATCH_AXIS`, `SEQ_AXIS`.
+| Only in `batchtensor` | Why |
+| --------------------- | --- |
+| `cat_*` | torch name; `batcharray` has `concatenate_*` (NumPy name) |
+| `amax_*`, `amin_*` | NumPy `max`/`min` are already the reductions of an axis (removed in #694) |
+| `roll_*`, `pad_*`, `pad_sequences` | not admitted (D4 and D3 of the previous version) |
+| `topk_*`, `logsumexp_*`, `masked_{amax,amin,mean,sum}_along_seq` | no NumPy function; `numpy.ma` covers the masked reductions (P11) |
+| `clone`, `contiguous`, `detach`, `pin_memory`, `to`, `from_numpy`, `to_numpy` | torch device, dtype and graph; `apply_to_arrays` covers a cast |
 
-**Size on `main`.** `src`: 5 155 lines (`nested` 2 440, `array` 2 223, `utils` 301, `validation`
-127, the top-level modules 64); `tests`: 9 542 lines; `docs/docs`: 2 399 lines.
+| Only in `batcharray` | Why |
+| -------------------- | --- |
+| `masked_select_*` | boolean indexing with the validation of P19 |
+| `tile_along_seq` | `np.tile` with the repetitions built from the rank |
+| `concatenate_*` | NumPy name of `cat_*` |
+
+`gather_along_seq` is in `batcharray` and is planned in `batchtensor` (its target state, #793).
+
+**Size on `main`.** `src`: 4 862 lines; `tests`: see `wc -l`; `docs/docs`: 2 729 lines.
 
 ## Appendix B. Record of the previous target states
 
@@ -557,10 +537,15 @@ merged:
 | 8    | The index family: `gather_along_seq`, the checks of `index_select_*` and `masked_select_*`  | #698 |
 | 9    | `batch_size`, `seq_len`, the layers contract and the gates                                  | #699 |
 
-#700 (NumPy 2.0 as the lower bound) and #701 (format) followed. This version replaces the open
+#700 (NumPy 2.0 as the lower bound) and #701 (format) followed. The next version replaced the open
 items of that document. It keeps the architecture and the 18 properties, changes five of them
 (P8, P11, P16, P17, P18), adds P19, and replaces step 10 (the release) by step 7 with the finding
-F8. The results of steps 1 to 9 were checked again in this review (Section 3, "Checked and found
-correct"); the five findings that reopen them are F1 (the masked rule of step 4 was tested for the
-first item only), F2 and F3 (the checks of step 8), F4 (the claim of step 2) and F5 (the claim of
-step 7).
+F8 (finding numbers of that version). The five findings that reopened steps 1 to 9 were the masked
+rule of step 4 (tested for the first item only), the checks of step 8, the claim of step 2 and the
+claim of step 7.
+
+The third version (this one, `main` at `c0a950e`) found the steps 1 to 6 of the second one merged:
+`concatenate_*` keeps every mask (#703), the validators are in `batcharray.validation` (#704), the
+layout notes and the 0-d claim are corrected (#705), the five modules are reachable (#706),
+`stack_*` is added (#707), and the overlapping gates are merged (#708). It replaces the open step 7
+(the release) by step 4 and adds F1 to F3 and F5.
