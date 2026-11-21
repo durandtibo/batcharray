@@ -16,6 +16,7 @@ from typing import TYPE_CHECKING
 import numpy as np
 
 from batcharray.constants import BATCH_AXIS, SEQ_AXIS
+from batcharray.utils import get_namespace
 from batcharray.validation import validate_min_ndim
 
 if TYPE_CHECKING:
@@ -202,10 +203,10 @@ def _concatenate(
 ) -> np.ndarray:
     r"""Concatenate the given arrays along an axis.
 
-    The namespace is chosen with the first array: ``numpy.ma`` if it is
-    a masked array, otherwise ``numpy``. ``numpy.ma.concatenate`` has
-    no ``dtype`` argument, so the output is cast after the
-    concatenation.
+    The namespace is chosen with all the arrays: ``numpy.ma`` if one of
+    them is a masked array (in any position), otherwise ``numpy``.
+    ``numpy.ma.concatenate`` has no ``dtype`` argument, so the output
+    is cast after the concatenation.
 
     Args:
         arrays: The arrays to concatenate.
@@ -216,7 +217,8 @@ def _concatenate(
     Returns:
         The concatenated arrays.
     """
-    if len(arrays) > 0 and isinstance(arrays[0], np.ma.MaskedArray):
+    xp = get_namespace(*arrays)
+    if xp is np.ma:
         out = np.ma.concatenate(arrays, axis=axis)
         return out if dtype is None else out.astype(dtype)
     return np.concatenate(arrays, axis=axis, dtype=dtype)

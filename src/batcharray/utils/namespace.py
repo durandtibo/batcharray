@@ -12,19 +12,22 @@ if TYPE_CHECKING:
     from types import ModuleType
 
 
-def get_namespace(array: np.ndarray) -> ModuleType:
-    r"""Return the NumPy namespace that implements the operations of an
-    array.
+def get_namespace(*arrays: np.ndarray) -> ModuleType:
+    r"""Return the NumPy namespace that implements the operations of
+    some arrays.
 
     A subclass of ``numpy.ma.MaskedArray`` is dispatched as a masked
-    array. A subclass of ``numpy.ndarray`` is a plain array.
+    array. A subclass of ``numpy.ndarray`` is a plain array. When
+    several arrays are given, one masked array in any position is
+    enough to choose ``numpy.ma``, because ``numpy`` drops the mask of
+    the masked arrays that are not first.
 
     Args:
-        array: The input array.
+        *arrays: The input arrays.
 
     Returns:
-        ``numpy.ma`` if the array is a masked array, otherwise
-            ``numpy``.
+        ``numpy.ma`` if at least one array is a masked array,
+            otherwise ``numpy``.
 
     Example:
         ```pycon
@@ -34,7 +37,9 @@ def get_namespace(array: np.ndarray) -> ModuleType:
         'numpy'
         >>> get_namespace(np.ma.ones((2, 3))).__name__
         'numpy.ma'
+        >>> get_namespace(np.ones((2, 3)), np.ma.ones((2, 3))).__name__
+        'numpy.ma'
 
         ```
     """
-    return np.ma if isinstance(array, np.ma.MaskedArray) else np
+    return np.ma if any(isinstance(a, np.ma.MaskedArray) for a in arrays) else np

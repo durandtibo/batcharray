@@ -49,7 +49,7 @@ or by `numpy.ma` for `median`, `sort`, `argsort` and `concatenate`. The one help
 | ----------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------- |
 | `computation.sum(x, axis=0)`, `prod`, `mean`, `std`, `var`, `min`, `max`, `argmax`, `argmin`                                              | `x.sum(axis=0)`, ... (the method of the array)            |
 | `computation.median(x, axis=0)`, `sort`, `argsort`                                                                                        | `get_namespace(x).median(x, axis=0)`, ...                 |
-| `computation.concatenate(arrays, axis=0)`                                                                                                 | `get_namespace(arrays[0]).concatenate(arrays, axis=0)`    |
+| `computation.concatenate(arrays, axis=0)`                                                                                                 | `get_namespace(*arrays).concatenate(arrays, axis=0)`      |
 | `ArrayComputationModel`, `MaskedArrayComputationModel`, `AutoComputationModel`, `BaseComputationModel`, and `register_computation_models` | none: an array type with other semantics is not supported |
 
 ## The `types` module

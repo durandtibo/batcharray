@@ -24,3 +24,24 @@ def test_get_namespace_array(array: np.ndarray) -> None:
 )
 def test_get_namespace_masked_array(array: np.ndarray) -> None:
     assert get_namespace(array) is np.ma
+
+
+def test_get_namespace_no_array() -> None:
+    assert get_namespace() is np
+
+
+def test_get_namespace_several_arrays() -> None:
+    assert get_namespace(np.ones((2, 3)), np.ones((2, 3))) is np
+
+
+@pytest.mark.parametrize(
+    "arrays",
+    [
+        (np.ma.ones((2, 3)), np.ones((2, 3))),
+        (np.ones((2, 3)), np.ma.ones((2, 3))),
+        (np.ones((2, 3)), np.ma.ones((2, 3)), np.ones((2, 3))),
+        (np.ones((2, 3)), np.ones((2, 3)).view(MyMaskedArray)),
+    ],
+)
+def test_get_namespace_several_arrays_one_masked(arrays: tuple[np.ndarray, ...]) -> None:
+    assert get_namespace(*arrays) is np.ma

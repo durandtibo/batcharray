@@ -6,7 +6,7 @@ import numpy as np
 import pytest
 from coola.equality import objects_are_equal
 
-from batcharray import array as ba
+from batcharray import array as ba, nested
 from batcharray.constants import BATCH_AXIS, SEQ_AXIS
 
 if TYPE_CHECKING:
@@ -117,3 +117,69 @@ def test_masked_array_index_function_equals_numpy_ma(name: str) -> None:
     func, reference = INDEX_FUNCTIONS[name]
     x = make_masked_array()
     assert objects_are_equal(np.asarray(func(x)), np.asarray(reference(x)))
+
+
+##########################################################
+#     Tests for concatenate with a masked array (F1)     #
+##########################################################
+
+
+def make_plain_array() -> np.ndarray:
+    r"""Create a plain array of shape ``(2, 3, 4)``."""
+    return np.random.default_rng(1).normal(size=(2, 3, 4))
+
+
+# The position of the masked array in the list of the items.
+POSITIONS = {"first": 0, "middle": 1, "last": 2}
+
+
+def make_items(position: int) -> list[np.ndarray]:
+    items = [make_plain_array() for _ in range(3)]
+    items[position] = make_masked_array()
+    return items
+
+
+CONCATENATE_AXES = {"concatenate_along_batch": BATCH_AXIS, "concatenate_along_seq": SEQ_AXIS}
+
+
+@pytest.mark.parametrize("position", POSITIONS.values(), ids=POSITIONS.keys())
+@pytest.mark.parametrize("name", CONCATENATE_AXES)
+def test_concatenate_array_equals_numpy_ma(name: str, position: int) -> None:
+    items = make_items(position)
+    assert objects_are_equal(
+        getattr(ba, name)(items), np.ma.concatenate(items, axis=CONCATENATE_AXES[name])
+    )
+
+
+@pytest.mark.parametrize("position", POSITIONS.values(), ids=POSITIONS.keys())
+@pytest.mark.parametrize("name", CONCATENATE_AXES)
+def test_concatenate_array_keeps_the_mask(name: str, position: int) -> None:
+    out = getattr(ba, name)(make_items(position))
+    assert int(np.ma.getmaskarray(out).sum()) == 6
+
+
+@pytest.mark.parametrize("position", POSITIONS.values(), ids=POSITIONS.keys())
+@pytest.mark.parametrize("name", CONCATENATE_AXES)
+def test_concatenate_nested_equals_numpy_ma(name: str, position: int) -> None:
+    items = make_items(position)
+    out = getattr(nested, name)([{"a": x} for x in items])
+    assert objects_are_equal(out, {"a": np.ma.concatenate(items, axis=CONCATENATE_AXES[name])})
+
+
+@pytest.mark.parametrize("position", POSITIONS.values(), ids=POSITIONS.keys())
+@pytest.mark.parametrize("name", CONCATENATE_AXES)
+def test_concatenate_nested_keeps_the_mask(name: str, position: int) -> None:
+    out = getattr(nested, name)([{"a": x} for x in make_items(position)])
+    assert int(np.ma.getmaskarray(out["a"]).sum()) == 6
+
+
+@pytest.mark.parametrize("name", ["concatenate_along_batch", "concatenate_along_seq"])
+def test_concatenate_plain_arrays_stay_plain_array(name: str) -> None:
+    out = getattr(ba, name)([make_plain_array(), make_plain_array()])
+    assert type(out) is np.ndarray
+
+
+@pytest.mark.parametrize("name", ["concatenate_along_batch", "concatenate_along_seq"])
+def test_concatenate_plain_arrays_stay_plain_nested(name: str) -> None:
+    out = getattr(nested, name)([{"a": make_plain_array()}, {"a": make_plain_array()}])
+    assert type(out["a"]) is np.ndarray
