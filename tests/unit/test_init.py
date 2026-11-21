@@ -13,10 +13,22 @@ import batcharray
 ##############################
 
 
-@pytest.mark.parametrize("name", ["array", "nested", "utils"])
+MODULES = ["array", "constants", "nested", "utils", "validation"]
+
+
+@pytest.mark.parametrize("name", MODULES)
 def test_lazy_subpackage_import(name: str) -> None:
     code = f"import batcharray; assert batcharray.{name}.__name__ == 'batcharray.{name}'"
     subprocess.run([sys.executable, "-I", "-c", code], check=True)  # noqa: S603
+
+
+@pytest.mark.parametrize("name", MODULES)
+def test_module_is_in_all(name: str) -> None:
+    assert name in batcharray.__all__
+
+
+def test_all_lists_the_modules_and_the_version() -> None:
+    assert sorted(batcharray.__all__) == sorted([*MODULES, "__version__"])
 
 
 def test_getattr_unknown_attribute() -> None:

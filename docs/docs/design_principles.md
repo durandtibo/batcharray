@@ -48,7 +48,7 @@ that takes a `mask`, an `indices` or a `permutation` (`masked_select_*`, `index_
 | P15 | Layered                 | `constants` <- `validation` <- `utils` <- `array` <- `nested`. No import in the other direction. `numpy` and `coola` are the only required dependencies.                                                                                          |
 | P16 | Documented by example   | Every public function has a docstring with a runnable `pycon` example. Each rule is stated once, on this page and not repeated in a function docstring: a docstring states what is specific to the function (its edge cases, its `Raises` and its example).                                                                                                                                 |
 | P17 | Defined on edge cases   | Every function has a documented result on empty and degenerate input. "NumPy's behaviour" is an answer, "undefined" is not. A 0-d array is outside the contract: it has no batch axis, and the result is NumPy's, which differs from one function to another.                                                                                                                    |
-| P18 | Documented claims exist | Every file, workflow or module that the README and the docs point to exists, and the description of the package matches `pyproject.toml`.                                                                                                         |
+| P18 | Documented claims exist | Every file, workflow or module that the README and the docs point to exists, the description of the package matches `pyproject.toml`, and every module the docs name as part of the package is reachable as `batcharray.<module>` after `import batcharray`.                                                                                                         |
 | P19 | Unambiguous indices     | An index is an integer array and a mask is a boolean array, and no function reads one as the other. An index or a mask that is not an `ndarray` is a `TypeError`; one with the wrong rank, or a boolean index, is a `ValueError`. Index values (bounds, negative, float dtype) are NumPy's rules. |
 
 ## Gates
@@ -73,7 +73,7 @@ that takes a `mask`, an `indices` or a `permutation` (`masked_select_*`, `index_
 | P15      | the `layers` contract of `import-linter` (`ci-cyclic-imports`)                                               |
 | P16      | `ci-doctest` (the examples run) and `tests/unit/test_docstring_does_not_repeat_layout.py` (no layout note in a docstring) |
 | P17      | `tests/unit/test_edge_case.py` (one test per row of the edge-case table)                                     |
-| P18      | `tests/unit/test_docs_references.py`                                                                         |
+| P18      | `tests/unit/test_docs_references.py` and `tests/unit/test_init.py` (the five modules in a fresh interpreter)                                                                         |
 
 **Not guaranteed:**
 

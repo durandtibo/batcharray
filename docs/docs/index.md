@@ -60,8 +60,7 @@ is the batch axis and the second axis is the sequence axis.
 - **Batch Operations**: Manipulate arrays with a dedicated batch dimension
 - **Sequence Support**: Handle time-series and sequential data efficiently
 - **Nested Structures**: Work with dictionaries and lists of arrays seamlessly
-- **Masked Arrays**: Built-in support for handling missing or invalid data
-- **Masked arrays**: the dispatch between `numpy` and `numpy.ma` is done by the array itself
+- **Masked Arrays**: Built-in support for handling missing or invalid data. The dispatch between `numpy` and `numpy.ma` is done by the array itself
 - **Minimal Dependencies**: Lightweight with only NumPy and coola as required dependencies
 
 ## Quick Links
@@ -135,6 +134,7 @@ Please check the documentation to see all the implemented functions.
 - **[nested module](refs/nested.md)** - Nested structure operations
 - **[constants module](refs/constants.md)** - Package constants
 - **[utils module](refs/utils.md)** - Shared helpers and types
+- **[validation module](refs/validation.md)** - Input validation functions
 
 ## API stability
 

@@ -2,10 +2,14 @@ from __future__ import annotations
 
 import importlib
 import re
+import subprocess
+import sys
 import tomllib
 from pathlib import Path
 
 import pytest
+
+import batcharray
 
 ROOT = Path(__file__).parents[2]
 DOCS = ROOT / "docs" / "docs"
@@ -34,6 +38,17 @@ def get_module_references() -> list[tuple[str, str]]:
     ]
 
 
+def get_top_level_modules() -> list[str]:
+    r"""Return the modules of the package documented in the API reference."""
+    return sorted(
+        {
+            name.split(".")[1]
+            for _, name in get_module_references()
+            if name.startswith("batcharray.")
+        }
+    )
+
+
 def get_required_dependencies() -> list[str]:
     r"""Return the names of the required dependencies of ``pyproject.toml``."""
     with (ROOT / "pyproject.toml").open("rb") as file:
@@ -59,6 +74,27 @@ def test_linked_workflow_exists(file: str, workflow: str) -> None:
 @pytest.mark.parametrize(("file", "module"), get_module_references())
 def test_documented_module_exists(file: str, module: str) -> None:
     assert importlib.import_module(module) is not None, f"{file} documents {module}"
+
+
+@pytest.mark.parametrize("module", get_top_level_modules())
+def test_documented_module_is_in_all(module: str) -> None:
+    assert module in batcharray.__all__
+
+
+@pytest.mark.parametrize("module", get_top_level_modules())
+def test_documented_module_is_an_attribute_in_a_fresh_interpreter(module: str) -> None:
+    code = f"import batcharray; assert batcharray.{module}.__name__ == 'batcharray.{module}'"
+    subprocess.run([sys.executable, "-I", "-c", code], check=True)  # noqa: S603
+
+
+@pytest.mark.parametrize("module", get_top_level_modules())
+def test_index_links_the_reference_of_the_module(module: str) -> None:
+    assert f"refs/{module}.md" in (DOCS / "index.md").read_text()
+
+
+@pytest.mark.parametrize("module", get_top_level_modules())
+def test_readme_names_the_module(module: str) -> None:
+    assert f"- `{module}`:" in (ROOT / "README.md").read_text()
 
 
 ######################################
