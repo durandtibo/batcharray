@@ -21,9 +21,7 @@ AVAILABLE = ("1.0.0", "1.1.10", "2.0.0a3", "2.0.0a4")
 
 
 def test_restrict_to_bounds_removes_the_versions_below_a_pre_release_bound() -> None:
-    result = restrict_to_bounds(
-        Requirement("coola>=2.0.0a4,<3.0"), ["1.0.0", "1.1.10"], AVAILABLE
-    )
+    result = restrict_to_bounds(Requirement("coola>=2.0.0a4,<3.0"), ["1.0.0", "1.1.10"], AVAILABLE)
     assert objects_are_equal(result, ["2.0.0a4"])
 
 
@@ -38,9 +36,7 @@ def test_restrict_to_bounds_adds_the_latest_accepted_version() -> None:
 
 
 def test_restrict_to_bounds_keeps_the_versions_of_a_stable_bound() -> None:
-    result = restrict_to_bounds(
-        Requirement("coola>=1.0,<2.0"), ["1.0.0", "1.1.10"], AVAILABLE
-    )
+    result = restrict_to_bounds(Requirement("coola>=1.0,<2.0"), ["1.0.0", "1.1.10"], AVAILABLE)
     assert objects_are_equal(result, ["1.0.0", "1.1.10"])
 
 
