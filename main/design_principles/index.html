@@ -1449,7 +1449,7 @@ that takes a <code>mask</code>, an <code>indices</code> or a <code>permutation</
 <tr>
 <td>P11</td>
 <td>Masked arrays</td>
-<td>A <code>numpy.ma.MaskedArray</code> input gives a <code>MaskedArray</code> output with the semantics of <code>numpy.ma</code>, except for the functions that return indices (<code>argsort</code>, <code>argmax</code>, <code>argmin</code>). When a function takes several arrays (<code>concatenate_*</code>), one masked array in any position makes the output masked and keeps every mask.</td>
+<td>A <code>numpy.ma.MaskedArray</code> input gives a <code>MaskedArray</code> output with the semantics of <code>numpy.ma</code>, except for the functions that return indices (<code>argsort</code>, <code>argmax</code>, <code>argmin</code>). When a function takes several arrays (<code>concatenate_*</code>, <code>stack_*</code>), one masked array in any position makes the output masked and keeps every mask.</td>
 </tr>
 <tr>
 <td>P12</td>
@@ -1548,7 +1548,7 @@ that takes a <code>mask</code>, an <code>indices</code> or a <code>permutation</
 </tr>
 <tr>
 <td>P11</td>
-<td><code>tests/unit/test_masked_arrays.py</code> (every function on a masked array equals the <code>numpy.ma</code> result, and <code>concatenate_*</code> with a masked array in every position)</td>
+<td><code>tests/unit/test_masked_arrays.py</code> (every function on a masked array equals the <code>numpy.ma</code> result, and <code>concatenate_*</code> and <code>stack_*</code> with a masked array in every position)</td>
 </tr>
 <tr>
 <td>P12</td>
@@ -1589,12 +1589,12 @@ that takes a <code>mask</code>, an <code>indices</code> or a <code>permutation</
 <li>0-d arrays. A 0-d array has no batch axis, so it is outside the contract and no test pins the result. The result is NumPy's and differs from one function to another: <code>sum_along_batch(np.array(1.0))</code> returns the 0-d array, <code>cumsum_along_batch</code> and <code>index_select_along_batch</code> return an array of shape <code>(1,)</code>, <code>sort_along_batch</code>, <code>flip_along_batch</code> and <code>sum_along_seq</code> raise <code>AxisError</code>, and <code>select_along_batch</code>, <code>slice_along_batch</code>, <code>masked_select_along_batch</code> and <code>chunk_along_batch</code> raise <code>IndexError</code>.</li>
 <li>Dataclasses and sets as containers.</li>
 <li>That an index or a <code>permutation</code> argument is a valid permutation (only its length is checked).</li>
-<li>A generator or a lazy iterable as <code>items</code> of <code>concatenate_*</code>. It takes a <code>Sequence</code>.</li>
+<li>A generator or a lazy iterable as <code>items</code> of <code>concatenate_*</code> and <code>stack_*</code>. It takes a <code>Sequence</code>.</li>
 </ul>
 <h2 id="containers">Containers<a class="headerlink" href="#containers" title="Permanent link">&para;</a></h2>
 <p>The supported structures are <code>dict</code>, <code>list</code>, <code>tuple</code> and their subclasses (named tuple,
 <code>OrderedDict</code>, <code>defaultdict</code>). Sets and dataclasses are outside the contract.</p>
-<p>For <code>concatenate_*</code>, the output containers are the ones of the first item and the other items must
+<p>For <code>concatenate_*</code> and <code>stack_*</code>, the output containers are the ones of the first item and the other items must
 have the same keys and lengths. A <code>list</code> and a <code>tuple</code> can be combined (the output has the type of
 the first item), as can a <code>dict</code> and an <code>OrderedDict</code>. A mapping combined with a sequence raises a
 <code>ValueError</code>.</p>
@@ -1620,8 +1620,8 @@ view NumPy returns.</p>
 <td><code>np.split</code> with indices computed from a size or sections (<code>np.split(x, 2)</code> means 2 sections, not size 2)</td>
 </tr>
 <tr>
-<td><code>concatenate_*</code> with <code>dtype</code> on a masked array</td>
-<td><code>np.ma.concatenate</code> has no <code>dtype</code>: <code>astype</code> after it</td>
+<td><code>concatenate_*</code>, <code>stack_*</code></td>
+<td><code>get_namespace(*arrays)</code> picks <code>np.ma</code> when any item is masked (P11); <code>concatenate_*</code> with <code>dtype</code> on a masked array uses <code>astype</code> (<code>np.ma.concatenate</code> has no <code>dtype</code>)</td>
 </tr>
 <tr>
 <td><code>index_select_*</code></td>
@@ -1654,10 +1654,11 @@ returns a new array. <code>sort_*</code>, <code>cumsum_*</code>, <code>repeat_*<
 array.</p>
 <h2 id="masked-arrays">Masked arrays<a class="headerlink" href="#masked-arrays" title="Permanent link">&para;</a></h2>
 <p>A reduction, a cumulative function, <code>argmax</code>, <code>argmin</code>, <code>any</code> and <code>all</code> use the method of the array,
-which <code>MaskedArray</code> overrides. <code>median</code>, <code>sort</code>, <code>argsort</code> and <code>concatenate</code> use <code>numpy.ma</code> for a
-masked array and <code>numpy</code> otherwise. <code>concatenate</code> takes several arrays, so <code>get_namespace(*arrays)</code>
+which <code>MaskedArray</code> overrides. <code>median</code>, <code>sort</code>, <code>argsort</code>, <code>concatenate</code> and <code>stack</code> use <code>numpy.ma</code> for a
+masked array and <code>numpy</code> otherwise. <code>concatenate</code> and <code>stack</code> take several arrays, so <code>get_namespace(*arrays)</code>
 chooses <code>numpy.ma</code> when any of them is masked, whatever its position: <code>numpy.concatenate</code> drops the
-mask of a masked array that is not first, and a list of plain arrays stays plain. A subclass of <code>MaskedArray</code> is dispatched as a masked array, a
+mask of a masked array that is not first, and so does <code>numpy.stack</code>. A list of plain arrays stays
+plain (<code>numpy.ma.stack</code> would turn it into a masked array). A subclass of <code>MaskedArray</code> is dispatched as a masked array, a
 subclass of <code>ndarray</code> is a plain array, and an array type with other semantics is not supported.</p>
 <p>A function that NumPy does not support on a masked array is not added to the package until it has a
 masked implementation.</p>
@@ -1677,11 +1678,11 @@ It never repeats a check NumPy makes.</p>
 <td><code>TypeError</code></td>
 </tr>
 <tr>
-<td><code>concatenate</code> receives no item, or structures with a different layout (keys, lengths)</td>
+<td><code>concatenate</code> or <code>stack</code> receives no item, or structures with a different layout (keys, lengths)</td>
 <td><code>ValueError</code></td>
 </tr>
 <tr>
-<td><code>concatenate</code> combines a mapping with a sequence</td>
+<td><code>concatenate</code> or <code>stack</code> combines a mapping with a sequence</td>
 <td><code>ValueError</code></td>
 </tr>
 <tr>
