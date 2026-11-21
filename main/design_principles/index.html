@@ -1444,7 +1444,7 @@ transposed first. A <code>_along_seq</code> function needs an array with at leas
 <tr>
 <td>P11</td>
 <td>Masked arrays</td>
-<td>A <code>numpy.ma.MaskedArray</code> input gives a <code>MaskedArray</code> output with the semantics of <code>numpy.ma</code>, except for the functions that return indices (<code>argsort</code>, <code>argmax</code>, <code>argmin</code>).</td>
+<td>A <code>numpy.ma.MaskedArray</code> input gives a <code>MaskedArray</code> output with the semantics of <code>numpy.ma</code>, except for the functions that return indices (<code>argsort</code>, <code>argmax</code>, <code>argmin</code>). When a function takes several arrays (<code>concatenate_*</code>), one masked array in any position makes the output masked and keeps every mask.</td>
 </tr>
 <tr>
 <td>P12</td>
@@ -1534,7 +1534,7 @@ transposed first. A <code>_along_seq</code> function needs an array with at leas
 </tr>
 <tr>
 <td>P11</td>
-<td><code>tests/unit/test_masked_arrays.py</code> (every function on a masked array equals the <code>numpy.ma</code> result)</td>
+<td><code>tests/unit/test_masked_arrays.py</code> (every function on a masked array equals the <code>numpy.ma</code> result, and <code>concatenate_*</code> with a masked array in every position)</td>
 </tr>
 <tr>
 <td>P12</td>
@@ -1641,7 +1641,9 @@ array.</p>
 <h2 id="masked-arrays">Masked arrays<a class="headerlink" href="#masked-arrays" title="Permanent link">&para;</a></h2>
 <p>A reduction, a cumulative function, <code>argmax</code>, <code>argmin</code>, <code>any</code> and <code>all</code> use the method of the array,
 which <code>MaskedArray</code> overrides. <code>median</code>, <code>sort</code>, <code>argsort</code> and <code>concatenate</code> use <code>numpy.ma</code> for a
-masked array and <code>numpy</code> otherwise. A subclass of <code>MaskedArray</code> is dispatched as a masked array, a
+masked array and <code>numpy</code> otherwise. <code>concatenate</code> takes several arrays, so <code>get_namespace(*arrays)</code>
+chooses <code>numpy.ma</code> when any of them is masked, whatever its position: <code>numpy.concatenate</code> drops the
+mask of a masked array that is not first, and a list of plain arrays stays plain. A subclass of <code>MaskedArray</code> is dispatched as a masked array, a
 subclass of <code>ndarray</code> is a plain array, and an array type with other semantics is not supported.</p>
 <p>A function that NumPy does not support on a masked array is not added to the package until it has a
 masked implementation.</p>

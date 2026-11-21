@@ -1450,7 +1450,7 @@ or by <code>numpy.ma</code> for <code>median</code>, <code>sort</code>, <code>ar
 </tr>
 <tr>
 <td><code>computation.concatenate(arrays, axis=0)</code></td>
-<td><code>get_namespace(arrays[0]).concatenate(arrays, axis=0)</code></td>
+<td><code>get_namespace(*arrays).concatenate(arrays, axis=0)</code></td>
 </tr>
 <tr>
 <td><code>ArrayComputationModel</code>, <code>MaskedArrayComputationModel</code>, <code>AutoComputationModel</code>, <code>BaseComputationModel</code>, and <code>register_computation_models</code></td>

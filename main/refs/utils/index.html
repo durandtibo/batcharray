@@ -1778,15 +1778,18 @@ is combined with a sequence.</p>
 
 
 <a href="#batcharray.utils.get_namespace" class="headerlink" title="Permanent link">&para;</a></h3>
-<div class="doc-signature highlight"><pre><span></span><code><span class="nf">get_namespace</span><span class="p">(</span><span class="n">array</span><span class="p">:</span> <span class="n"><span title="numpy.ndarray">ndarray</span></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n"><span title="types.ModuleType">ModuleType</span></span>
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">get_namespace</span><span class="p">(</span><span class="o">*</span><span class="n">arrays</span><span class="p">:</span> <span class="n"><span title="numpy.ndarray">ndarray</span></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n"><span title="types.ModuleType">ModuleType</span></span>
 </code></pre></div>
 
     <div class="doc doc-contents ">
 
-        <p>Return the NumPy namespace that implements the operations of an
-array.</p>
+        <p>Return the NumPy namespace that implements the operations of
+some arrays.</p>
 <p>A subclass of <code>numpy.ma.MaskedArray</code> is dispatched as a masked
-array. A subclass of <code>numpy.ndarray</code> is a plain array.</p>
+array. A subclass of <code>numpy.ndarray</code> is a plain array. When
+several arrays are given, one masked array in any position is
+enough to choose <code>numpy.ma</code>, because <code>numpy</code> drops the mask of
+the masked arrays that are not first.</p>
 
 
 <p><span class="doc-section-title">Parameters:</span></p>
@@ -1802,18 +1805,18 @@ array. A subclass of <code>numpy.ndarray</code> is a plain array.</p>
       <tbody>
           <tr class="doc-section-item">
             <td>
-                <code>array</code>
+                <code>*arrays</code>
             </td>
             <td>
                   <code><span title="numpy.ndarray">ndarray</span></code>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>The input array.</p>
+                <p>The input arrays.</p>
               </div>
             </td>
             <td>
-                <em>required</em>
+                  <code>()</code>
             </td>
           </tr>
       </tbody>
@@ -1835,8 +1838,8 @@ array. A subclass of <code>numpy.ndarray</code> is a plain array.</p>
             </td>
             <td>
               <div class="doc-md-description">
-                <p><code>numpy.ma</code> if the array is a masked array, otherwise
-<code>numpy</code>.</p>
+                <p><code>numpy.ma</code> if at least one array is a masked array,
+otherwise <code>numpy</code>.</p>
               </div>
             </td>
           </tr>
@@ -1851,6 +1854,8 @@ array. A subclass of <code>numpy.ndarray</code> is a plain array.</p>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">get_namespace</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">)))</span><span class="o">.</span><span class="vm">__name__</span>
 <span class="go">'numpy'</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">get_namespace</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">)))</span><span class="o">.</span><span class="vm">__name__</span>
+<span class="go">'numpy.ma'</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">get_namespace</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">)),</span> <span class="n">np</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">)))</span><span class="o">.</span><span class="vm">__name__</span>
 <span class="go">'numpy.ma'</span>
 </code></pre></div>
 </details>
