@@ -183,6 +183,8 @@ The `array` module provides the following categories of functions:
 
 - `concatenate_along_batch()` - Concatenate arrays along batch
 - `concatenate_along_seq()` - Concatenate arrays along sequence
+- `stack_along_batch()` - Stack arrays in a new batch axis
+- `stack_along_seq()` - Stack arrays in a new sequence axis
 - `repeat_along_batch()` - Repeat each item along batch
 - `repeat_along_seq()` - Repeat each item along sequence
 - `tile_along_seq()` - Repeat array along sequence dimension

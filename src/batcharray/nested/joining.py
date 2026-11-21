@@ -7,6 +7,8 @@ __all__ = [
     "concatenate_along_seq",
     "repeat_along_batch",
     "repeat_along_seq",
+    "stack_along_batch",
+    "stack_along_seq",
     "tile_along_seq",
 ]
 
@@ -124,6 +126,90 @@ def concatenate_along_seq(
         ```
     """
     return combine_arrays(data, lambda arrays: ba.concatenate_along_seq(list(arrays), dtype=dtype))
+
+
+def stack_along_batch(data: Sequence[T]) -> T:
+    r"""Stack the given arrays in a new batch axis.
+
+    All arrays must have the same shape. The items have no batch axis:
+    the output has one more dimension than each item, and the batch
+    axis is the new first axis. If one array is a masked array, the
+    output is a masked array that keeps every mask.
+
+    Args:
+        data: The input data to stack. It can be arrays or nested
+            structures of arrays (dictionaries, lists, tuples). All the
+            items must have the same structure (same dictionary keys
+            and same sequence lengths).
+
+    Returns:
+        The stacked arrays, with the new batch axis. The containers
+            are the ones of the first item.
+
+    Raises:
+        TypeError: if the items contain something that is not an
+            array.
+        ValueError: if no item is given, if a dictionary is combined
+            with a sequence, or if the items have different layouts
+            (dictionary keys or sequence lengths).
+
+    Example:
+        ```pycon
+        >>> import numpy as np
+        >>> from batcharray.nested import stack_along_batch
+        >>> data = [
+        ...     {"a": np.array([0, 1, 2]), "b": np.array([10, 11])},
+        ...     {"a": np.array([4, 5, 6]), "b": np.array([12, 13])},
+        ... ]
+        >>> out = stack_along_batch(data)
+        >>> out
+        {'a': array([[0, 1, 2], [4, 5, 6]]), 'b': array([[10, 11], [12, 13]])}
+
+        ```
+    """
+    return combine_arrays(data, lambda arrays: ba.stack_along_batch(list(arrays)))
+
+
+def stack_along_seq(data: Sequence[T]) -> T:
+    r"""Stack the given arrays in a new sequence axis.
+
+    All arrays must have the same shape ``(batch_size, *)``. The
+    sequence axis is the new second axis, so each output array has the
+    shape ``(batch_size, len(data), *)``. If one array is a masked
+    array, the output is a masked array that keeps every mask.
+
+    Args:
+        data: The input data to stack. It can be arrays or nested
+            structures of arrays (dictionaries, lists, tuples). All the
+            items must have the same structure (same dictionary keys
+            and same sequence lengths).
+
+    Returns:
+        The stacked arrays, with the new sequence axis. The containers
+            are the ones of the first item.
+
+    Raises:
+        TypeError: if the items contain something that is not an
+            array.
+        ValueError: if no item is given, if a dictionary is combined
+            with a sequence, or if the items have different layouts
+            (dictionary keys or sequence lengths).
+
+    Example:
+        ```pycon
+        >>> import numpy as np
+        >>> from batcharray.nested import stack_along_seq
+        >>> data = [
+        ...     {"a": np.array([[0, 1], [2, 3]])},
+        ...     {"a": np.array([[4, 5], [6, 7]])},
+        ... ]
+        >>> out = stack_along_seq(data)
+        >>> out
+        {'a': array([[[0, 1], [4, 5]], [[2, 3], [6, 7]]])}
+
+        ```
+    """
+    return combine_arrays(data, lambda arrays: ba.stack_along_seq(list(arrays)))
 
 
 def tile_along_seq(data: T, reps: int) -> T:

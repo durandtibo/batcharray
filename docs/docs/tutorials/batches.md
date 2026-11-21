@@ -250,6 +250,24 @@ combined = array.concatenate_along_batch([batch1, batch2])
 #  [7 8]]
 ```
 
+### Stacking Samples into a Batch
+
+`stack_along_batch` creates the batch axis from samples that have none (the collate of a data
+loader). `stack_along_seq` creates the sequence axis from arrays of shape `(batch_size, *)`.
+Unlike `np.stack`, they keep the masks of the masked arrays.
+
+```python
+import numpy as np
+from batcharray import array
+
+samples = [np.array([1, 2, 3]), np.array([4, 5, 6])]
+
+batch = array.stack_along_batch(samples)
+# [[1 2 3]
+#  [4 5 6]]
+assert batch.shape == (2, 3)
+```
+
 ### Nested Concatenation
 
 ```python

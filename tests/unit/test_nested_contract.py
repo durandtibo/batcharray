@@ -71,7 +71,12 @@ MAP_FUNCTIONS: dict[str, tuple[Any, ...]] = {
     "shuffle_along_seq": (),
 }
 SPLIT_FUNCTIONS = ["chunk_along_batch", "chunk_along_seq", "split_along_batch", "split_along_seq"]
-COMBINE_FUNCTIONS = ["concatenate_along_batch", "concatenate_along_seq"]
+COMBINE_FUNCTIONS = [
+    "concatenate_along_batch",
+    "concatenate_along_seq",
+    "stack_along_batch",
+    "stack_along_seq",
+]
 
 LEAVES = [(1, "int"), ("x", "str"), (None, "NoneType"), (np.float64(1.0), "float64")]
 
@@ -169,6 +174,12 @@ def test_split_keeps_container_type(make: Callable) -> None:
 def test_concatenate_keeps_container_type(make: Callable) -> None:
     data = make(np.ones((4, 3)))
     assert type(bn.concatenate_along_batch([data, data])) is type(data)
+
+
+@pytest.mark.parametrize("make", CONTAINERS, ids=CONTAINER_IDS)
+def test_stack_keeps_container_type(make: Callable) -> None:
+    data = make(np.ones((4, 3)))
+    assert type(bn.stack_along_batch([data, data])) is type(data)
 
 
 def test_map_function_keeps_nested_values() -> None:

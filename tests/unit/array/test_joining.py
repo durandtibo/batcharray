@@ -11,6 +11,8 @@ from batcharray.array import (
     concatenate_along_seq,
     repeat_along_batch,
     repeat_along_seq,
+    stack_along_batch,
+    stack_along_seq,
     tile_along_seq,
 )
 from batcharray.array.joining import _concatenate
@@ -402,3 +404,193 @@ def test_concatenate_plain_array_first_masked_array_dtype() -> None:
 def test_concatenate_empty_raises() -> None:
     with pytest.raises(ValueError, match="need at least one array to concatenate"):
         _concatenate([], axis=0)
+
+
+########################################
+#     Tests for stack_along_batch      #
+########################################
+
+
+def test_stack_along_batch_1d() -> None:
+    assert objects_are_equal(
+        stack_along_batch([np.array([0, 1, 2]), np.array([4, 5, 6])]),
+        np.array([[0, 1, 2], [4, 5, 6]]),
+    )
+
+
+def test_stack_along_batch_2d() -> None:
+    assert objects_are_equal(
+        stack_along_batch([np.array([[0, 1], [2, 3]]), np.array([[4, 5], [6, 7]])]),
+        np.array([[[0, 1], [2, 3]], [[4, 5], [6, 7]]]),
+    )
+
+
+def test_stack_along_batch_3d() -> None:
+    arrays = [np.ones((2, 3, 4)), np.zeros((2, 3, 4)), np.ones((2, 3, 4))]
+    assert stack_along_batch(arrays).shape == (3, 2, 3, 4)
+
+
+def test_stack_along_batch_tuple() -> None:
+    assert objects_are_equal(
+        stack_along_batch((np.array([0, 1]), np.array([2, 3]))), np.array([[0, 1], [2, 3]])
+    )
+
+
+def test_stack_along_batch_one_item() -> None:
+    assert objects_are_equal(stack_along_batch([np.array([0, 1])]), np.array([[0, 1]]))
+
+
+def test_stack_along_batch_is_equal_to_np_stack() -> None:
+    arrays = [np.random.default_rng(i).normal(size=(3, 4)) for i in range(3)]
+    assert objects_are_equal(stack_along_batch(arrays), np.stack(arrays, axis=0))
+
+
+@pytest.mark.parametrize("dtype", [np.int64, np.float32, np.bool_])
+def test_stack_along_batch_keeps_dtype(dtype: type) -> None:
+    arrays = [np.ones((2, 3), dtype=dtype), np.zeros((2, 3), dtype=dtype)]
+    assert stack_along_batch(arrays).dtype == np.dtype(dtype)
+
+
+def test_stack_along_batch_zero_length_items() -> None:
+    assert stack_along_batch([np.ones((0, 3)), np.ones((0, 3))]).shape == (2, 0, 3)
+
+
+def test_stack_along_batch_plain_arrays_stay_plain() -> None:
+    assert type(stack_along_batch([np.ones((2, 3)), np.ones((2, 3))])) is np.ndarray
+
+
+def test_stack_along_batch_masked_array() -> None:
+    assert objects_are_equal(
+        stack_along_batch(
+            [
+                np.ma.masked_array(data=[0, 1, 2], mask=[False, True, False]),
+                np.ma.masked_array(data=[4, 5, 6], mask=[True, False, False]),
+            ]
+        ),
+        np.ma.masked_array(
+            data=[[0, 1, 2], [4, 5, 6]], mask=[[False, True, False], [True, False, False]]
+        ),
+    )
+
+
+def test_stack_along_batch_plain_array_first_keeps_mask() -> None:
+    assert objects_are_equal(
+        stack_along_batch(
+            [np.array([0, 1, 2]), np.ma.masked_array(data=[4, 5, 6], mask=[True, False, False])]
+        ),
+        np.ma.masked_array(
+            data=[[0, 1, 2], [4, 5, 6]], mask=[[False, False, False], [True, False, False]]
+        ),
+    )
+
+
+def test_stack_along_batch_does_not_modify_the_inputs() -> None:
+    array = np.array([0, 1, 2])
+    stack_along_batch([array, array])
+    assert objects_are_equal(array, np.array([0, 1, 2]))
+
+
+def test_stack_along_batch_empty_raises() -> None:
+    with pytest.raises(ValueError, match="need at least one array to stack"):
+        stack_along_batch([])
+
+
+def test_stack_along_batch_different_shapes_raises() -> None:
+    with pytest.raises(ValueError, match="all input arrays must have the same shape"):
+        stack_along_batch([np.ones((2, 3)), np.ones((2, 4))])
+
+
+######################################
+#     Tests for stack_along_seq      #
+######################################
+
+
+def test_stack_along_seq_2d() -> None:
+    assert objects_are_equal(
+        stack_along_seq([np.array([[0, 1], [2, 3]]), np.array([[4, 5], [6, 7]])]),
+        np.array([[[0, 1], [4, 5]], [[2, 3], [6, 7]]]),
+    )
+
+
+def test_stack_along_seq_1d() -> None:
+    assert objects_are_equal(
+        stack_along_seq([np.array([0, 1, 2]), np.array([4, 5, 6])]),
+        np.array([[0, 4], [1, 5], [2, 6]]),
+    )
+
+
+def test_stack_along_seq_3d() -> None:
+    arrays = [np.ones((2, 3, 4)), np.zeros((2, 3, 4)), np.ones((2, 3, 4))]
+    assert stack_along_seq(arrays).shape == (2, 3, 3, 4)
+
+
+def test_stack_along_seq_tuple() -> None:
+    assert objects_are_equal(
+        stack_along_seq((np.array([[0], [1]]), np.array([[2], [3]]))),
+        np.array([[[0], [2]], [[1], [3]]]),
+    )
+
+
+def test_stack_along_seq_one_item() -> None:
+    assert objects_are_equal(stack_along_seq([np.array([[0, 1]])]), np.array([[[0, 1]]]))
+
+
+def test_stack_along_seq_is_equal_to_np_stack() -> None:
+    arrays = [np.random.default_rng(i).normal(size=(3, 4)) for i in range(3)]
+    assert objects_are_equal(stack_along_seq(arrays), np.stack(arrays, axis=1))
+
+
+@pytest.mark.parametrize("dtype", [np.int64, np.float32, np.bool_])
+def test_stack_along_seq_keeps_dtype(dtype: type) -> None:
+    arrays = [np.ones((2, 3), dtype=dtype), np.zeros((2, 3), dtype=dtype)]
+    assert stack_along_seq(arrays).dtype == np.dtype(dtype)
+
+
+def test_stack_along_seq_zero_batch_size() -> None:
+    assert stack_along_seq([np.ones((0, 3)), np.ones((0, 3))]).shape == (0, 2, 3)
+
+
+def test_stack_along_seq_plain_arrays_stay_plain() -> None:
+    assert type(stack_along_seq([np.ones((2, 3)), np.ones((2, 3))])) is np.ndarray
+
+
+def test_stack_along_seq_masked_array() -> None:
+    assert objects_are_equal(
+        stack_along_seq(
+            [
+                np.ma.masked_array(data=[[0, 1], [2, 3]], mask=[[False, True], [False, False]]),
+                np.ma.masked_array(data=[[4, 5], [6, 7]], mask=[[False, False], [True, False]]),
+            ]
+        ),
+        np.ma.masked_array(
+            data=[[[0, 1], [4, 5]], [[2, 3], [6, 7]]],
+            mask=[[[False, True], [False, False]], [[False, False], [True, False]]],
+        ),
+    )
+
+
+def test_stack_along_seq_plain_array_last_keeps_mask() -> None:
+    assert objects_are_equal(
+        stack_along_seq(
+            [np.ma.masked_array(data=[[0], [1]], mask=[[True], [False]]), np.array([[2], [3]])]
+        ),
+        np.ma.masked_array(
+            data=[[[0], [2]], [[1], [3]]], mask=[[[True], [False]], [[False], [False]]]
+        ),
+    )
+
+
+def test_stack_along_seq_does_not_modify_the_inputs() -> None:
+    array = np.array([[0, 1], [2, 3]])
+    stack_along_seq([array, array])
+    assert objects_are_equal(array, np.array([[0, 1], [2, 3]]))
+
+
+def test_stack_along_seq_empty_raises() -> None:
+    with pytest.raises(ValueError, match="need at least one array to stack"):
+        stack_along_seq([])
+
+
+def test_stack_along_seq_different_shapes_raises() -> None:
+    with pytest.raises(ValueError, match="all input arrays must have the same shape"):
+        stack_along_seq([np.ones((2, 3)), np.ones((2, 4))])
